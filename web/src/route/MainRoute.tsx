@@ -8,7 +8,7 @@ import ProjectList from '../pages/ProjectList'
 import Profile from '../pages/Profile'
 import News from '../pages/Profile'
 import Member from '../pages/Member'
-import { NavBar, SideNav } from '../components/DashboardComponent'
+import { NavBar, SideNav, LayoutDashboard } from '../components/DashboardComponent'
 
 function MainRoute() {
   return (
@@ -17,7 +17,7 @@ function MainRoute() {
         <>
           <NavBar />
           <SideNav />
-          <div className="mx-xxl lg:mx-txxl my-lg">
+          <LayoutDashboard>
             <Route exact path="/" component={Dashboard} />
             <Route path="/register" component={Register} />
             <Route path="/project-list" component={ProjectList} />
@@ -25,7 +25,7 @@ function MainRoute() {
             <Route path="/profile" component={Profile} />
             <Route path="/news" component={News} />
             <Route path="/member" component={Member} />
-          </div>
+          </LayoutDashboard>
         </>
         <Route path="/login" component={Login} />
       </Switch>
