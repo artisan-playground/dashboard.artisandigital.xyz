@@ -8,6 +8,7 @@ import {
   ProjectOutlined,
   TeamOutlined,
 } from '@ant-design/icons'
+import { NavLink } from 'react-router-dom'
 
 const { SubMenu } = Menu
 const { Sider } = Layout
@@ -20,24 +21,30 @@ function SideNav() {
           mode="inline"
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
-          className="h-full"
+          className="h-full flex-col"
         >
           <Menu.Item key="1" icon={<ProfileOutlined />}>
-            Dashboard
+            <NavLink to="/project-list">Dashboard</NavLink>
           </Menu.Item>
           <SubMenu key="sub2" icon={<ProjectOutlined />} title="Project">
-            <Menu.Item key="7">New</Menu.Item>
-            <Menu.Item key="5">In Progress</Menu.Item>
-            <Menu.Item key="6">Closed</Menu.Item>
+            <Menu.Item key="5">
+              <NavLink to="/project-list">All</NavLink>
+            </Menu.Item>
+            <Menu.Item key="6">
+              <NavLink to="/project-list">New</NavLink>
+            </Menu.Item>
+            <Menu.Item key="7">In Progress</Menu.Item>
+            <Menu.Item key="8">Closed</Menu.Item>
           </SubMenu>
           <Menu.Item key="2" icon={<NotificationOutlined />}>
-            News
+            <NavLink to="/news">News</NavLink>
           </Menu.Item>
           <Menu.Item key="3" icon={<TeamOutlined />}>
-            Members
+            <NavLink to="/member">Members</NavLink>
           </Menu.Item>
           <Menu.Item key="4" icon={<UserOutlined />}>
             Profile
+            <NavLink to="/profile">Profile</NavLink>
           </Menu.Item>
         </Menu>
       </Sider>
