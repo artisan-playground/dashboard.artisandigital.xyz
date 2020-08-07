@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useStoreActions, useStoreState } from '../store'
 import { useHistory } from 'react-router'
-//H2o
+
 function Login() {
   const history = useHistory()
   const [email, setEmail] = useState('')
