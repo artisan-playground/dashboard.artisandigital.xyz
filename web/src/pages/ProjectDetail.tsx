@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function ProjectDetail() {
-  return <div>detail</div>;
+  return <div>detail</div>
 }
 
-export default ProjectDetail;
+export default ProjectDetail

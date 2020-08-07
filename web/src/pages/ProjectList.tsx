@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function ProjectList() {
-  return <div>Project list</div>;
+  return <div>Project list</div>
 }
 
-export default ProjectList;
+export default ProjectList

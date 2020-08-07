@@ -16,6 +16,7 @@ import Profile from './pages/Profile'
 import News from './pages/News'
 import Member from './pages/Member'
 import { NavBar, SideNav } from './components/DashboardComponent'
+import { Layout } from 'antd'
 
 function App() {
   return (
@@ -26,16 +27,16 @@ function App() {
           <Route path="/register" exact component={Register} />
           <>
             <NavBar />
-            <SideNav />
-            {/* <div className="mx-xxl lg:mx-txxl my-lg"> */}
-            <AuthorizedRoute path="/" exact component={Dashboard} />
-            <AuthorizedRoute path="/project-list" component={ProjectList} />
-            <AuthorizedRoute path="/project" component={ProjectDetail} />
-            <AuthorizedRoute path="/profile" component={Profile} />
-            <AuthorizedRoute path="/news" component={News} />
-            <AuthorizedRoute path="/member" component={Member} />
-            <Redirect to="/" />
-            {/* </div> */}
+            <Layout className="flex flex-row justify-start">
+              <SideNav />
+              <AuthorizedRoute path="/" exact component={Dashboard} />
+              <AuthorizedRoute path="/project-list" component={ProjectList} />
+              <AuthorizedRoute path="/project" component={ProjectDetail} />
+              <AuthorizedRoute path="/profile" component={Profile} />
+              <AuthorizedRoute path="/news" component={News} />
+              <AuthorizedRoute path="/member" component={Member} />
+              <Redirect to="/" />
+            </Layout>
           </>
         </Switch>
       </Router>
