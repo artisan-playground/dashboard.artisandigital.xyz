@@ -5,7 +5,10 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
+import { Layout, Menu } from 'antd'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
+import '../styles/main.css'
 
 const { SubMenu } = Menu
 const { Sider } = Layout
