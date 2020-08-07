@@ -6,10 +6,11 @@ const { Content } = Layout
 
 function Dashboard() {
   return (
-    <Layout className="py-8 px-8 w-full">
-      <Content className="bg-white p-8 m-0">
+    <Layout className="pt-8 pb-24 px-8 w-full ">
+      <Content className="bg-white p-8 w-full">
         <div>
           <div>Dashboard</div>
+
           <button>
             <a href="/project-list">to project</a>
           </button>
