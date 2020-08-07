@@ -18,7 +18,7 @@ function SideNav() {
     <Sider className="bg-white min-h-screen shadow-lg">
       <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} className="">
         <Menu.Item key="1" icon={<ProfileOutlined />}>
-          <NavLink to="/project-list">Dashboard</NavLink>
+          <NavLink to="/">Dashboard</NavLink>
         </Menu.Item>
         <SubMenu key="sub2" icon={<ProjectOutlined />} title="Project">
           <Menu.Item key="5">
