@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { useStoreActions, useStoreState } from '../store'
 import { useHistory } from 'react-router'
 import { Card, Input, Form, Button, Typography } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
+import { useStoreActions, useStoreState } from '../store'
 
 function Login() {
   const history = useHistory()
