@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist",
     "target": "es2019",
     "module": "commonjs",
+    "lib": ["esnext"],
+    "strict": true,
+    "rootDir": "src",
+    "noEmit": true,
+    "plugins": [{ "name": "nexus/typescript-language-service" }],
+    "typeRoots": ["node_modules/@types", "types"],
     "sourceMap": false,
     "declaration": false,
     "removeComments": true,
@@ -12,5 +17,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
+  "include": ["types.d.ts", "src"],
   "exclude": ["node_modules", "dist"]
 }

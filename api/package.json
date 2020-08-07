@@ -3,24 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "yarn run dev",
-    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/index.ts",
-    "prod": "ts-node --transpile-only --compiler typescript --project tsconfig.json src/index.ts",
-    "build": "yarn run clean && yarn run generate && tsc",
-    "generate": "yarn run generate:nexus",
-    "generate:nexus": "ts-node --transpile-only src/schema",
-    "clean": "rm -rf dist",
-    "test": "jest"
+    "clean": "rm -rf .nexus/ api.graphql",
+    "dev": "nexus dev",
+    "build": "yarn run clean && nexus build",
+    "start": "node .nexus/build/src"
   },
   "dependencies": {
-    "@nexus/schema": "^0.14.0",
-    "graphql": "^15.3.0",
-    "graphql-yoga": "^1.18.3"
+    "nexus": "0.26.1"
   },
   "devDependencies": {
-    "@types/node": "^14.0.27",
-    "ts-node": "^8.10.2",
-    "ts-node-dev": "^1.0.0-pre.56",
+    "prettier": "^2.0.5",
     "typescript": "^3.9.7"
   }
 }

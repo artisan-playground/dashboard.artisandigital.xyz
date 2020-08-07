@@ -1,7 +1,6 @@
-dist/
+.nexus/
 node_modules/
 tmp/
 .DS_Store
-src/generated
-schema.graphql
-yarn-error.log
+api.graphql
+*.log
