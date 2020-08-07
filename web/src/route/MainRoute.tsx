@@ -1,14 +1,13 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { LayoutDashboard, NavBar, SideNav } from '../components/DashboardComponent'
 import Dashboard from '../pages/Dashboard'
 import Login from '../pages/Login'
-import Register from '../pages/Register'
+import Member from '../pages/Member'
+import { default as News, default as Profile } from '../pages/Profile'
 import ProjectDetail from '../pages/ProjectDetail'
 import ProjectList from '../pages/ProjectList'
-import Profile from '../pages/Profile'
-import News from '../pages/Profile'
-import Member from '../pages/Member'
-import { NavBar, SideNav, LayoutDashboard } from '../components/DashboardComponent'
+import Register from '../pages/Register'
 
 function MainRoute() {
   return (
@@ -17,7 +16,7 @@ function MainRoute() {
         <>
           <NavBar />
           <SideNav />
-          <LayoutDashboard>
+          <LayoutDashboard className="m-8">
             <Route exact path="/" component={Dashboard} />
             <Route path="/register" component={Register} />
             <Route path="/project-list" component={ProjectList} />
