@@ -25,7 +25,7 @@ function SideNav({ children }: any) {
 
   return (
     <Layout className="flex flex-row justify-center">
-      <div className="">
+      <div>
         <Sider collapsed={collapse} className="min-h-screen shadow-lg bg-white">
           <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
             <Menu.Item key="1" icon={<ProfileOutlined />}>
