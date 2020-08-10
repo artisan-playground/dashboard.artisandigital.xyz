@@ -33,7 +33,7 @@ function Register() {
       className="flex items-center justify-center h-screen"
       style={{ backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur` }}
     >
-      <Card hoverable className="z-1 p-4 text-center">
+      <Card hoverable className="z-1 p-4">
         <img alt="logo" src={require('../assets/images/logo3.png')} className="w-32 mb-10" />
         <Form
           name="normal_login"
@@ -128,7 +128,7 @@ function Register() {
               onChange={(e) => setConfirmPass(e.target.value)}
             />
           </Form.Item>
-          <Form.Item>
+          <Form.Item className="text-center">
             <Button type="primary" htmlType="submit" className="login-form-button w-full">
               <Text strong className="text-white">
                 Register
