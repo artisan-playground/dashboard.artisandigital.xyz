@@ -1,15 +1,14 @@
 import { BellOutlined, DownOutlined } from '@ant-design/icons'
 import { Avatar, Badge, Dropdown, Layout, Menu, Typography } from 'antd'
 import React from 'react'
-import { Redirect } from 'react-router-dom'
-import { useStoreActions, useStoreState } from '../store'
+import { useStoreActions } from '../store'
 import '../styles/main.css'
+
 const { Header } = Layout
 const { Text, Link } = Typography
 
 function NavBar() {
   const logout = useStoreActions((a) => a.userState.logOut)
-  const user = useStoreState((s) => s.userState.user)
 
   async function onLogoutClick() {
     await logout()
@@ -52,9 +51,7 @@ function NavBar() {
     </Menu>
   )
 
-  return !user ? (
-    <Redirect to="/login" />
-  ) : (
+  return (
     <Header className="header bg-white h-18 min-w-full shadow-lg">
       <div className="flex flex-row justify-between items-center ">
         <img
