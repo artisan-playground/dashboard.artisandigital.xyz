@@ -1,11 +1,10 @@
+import { MailOutlined } from '@ant-design/icons'
+import { Button, Card, Divider, Form, Input, Typography } from 'antd'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router'
-import { Card, Input, Form, Button, Typography } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { Redirect } from 'react-router-dom'
 import { useStoreActions, useStoreState } from '../store'
 
 function Login() {
-  const history = useHistory()
   const [email, setEmail] = useState('')
   const user = useStoreState((s) => s.userState.user)
   const login = useStoreActions((a) => a.userState.logIn)
@@ -17,17 +16,18 @@ function Login() {
 
   async function onLogin() {
     await login(testUser)
-    if (user) history.push('/')
-    console.log('user', user)
   }
-  return (
+
+  return user ? (
+    <Redirect to="/" />
+  ) : (
     <div
-      className="flex items-center justify-center h-screen"
-      style={{ backgroundImage: `url(https://source.unsplash.com/1600x900/?technology` }}
+      className="flex items-center justify-center h-screen bg-auto bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur` }}
     >
-      <Card hoverable className="p-4">
+      <Card hoverable className="z-1 p-4">
         <div className="flex justify-center mb-6">
-          <img alt="logo" src={require('../assets/artisan-logo.png')} className="w-64" />
+          <img alt="logo" src={require('../assets/images/artisan-logo.png')} className="w-48" />
         </div>
         <Form
           name="normal_login"
@@ -35,20 +35,34 @@ function Login() {
           initialValues={{ remember: true }}
           onFinish={onLogin}
         >
-          <Form.Item name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ]}
+          >
             <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="test@mail.com"
+              prefix={<MailOutlined className="site-form-item-icon" />}
+              className="w-64"
+              placeholder="Email..."
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Item>
-          <Form.Item>
+          <Form.Item className="text-center">
             <Button type="primary" htmlType="submit" className="login-form-button w-full">
               <Text strong className="text-white">
                 Continue
               </Text>
             </Button>
+            <Divider />
             <Text strong>
               Don't have an account? <Link href="/register">Register</Link>
             </Text>
