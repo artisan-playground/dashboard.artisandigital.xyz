@@ -1,24 +1,33 @@
 import {
+  LeftOutlined,
   NotificationOutlined,
   ProfileOutlined,
   ProjectOutlined,
+  RightOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { Layout, Menu } from 'antd'
-import React from 'react'
+import { Layout, Menu, Typography } from 'antd'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import '../styles/main.css'
 
+const { Text } = Typography
 const { SubMenu } = Menu
 const { Sider } = Layout
 
 function SideNav({ children }: any) {
+  const [collapse, setcollapse] = useState(false)
+
+  function onCollapseClick() {
+    setcollapse(!collapse)
+  }
+
   return (
-    <Layout className="flex flex-row justify-start">
-      <div>
-        <Sider className="bg-white min-h-screen shadow-lg">
-          <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} className="">
+    <Layout className="flex flex-row justify-center">
+      <div className="">
+        <Sider collapsed={collapse} className="min-h-screen shadow-lg bg-white">
+          <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
             <Menu.Item key="1" icon={<ProfileOutlined />}>
               <NavLink to="/">Dashboard</NavLink>
             </Menu.Item>
@@ -40,6 +49,13 @@ function SideNav({ children }: any) {
             </Menu.Item>
             <Menu.Item key="4" icon={<UserOutlined />}>
               <NavLink to="/profile">Profile</NavLink>
+            </Menu.Item>
+            <Menu.Item
+              key="9"
+              icon={collapse ? <RightOutlined /> : <LeftOutlined />}
+              onClick={onCollapseClick}
+            >
+              <Text>Hide</Text>
             </Menu.Item>
           </Menu>
         </Sider>
