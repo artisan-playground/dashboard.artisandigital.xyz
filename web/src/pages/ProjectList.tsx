@@ -1,7 +1,12 @@
 import React from 'react'
+import { LayoutDashboard } from '../components/DashboardComponent'
 
 function ProjectList() {
-  return <div>Project list</div>
+  return (
+    <LayoutDashboard>
+      <div>Project list</div>
+    </LayoutDashboard>
+  )
 }
 
 export default ProjectList

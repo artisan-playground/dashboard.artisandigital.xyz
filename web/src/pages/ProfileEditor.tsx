@@ -1,12 +1,12 @@
 import React from 'react'
 import { LayoutDashboard } from '../components/DashboardComponent'
 
-function Profile() {
+function ProfileEditor() {
   return (
     <LayoutDashboard>
-      <div>Profile</div>
+      <div>Editor</div>
     </LayoutDashboard>
   )
 }
 
-export default Profile
+export default ProfileEditor
