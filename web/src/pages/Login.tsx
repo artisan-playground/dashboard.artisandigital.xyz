@@ -1,11 +1,10 @@
 import { MailOutlined } from '@ant-design/icons'
 import { Button, Card, Divider, Form, Input, Typography } from 'antd'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router'
+import { Redirect } from 'react-router-dom'
 import { useStoreActions, useStoreState } from '../store'
 
 function Login() {
-  const history = useHistory()
   const [email, setEmail] = useState('')
   const user = useStoreState((s) => s.userState.user)
   const login = useStoreActions((a) => a.userState.logIn)
@@ -17,15 +16,11 @@ function Login() {
 
   async function onLogin() {
     await login(testUser)
-    setTimeout(() => {
-      if (user) {
-        history.push('/')
-      }
-    }, 1000)
-    console.log('user', user)
   }
 
-  return (
+  return user ? (
+    <Redirect to="/" />
+  ) : (
     <div
       className="flex items-center justify-center h-screen bg-auto bg-center bg-no-repeat"
       style={{ backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur` }}
