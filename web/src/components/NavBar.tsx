@@ -1,12 +1,22 @@
 import { BellOutlined, DownOutlined } from '@ant-design/icons'
 import { Avatar, Badge, Dropdown, Layout, Menu, Typography } from 'antd'
 import React from 'react'
+import { useHistory } from 'react-router-dom'
+import { useStoreActions } from '../store'
 import '../styles/main.css'
 
 const { Header } = Layout
-const { Text } = Typography
+const { Text, Link } = Typography
 
 function NavBar() {
+  const history = useHistory()
+
+  const logout = useStoreActions((a) => a.userState.logOut)
+
+  async function onLogoutClick() {
+    await logout()
+    history.push('/login')
+  }
   const notifications = (
     <Menu>
       <Menu.Item>
@@ -40,9 +50,7 @@ function NavBar() {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="/logout">
-          Log out
-        </a>
+        <Link onClick={onLogoutClick}>Log out</Link>
       </Menu.Item>
     </Menu>
   )
@@ -71,7 +79,7 @@ function NavBar() {
               </Dropdown>
             </Menu.Item>
             <Menu.Item key="2">
-              <Text className="text-lg font-bold">John Doe</Text>
+              <Text strong>John Doe</Text>
             </Menu.Item>
             <Menu.Item key="3">
               <Avatar
