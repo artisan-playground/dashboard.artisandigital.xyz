@@ -1,46 +1,28 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import { Button, Card, Divider, Form, Input, Typography } from 'antd'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router'
-import { useStoreActions, useStoreState } from '../store'
+import { Redirect } from 'react-router-dom'
+import { useStoreState } from '../store'
 
 function Register() {
-  const history = useHistory()
   const [email, setEmail] = useState('')
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPass, setConfirmPass] = useState('')
   const user = useStoreState((s) => s.userState.user)
-  const set = useStoreActions((a) => a.userState.set)
   const { Text, Link } = Typography
-  const testUser = {
-    id: '0',
-    firstname: 'John',
-    lastname: 'Doe',
-    email: 'test@mail.com',
-    password: '1234',
-  }
 
-  async function onRegister() {
-    await set(testUser)
-    if (user) history.push('/')
-    console.log('user', user)
-  }
-
-  return (
+  return user ? (
+    <Redirect to="/" />
+  ) : (
     <div
       className="flex items-center justify-center h-screen"
       style={{ backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur` }}
     >
       <Card hoverable className="z-1 p-4">
         <img alt="logo" src={require('../assets/images/logo3.png')} className="w-32 mb-10" />
-        <Form
-          name="normal_login"
-          className="login-form"
-          initialValues={{ remember: true }}
-          onFinish={onRegister}
-        >
+        <Form name="normal_login" className="login-form" initialValues={{ remember: true }}>
           <div className="flex items-center justify-between">
             <Form.Item
               name="firstname"
