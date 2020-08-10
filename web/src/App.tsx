@@ -1,22 +1,19 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import { StoreProvider } from 'easy-peasy'
-
-import store from './store'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import AuthorizedRoute from './components/AuthorizedRoute'
-
-import './styles/main.css'
+import React from 'react'
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import './App.css'
-import Dashboard from './pages/Dashboard'
-import ProjectList from './pages/ProjectList'
-import ProjectDetail from './pages/ProjectDetail'
-import Profile from './pages/Profile'
-import News from './pages/News'
-import Member from './pages/Member'
+import AuthorizedRoute from './components/AuthorizedRoute'
 import { NavBar, SideNav } from './components/DashboardComponent'
-import { Layout } from 'antd'
+import Dashboard from './pages/Dashboard'
+import Login from './pages/Login'
+import Member from './pages/Member'
+import News from './pages/News'
+import Profile from './pages/Profile'
+import ProjectDetail from './pages/ProjectDetail'
+import ProjectList from './pages/ProjectList'
+import Register from './pages/Register'
+import store from './store'
+import './styles/main.css'
 
 function App() {
   return (
@@ -27,8 +24,7 @@ function App() {
           <Route path="/register" exact component={Register} />
           <>
             <NavBar />
-            <Layout className="flex flex-row justify-start">
-              <SideNav />
+            <SideNav>
               <AuthorizedRoute path="/" exact component={Dashboard} />
               <AuthorizedRoute path="/project-list" component={ProjectList} />
               <AuthorizedRoute path="/project" component={ProjectDetail} />
@@ -36,7 +32,7 @@ function App() {
               <AuthorizedRoute path="/news" component={News} />
               <AuthorizedRoute path="/member" component={Member} />
               <Redirect to="/" />
-            </Layout>
+            </SideNav>
           </>
         </Switch>
       </Router>

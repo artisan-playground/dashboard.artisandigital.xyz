@@ -13,7 +13,7 @@ import '../styles/main.css'
 const { SubMenu } = Menu
 const { Sider } = Layout
 
-function SideNav() {
+function SideNav({ children }: any) {
   return (
     <Sider className="bg-white min-h-screen shadow-lg">
       <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} className="">
