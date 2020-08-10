@@ -1,5 +1,4 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy'
-
 import { User } from '../../typings'
 
 export interface UserStateModel {
@@ -17,7 +16,9 @@ const userState: UserStateModel = {
   logIn: thunk(async (actions, payload) => {
     actions.set(payload)
   }),
-  logOut: thunk(async (actions) => {}),
+  logOut: thunk(async (actions) => {
+    actions.set(null)
+  }),
 }
 
 export default userState
