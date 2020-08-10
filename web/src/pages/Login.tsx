@@ -17,9 +17,14 @@ function Login() {
 
   async function onLogin() {
     await login(testUser)
-    if (user) history.push('/')
+    setTimeout(() => {
+      if (user) {
+        history.push('/')
+      }
+    }, 1000)
     console.log('user', user)
   }
+
   return (
     <div
       className="flex items-center justify-center h-screen bg-auto bg-center bg-no-repeat"
