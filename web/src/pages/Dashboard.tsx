@@ -1,11 +1,7 @@
-import { Card, Col, Layout, Row } from 'antd'
+import { Card, Col, Row } from 'antd'
 import React from 'react'
 import { LayoutDashboard } from '../components/DashboardComponent'
 import '../styles/main.css'
-
-const { Content } = Layout
-
-const { Content } = Layout
 
 function Dashboard() {
   return (
