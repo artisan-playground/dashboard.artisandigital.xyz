@@ -1,7 +1,12 @@
 import React from 'react'
+import { LayoutDashboard } from '../components/DashboardComponent'
 
 function News() {
-  return <div>News</div>
+  return (
+    <LayoutDashboard>
+      <div>News</div>
+    </LayoutDashboard>
+  )
 }
 
 export default News
