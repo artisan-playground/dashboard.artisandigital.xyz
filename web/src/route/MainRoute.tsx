@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { LayoutDashboard, NavBar, SideNav } from '../components/DashboardComponent'
+import { NavBar, SideNav } from '../components/DashboardComponent'
 import Dashboard from '../pages/Dashboard'
 import Login from '../pages/Login'
 import Member from '../pages/Member'
@@ -16,15 +16,14 @@ function MainRoute() {
         <>
           <NavBar />
           <SideNav />
-          <LayoutDashboard className="m-8">
-            <Route exact path="/" component={Dashboard} />
-            <Route path="/register" component={Register} />
-            <Route path="/project-list" component={ProjectList} />
-            <Route path="/project" component={ProjectDetail} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/news" component={News} />
-            <Route path="/member" component={Member} />
-          </LayoutDashboard>
+
+          <Route exact path="/" component={Dashboard} />
+          <Route path="/register" component={Register} />
+          <Route path="/project-list" component={ProjectList} />
+          <Route path="/project" component={ProjectDetail} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/news" component={News} />
+          <Route path="/member" component={Member} />
         </>
         <Route path="/login" component={Login} />
       </Switch>
