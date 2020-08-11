@@ -6,47 +6,53 @@ import '../styles/main.css'
 
 const { Title, Text } = Typography
 
+const data = [
+  {
+    id: '1',
+    projectName: 'Project #1',
+    projectType: 'Web design',
+    ProjectDetail: 'Commodo adipiscing ornare sit lorem sit tempus urna, vestibulum, neque.',
+    status: 'undone',
+    team: [
+      {
+        id: '1',
+        name: 'test 1',
+        image: 'https://source.unsplash.com/600x600/?people',
+      },
+      {
+        id: '2',
+        name: 'test 2',
+        image: 'https://source.unsplash.com/600x600/?people',
+      },
+      {
+        id: '3',
+        name: 'test 3',
+        image: 'https://source.unsplash.com/600x600/?people',
+      },
+    ],
+  },
+  {
+    id: '2',
+    projectName: 'Project #2',
+    projectType: 'Marketing',
+    ProjectDetail: 'Consequat tempus nisi, orci, ligula duis.',
+    status: 'done',
+    team: [
+      {
+        id: '3',
+        name: 'test 11',
+        image: 'https://source.unsplash.com/600x600/?people',
+      },
+      {
+        id: '4',
+        name: 'test 12',
+        image: 'https://source.unsplash.com/600x600/?people',
+      },
+    ],
+  },
+]
+
 function Dashboard() {
-  const data = [
-    {
-      id: '1',
-      projectName: 'Project #1',
-      projectType: 'Web design',
-      ProjectDetail: 'Commodo adipiscing ornare sit lorem sit tempus urna, vestibulum, neque.',
-      status: 'undone',
-      team: [
-        {
-          id: '1',
-          name: 'test 1',
-          image: 'https://source.unsplash.com/600x600/?people',
-        },
-        {
-          id: '2',
-          name: 'test 2',
-          image: 'https://source.unsplash.com/600x600/?people',
-        },
-      ],
-    },
-    {
-      id: '2',
-      projectName: 'Project #2',
-      projectType: 'Marketing',
-      ProjectDetail: 'Consequat tempus nisi, orci, ligula duis.',
-      status: 'done',
-      team: [
-        {
-          id: '3',
-          name: 'test 11',
-          image: 'https://source.unsplash.com/600x600/?people',
-        },
-        {
-          id: '4',
-          name: 'test 12',
-          image: 'https://source.unsplash.com/600x600/?people',
-        },
-      ],
-    },
-  ]
   return (
     <LayoutDashboard>
       <div>
