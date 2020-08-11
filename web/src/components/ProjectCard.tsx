@@ -1,8 +1,9 @@
 import { CheckCircleOutlined, SyncOutlined } from '@ant-design/icons'
 import { Avatar, Card, Col, Row, Tag, Typography } from 'antd'
 import React from 'react'
-const { Title, Text } = Typography
 function ProjectCard({ data }: any) {
+  const { Title, Text } = Typography
+
   return (
     <Card className="w-full rounded-lg shadow-md">
       <div className="absolute right-0 top-0 mt-8 mr-4">
