@@ -2,7 +2,7 @@ import { CloseCircleOutlined } from '@ant-design/icons'
 import { Card, Typography } from 'antd'
 import React, { useState } from 'react'
 
-const { Title, Text } = Typography
+const { Text } = Typography
 
 function WelcomeCard({ name, task, project }: any) {
   const [disable, setDisable] = useState(false)
@@ -27,10 +27,14 @@ function WelcomeCard({ name, task, project }: any) {
           </Text>
         </div>
         <div>
-          <Text className="text-white text-lg">{`You have ${task} projects and ${project} tasks to finish.`}</Text>
+          <Text className="text-white text-lg font-light">{`You have  `}</Text>
+          <Text className="text-white text-xl font-bold">{project}</Text>
+          <Text className="text-white text-lg font-light">{`  projects and  `}</Text>
+          <Text className="text-white text-xl font-bold">{task}</Text>
+          <Text className="text-white text-lg font-light">{`  tasks to finish.`}</Text>
         </div>
         <div>
-          <Text className="text-white text-lg">Keep going, keep growing</Text>
+          <Text className="text-white text-lg font-light">Keep going, keep growing</Text>
         </div>
       </div>
       <div className="absolute left-0 bottom-0 overflow-hidden z-20 ml-8 -mb-1">
