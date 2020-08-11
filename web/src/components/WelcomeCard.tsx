@@ -106,7 +106,7 @@ function WelcomeCard({ name, task, project }: any) {
           </g>
         </svg>
       </div>
-      <div className="absolute left-0 md:top-0 bottom-0 right-0">
+      <div className="absolute left-0 md:top-0 bottom-0 right-0 animate-pulse">
         <svg width="100%" viewBox="812 54 420 180" className="w-full h-full rounded-lg z-0">
           <path
             fillRule="evenodd"
