@@ -28,11 +28,11 @@ function WelcomeCard({ name, task, project }: any) {
           </Text>
         </div>
         <div>
-          <Text className="text-white text-lg font-light mr-2">{`You have`}</Text>
+          <Text className="text-white text-lg font-light mr-2">You have</Text>
           <Text className="text-white text-xl font-bold">{project}</Text>
-          <Text className="text-white text-lg font-light mx-2">{`projects and`}</Text>
+          <Text className="text-white text-lg font-light mx-2">projects and</Text>
           <Text className="text-white text-xl font-bold">{task}</Text>
-          <Text className="text-white text-lg font-light ml-2">{`tasks to finish.`}</Text>
+          <Text className="text-white text-lg font-light ml-2">tasks to finish.</Text>
         </div>
         <div>
           <Text className="text-white text-lg font-light">Keep going, keep growing</Text>
