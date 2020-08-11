@@ -32,8 +32,8 @@ function ProjectCard({ data }: any) {
         </Col>
         <Col span={8}>
           <div className="absolute bottom-0 right-0 mb-2 mr-2">
-            {data.team.map((item: any) => {
-              return <Avatar src={item.image} className="ml-2" alt={item.name} />
+            {data.team.map((item: any, index: number) => {
+              return <Avatar key={index} src={item.image} className="ml-2" alt={item.name} />
             })}
           </div>
         </Col>

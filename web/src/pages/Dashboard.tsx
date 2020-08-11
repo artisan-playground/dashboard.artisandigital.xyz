@@ -102,9 +102,9 @@ function Dashboard() {
             </Col>
           </Row>
           <Row gutter={[8, 24]}>
-            {data.map((items) => {
+            {data.map((items, index) => {
               return (
-                <Col lg={{ span: 24 }}>
+                <Col lg={{ span: 24 }} key={index}>
                   <ProjectCard data={items} />
                 </Col>
               )
