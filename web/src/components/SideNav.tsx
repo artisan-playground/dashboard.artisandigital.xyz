@@ -26,36 +26,40 @@ function SideNav({ children }: any) {
   return (
     <Layout className="flex flex-row justify-center">
       <div>
-        <Sider collapsed={collapse} className="min-h-screen shadow-lg bg-white h-full">
-          <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
-            <Menu.Item key="1" icon={<ProfileOutlined />}>
+        <Sider
+          trigger={
+            <div className="bg-white">
+              <Text>{collapse ? <RightOutlined /> : <LeftOutlined />}</Text>
+            </div>
+          }
+          collapsed={collapse}
+          collapsible
+          onCollapse={onCollapseClick}
+          breakpoint={'lg'}
+          className="min-h-screen shadow-lg bg-white h-full"
+        >
+          <Menu mode="inline" selectedKeys={[window.location.pathname]}>
+            <Menu.Item key="/" icon={<ProfileOutlined />}>
               <NavLink to="/">Dashboard</NavLink>
             </Menu.Item>
-            <SubMenu key="sub2" icon={<ProjectOutlined />} title="Project">
-              <Menu.Item key="5">
+            <SubMenu key="sub/project-list" icon={<ProjectOutlined />} title="Project">
+              <Menu.Item key="/project-list">
                 <NavLink to="/project-list">All</NavLink>
               </Menu.Item>
-              <Menu.Item key="6">
+              <Menu.Item key="/project-list/new">
                 <NavLink to="/project-list">New</NavLink>
               </Menu.Item>
               <Menu.Item key="7">In Progress</Menu.Item>
               <Menu.Item key="8">Closed</Menu.Item>
             </SubMenu>
-            <Menu.Item key="2" icon={<NotificationOutlined />}>
+            <Menu.Item key="/news" icon={<NotificationOutlined />}>
               <NavLink to="/news">News</NavLink>
             </Menu.Item>
-            <Menu.Item key="3" icon={<TeamOutlined />}>
+            <Menu.Item key="/member" icon={<TeamOutlined />}>
               <NavLink to="/member">Members</NavLink>
             </Menu.Item>
-            <Menu.Item key="4" icon={<UserOutlined />}>
+            <Menu.Item key="/profile" icon={<UserOutlined />}>
               <NavLink to="/profile">Profile</NavLink>
-            </Menu.Item>
-            <Menu.Item
-              key="9"
-              icon={collapse ? <RightOutlined /> : <LeftOutlined />}
-              onClick={onCollapseClick}
-            >
-              <Text>Hide</Text>
             </Menu.Item>
           </Menu>
         </Sider>
