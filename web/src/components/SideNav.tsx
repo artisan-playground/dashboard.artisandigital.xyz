@@ -9,15 +9,22 @@ import {
 } from '@ant-design/icons'
 import { Layout, Menu, Typography } from 'antd'
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation, useParams } from 'react-router-dom'
 import '../styles/main.css'
 
-const { Text } = Typography
-const { SubMenu } = Menu
-const { Sider } = Layout
-
 function SideNav({ children }: any) {
+  const { Text } = Typography
+  const { SubMenu } = Menu
+  const { Sider } = Layout
+
+  const projectId = useParams()
+  const query = useQuery()
   const [collapse, setcollapse] = useState(false)
+  const type = query.get('types') === null ? '' : query.get('types')
+
+  function useQuery() {
+    return new URLSearchParams(useLocation().search)
+  }
 
   function onCollapseClick() {
     setcollapse(!collapse)
@@ -38,19 +45,23 @@ function SideNav({ children }: any) {
           breakpoint={'lg'}
           className="min-h-screen shadow-lg bg-white h-full"
         >
-          <Menu mode="inline" selectedKeys={[window.location.pathname]}>
+          <Menu mode="inline" selectedKeys={[window.location.pathname + type?.toString()]}>
             <Menu.Item key="/" icon={<ProfileOutlined />}>
               <NavLink to="/">Dashboard</NavLink>
             </Menu.Item>
-            <SubMenu key="sub/project-list" icon={<ProjectOutlined />} title="Project">
-              <Menu.Item key="/project-list">
-                <NavLink to="/project-list">All</NavLink>
+            <SubMenu key={`/projects/${projectId}`} icon={<ProjectOutlined />} title="Project">
+              <Menu.Item key="/projects">
+                <NavLink to="/projects">All</NavLink>
               </Menu.Item>
-              <Menu.Item key="/project-list/new">
-                <NavLink to="/project-list">New</NavLink>
+              <Menu.Item key="/projectsnew">
+                <NavLink to="/projects?types=new">New</NavLink>
               </Menu.Item>
-              <Menu.Item key="7">In Progress</Menu.Item>
-              <Menu.Item key="8">Closed</Menu.Item>
+              <Menu.Item key="/projectsdeveloping">
+                <NavLink to="/projects?types=developing">Deveolping</NavLink>
+              </Menu.Item>
+              <Menu.Item key="/projectsclosed">
+                <NavLink to="/projects?types=closed">Closed</NavLink>
+              </Menu.Item>
             </SubMenu>
             <Menu.Item key="/news" icon={<NotificationOutlined />}>
               <NavLink to="/news">News</NavLink>
