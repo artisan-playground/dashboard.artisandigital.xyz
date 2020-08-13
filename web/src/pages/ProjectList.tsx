@@ -2,11 +2,12 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { LayoutDashboard } from '../components/DashboardComponent'
 
-function ProjectList(props: any) {
+function ProjectList() {
+  const location = useLocation()
   const query = useQuery()
 
   function useQuery() {
-    return new URLSearchParams(useLocation().search)
+    return new URLSearchParams(location.search)
   }
 
   return (
