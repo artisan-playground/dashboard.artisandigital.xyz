@@ -158,9 +158,7 @@ function ProfileSide({ children }: any) {
           <Col className="mb-8">
             <Row className="flex items-center justify-between">
               <Text className="text-lg font-bold">All Project(s)</Text>
-              <Text className="text-lg font-bold text-blue-500">
-                {user.projects.length}
-              </Text>
+              <Text className="text-lg font-bold text-blue-500">{user.projects.length}</Text>
             </Row>
           </Col>
 
