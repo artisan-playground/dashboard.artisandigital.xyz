@@ -16,9 +16,9 @@ function SideNav({ children }: any) {
   const { Text } = Typography
   const { SubMenu } = Menu
   const { Sider } = Layout
-
-  const projectId = useParams()
+  const { projectId } = useParams()
   const query = useQuery()
+
   const [collapse, setcollapse] = useState(false)
   const type = query.get('types') === null ? '' : query.get('types')
 
