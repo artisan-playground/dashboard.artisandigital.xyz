@@ -113,10 +113,7 @@ function Profile() {
                       <Text className="font-bold">{value.projectType}</Text>
                       <Text>{value.projectDetail.substr(0, 100) + '...'}</Text>
                     </Col>
-                    <Row className="mt-6">
-                      <Col span={13}>
-                        <Text className="font-bold">Status</Text>
-                      </Col>
+                    <Row className="flex items-end justify-end mt-6">
                       <Col>
                         {value.status === 'done' ? (
                           <Tag
@@ -151,12 +148,6 @@ function Profile() {
             <Col flex={1}>
               <Row>
                 <Title level={3}>Project(s)</Title>
-                <Button
-                  type="primary"
-                  className="self-center"
-                  icon={<RightOutlined className="-pt-8" />}
-                  size="large"
-                />
               </Row>
             </Col>
             <Col>
