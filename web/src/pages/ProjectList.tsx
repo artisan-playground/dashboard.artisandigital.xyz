@@ -4,15 +4,15 @@ import { LayoutDashboard } from '../components/DashboardComponent'
 
 function ProjectList() {
   const location = useLocation()
-  const query = useQuery()
 
-  function useQuery() {
-    return new URLSearchParams(location.search)
+  function getTypes() {
+    const params = new URLSearchParams(location.search)
+    return params.get('types') ? params.get('types') : ''
   }
 
   return (
     <LayoutDashboard>
-      <div>Project list {query.get('types')}</div>
+      <div>Project list {getTypes()}</div>
     </LayoutDashboard>
   )
 }
