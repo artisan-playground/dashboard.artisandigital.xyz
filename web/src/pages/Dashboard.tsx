@@ -63,7 +63,7 @@ function Dashboard() {
             </Col>
           </Row>
           <Row gutter={[16, 24]}>
-            <Col lg={{ span: 8 }}>
+            <Col lg={{ span: 8 }} className="w-full">
               <Card className="min-w-full rounded-lg shadow-md">
                 <div className="flex flex-col justify-center items-center">
                   <FundProjectionScreenOutlined
@@ -76,7 +76,7 @@ function Dashboard() {
                 </div>
               </Card>
             </Col>
-            <Col lg={{ span: 8 }}>
+            <Col lg={{ span: 8 }} className="w-full">
               <Card className="min-w-full rounded-lg shadow-md">
                 <div className="flex flex-col justify-center items-center">
                   <TeamOutlined style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }} />
@@ -87,7 +87,7 @@ function Dashboard() {
                 </div>
               </Card>
             </Col>
-            <Col lg={{ span: 8 }}>
+            <Col lg={{ span: 8 }} className="w-full">
               <Card className="min-w-full rounded-lg shadow-md">
                 <div className="flex flex-col justify-center items-center">
                   <ProfileOutlined
