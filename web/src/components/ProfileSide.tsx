@@ -93,7 +93,7 @@ function ProfileSide({ children }: any) {
   return (
     <Layout className="flex flex-row justify-center">
       <div>
-        <Sider collapsed={collapse} className="min-h-screen shadow-lg bg-white">
+        <Sider collapsed={collapse} className="min-h-full shadow-lg bg-white">
           <Menu mode="inline" defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']}>
             <Menu.Item key="1" icon={<ProfileOutlined />}>
               <NavLink to="/">Dashboard</NavLink>
@@ -129,7 +129,7 @@ function ProfileSide({ children }: any) {
       </div>
       <div className="min-h-screen w-full">{children}</div>
       <div>
-        <Sider className="p-2 min-h-screen shadow-lg bg-white">
+        <Sider className="p-2 min-h-full shadow-lg bg-white">
           <Col className="text-center mb-8">
             <Row className="justify-center">
               <Avatar src="https://source.unsplash.com/600x600/?people" alt="user" size={125} />
