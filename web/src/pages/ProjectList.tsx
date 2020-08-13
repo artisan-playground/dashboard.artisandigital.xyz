@@ -56,6 +56,25 @@ function ProjectList() {
     setLoading(false)
   }
 
+  useEffect(() => {
+    switch (getTypes()) {
+      case 'wip':
+        let wip: any[] = DATA.filter((item) => item.status === 'undone')
+        setFilteredData(wip)
+        break
+      case 'closed':
+        let closed: any[] = DATA.filter((item) => item.status === 'done')
+        setFilteredData(closed)
+        break
+      case '':
+        setFilteredData(DATA)
+        break
+      default:
+        setFilteredData(DATA)
+        break
+    }
+  }, [getTypes()]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <LayoutDashboard>
       <Row className="justify-between">
