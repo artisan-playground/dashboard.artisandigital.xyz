@@ -68,7 +68,14 @@ function ProjectCard({ data }: any) {
   }
 
   return (
-    <Link to={{ pathname: `/projects/${data.id}` }}>
+    <Link
+      to={{
+        pathname: `/projects/${data.id}`,
+        state: {
+          data: data,
+        },
+      }}
+    >
       <Card className="w-full rounded-lg shadow-md">
         <div className="absolute right-0 top-0 mt-8 mr-12">
           {data.status === 'done' ? (
