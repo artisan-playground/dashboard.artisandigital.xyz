@@ -6,15 +6,32 @@ import { LayoutDashboard } from '../components/DashboardComponent'
 
 function ProfileEditor() {
   const { Text } = Typography
-  const [email, setEmail] = useState('')
-  const [firstname, setFirstname] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [facebook, setFacebook] = useState('')
-  const [twitter, setTwitter] = useState('')
-  const [instagram, setInstagram] = useState('')
-  const [gitlab, setGitlab] = useState('')
-  const [github, setGithub] = useState('')
+  const [, setEmail] = useState('')
+  const [, setFirstname] = useState('')
+  const [, setLastname] = useState('')
+  const [, setFacebook] = useState('')
+  const [, setTwitter] = useState('')
+  const [, setInstagram] = useState('')
+  const [, setGitlab] = useState('')
+  const [, setGithub] = useState('')
   const { Option } = Select
+  const user = {
+    id: '0',
+    email: 'test@mail.com',
+    firstname: 'John',
+    lastname: 'Doe',
+    position: 'Designers/Programmers',
+    skills: ['HTML', 'JavaScript', 'React', 'Redux', 'UI', 'UX'],
+    contacts: [
+      {
+        facebook: 'http://localhost:3000/profile',
+        twitter: 'http://localhost:3000/profile',
+        instagram: 'http://localhost:3000/profile',
+        gitlab: 'http://localhost:3000/profile',
+        github: 'http://localhost:3000/profile',
+      },
+    ],
+  }
 
   function handleChange(value: any) {
     console.log(`Selected ${value}`)
@@ -26,26 +43,35 @@ function ProfileEditor() {
         <Col span={17} push={7}>
           <Card title="Edit Profile" headStyle={{ fontWeight: 'bold' }}>
             <Form name="normal_edit" className="edit-form" initialValues={{ remember: true }}>
-              <Form.Item
-                name="firstname"
-                className="mr-2"
-                rules={[{ required: true, message: 'Please input your Firstname!' }]}
-              >
-                <Input
-                  placeholder="Firstname..."
-                  value={firstname}
-                  className="inline-block w-5/12"
-                  onChange={(e) => setFirstname(e.target.value)}
-                />
-                <Input
-                  placeholder="Lastname..."
-                  value={lastname}
-                  className="inline-block w-5/12 ml-2"
-                  onChange={(e) => setLastname(e.target.value)}
-                />
-              </Form.Item>
+              <div className="flex items-center justify-between">
+                <Form.Item
+                  name="firstname"
+                  label="Firstname"
+                  className="mr-2 w-2/4"
+                  rules={[{ required: true, message: 'Please input your Firstname!' }]}
+                >
+                  <Input
+                    placeholder="Firstname..."
+                    value={user.firstname}
+                    onChange={(e) => setFirstname(e.target.value)}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="lastname"
+                  label="Lastname"
+                  className="w-2/4"
+                  rules={[{ required: true, message: 'Please input your Lastname!' }]}
+                >
+                  <Input
+                    placeholder="Lastname..."
+                    value={user.lastname}
+                    onChange={(e) => setLastname(e.target.value)}
+                  />
+                </Form.Item>
+              </div>
               <Form.Item
                 name="email"
+                label="Email"
                 rules={[
                   {
                     type: 'email',
@@ -59,58 +85,65 @@ function ProfileEditor() {
               >
                 <Input
                   placeholder="Email..."
-                  value={email}
+                  value={user.email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Form.Item>
-              <Select defaultValue="a" className="w-2/4" onChange={handleChange}>
-                <Option value="a">Head of Development</Option>
-                <Option value="b">Assistant</Option>
-                <Option value="c">Product/Project Manager</Option>
-                <Option value="d">Business Analysis Manager</Option>
-                <Option value="d">Software Development Manager</Option>
-                <Option value="d">Quality Analysis Manager</Option>
-                <Option value="d">Analysis</Option>
-                <Option value="d">Designers/Programmers</Option>
-                <Option value="d">Testers</Option>
+              <Select defaultValue={user.position} className="w-2/4" onChange={handleChange}>
+                <Option value="Head of Development">Head of Development</Option>
+                <Option value="Assistant">Assistant</Option>
+                <Option value="Product/Project Manager">Product/Project Manager</Option>
+                <Option value="Business Analysis Manager">Business Analysis Manager</Option>
+                <Option value="Software Development Manager">Software Development Manager</Option>
+                <Option value="Quality Analysis Manager">Quality Analysis Manager</Option>
+                <Option value="Analysis">Analysis</Option>
+                <Option value="Designers/Programmers">Designers/Programmers</Option>
+                <Option value="Testers">Testers</Option>
               </Select>
               <Divider />
-              <Form.Item name="facebook" label="Facebook">
-                <Input
-                  placeholder="http://"
-                  value={facebook}
-                  onChange={(e) => setFacebook(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="twitter" label="Twitter">
-                <Input
-                  placeholder="http://"
-                  value={twitter}
-                  onChange={(e) => setTwitter(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="instagram" label="Instagram">
-                <Input
-                  placeholder="http://"
-                  value={instagram}
-                  onChange={(e) => setInstagram(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="gitlab" label="Gitlab">
-                <Input
-                  placeholder="http://"
-                  value={gitlab}
-                  onChange={(e) => setGitlab(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item name="github" label="Github">
-                <Input
-                  placeholder="http://"
-                  value={github}
-                  onChange={(e) => setGithub(e.target.value)}
-                />
-              </Form.Item>
-              <Divider/>
+              {user.contacts.map((value, index) => {
+                return (
+                  <div key={index}>
+                    <Form.Item name="facebook" label="Facebook">
+                      <Input
+                        placeholder="http://"
+                        value={value.facebook}
+                        onChange={(e) => setFacebook(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item name="twitter" label="Twitter">
+                      <Input
+                        placeholder="http://"
+                        value={value.twitter}
+                        onChange={(e) => setTwitter(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item name="instagram" label="Instagram">
+                      <Input
+                        placeholder="http://"
+                        value={value.instagram}
+                        onChange={(e) => setInstagram(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item name="gitlab" label="Gitlab">
+                      <Input
+                        placeholder="http://"
+                        value={value.gitlab}
+                        onChange={(e) => setGitlab(e.target.value)}
+                      />
+                    </Form.Item>
+                    <Form.Item name="github" label="Github">
+                      <Input
+                        placeholder="http://"
+                        value={value.github}
+                        onChange={(e) => setGithub(e.target.value)}
+                      />
+                    </Form.Item>
+                  </div>
+                )
+              })}
+
+              <Divider />
               <Form.Item className="text-center">
                 <Button type="primary" htmlType="submit" className="edit-form-button w-48">
                   <Text strong className="text-white">
