@@ -10,7 +10,7 @@ function LayoutDashboard({ className, children }: any) {
       <NavBar />
       <SideNav>
         <Layout className="pt-8 pb-24 px-8 w-full ">
-          <Content className="bg-white p-8 w-full">{children}</Content>
+          <Content className="p-8 w-full">{children}</Content>
         </Layout>
       </SideNav>
     </>
