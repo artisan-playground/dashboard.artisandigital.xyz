@@ -2,9 +2,9 @@ import { Layout } from 'antd'
 import React from 'react'
 import { NavBar, ProfileSide } from './DashboardComponent'
 
-const { Content } = Layout
-
 function LayoutProfile({ className, children }: any) {
+  const { Content } = Layout
+
   return (
     <>
       <NavBar />
