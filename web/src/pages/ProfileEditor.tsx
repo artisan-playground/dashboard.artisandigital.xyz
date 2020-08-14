@@ -89,17 +89,23 @@ function ProfileEditor() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Form.Item>
-              <Select defaultValue={user.position} className="w-2/4" onChange={handleChange}>
-                <Option value="Head of Development">Head of Development</Option>
-                <Option value="Assistant">Assistant</Option>
-                <Option value="Product/Project Manager">Product/Project Manager</Option>
-                <Option value="Business Analysis Manager">Business Analysis Manager</Option>
-                <Option value="Software Development Manager">Software Development Manager</Option>
-                <Option value="Quality Analysis Manager">Quality Analysis Manager</Option>
-                <Option value="Analysis">Analysis</Option>
-                <Option value="Designers/Programmers">Designers/Programmers</Option>
-                <Option value="Testers">Testers</Option>
-              </Select>
+              <Form.Item label="Job Position">
+                <Select
+                  defaultValue={user.position}
+                  style={{ width: '50%' }}
+                  onChange={handleChange}
+                >
+                  <Option value="Head of Development">Head of Development</Option>
+                  <Option value="Assistant">Assistant</Option>
+                  <Option value="Product/Project Manager">Product/Project Manager</Option>
+                  <Option value="Business Analysis Manager">Business Analysis Manager</Option>
+                  <Option value="Software Development Manager">Software Development Manager</Option>
+                  <Option value="Quality Analysis Manager">Quality Analysis Manager</Option>
+                  <Option value="Analysis">Analysis</Option>
+                  <Option value="Designers/Programmers">Designers/Programmers</Option>
+                  <Option value="Testers">Testers</Option>
+                </Select>
+              </Form.Item>
               <Divider />
               {user.contacts.map((value, index) => {
                 return (
