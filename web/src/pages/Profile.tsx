@@ -1,11 +1,14 @@
-import { CheckCircleOutlined, RightOutlined, SyncOutlined } from '@ant-design/icons'
-import { Avatar, Button, Card, Col, Empty, Radio, Row, Tag, Typography } from 'antd'
-import React from 'react'
+import { CheckCircleOutlined, LeftOutlined, RightOutlined, SyncOutlined } from '@ant-design/icons'
+import { Avatar, Card, Col, Empty, Radio, Row, Tag, Typography } from 'antd'
+import React, { useState } from 'react'
+// @ts-ignore
+import ItemsCarousel from 'react-items-carousel'
 import { LayoutProfile } from '../components/DashboardComponent'
 
 function Profile() {
   const { Title, Text } = Typography
   const { Meta } = Card
+  const [activeItemIndex, setActiveItemIndex] = useState(0)
   const projects = [
     {
       id: '1',
@@ -97,13 +100,31 @@ function Profile() {
   return (
     <>
       <LayoutProfile>
-        <Col className="mb-12">
+        <Col className="mb-12 w-3/4">
           <Title level={3}>Today's task</Title>
-          <Row gutter={16}>
-            {projects ? (
-              projects.map((value, index) => (
-                <Col span={8} key={index}>
+          <div className="">
+            <ItemsCarousel
+              infiniteLoop={false}
+              gutter={16}
+              activePosition={'center'}
+              chevronWidth={60}
+              disableSwipe={false}
+              alwaysShowChevrons={false}
+              numberOfCards={3}
+              slidesToScroll={3}
+              outsideChevron={true}
+              showSlither={true}
+              firstAndLastGutter={true}
+              activeItemIndex={activeItemIndex}
+              requestToChangeActive={setActiveItemIndex}
+              rightChevron={<RightOutlined />}
+              leftChevron={<LeftOutlined />}
+              style={{backgroundColor:'black'}}
+            >
+              {projects ? (
+                projects.map((value, index) => (
                   <Card
+                    key={index}
                     hoverable
                     title={value.projectName}
                     headStyle={{ fontWeight: 'bold' }}
@@ -135,12 +156,12 @@ function Profile() {
                       </Col>
                     </Row>
                   </Card>
-                </Col>
-              ))
-            ) : (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            )}
-          </Row>
+                ))
+              ) : (
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              )}
+            </ItemsCarousel>
+          </div>
         </Col>
 
         <Col>
