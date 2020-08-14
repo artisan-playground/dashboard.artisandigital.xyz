@@ -41,7 +41,7 @@ function NavBar() {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="/edit-profile">
+        <a target="_blank" rel="noopener noreferrer" href="/profile/edit">
           Edit Profile
         </a>
       </Menu.Item>
