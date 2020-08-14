@@ -98,7 +98,7 @@ function ProjectCard({ data }: any) {
               {data.projectType}
             </Text>
             <div className="mt-4">
-              <Text className="text-xl">{data.ProjectDetail}</Text>
+              <Text className="text-xl">{data.projectDetail.split('.', 1)}</Text>
             </div>
           </Col>
           <Col span={8}>

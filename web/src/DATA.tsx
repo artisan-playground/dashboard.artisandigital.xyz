@@ -3,7 +3,7 @@ export const DATA: any[] = [
     id: '1',
     projectName: 'Project #1',
     projectType: 'Web design',
-    ProjectDetail: 'Commodo adipiscing ornare sit lorem sit tempus urna, vestibulum, neque.',
+    projectDetail: 'Commodo adipiscing ornare sit lorem sit tempus urna, vestibulum, neque.',
     status: 'undone',
     team: [
       {
@@ -27,7 +27,7 @@ export const DATA: any[] = [
     id: '2',
     projectName: 'Project #2',
     projectType: 'Marketing',
-    ProjectDetail: 'Consequat tempus nisi, orci, ligula duis.',
+    projectDetail: 'Consequat tempus nisi, orci, ligula duis.',
     status: 'done',
     team: [
       {
@@ -103,7 +103,7 @@ export const DATA: any[] = [
     id: '3',
     projectName: 'Project #3',
     projectType: 'Mobile App',
-    ProjectDetail:
+    projectDetail:
       'Nisi lacus sed viverra tellus in hac. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida.',
     status: 'done',
     team: [
@@ -123,7 +123,7 @@ export const DATA: any[] = [
     id: '4',
     projectName: 'Project #4',
     projectType: 'Mobile App',
-    ProjectDetail:
+    projectDetail:
       'Urna nunc id cursus metus aliquam eleifend. Ultrices neque ornare aenean euismod elementum. Eget arcu dictum varius duis at consectetur',
     status: 'done',
     team: [
@@ -148,7 +148,7 @@ export const DATA: any[] = [
     id: '5',
     projectName: 'Project #5',
     projectType: 'Mobile App',
-    ProjectDetail: 'Blandit volutpat maecenas volutpat blandit aliquam etiam erat.',
+    projectDetail: 'Blandit volutpat maecenas volutpat blandit aliquam etiam erat.',
     status: 'done',
     team: [
       {
@@ -187,8 +187,8 @@ export const DATA: any[] = [
     id: '6',
     projectName: 'Project #6',
     projectType: 'Mobile App',
-    ProjectDetail:
-      'Euismod in pellentesque massa placerat duis. Elementum sagittis vitae et leo duis ut diam quam nulla. ',
+    projectDetail:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Convallis posuere morbi leo urna molestie at elementum. Vitae congue mauris rhoncus aenean vel. Scelerisque purus semper eget duis at tellus at urna. Venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin. Dui accumsan sit amet nulla facilisi morbi tempus. Turpis massa tincidunt dui ut ornare lectus sit amet est. Quis imperdiet massa tincidunt nunc pulvinar sapien et. Ac orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Suspendisse interdum consectetur libero id faucibus nisl. Gravida neque convallis a cras semper auctor neque. In eu mi bibendum neque egestas congue quisque egestas. Pharetra diam sit amet nisl suscipit adipiscing bibendum est. Metus dictum at tempor commodo ullamcorper a. Eget nulla facilisi etiam dignissim diam quis. Blandit volutpat maecenas volutpat blandit aliquam etiam erat velit scelerisque. A iaculis at erat pellentesque adipiscing. Pellentesque massa placerat duis ultricies lacus sed. Phasellus egestas tellus rutrum tellus.',
     status: 'undone',
     team: [
       {
@@ -197,5 +197,163 @@ export const DATA: any[] = [
         image: 'https://source.unsplash.com/607x600/?people',
       },
     ],
+  },
+]
+
+export const TASK_DATA: any[] = [
+  {
+    id: '1',
+    projectId: '1',
+    taskName: 'Design Webpage',
+    time: new Date(),
+    taskDetail:
+      'Sit amet mattis vulputate enim nulla aliquet porttitor lacus. Aliquam sem fringilla ut morbi. Arcu non odio euismod lacinia at quis risus sed. Varius duis at consectetur lorem donec massa. A arcu cursus vitae congue mauris rhoncus.',
+    isDone: false,
+    team: [
+      {
+        id: '9',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+      {
+        id: '99',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/607x609/?people',
+      },
+      {
+        id: '19',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/608x600/?people',
+      },
+      {
+        id: '29',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/607x601/?people',
+      },
+    ],
+    files: [
+      {
+        id: '1',
+        file: '',
+      },
+    ],
+    comments: [
+      {
+        id: '1',
+        timestamp: new Date(),
+        userId: '1',
+        userName: 'Alicia ki',
+        message: "I'll do Login page",
+      },
+      {
+        id: '2',
+        timestamp: new Date(),
+        userId: '1',
+        userName: 'Thomas train',
+        message: 'OK, lets go dude',
+      },
+    ],
+  },
+  {
+    id: '2',
+    projectId: '1',
+    taskName: 'Implement code',
+    time: new Date(),
+    taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+    isDone: false,
+    team: [
+      {
+        id: '9',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+    ],
+    files: [],
+    comments: [],
+  },
+  {
+    id: '3',
+    projectId: '2',
+    taskName: '#1',
+    time: new Date(),
+    taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+    isDone: false,
+    team: [
+      {
+        id: '9',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+    ],
+    files: [],
+    comments: [],
+  },
+  {
+    id: '4',
+    projectId: '2',
+    taskName: '#2',
+    time: new Date(),
+    taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+    isDone: false,
+    team: [
+      {
+        id: '9',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+    ],
+    files: [],
+    comments: [],
+  },
+  {
+    id: '5',
+    projectId: '2',
+    taskName: '#3',
+    time: new Date(),
+    taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+    isDone: false,
+    team: [
+      {
+        id: '9',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+    ],
+    files: [],
+    comments: [],
+  },
+  {
+    id: '6',
+    projectId: '2',
+    taskName: '#4',
+    time: new Date(),
+    taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+    isDone: false,
+    team: [
+      {
+        id: '9',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+    ],
+    files: [],
+    comments: [],
+  },
+  {
+    id: '7',
+    projectId: '2',
+    taskName: '#5',
+    time: new Date(),
+    taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+    isDone: false,
+    team: [
+      {
+        id: '9',
+        name: 'test 162',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+    ],
+    files: [],
+    comments: [],
   },
 ]
