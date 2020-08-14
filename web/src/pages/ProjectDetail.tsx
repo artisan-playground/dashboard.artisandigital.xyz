@@ -7,7 +7,7 @@ function ProjectDetail() {
 
   return (
     <LayoutDashboard>
-      <div>detail of user {projectId}</div>
+      <div>detail of project {projectId}</div>
     </LayoutDashboard>
   )
 }
