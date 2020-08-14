@@ -100,68 +100,68 @@ function Profile() {
   return (
     <>
       <LayoutProfile>
-        <Col className="mb-12 w-3/4">
-          <Title level={3}>Today's task</Title>
-          <div className="">
-            <ItemsCarousel
-              infiniteLoop={false}
-              gutter={16}
-              activePosition={'center'}
-              chevronWidth={60}
-              disableSwipe={false}
-              alwaysShowChevrons={false}
-              numberOfCards={3}
-              slidesToScroll={3}
-              outsideChevron={true}
-              showSlither={true}
-              firstAndLastGutter={true}
-              activeItemIndex={activeItemIndex}
-              requestToChangeActive={setActiveItemIndex}
-              rightChevron={<RightOutlined />}
-              leftChevron={<LeftOutlined />}
-              style={{backgroundColor:'black'}}
-            >
-              {projects ? (
-                projects.map((value, index) => (
-                  <Card
-                    key={index}
-                    hoverable
-                    title={value.projectName}
-                    headStyle={{ fontWeight: 'bold' }}
-                    bordered={false}
-                  >
-                    <Col className="flex flex-col">
-                      <Text className="font-bold">{value.projectType}</Text>
-                      <Text>{value.projectDetail.substr(0, 100) + '...'}</Text>
+        <Title level={3}>Today's task</Title>
+        <Col className="mb-12 w-3/4" style={{ right: -100 }}>
+          <ItemsCarousel
+            infiniteLoop={false}
+            gutter={16}
+            activePosition={'center'}
+            chevronWidth={60}
+            disableSwipe={false}
+            alwaysShowChevrons={false}
+            numberOfCards={3}
+            slidesToScroll={3}
+            outsideChevron={true}
+            showSlither={true}
+            firstAndLastGutter={true}
+            activeItemIndex={activeItemIndex}
+            requestToChangeActive={setActiveItemIndex}
+            rightChevron={<RightOutlined />}
+            leftChevron={<LeftOutlined />}
+          >
+            {projects ? (
+              projects.map((value, index) => (
+                <Card
+                  key={index}
+                  hoverable
+                  title={value.projectName}
+                  headStyle={{ fontWeight: 'bold' }}
+                  bordered={false}
+                >
+                  <Col className="flex flex-col">
+                    <Text className="font-bold">{value.projectType}</Text>
+                    <Text>{value.projectDetail.substr(0, 40) + '...'}</Text>
+                  </Col>
+                  <Row className="flex items-end justify-end mt-6">
+                    <Col>
+                      {value.status === 'done' ? (
+                        <Tag
+                          color="green"
+                          className="rounded-full py-1 px-2"
+                          icon={<CheckCircleOutlined className="animate-bounce" />}
+                        >
+                          <Text className="font-bold">Success</Text>
+                        </Tag>
+                      ) : (
+                        <Tag
+                          color="gold"
+                          className="rounded-full py-1 px-2"
+                          icon={<SyncOutlined spin />}
+                        >
+                          <Text className="font-bold">In Progress</Text>
+                        </Tag>
+                      )}
                     </Col>
-                    <Row className="flex items-end justify-end mt-6">
-                      <Col>
-                        {value.status === 'done' ? (
-                          <Tag
-                            color="green"
-                            className="rounded-full py-1 px-2"
-                            icon={<CheckCircleOutlined className="animate-bounce" />}
-                          >
-                            <Text className="font-bold">Success</Text>
-                          </Tag>
-                        ) : (
-                          <Tag
-                            color="gold"
-                            className="rounded-full py-1 px-2"
-                            icon={<SyncOutlined spin />}
-                          >
-                            <Text className="font-bold">In Progress</Text>
-                          </Tag>
-                        )}
-                      </Col>
-                    </Row>
-                  </Card>
-                ))
-              ) : (
-                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-              )}
-            </ItemsCarousel>
-          </div>
+                  </Row>
+                </Card>
+              ))
+            ) : (
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                className="flex items-center justify-center text-center"
+              />
+            )}
+          </ItemsCarousel>
         </Col>
 
         <Col>
@@ -222,7 +222,10 @@ function Profile() {
                 </Col>
               ))
             ) : (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                className="flex items-center justify-center text-center"
+              />
             )}
           </Row>
         </Col>
