@@ -76,35 +76,44 @@ function ProjectCard({ data }: any) {
         },
       }}
     >
-      <Card className="w-full rounded-lg shadow-md">
-        <div className="absolute right-0 top-0 mt-8 mr-12">
-          {data.status === 'done' ? (
-            <Tag
-              className="rounded-full py-1 px-2 bg-successop"
-              icon={<CheckCircleOutlined className="animate-bounce" />}
-            >
-              <Text className="font-bold">success</Text>
-            </Tag>
-          ) : (
-            <Tag className="rounded-full py-1 px-2 bg-progressop " icon={<SyncOutlined spin />}>
-              <Text className="font-bold"> In Progress</Text>
-            </Tag>
-          )}
-        </div>
-        <Row gutter={[48, 8]} className="w-full">
-          <Col span={16}>
-            <Title level={3}>{data.projectName}</Title>
+      <Card className="min-w-full rounded-lg shadow-md">
+        <Row gutter={[8, 8]} className="w-full">
+          <Col span={24}>
+            <Row className="flex justify-between">
+              <Title level={3}>{data.projectName}</Title>
+              <div>
+                {data.status === 'done' ? (
+                  <Tag
+                    className="rounded-full py-1 px-2 bg-successop border-0 flex items-center"
+                    icon={<CheckCircleOutlined />}
+                  >
+                    <Text className="font-bold">Done</Text>
+                  </Tag>
+                ) : (
+                  <Tag
+                    className="rounded-full py-1 px-2 bg-progressop border-0 flex items-center"
+                    icon={<SyncOutlined />}
+                  >
+                    <Text className="font-bold">In Progress</Text>
+                  </Tag>
+                )}
+              </div>
+            </Row>
             <Text disabled className="text-md -">
               {data.projectType}
             </Text>
-            <div className="mt-4">
-              <Text className="text-xl">{data.projectDetail.split('.', 1)}</Text>
-            </div>
-          </Col>
-          <Col span={8}>
-            <div className="absolute bottom-0 right-0 mb-2 mr-2 ">
-              <Row className="justify-end items-end">{renderShowItems(data.team)}</Row>
-            </div>
+            <Row>
+              <Col span={24} lg={{ span: 16 }}>
+                <div className="mt-4">
+                  <Text className="text-xl">{data.projectDetail.split('.', 1)}</Text>
+                </div>
+              </Col>
+              <Col span={24} lg={{ span: 8 }}>
+                <div className="items-end">
+                  <Row className="justify-end items-end">{renderShowItems(data.team)}</Row>
+                </div>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Card>
