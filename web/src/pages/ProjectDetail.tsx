@@ -39,10 +39,12 @@ function ProjectDetail(props: any) {
               <Col span={24} lg={{ span: 4 }} className="flex justify-center items-start">
                 <Avatar size={112}>P</Avatar>
               </Col>
-              <Col span={24} lg={{ span: 20 }} className="p-4">
+              <Col span={24} lg={{ span: 20 }} className="px-4">
                 <Row>
-                  <Title level={3}>{data.projectName}</Title>
-                  <Text disabled className="ml-4 text-md py-2">
+                  <Title level={2}>{data.projectName}</Title>
+                </Row>
+                <Row>
+                  <Text disabled className="text-md -mt-4 mb-2">
                     {data.projectType}
                   </Text>
                 </Row>
@@ -57,60 +59,60 @@ function ProjectDetail(props: any) {
           <Col span={24} lg={{ span: 6 }} className="py-8 px-4">
             <div className="flex flex-col sm:flex-row lg:flex-col ">
               <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card className="min-w-full rounded-lg shadow-md">
+                <Card className="min-w-full rounded-lg shadow-md min-h-full">
                   <div className="flex flex-col justify-center items-center">
                     <ScheduleOutlined
-                      style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
+                      style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
-                    <Title level={2} className="text-center">
+                    <Title level={3} className="text-center">
                       24 DEC 20
                     </Title>
-                    <Text disabled className="text-lg -mt-4 text-center">
+                    <Text disabled className="text-md -mt-2 text-center">
                       Release Date
                     </Text>
                   </div>
                 </Card>
               </Col>
               <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card className="min-w-full rounded-lg shadow-md">
+                <Card className="min-w-full rounded-lg shadow-md min-h-full">
                   <div className="flex flex-col justify-center items-center">
                     <SmileOutlined
-                      style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
+                      style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
-                    <Title level={2} className="text-center">
+                    <Title level={3} className="text-center">
                       3
                     </Title>
-                    <Text disabled className="text-lg -mt-4 text-center">
+                    <Text disabled className="text-md -mt-2 text-center">
                       Developer
                     </Text>
                   </div>
                 </Card>
               </Col>
               <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card className="min-w-full rounded-lg shadow-md">
+                <Card className="min-w-full rounded-lg shadow-md min-h-full">
                   <div className="flex flex-col justify-center items-center">
                     <ProfileOutlined
-                      style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
+                      style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
-                    <Title level={2} className="text-center">
+                    <Title level={3} className="text-center">
                       67
                     </Title>
-                    <Text disabled className="text-lg -mt-4 text-center">
+                    <Text disabled className="text-md -mt-2 text-center">
                       Today's tasks
                     </Text>
                   </div>
                 </Card>
               </Col>
               <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card className="min-w-full rounded-lg shadow-md">
+                <Card className="min-w-full rounded-lg shadow-md min-h-full">
                   <div className="flex flex-col justify-center items-center">
                     <FileDoneOutlined
-                      style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
+                      style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
-                    <Title level={2} className="text-center">
+                    <Title level={3} className="text-center">
                       2
                     </Title>
-                    <Text disabled className="text-lg -mt-4 text-center">
+                    <Text disabled className="text-md -mt-2 text-center">
                       Done tasks
                     </Text>
                   </div>
@@ -133,7 +135,7 @@ function ProjectDetail(props: any) {
             </div>
           </Col>
         </Row>
-        <Row className="w-full px-4">
+        <Row className="w-full px-2">
           <Col span={24}>
             <div className="font-bold text-2xl mb-4">Recent Activity</div>
             <div className="h-64">
