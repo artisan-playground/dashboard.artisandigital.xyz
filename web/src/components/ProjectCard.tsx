@@ -11,7 +11,7 @@ function ProjectCard({ data }: any) {
     for (let i = 0; i < item.length; ++i) {
       if (i < 3) {
         showItems.push(
-          <Col className="-ml-1">
+          <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
             <Link to={{ pathname: '/profile', state: { profileId: item[i].id } }}>
               <Tooltip placement="top" title={item[i].name}>
                 <Avatar
@@ -26,7 +26,7 @@ function ProjectCard({ data }: any) {
         )
       } else {
         showItems.push(
-          <Col className="-ml-1">
+          <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
             <Popover content={renderAllMember(item)} title="Team" trigger="hover">
               <div>
                 <div
@@ -55,7 +55,7 @@ function ProjectCard({ data }: any) {
       <div>
         {item.map((items: any) => {
           return (
-            <Link to={{ pathname: '/profile', state: { profileId: items.id } }}>
+            <Link key={items.id} to={{ pathname: '/profile', state: { profileId: items.id } }}>
               <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
                 <Avatar key={items.id} src={items.image} className="ml-2" alt={items.name} />
                 <div className="ml-4 text-lg">{items.name}</div>
