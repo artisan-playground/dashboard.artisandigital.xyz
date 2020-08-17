@@ -1,4 +1,9 @@
-import { CommentOutlined, PaperClipOutlined } from '@ant-design/icons'
+import {
+  BorderOutlined,
+  CheckSquareOutlined,
+  CommentOutlined,
+  PaperClipOutlined,
+} from '@ant-design/icons'
 import { Avatar, Card, Col, Row, Tooltip, Typography } from 'antd'
 import React from 'react'
 
@@ -31,18 +36,29 @@ function TaskCard({ data }: any) {
           <Text className="text-lg">{data.taskDetail}</Text>
         </Col>
         <Col span={24}>
-          <Avatar.Group
-            maxCount={2}
-            maxStyle={{ color: '#fff', backgroundColor: '#222', filter: 'brightness(0.6)' }}
-          >
-            {data.team.map((item: any) => {
-              return (
-                <Avatar key={item.id} src={item.image} alt={item.name}>
-                  <Tooltip title={item.src}></Tooltip>
-                </Avatar>
-              )
-            })}
-          </Avatar.Group>
+          <Row className="justify-between">
+            <Col>
+              <Avatar.Group
+                maxCount={2}
+                maxStyle={{ color: '#fff', backgroundColor: '#222', filter: 'brightness(0.6)' }}
+              >
+                {data.team.map((item: any) => {
+                  return (
+                    <Avatar key={item.id} src={item.image} alt={item.name}>
+                      <Tooltip title={item.src}></Tooltip>
+                    </Avatar>
+                  )
+                })}
+              </Avatar.Group>
+            </Col>
+            <Col className="flex items-center justify-end">
+              {data.isDone ? (
+                <CheckSquareOutlined style={{ fontSize: 24 }} />
+              ) : (
+                <BorderOutlined style={{ fontSize: 24 }} />
+              )}
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Card>
