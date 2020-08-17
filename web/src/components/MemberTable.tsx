@@ -19,11 +19,10 @@ const MemberTable = (props: any) => {
         },
       }
     }
-
     return { ...otherColumnProps, dataIndex }
   })
 
-  return <Table columns={sortableColumns} {...otherTableProps} />
+  return <Table columns={sortableColumns} {...otherTableProps} pagination={{ pageSize: 10 }} />
 }
 
 export default MemberTable
