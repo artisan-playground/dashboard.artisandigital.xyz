@@ -260,7 +260,7 @@ export const TASK_DATA: any[] = [
     taskName: 'Implement code',
     time: new Date(),
     taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
-    isDone: false,
+    isDone: true,
     team: [
       {
         id: '9',
@@ -277,7 +277,7 @@ export const TASK_DATA: any[] = [
     taskName: '#1',
     time: new Date(),
     taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
-    isDone: false,
+    isDone: true,
     team: [
       {
         id: '9',
@@ -294,7 +294,7 @@ export const TASK_DATA: any[] = [
     taskName: '#2',
     time: new Date(),
     taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
-    isDone: false,
+    isDone: true,
     team: [
       {
         id: '9',
@@ -345,7 +345,7 @@ export const TASK_DATA: any[] = [
     taskName: '#5',
     time: new Date(),
     taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
-    isDone: false,
+    isDone: true,
     team: [
       {
         id: '9',

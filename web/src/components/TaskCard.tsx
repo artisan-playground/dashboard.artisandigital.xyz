@@ -37,7 +37,7 @@ function TaskCard({ data }: any) {
           >
             {data.team.map((item: any) => {
               return (
-                <Avatar src={item.image} alt={item.name}>
+                <Avatar key={item.id} src={item.image} alt={item.name}>
                   <Tooltip title={item.src}></Tooltip>
                 </Avatar>
               )
