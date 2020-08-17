@@ -125,7 +125,7 @@ function ProjectDetail(props: any) {
               <div className="font-bold text-2xl mb-4">Tasks</div>
               {filteredTasks.length !== 0 ? (
                 filteredTasks.map((item, key) => {
-                  return <TaskCard key={key} data={item} />
+                  return <TaskCard key={key} data={item} project={data} />
                 })
               ) : (
                 <div className="flex justify-center items-center p-8">

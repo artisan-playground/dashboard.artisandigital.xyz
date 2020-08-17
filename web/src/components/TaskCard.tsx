@@ -5,13 +5,20 @@ import {
   PaperClipOutlined,
 } from '@ant-design/icons'
 import { Avatar, Card, Col, Row, Tooltip, Typography } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
+import TaskOverlay from './TaskOverlay'
 
-function TaskCard({ data }: any) {
+function TaskCard({ data, project }: any) {
   const { Text } = Typography
 
+  const [modalVisible, setModalVisible] = useState(false)
+
+  function toggleModal() {
+    setModalVisible(!modalVisible)
+  }
   return (
-    <Card className="w-full rounded-lg shadow-md px-2 py-1 mb-4">
+    <Card className="w-full rounded-lg shadow-md px-2 py-1 mb-4" onClick={() => toggleModal()}>
+      <TaskOverlay visible={modalVisible} data={data} project={project} />
       <Row gutter={[8, 16]}>
         <div className="flex flex-col col-12 items-start justify-center">
           <div className="flex flex-row items-center">
