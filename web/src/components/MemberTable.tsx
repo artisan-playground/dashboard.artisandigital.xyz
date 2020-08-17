@@ -5,12 +5,22 @@ const MemberTable = (props: any) => {
   const { columns, ...otherTableProps } = props
 
   const sortableColumns = columns.map((column: any) => {
-    const { dataIndex, ...otherColumnProps } = column
+    const { sorter, dataIndex, ...otherColumnProps } = column
+
+    if (sorter) {
+      const { compare, ...otherSorterProps } = sorter
 
       return {
         ...otherColumnProps,
         dataIndex,
+        sorter: {
+          compare: (rowA: any, rowB: any) => compare(rowA[dataIndex], rowB[dataIndex]),
+          ...otherSorterProps,
+        },
       }
+    }
+
+    return { ...otherColumnProps, dataIndex }
   })
 
   return <Table columns={sortableColumns} {...otherTableProps} />
