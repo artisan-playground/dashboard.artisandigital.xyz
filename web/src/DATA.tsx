@@ -8,17 +8,17 @@ export const DATA: any[] = [
     team: [
       {
         id: '1',
-        name: 'test 1',
+        name: 'John 1',
         image: 'https://source.unsplash.com/700x700/?people',
       },
       {
         id: '2',
-        name: 'test 2',
+        name: 'Jane 2',
         image: 'https://source.unsplash.com/800x600/?people',
       },
       {
         id: '3',
-        name: 'test 3',
+        name: 'Jane 3',
         image: 'https://source.unsplash.com/600x900/?people',
       },
     ],
@@ -32,69 +32,69 @@ export const DATA: any[] = [
     team: [
       {
         id: '3',
-        name: 'test 11',
+        name: 'Jane 11',
         image: 'https://source.unsplash.com/600x900/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Josh 12',
         image: 'https://source.unsplash.com/900x900/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Joshure 12',
         image: 'https://source.unsplash.com/600x800/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jake 12',
         image: 'https://source.unsplash.com/600x600/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jaka 12',
         image: 'https://source.unsplash.com/400x600/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jaki 12',
         image: 'https://source.unsplash.com/600x400/?people',
       },
 
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jeki 12',
         image: 'https://source.unsplash.com/600x601/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jeko 12',
         image: 'https://source.unsplash.com/600x602/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jeky 12',
         image: 'https://source.unsplash.com/600x603/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jekii 12',
         image: 'https://source.unsplash.com/600x604/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jikii 12',
         image: 'https://source.unsplash.com/600x605/?people',
       },
 
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jiko 12',
         image: 'https://source.unsplash.com/600x606/?people',
       },
       {
         id: '4',
-        name: 'test 12',
+        name: 'Jika 12',
         image: 'https://source.unsplash.com/600x607/?people',
       },
     ],
@@ -109,12 +109,12 @@ export const DATA: any[] = [
     team: [
       {
         id: '5',
-        name: 'test 115',
+        name: 'Jike 115',
         image: 'https://source.unsplash.com/600x608/?people',
       },
       {
         id: '6',
-        name: 'test 162',
+        name: 'Jiku Doe',
         image: 'https://source.unsplash.com/600x609/?people',
       },
     ],
@@ -129,17 +129,17 @@ export const DATA: any[] = [
     team: [
       {
         id: '7',
-        name: 'test 115',
+        name: 'Juku 115',
         image: 'https://source.unsplash.com/601x600/?people',
       },
       {
         id: '8',
-        name: 'test 162',
+        name: 'Juko Doe',
         image: 'https://source.unsplash.com/602x600/?people',
       },
       {
         id: '9',
-        name: 'test 162',
+        name: 'Juki Doe',
         image: 'https://source.unsplash.com/603x600/?people',
       },
     ],
@@ -153,32 +153,32 @@ export const DATA: any[] = [
     team: [
       {
         id: '7',
-        name: 'test 115',
+        name: 'Juki 115',
         image: 'https://source.unsplash.com/604x600/?people',
       },
       {
         id: '8',
-        name: 'test 162',
+        name: 'Juke Doe',
         image: 'https://source.unsplash.com/605x600/?people',
       },
       {
         id: '9',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/606x600/?people',
       },
       {
         id: '99',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/606x601/?people',
       },
       {
         id: '999',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/606x602/?people',
       },
       {
         id: '29',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/606x603/?people',
       },
     ],
@@ -193,7 +193,7 @@ export const DATA: any[] = [
     team: [
       {
         id: '9',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x600/?people',
       },
     ],
@@ -212,22 +212,22 @@ export const TASK_DATA: any[] = [
     team: [
       {
         id: '9',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x600/?people',
       },
       {
         id: '99',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x609/?people',
       },
       {
         id: '19',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/608x600/?people',
       },
       {
         id: '29',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x601/?people',
       },
     ],
@@ -264,7 +264,7 @@ export const TASK_DATA: any[] = [
     team: [
       {
         id: '9',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x600/?people',
       },
     ],
@@ -281,7 +281,7 @@ export const TASK_DATA: any[] = [
     team: [
       {
         id: '9',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x600/?people',
       },
     ],
@@ -298,7 +298,7 @@ export const TASK_DATA: any[] = [
     team: [
       {
         id: '9',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x600/?people',
       },
     ],
@@ -315,7 +315,7 @@ export const TASK_DATA: any[] = [
     team: [
       {
         id: '9',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x600/?people',
       },
     ],
@@ -332,7 +332,7 @@ export const TASK_DATA: any[] = [
     team: [
       {
         id: '9',
-        name: 'test 162',
+        name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x600/?people',
       },
     ],
@@ -349,7 +349,48 @@ export const TASK_DATA: any[] = [
     team: [
       {
         id: '9',
-        name: 'test 162',
+        name: 'Jukii Doe',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+    ],
+    files: [],
+    comments: [],
+  },
+  {
+    id: '8',
+    projectId: '3',
+    taskName: 'Sunflower',
+    time: new Date(),
+    taskDetail:
+      'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    isDone: true,
+    team: [
+      {
+        id: '9',
+        name: 'Jukii Doe',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+      {
+        id: '10',
+        name: 'Jane Doe',
+        image: 'https://source.unsplash.com/607x600/?people',
+      },
+    ],
+    files: [],
+    comments: [],
+  },
+  {
+    id: '9',
+    projectId: '4',
+    taskName: 'Proin nibh nisl condimentum id venenatis a condimentum vitae.',
+    time: new Date(),
+    taskDetail:
+      'Lobortis feugiat vivamus at augue eget. Sed faucibus turpis in eu mi bibendum. A arcu cursus vitae congue. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin.',
+    isDone: false,
+    team: [
+      {
+        id: '9',
+        name: 'John Doe',
         image: 'https://source.unsplash.com/607x600/?people',
       },
     ],
