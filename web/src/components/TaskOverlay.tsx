@@ -11,41 +11,54 @@ import {
 import { Button, Col, Modal, Row, Skeleton, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React, { useEffect, useState } from 'react'
+//@ts-ignore
+import ItemsCarousel from 'react-items-carousel'
 import { Link } from 'react-router-dom'
 
-function TaskOverlay({ data, project, visible }: any) {
+function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   const { Text } = Typography
 
   const [taskData, setTaskData]: any = useState({})
+  const [activeItemIndex, setActiveItemIndex] = useState(0)
+  const [modalVisible, setModalVisible] = useState(false)
 
   useEffect(() => {
     setTaskData(data)
   }, [data])
 
-  function onDoneClick(event: any) {
-    // event.stopPropagation()
+  useEffect(() => {
+    setModalVisible(visible)
+  }, [visible])
+
+  function onDoneClick() {
     let tempData = { ...data }
     setTaskData({ ...tempData, isDone: !tempData.isDone })
   }
 
+  function onCancleClick(event: any) {
+    event.stopPropagation()
+    setModalVisible(false)
+    onCloseModal()
+  }
+
   return Object.keys(taskData).length === 0 ? (
-    <Modal visible={visible}>
+    <Modal visible={modalVisible}>
       <Skeleton />
     </Modal>
   ) : (
     <Modal
-      visible={visible}
+      visible={modalVisible}
       footer={null}
       bodyStyle={{
-        borderRadius: 120,
         paddingTop: 56,
         paddingLeft: 24,
         paddingRight: 24,
       }}
-      style={{
-        borderRadius: 120,
-      }}
       width={'80%'}
+      maskClosable={true}
+      closable={true}
+      onCancel={(e) => onCancleClick(e)}
+      destroyOnClose
       closeIcon={<CloseCircleOutlined style={{ color: 'red', fontSize: 24 }} />}
     >
       <Text className="absolute top-0 left-0 text-2xl font-bold mt-4 ml-4">
@@ -59,6 +72,22 @@ function TaskOverlay({ data, project, visible }: any) {
           <Row className="items-center">
             <PaperClipOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Clipboard</Text>
+          </Row>
+          <Row className="py-2 px-2">
+            <ItemsCarousel
+              requestToChangeActive={setActiveItemIndex}
+              activeItemIndex={activeItemIndex}
+              numberOfCards={4}
+              gutter={8}
+              leftChevron={<Button type="primary">{'<'}</Button>}
+              rightChevron={<Button type="primary">{'>'}</Button>}
+              chevronWidth={24}
+            >
+              <div style={{ height: 180, background: '#EEE', width: 180 }}>First card</div>
+              <div style={{ height: 180, background: '#EEE', width: 180 }}>Second card</div>
+              <div style={{ height: 180, background: '#EEE', width: 180 }}>Third card</div>
+              <div style={{ height: 180, background: '#EEE', width: 180 }}>Fourth card</div>
+            </ItemsCarousel>
           </Row>
           <Row className="items-center">
             <CommentOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
@@ -87,7 +116,7 @@ function TaskOverlay({ data, project, visible }: any) {
             <TeamOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Team</Text>
           </Row>
-          <Row className="ml-2">
+          <Row className="ml-2 overflow-y-scroll">
             {taskData.team.map((items: any) => {
               return (
                 <Link
