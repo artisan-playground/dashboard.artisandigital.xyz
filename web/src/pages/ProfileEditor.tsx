@@ -1,4 +1,7 @@
 import { CameraOutlined } from '@ant-design/icons'
+// @ts-ignore
+import ReactTagInput from '@pathofdev/react-tag-input'
+import '@pathofdev/react-tag-input/build/index.css'
 import { Button, Card, Col, Divider, Form, Input, Row, Select, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React, { useState } from 'react'
@@ -6,35 +9,20 @@ import { LayoutDashboard } from '../components/DashboardComponent'
 
 function ProfileEditor() {
   const { Text } = Typography
-  const [, setEmail] = useState('')
-  const [, setFirstname] = useState('')
-  const [, setLastname] = useState('')
-  const [, setFacebook] = useState('')
-  const [, setTwitter] = useState('')
-  const [, setInstagram] = useState('')
-  const [, setGitlab] = useState('')
-  const [, setGithub] = useState('')
+  const [email, setEmail] = useState('test@mail.com')
+  const [firstname, setFirstname] = useState('John')
+  const [lastname, setLastname] = useState('Doe')
+  const [position, setPosition] = useState('Designers/Programmers')
+  const [skills, setSkills] = useState(['HTML', 'JavaScript', 'React', 'Redux', 'UI', 'UX'])
+  const [facebook, setFacebook] = useState('http://localhost:3000/profile')
+  const [twitter, setTwitter] = useState('http://localhost:3000/profile')
+  const [instagram, setInstagram] = useState('http://localhost:3000/profile')
+  const [gitlab, setGitlab] = useState('http://localhost:3000/profile')
+  const [github, setGithub] = useState('http://localhost:3000/profile')
   const { Option } = Select
-  const user = {
-    id: '0',
-    email: 'test@mail.com',
-    firstname: 'John',
-    lastname: 'Doe',
-    position: 'Designers/Programmers',
-    skills: ['HTML', 'JavaScript', 'React', 'Redux', 'UI', 'UX'],
-    contacts: [
-      {
-        facebook: 'http://localhost:3000/profile',
-        twitter: 'http://localhost:3000/profile',
-        instagram: 'http://localhost:3000/profile',
-        gitlab: 'http://localhost:3000/profile',
-        github: 'http://localhost:3000/profile',
-      },
-    ],
-  }
 
-  function handleChange(value: any) {
-    console.log(`Selected ${value}`)
+  function handleChange() {
+    setPosition(position)
   }
 
   return (
@@ -52,8 +40,8 @@ function ProfileEditor() {
                 >
                   <Input
                     placeholder="Firstname..."
-                    value={user.firstname}
-                    onChange={(e) => setFirstname(e.target.value)}
+                    value={firstname}
+                    onChange={() => setFirstname(firstname)}
                   />
                 </Form.Item>
                 <Form.Item
@@ -64,8 +52,8 @@ function ProfileEditor() {
                 >
                   <Input
                     placeholder="Lastname..."
-                    value={user.lastname}
-                    onChange={(e) => setLastname(e.target.value)}
+                    value={lastname}
+                    onChange={() => setLastname(lastname)}
                   />
                 </Form.Item>
               </div>
@@ -83,18 +71,10 @@ function ProfileEditor() {
                   },
                 ]}
               >
-                <Input
-                  placeholder="Email..."
-                  value={user.email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                <Input placeholder="Email..." value={email} onChange={() => setEmail(email)} />
               </Form.Item>
               <Form.Item label="Job Position">
-                <Select
-                  defaultValue={user.position}
-                  style={{ width: '50%' }}
-                  onChange={handleChange}
-                >
+                <Select defaultValue={position} style={{ width: '50%' }} onChange={handleChange}>
                   <Option value="Head of Development">Head of Development</Option>
                   <Option value="Assistant">Assistant</Option>
                   <Option value="Product/Project Manager">Product/Project Manager</Option>
@@ -107,47 +87,29 @@ function ProfileEditor() {
                 </Select>
               </Form.Item>
               <Divider />
-              {user.contacts.map((value, index) => {
-                return (
-                  <div key={index}>
-                    <Form.Item name="facebook" label="Facebook">
-                      <Input
-                        placeholder="http://"
-                        value={value.facebook}
-                        onChange={(e) => setFacebook(e.target.value)}
-                      />
-                    </Form.Item>
-                    <Form.Item name="twitter" label="Twitter">
-                      <Input
-                        placeholder="http://"
-                        value={value.twitter}
-                        onChange={(e) => setTwitter(e.target.value)}
-                      />
-                    </Form.Item>
-                    <Form.Item name="instagram" label="Instagram">
-                      <Input
-                        placeholder="http://"
-                        value={value.instagram}
-                        onChange={(e) => setInstagram(e.target.value)}
-                      />
-                    </Form.Item>
-                    <Form.Item name="gitlab" label="Gitlab">
-                      <Input
-                        placeholder="http://"
-                        value={value.gitlab}
-                        onChange={(e) => setGitlab(e.target.value)}
-                      />
-                    </Form.Item>
-                    <Form.Item name="github" label="Github">
-                      <Input
-                        placeholder="http://"
-                        value={value.github}
-                        onChange={(e) => setGithub(e.target.value)}
-                      />
-                    </Form.Item>
-                  </div>
-                )
-              })}
+              <Form.Item name="facebook" label="Facebook">
+                <Input
+                  placeholder="http://"
+                  value={facebook}
+                  onChange={() => setFacebook(facebook)}
+                />
+              </Form.Item>
+              <Form.Item name="twitter" label="Twitter">
+                <Input placeholder="http://" value={twitter} onChange={() => setTwitter(twitter)} />
+              </Form.Item>
+              <Form.Item name="instagram" label="Instagram">
+                <Input
+                  placeholder="http://"
+                  value={instagram}
+                  onChange={() => setInstagram(instagram)}
+                />
+              </Form.Item>
+              <Form.Item name="gitlab" label="Gitlab">
+                <Input placeholder="http://" value={gitlab} onChange={() => setGitlab(gitlab)} />
+              </Form.Item>
+              <Form.Item name="github" label="Github">
+                <Input placeholder="http://" value={github} onChange={() => setGithub(github)} />
+              </Form.Item>
 
               <Divider />
               <Form.Item className="text-center">
@@ -175,6 +137,13 @@ function ProfileEditor() {
           </Card>
           <Card>
             <Text className="text-lg font-bold">Skill(s)</Text>
+            <ReactTagInput
+              tags={skills}
+              editable={true}
+              readOnly={false}
+              removeOnBackspace={true}
+              onChange={(newTags: any) => setSkills(newTags)}
+            />
           </Card>
         </Col>
       </Row>
