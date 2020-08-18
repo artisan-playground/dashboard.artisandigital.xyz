@@ -18,9 +18,12 @@ function TaskCard({ data, project }: any) {
     setTaskData(data)
   }, [data])
 
-  function toggleModal(event: any) {
-    // event.stopPropagation()
-    setModalVisible(!modalVisible)
+  function toggleModal() {
+    setModalVisible(false)
+  }
+
+  function openModal() {
+    setModalVisible(true)
   }
 
   function onDoneClick(event: any) {
@@ -35,11 +38,13 @@ function TaskCard({ data, project }: any) {
       <Skeleton />
     </Card>
   ) : (
-    <Card
-      className="w-full rounded-lg shadow-md px-2 py-1 mb-4 cursor-pointer"
-      onClick={toggleModal}
-    >
-      <TaskOverlay visible={modalVisible} data={taskData} project={project} />
+    <Card className="w-full rounded-lg shadow-md px-2 py-1 mb-4 cursor-pointer" onClick={openModal}>
+      <TaskOverlay
+        onCloseModal={toggleModal}
+        visible={modalVisible}
+        data={taskData}
+        project={project}
+      />
       <Row gutter={[8, 16]}>
         <div className="flex flex-col col-12 items-start justify-center">
           <div className="flex flex-row items-center">
