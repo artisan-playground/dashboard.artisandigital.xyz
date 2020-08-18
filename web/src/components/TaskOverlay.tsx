@@ -14,6 +14,8 @@ import {
 } from '@ant-design/icons'
 import { Avatar, Button, Col, Input, Modal, Row, Skeleton, Tooltip, Typography, Upload } from 'antd'
 import React, { useEffect, useState } from 'react'
+//@ts-ignore
+import ItemsCarousel from 'react-items-carousel'
 import { Link } from 'react-router-dom'
 import { Comment, Task } from '../typings'
 
