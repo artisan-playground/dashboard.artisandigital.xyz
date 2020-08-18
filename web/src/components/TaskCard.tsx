@@ -4,21 +4,42 @@ import {
   CommentOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
-import { Avatar, Card, Col, Row, Tooltip, Typography } from 'antd'
-import React, { useState } from 'react'
+import { Avatar, Button, Card, Col, Row, Skeleton, Tooltip, Typography } from 'antd'
+import React, { useEffect, useState } from 'react'
 import TaskOverlay from './TaskOverlay'
 
 function TaskCard({ data, project }: any) {
   const { Text } = Typography
 
   const [modalVisible, setModalVisible] = useState(false)
+  const [taskData, setTaskData]: any = useState({})
 
-  function toggleModal() {
+  useEffect(() => {
+    setTaskData(data)
+  }, [data])
+
+  function toggleModal(event: any) {
+    // event.stopPropagation()
     setModalVisible(!modalVisible)
   }
-  return (
-    <Card className="w-full rounded-lg shadow-md px-2 py-1 mb-4" onClick={() => toggleModal()}>
-      <TaskOverlay visible={modalVisible} data={data} project={project} />
+
+  function onDoneClick(event: any) {
+    event.stopPropagation()
+
+    let tempData = { ...taskData }
+    setTaskData({ ...tempData, isDone: !tempData.isDone })
+  }
+
+  return !taskData && !data ? (
+    <Card>
+      <Skeleton />
+    </Card>
+  ) : (
+    <Card
+      className="w-full rounded-lg shadow-md px-2 py-1 mb-4 cursor-pointer"
+      onClick={toggleModal}
+    >
+      <TaskOverlay visible={modalVisible} data={taskData} project={project} />
       <Row gutter={[8, 16]}>
         <div className="flex flex-col col-12 items-start justify-center">
           <div className="flex flex-row items-center">
@@ -35,7 +56,7 @@ function TaskCard({ data, project }: any) {
             )}
           </div>
           <div className="flex flex-row">
-            <Text disabled>{data.time.toLocaleTimeString()}</Text>
+            <Text disabled>{data.time.toLocaleTimeString() || '...'}</Text>
           </div>
         </div>
 
@@ -51,18 +72,34 @@ function TaskCard({ data, project }: any) {
               >
                 {data.team.map((item: any) => {
                   return (
-                    <Avatar key={item.id} src={item.image} alt={item.name}>
-                      <Tooltip title={item.src}></Tooltip>
-                    </Avatar>
+                    <Tooltip title={item.name} placement="top">
+                      <Avatar key={item.id} src={item.image} alt={item.name}></Avatar>
+                    </Tooltip>
                   )
                 })}
               </Avatar.Group>
             </Col>
-            <Col className="flex items-center justify-end">
-              {data.isDone ? (
-                <CheckSquareOutlined style={{ fontSize: 24 }} />
+            <Col className="absolute bottom-0 right-0 flex items-center justify-end">
+              {taskData.isDone ? (
+                <Button
+                  className="flex items-center justify-center"
+                  type="text"
+                  shape="circle"
+                  size="large"
+                  onClick={onDoneClick}
+                >
+                  <CheckSquareOutlined style={{ fontSize: 24 }} />
+                </Button>
               ) : (
-                <BorderOutlined style={{ fontSize: 24 }} />
+                <Button
+                  className="flex items-center justify-center"
+                  type="text"
+                  shape="circle"
+                  size="large"
+                  onClick={onDoneClick}
+                >
+                  <BorderOutlined style={{ fontSize: 24 }} />
+                </Button>
               )}
             </Col>
           </Row>
