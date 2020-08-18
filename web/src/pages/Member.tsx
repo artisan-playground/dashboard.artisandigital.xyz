@@ -8,7 +8,11 @@ function Member() {
   const columns = [
     {
       dataIndex: 'image',
-      render: (image: any) => <Avatar src={image} />,
+      render: (image: any) => (
+        <div className="-mr-64">
+          <Avatar src={image} />
+        </div>
+      ),
     },
     {
       title: 'Name',
@@ -41,35 +45,35 @@ function Member() {
       key: '1',
       image: 'https://source.unsplash.com/600x600/?people',
       name: 'John Brown',
-      position: 'Developer',
+      position: 'Frontend Developer',
       project: 2,
     },
     {
       key: '2',
       image: 'https://source.unsplash.com/600x600/?people',
       name: 'Jim Green',
-      position: 'Developer',
+      position: 'Designer',
       project: 1,
     },
     {
       key: '3',
       image: 'https://source.unsplash.com/600x600/?people',
       name: 'Joe Black',
-      position: 'Developer',
+      position: 'Backend Developer',
       project: 3,
     },
     {
       key: '4',
       image: 'https://source.unsplash.com/600x600/?people',
       name: 'Jim Red',
-      position: 'Developer',
+      position: 'Business Analysis',
       project: 5,
     },
     {
       key: '5',
       image: 'https://source.unsplash.com/600x600/?people',
       name: 'John Doe',
-      position: 'Developer',
+      position: 'Full Stack Developer',
       project: 4,
     },
   ]
