@@ -124,11 +124,11 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             <PaperClipOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Clipboard</Text>
           </Row>
-          <Row className="py-2 px-2 overflow-y-scroll flex w-full">
+          <Row className="py-2 px-2 overflow-y-auto flex w-full">
             {taskData.files.length !== 0 ? (
               taskData.files.map((item: any) => {
                 return (
-                  <div className="w-32 h-32 bg-gray-200 ml-1 mb-1 flex justify-center items-center col-4">
+                  <div className="w-24 h-24 bg-gray-200 ml-2 mb-2 mr-1 flex justify-center items-center col-4">
                     <PaperClipOutlined style={{ color: '#444' }} />
                   </div>
                 )
@@ -153,16 +153,16 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
               <Upload
                 name="avatar"
                 listType="picture-card"
-                className="avatar-uploader w-32 h-32 ml-1 mb-1 flex flex-row bg-gray-400 "
-                showUploadList={false}
+                className="avatar-uploader w-full h-32 ml-1/8 mb-1 flex flex-row p-0"
+                showUploadList={true}
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 beforeUpload={beforeUpload}
                 onChange={handleChange}
               >
                 {imageUrl ? (
-                  <img src={imageUrl} alt="avatar" className="w-32 h-32 mx-1 my-1" />
+                  <img src={imageUrl} alt="avatar" className="w-20 h-20 m-auto p-0" />
                 ) : (
-                  <div className="w-24 h-24 mx-2 my-2 flex flex-row justify-center items-center col-4">
+                  <div className="w-20 h-20 mx-auto my-auto flex flex-row justify-center items-center p-0">
                     {loading ? <LoadingOutlined /> : <PlusOutlined />}
                     <div className="ant-upload-text">Upload</div>
                   </div>
@@ -208,7 +208,7 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             <TeamOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Team</Text>
           </Row>
-          <Row className="ml-2 mb-4 overflow-y-scroll">
+          <Row className="ml-2 mb-4 overflow-y-auto h-56">
             {taskData.team.map((items: any) => {
               return (
                 <Link
