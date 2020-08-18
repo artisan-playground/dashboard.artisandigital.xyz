@@ -258,6 +258,22 @@ export const TASK_DATA: any[] = [
         id: '5',
         file: '',
       },
+      {
+        id: '2',
+        file: '',
+      },
+      {
+        id: '3',
+        file: '',
+      },
+      {
+        id: '4',
+        file: '',
+      },
+      {
+        id: '5',
+        file: '',
+      },
     ],
     comments: [
       {
