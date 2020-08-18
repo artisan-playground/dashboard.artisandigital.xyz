@@ -242,6 +242,22 @@ export const TASK_DATA: any[] = [
         id: '1',
         file: '',
       },
+      {
+        id: '2',
+        file: '',
+      },
+      {
+        id: '3',
+        file: '',
+      },
+      {
+        id: '4',
+        file: '',
+      },
+      {
+        id: '5',
+        file: '',
+      },
     ],
     comments: [
       {
@@ -258,6 +274,34 @@ export const TASK_DATA: any[] = [
         userName: 'Thomas train',
         message: 'OK, lets go dude',
       },
+      {
+        id: '3',
+        timestamp: new Date(),
+        userId: '12',
+        userName: 'Salmon train',
+        message: 'OK, lets go dude',
+      },
+      {
+        id: '4',
+        timestamp: new Date(),
+        userId: '22',
+        userName: 'Sashimi eiei',
+        message: 'OK, lets go dude',
+      },
+      {
+        id: '5',
+        timestamp: new Date(),
+        userId: '32',
+        userName: 'Doble black',
+        message: 'OK, lets go dude',
+      },
+      {
+        id: '6',
+        timestamp: new Date(),
+        userId: '33',
+        userName: 'Daisy Doaas',
+        message: 'OK, lets go dude',
+      },
     ],
   },
   {
@@ -272,6 +316,46 @@ export const TASK_DATA: any[] = [
         id: '9',
         name: 'Jukii Doe',
         image: 'https://source.unsplash.com/607x600/?people',
+      },
+      {
+        id: '90',
+        name: 'Dasisy Dsaoe',
+        image: 'https://source.unsplash.com/607x609/?people',
+      },
+      {
+        id: '21',
+        name: 'Arossma krif',
+        image: 'https://source.unsplash.com/607x599/?people',
+      },
+      {
+        id: '31',
+        name: 'Korn lek',
+        image: 'https://source.unsplash.com/599x599/?people',
+      },
+      {
+        id: '234',
+        name: 'Killua',
+        image: 'https://source.unsplash.com/598x599/?people',
+      },
+      {
+        id: '23w4',
+        name: 'Giant',
+        image: 'https://source.unsplash.com/598x598/?people',
+      },
+      {
+        id: '2384',
+        name: 'Nobita',
+        image: 'https://source.unsplash.com/597x598/?people',
+      },
+      {
+        id: '22w4',
+        name: 'Doraemon',
+        image: 'https://source.unsplash.com/598x597/?people',
+      },
+      {
+        id: '23w43',
+        name: 'Tsuneo',
+        image: 'https://source.unsplash.com/596x598/?people',
       },
     ],
     files: [],

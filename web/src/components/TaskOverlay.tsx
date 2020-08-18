@@ -5,22 +5,25 @@ import {
   CloseCircleOutlined,
   CommentOutlined,
   FundProjectionScreenOutlined,
+  InboxOutlined,
+  LoadingOutlined,
   PaperClipOutlined,
+  PlusOutlined,
   TeamOutlined,
 } from '@ant-design/icons'
-import { Button, Col, Modal, Row, Skeleton, Typography } from 'antd'
+import { Button, Col, Modal, Row, Skeleton, Typography, Upload } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
+import Dragger from 'antd/lib/upload/Dragger'
 import React, { useEffect, useState } from 'react'
-//@ts-ignore
-import ItemsCarousel from 'react-items-carousel'
 import { Link } from 'react-router-dom'
 
 function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   const { Text } = Typography
 
   const [taskData, setTaskData]: any = useState({})
-  const [activeItemIndex, setActiveItemIndex] = useState(0)
   const [modalVisible, setModalVisible] = useState(false)
+  const [imageUrl, setImageUrl] = useState()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setTaskData(data)
@@ -31,7 +34,7 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   }, [visible])
 
   function onDoneClick() {
-    let tempData = { ...data }
+    let tempData = { ...taskData }
     setTaskData({ ...tempData, isDone: !tempData.isDone })
   }
 
@@ -39,6 +42,54 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
     event.stopPropagation()
     setModalVisible(false)
     onCloseModal()
+  }
+  function getBase64(img: any, callback: any) {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => callback(reader.result))
+    reader.readAsDataURL(img)
+  }
+
+  function beforeUpload(file: any) {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      alert('You can only upload JPG/PNG file!')
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+      alert('Image must smaller than 2MB!')
+    }
+    return isJpgOrPng && isLt2M
+  }
+
+  const handleChange = (info: any) => {
+    if (info.file.status === 'uploading') {
+      setLoading(true)
+      return
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl: any) => {
+        setImageUrl(imageUrl)
+        setLoading(false)
+      })
+    }
+  }
+
+  const props = {
+    name: 'file',
+    multiple: true,
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    onChange(info: any) {
+      let { status } = info.file
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList)
+      }
+      if (status === 'done') {
+        console.log(`${info.file.name} file uploaded successfully.`)
+      } else if (status === 'error') {
+        console.log(`${info.file.name} file upload failed.`)
+      }
+    },
   }
 
   return Object.keys(taskData).length === 0 ? (
@@ -67,31 +118,72 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
       <Row className="py-4">
         <Col span={24} lg={{ span: 18 }} className="pl-4 pr-4 pt-2 border-r-2">
           <Row>
-            <Text className="text-lg pl-2 mb-2">{taskData.taskDetail}</Text>
+            <Text className="text-lg pl-2 mb-8">{taskData.taskDetail}</Text>
           </Row>
           <Row className="items-center">
             <PaperClipOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Clipboard</Text>
           </Row>
-          <Row className="py-2 px-2">
-            <ItemsCarousel
-              requestToChangeActive={setActiveItemIndex}
-              activeItemIndex={activeItemIndex}
-              numberOfCards={4}
-              gutter={8}
-              leftChevron={<Button type="primary">{'<'}</Button>}
-              rightChevron={<Button type="primary">{'>'}</Button>}
-              chevronWidth={24}
-            >
-              <div style={{ height: 180, background: '#EEE', width: 180 }}>First card</div>
-              <div style={{ height: 180, background: '#EEE', width: 180 }}>Second card</div>
-              <div style={{ height: 180, background: '#EEE', width: 180 }}>Third card</div>
-              <div style={{ height: 180, background: '#EEE', width: 180 }}>Fourth card</div>
-            </ItemsCarousel>
+          <Row className="py-2 px-2 overflow-y-scroll flex w-full">
+            {taskData.files.length !== 0 ? (
+              taskData.files.map((item: any) => {
+                return (
+                  <div className="w-32 h-32 bg-gray-200 ml-1 mb-1 flex justify-center items-center col-4">
+                    <PaperClipOutlined style={{ color: '#444' }} />
+                  </div>
+                )
+              })
+            ) : (
+              <div className="flex w-full h-56 justify-center p-4 mb-4">
+                <Dragger {...props} className="w-full h-56">
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                  </p>
+                  <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                  <p className="ant-upload-hint">
+                    Support for a single or bulk upload. Strictly prohibit from uploading company
+                    data or other band files
+                  </p>
+                </Dragger>
+              </div>
+            )}
+            {taskData.files.length === 0 ? (
+              <div />
+            ) : (
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader w-32 h-32 ml-1 mb-1 flex flex-row bg-gray-400 "
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={beforeUpload}
+                onChange={handleChange}
+              >
+                {imageUrl ? (
+                  <img src={imageUrl} alt="avatar" className="w-32 h-32 mx-1 my-1" />
+                ) : (
+                  <div className="w-24 h-24 mx-2 my-2 flex flex-row justify-center items-center col-4">
+                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                    <div className="ant-upload-text">Upload</div>
+                  </div>
+                )}
+              </Upload>
+            )}
           </Row>
           <Row className="items-center">
             <CommentOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Comment</Text>
+          </Row>
+          <Row className="py-2 px-2">
+            {taskData.comments.length !== 0 ? (
+              taskData.comments.map((item: any) => {
+                return <div className="w-40 h-40 bg-gray-500 ml-1 mb-1">{item.id}</div>
+              })
+            ) : (
+              <div className="flex justify-center items-center p-8 w-full">
+                <Text disabled>No comment</Text>
+              </div>
+            )}
           </Row>
         </Col>
         <Col span={24} lg={{ span: 6 }} className="pl-4">
@@ -116,7 +208,7 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             <TeamOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Team</Text>
           </Row>
-          <Row className="ml-2 overflow-y-scroll">
+          <Row className="ml-2 mb-4 overflow-y-scroll">
             {taskData.team.map((items: any) => {
               return (
                 <Link
