@@ -292,6 +292,24 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
               {taskData.isDone ? 'Mark as Undone' : 'Mark as Done'}
             </Button>
           </Row>
+          <Row className="justify-center">
+            <Button
+              className="flex items-center p-4 m-4"
+              type="primary"
+              danger={taskData.isDone ? true : false}
+              icon={
+                taskData.isDone ? (
+                  <BorderOutlined style={{ fontSize: 16 }} />
+                ) : (
+                  <CheckSquareOutlined style={{ fontSize: 16 }} />
+                )
+              }
+              shape="round"
+              onClick={onDoneClick}
+            >
+              {taskData.isDone ? 'Mark as Undone' : 'Mark as Done'}
+            </Button>
+          </Row>
         </Col>
       </Row>
     </Modal>
