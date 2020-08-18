@@ -70,7 +70,7 @@ function TaskCard({ data, project }: any) {
         </Col>
         <Col span={24}>
           <Row className="justify-between">
-            <Col>
+            <Col className=" min-h-full overflow-y-scroll overflow-x-auto">
               <Avatar.Group
                 maxCount={2}
                 maxStyle={{ color: '#fff', backgroundColor: '#222', filter: 'brightness(0.6)' }}
