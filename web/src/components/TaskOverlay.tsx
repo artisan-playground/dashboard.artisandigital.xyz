@@ -12,21 +12,23 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { Button, Col, Input, Modal, Row, Skeleton, Tooltip, Typography, Upload } from 'antd'
-import Avatar from 'antd/lib/avatar/avatar'
+import { Avatar, Button, Col, Input, Modal, Row, Skeleton, Tooltip, Typography, Upload } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Comment, Task } from '../typings'
 
 function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   const { Text } = Typography
 
-  const [taskData, setTaskData]: any = useState({})
+  const [taskData, setTaskData] = useState<Task | null>(null)
   const [modalVisible, setModalVisible] = useState(false)
   const [imageUrl, setImageUrl] = useState()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
   console.log('imageUrl', imageUrl)
+  console.log('taskData', taskData)
+  console.log('data', data)
 
   useEffect(() => {
     setTaskData(data)
@@ -37,8 +39,16 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   }, [visible])
 
   function onDoneClick() {
-    let tempData = { ...taskData }
-    setTaskData({ ...tempData, isDone: !tempData.isDone })
+    const tempData: Task = taskData
+      ? {
+          ...taskData,
+          isDone: !taskData.isDone,
+        }
+      : {
+          ...data,
+          isDone: !data.isDone,
+        }
+    setTaskData(tempData)
   }
 
   function onCancleClick(event: any) {
@@ -53,18 +63,18 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   }
 
   function beforeUpload(file: any) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-      alert('You can only upload JPG/PNG file!')
+    const isValid = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isValid) {
+      alert('You upload invalid file!')
     }
     const isLt2M = file.size / 1024 / 1024 < 2
     if (!isLt2M) {
       alert('Image must smaller than 2MB!')
     }
-    return isJpgOrPng && isLt2M
+    return isValid && isLt2M
   }
 
-  const handleChange = (info: any) => {
+  function handleChange(info: any) {
     if (info.file.status === 'uploading') {
       setLoading(true)
       return
@@ -79,8 +89,8 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   }
 
   function handleSubmit() {
-    let commentId = taskData.comments.length
-    let tempComment = {
+    let commentId = data.comments.length
+    let commentsTemp: Comment = {
       id: (commentId + 1).toString(),
       timestamp: new Date(),
       userId: '33',
@@ -89,12 +99,16 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
       userName: 'John Doe',
       message,
     }
-    let tempData = { ...taskData, comments: [...taskData.comments, tempComment] }
+
+    const tempData: Task = taskData
+      ? { ...taskData, comments: [...taskData.comments!, commentsTemp] }
+      : { ...data }
+
     setTaskData(tempData)
     setMessage('')
   }
 
-  return Object.keys(taskData).length === 0 ? (
+  return !taskData ? (
     <Modal visible={modalVisible}>
       <Skeleton />
     </Modal>
@@ -127,7 +141,7 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             <Text className="text-lg font-bold">Clipboard</Text>
           </Row>
           <Row className="py-2 px-2 overflow-y-auto flex w-full">
-            {taskData.files.length !== 0 ? (
+            {taskData.files ? (
               taskData.files.map((item: any) => {
                 return (
                   <Tooltip title={item.id}>
@@ -167,7 +181,7 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             <Text className="text-lg font-bold">Comment</Text>
           </Row>
           <Row className="py-2 px-2">
-            {taskData.comments.length !== 0 ? (
+            {taskData.comments ? (
               taskData.comments.map((item: any) => {
                 return (
                   <div className="w-full ml-1 mb-2">
@@ -248,20 +262,24 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             <Text className="text-lg font-bold">Team</Text>
           </Row>
           <Row className="ml-2 mb-4 overflow-y-auto h-56">
-            {taskData.team.map((items: any) => {
-              return (
-                <Link
-                  className="w-full"
-                  key={items.id}
-                  to={{ pathname: '/profile', state: { profileId: items.id } }}
-                >
-                  <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                    <Avatar key={items.id} src={items.image} alt={items.name} />
-                    <div className="ml-4 text-lg">{items.name}</div>
-                  </div>
-                </Link>
-              )
-            })}
+            {taskData.team ? (
+              taskData.team.map((items: any) => {
+                return (
+                  <Link
+                    className="w-full"
+                    key={items.id}
+                    to={{ pathname: '/profile', state: { profileId: items.id } }}
+                  >
+                    <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
+                      <Avatar key={items.id} src={items.image} alt={items.name} />
+                      <div className="ml-4 text-lg">{items.name}</div>
+                    </div>
+                  </Link>
+                )
+              })
+            ) : (
+              <div />
+            )}
           </Row>
           <Row className="justify-center">
             <Button
