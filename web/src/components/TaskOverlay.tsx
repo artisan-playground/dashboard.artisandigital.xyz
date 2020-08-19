@@ -5,7 +5,6 @@ import {
   CloseCircleOutlined,
   CommentOutlined,
   FundProjectionScreenOutlined,
-  InboxOutlined,
   LoadingOutlined,
   PaperClipOutlined,
   PlusOutlined,
@@ -13,9 +12,8 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { Button, Col, Input, Modal, Row, Skeleton, Typography, Upload } from 'antd'
+import { Button, Col, Input, Modal, Row, Skeleton, Tooltip, Typography, Upload } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
-import Dragger from 'antd/lib/upload/Dragger'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -26,6 +24,9 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   const [modalVisible, setModalVisible] = useState(false)
   const [imageUrl, setImageUrl] = useState()
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+
+  console.log('imageUrl', imageUrl)
 
   useEffect(() => {
     setTaskData(data)
@@ -77,21 +78,20 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
     }
   }
 
-  const props = {
-    name: 'file',
-    multiple: true,
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    onChange(info: any) {
-      let { status } = info.file
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList)
-      }
-      if (status === 'done') {
-        console.log(`${info.file.name} file uploaded successfully.`)
-      } else if (status === 'error') {
-        console.log(`${info.file.name} file upload failed.`)
-      }
-    },
+  function handleSubmit() {
+    let commentId = taskData.comments.length
+    let tempComment = {
+      id: (commentId + 1).toString(),
+      timestamp: new Date(),
+      userId: '33',
+      image: '',
+      userImg: 'https://source.unsplash.com/600x600/?cat',
+      userName: 'John Doe',
+      message,
+    }
+    let tempData = { ...taskData, comments: [...taskData.comments, tempComment] }
+    setTaskData(tempData)
+    setMessage('')
   }
 
   return Object.keys(taskData).length === 0 ? (
@@ -130,47 +130,37 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             {taskData.files.length !== 0 ? (
               taskData.files.map((item: any) => {
                 return (
-                  <div className="w-24 h-24 bg-gray-200 ml-2 mb-2 mr-1 flex justify-center items-center col-4">
-                    <PaperClipOutlined style={{ color: '#444' }} />
-                  </div>
+                  <Tooltip title={item.id}>
+                    <div className="w-24 h-24 bg-gray-200 ml-2 mb-2 mr-1 flex justify-center items-center col-4">
+                      {item.file ? (
+                        <img src={item.file} alt={item.file} className="w-full h-full p-0" />
+                      ) : (
+                        <PaperClipOutlined style={{ color: '#444' }} />
+                      )}
+                    </div>
+                  </Tooltip>
                 )
               })
             ) : (
-              <div className="flex w-full h-56 justify-center p-4 mb-4">
-                <Dragger {...props} className="w-full h-56">
-                  <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
-                  </p>
-                  <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                  <p className="ant-upload-hint">
-                    Support for a single or bulk upload. Strictly prohibit from uploading company
-                    data or other band files
-                  </p>
-                </Dragger>
+              <div className="flex w-full justify-center p-4 mb-4">
+                <Text disabled>No file</Text>
               </div>
             )}
-            {taskData.files.length === 0 ? (
-              <div />
-            ) : (
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader w-full h-32 ml-1/8 mb-1 flex flex-row p-0"
-                showUploadList={true}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-              >
-                {imageUrl ? (
-                  <img src={imageUrl} alt="avatar" className="w-20 h-20 m-auto p-0" />
-                ) : (
-                  <div className="w-20 h-20 mx-auto my-auto flex flex-row justify-center items-center p-0">
-                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                    <div className="ant-upload-text">Upload</div>
-                  </div>
-                )}
-              </Upload>
-            )}
+
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader w-full h-32 ml-1/8 mb-1 flex flex-row p-0"
+              showUploadList={true}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              <div className="w-20 h-20 mx-auto my-auto flex flex-row justify-center items-center p-0">
+                {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                <div className="ant-upload-text">Upload</div>
+              </div>
+            </Upload>
           </Row>
           <Row className="items-center">
             <CommentOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
@@ -182,10 +172,14 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
                 return (
                   <div className="w-full ml-1 mb-2">
                     <Row>
-                      <Col span={2} className="flex justify-center items-center">
+                      <Col
+                        span={4}
+                        lg={{ span: 2 }}
+                        className="flex justify-center items-center mr-2"
+                      >
                         <Avatar size="large" src={item.userImg} />
                       </Col>
-                      <Col span={22}>
+                      <Col span={18} lg={{ span: 20 }}>
                         <div className="w-full py-2 px-4 mx-0 bg-white shadow-lg rounded-lg">
                           <Text className="font-bold text-lg mr-2">{item.userName}</Text>
                           <Text disabled>
@@ -207,18 +201,28 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
                 <Text disabled>No comment</Text>
               </div>
             )}
-            <Input
-              className="rounded-lg"
-              placeholder="Say something"
-              prefix={
-                <Avatar
-                  className="flex justify-center items-center"
-                  size="small"
-                  icon={<UserOutlined className="mx-2" />}
-                />
-              }
-              suffix={<SendOutlined />}
-            />
+            <div className="flex flex-row w-full h-24 items-center">
+              <Avatar
+                className="flex justify-center items-center mr-4 mt-2"
+                size="large"
+                icon={<UserOutlined />}
+              />
+              <Input
+                className="rounded-lg mt-4"
+                placeholder="Say something"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                suffix={
+                  <Button
+                    className="flex justify-center items-center hover:bg-primary hover:text-white rounded-lg"
+                    type="text"
+                  >
+                    <SendOutlined className="" onClick={handleSubmit} />
+                  </Button>
+                }
+                onPressEnter={handleSubmit}
+              />
+            </div>
           </Row>
         </Col>
         <Col span={24} lg={{ span: 6 }} className="pl-4">
