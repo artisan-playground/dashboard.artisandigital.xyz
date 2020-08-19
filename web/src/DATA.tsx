@@ -260,15 +260,15 @@ export const TASK_DATA: any[] = [
       },
       {
         id: '2',
-        file: '',
+        file: 'https://source.unsplash.com/601x601/?website',
       },
       {
         id: '3',
-        file: '',
+        file: 'https://source.unsplash.com/601x602/?website',
       },
       {
         id: '4',
-        file: '',
+        file: 'https://source.unsplash.com/602x601/?design',
       },
       {
         id: '5',
