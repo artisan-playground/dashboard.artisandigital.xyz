@@ -240,19 +240,19 @@ export const TASK_DATA: any[] = [
     files: [
       {
         id: '1',
-        file: '',
+        file: 'https://source.unsplash.com/607x601/?website',
       },
       {
         id: '2',
-        file: '',
+        file: 'https://source.unsplash.com/601x601/?website',
       },
       {
         id: '3',
-        file: '',
+        file: 'https://source.unsplash.com/601x602/?website',
       },
       {
         id: '4',
-        file: '',
+        file: 'https://source.unsplash.com/602x601/?design',
       },
       {
         id: '5',
@@ -262,7 +262,7 @@ export const TASK_DATA: any[] = [
     comments: [
       {
         id: '1',
-        timestamp: new Date(),
+        timestamp: new Date('August 17, 2020 08:00:00'),
         userId: '1',
         image: '',
         userImg: 'https://source.unsplash.com/607x601/?people',
@@ -271,7 +271,7 @@ export const TASK_DATA: any[] = [
       },
       {
         id: '2',
-        timestamp: new Date(),
+        timestamp: new Date('August 17, 2020 08:30:00'),
         userId: '1',
         image: '',
         userImg: 'https://source.unsplash.com/608x601/?people',
@@ -280,7 +280,7 @@ export const TASK_DATA: any[] = [
       },
       {
         id: '3',
-        timestamp: new Date(),
+        timestamp: new Date('August 17, 2020 09:00:00'),
         userId: '12',
         image: '',
         userImg: 'https://source.unsplash.com/607x599/?people',
@@ -289,7 +289,7 @@ export const TASK_DATA: any[] = [
       },
       {
         id: '4',
-        timestamp: new Date(),
+        timestamp: new Date('August 17, 2020 09:45:00'),
         userId: '22',
         image: '',
         userImg: 'https://source.unsplash.com/607x598/?people',
@@ -298,7 +298,7 @@ export const TASK_DATA: any[] = [
       },
       {
         id: '5',
-        timestamp: new Date(),
+        timestamp: new Date('August 17, 2020 10:00:00'),
         userId: '32',
         image: '',
         userImg: 'https://source.unsplash.com/607x602/?people',
@@ -307,7 +307,7 @@ export const TASK_DATA: any[] = [
       },
       {
         id: '6',
-        timestamp: new Date(),
+        timestamp: new Date('August 17, 2020 10:21:00'),
         userId: '33',
         image: '',
         userImg: 'https://source.unsplash.com/609x601/?people',
