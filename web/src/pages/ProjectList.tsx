@@ -43,7 +43,7 @@ function ProjectList() {
       setTypes('all')
       setLoading(false)
     } else {
-      let kw: any[] = DATA.filter((item) => {
+      const kw: any[] = DATA.filter((item) => {
         if (types === 'all') {
           return item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
         } else {
