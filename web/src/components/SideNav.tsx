@@ -9,14 +9,12 @@ import {
 } from '@ant-design/icons'
 import { Layout, Menu, Typography } from 'antd'
 import React, { useState } from 'react'
-import { NavLink, useLocation, useParams } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import '../styles/main.css'
 
 function SideNav({ children }: any) {
   const { Text } = Typography
-  const { SubMenu } = Menu
   const { Sider } = Layout
-  const { projectId } = useParams()
   const location = useLocation()
   const [collapse, setcollapse] = useState(false)
 
@@ -50,17 +48,9 @@ function SideNav({ children }: any) {
             <Menu.Item key="/" icon={<ProfileOutlined />}>
               <NavLink to="/">Dashboard</NavLink>
             </Menu.Item>
-            <SubMenu key={`/projects/${projectId}`} icon={<ProjectOutlined />} title="Project">
-              <Menu.Item key="/projects">
-                <NavLink to="/projects">All</NavLink>
-              </Menu.Item>
-              <Menu.Item key="/projects?types=wip">
-                <NavLink to="/projects?types=wip">WIP</NavLink>
-              </Menu.Item>
-              <Menu.Item key="/projects?types=closed">
-                <NavLink to="/projects?types=closed">Closed</NavLink>
-              </Menu.Item>
-            </SubMenu>
+            <Menu.Item key="/projects" icon={<ProjectOutlined />}>
+              <NavLink to="/projects">Projects</NavLink>
+            </Menu.Item>
             <Menu.Item key="/news" icon={<NotificationOutlined />}>
               <NavLink to="/news">News</NavLink>
             </Menu.Item>
