@@ -55,25 +55,54 @@ function ProjectList() {
     }
     setLoading(false)
   }
+  function handleTypeChange(e: any) {
+    setTypes(e.target.value)
+  }
+
+  function handleKeywordChange(e: any) {
+    setLoading(true)
+    setKeyword(e.target.value)
+    if (e.target.value === '') {
+      setFilteredData(DATA)
+      setTypes('all')
+      setLoading(false)
+    } else {
+      let kw: any[] = DATA.filter((item) => {
+        if (types === 'all') {
+          return item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
+        } else {
+          return (
+            item.status === types &&
+            item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        }
+      })
+
+      setFilteredData(kw)
+      setLoading(false)
+    }
+    setLoading(false)
+  }
 
   useEffect(() => {
-    switch (getTypes()) {
-      case 'wip':
+    switch (types) {
+      case 'undone':
         let wip: any[] = DATA.filter((item) => item.status === 'undone')
         setFilteredData(wip)
         break
-      case 'closed':
+      case 'done':
         let closed: any[] = DATA.filter((item) => item.status === 'done')
         setFilteredData(closed)
         break
-      case '':
+      case 'all':
         setFilteredData(DATA)
         break
       default:
         setFilteredData(DATA)
         break
     }
-  }, [getTypes()]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [types]) // eslint-disable-line react-hooks/exhaustive-deps
+
 
   return (
     <LayoutDashboard>
