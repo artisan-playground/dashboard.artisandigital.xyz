@@ -1,49 +1,98 @@
-import { Col, Row } from 'antd'
+import { Col, Input, Radio, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 import { LayoutDashboard, ProjectCard } from '../components/DashboardComponent'
 import { DATA } from '../DATA'
 
 function ProjectList() {
-  const location = useLocation()
-  const [filteredData, setFilteredData] = useState<any[]>([])
+  const { Search } = Input
+  const { Text } = Typography
 
-  function getTypes() {
-    const params = new URLSearchParams(location.search)
-    return params.get('types') ? params.get('types') : ''
-  }
+  const [filteredData, setFilteredData] = useState<any[]>([])
+  const [types, setTypes] = useState('all')
+  const [keyword, setKeyword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    switch (getTypes()) {
-      case 'wip':
+    switch (types) {
+      case 'undone':
         let wip: any[] = DATA.filter((item) => item.status === 'undone')
         setFilteredData(wip)
         break
-      case 'closed':
+      case 'done':
         let closed: any[] = DATA.filter((item) => item.status === 'done')
         setFilteredData(closed)
         break
-      case '':
+      case 'all':
         setFilteredData(DATA)
         break
       default:
         setFilteredData(DATA)
         break
     }
-  }, [getTypes()]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [types]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  function handleTypeChange(e: any) {
+    setTypes(e.target.value)
+  }
+
+  function handleKeywordChange(e: any) {
+    setLoading(true)
+    setKeyword(e.target.value)
+    if (e.target.value === '') {
+      setFilteredData(DATA)
+      setTypes('all')
+      setLoading(false)
+    } else {
+      let kw: any[] = DATA.filter((item) => {
+        if (types === 'all') {
+          return item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
+        } else {
+          return (
+            item.status === types &&
+            item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        }
+      })
+
+      setFilteredData(kw)
+      setLoading(false)
+    }
+    setLoading(false)
+  }
 
   return (
     <LayoutDashboard>
-      <div className="font-bold text-2xl mb-4">Projects</div>
+      <Row className="justify-between">
+        <div className="font-bold text-2xl mb-4">Projects</div>
+        <Row className="justify-end">
+          <Search
+            placeholder="input search loading default"
+            value={keyword}
+            onChange={handleKeywordChange}
+            loading={loading}
+          />
+          <Radio.Group className="my-4" value={types} onChange={handleTypeChange}>
+            <Radio.Button value="all">All</Radio.Button>
+            <Radio.Button value="undone">WIP</Radio.Button>
+            <Radio.Button value="done">Closed</Radio.Button>
+          </Radio.Group>
+        </Row>
+      </Row>
       <div className="site-card-wrapper">
         <Row gutter={[8, 24]}>
-          {filteredData.map((items, index) => {
-            return (
-              <Col span={24} key={index}>
-                <ProjectCard data={items} />
-              </Col>
-            )
-          })}
+          {filteredData.length !== 0 ? (
+            filteredData.map((items, index) => {
+              return (
+                <Col span={24} key={index}>
+                  <ProjectCard data={items} />
+                </Col>
+              )
+            })
+          ) : (
+            <div className="flex w-full justify-center my-8">
+              <Text disabled>Not found</Text>
+            </div>
+          )}
         </Row>
       </div>
     </LayoutDashboard>
