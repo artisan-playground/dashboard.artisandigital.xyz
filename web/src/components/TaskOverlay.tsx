@@ -9,9 +9,11 @@ import {
   LoadingOutlined,
   PaperClipOutlined,
   PlusOutlined,
+  SendOutlined,
   TeamOutlined,
+  UserOutlined,
 } from '@ant-design/icons'
-import { Button, Col, Modal, Row, Skeleton, Typography, Upload } from 'antd'
+import { Button, Col, Input, Modal, Row, Skeleton, Typography, Upload } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import Dragger from 'antd/lib/upload/Dragger'
 import React, { useEffect, useState } from 'react'
@@ -177,13 +179,46 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
           <Row className="py-2 px-2">
             {taskData.comments.length !== 0 ? (
               taskData.comments.map((item: any) => {
-                return <div className="w-40 h-40 bg-gray-500 ml-1 mb-1">{item.id}</div>
+                return (
+                  <div className="w-full ml-1 mb-2">
+                    <Row>
+                      <Col span={2} className="flex justify-center items-center">
+                        <Avatar size="large" src={item.userImg} />
+                      </Col>
+                      <Col span={22}>
+                        <div className="w-full py-2 px-4 mx-0 bg-white shadow-lg rounded-lg">
+                          <Text className="font-bold text-lg mr-2">{item.userName}</Text>
+                          <Text disabled>
+                            {item.timestamp.toLocaleTimeString([], {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </Text>
+                          <br />
+                          <Text className="text-md">{item.message}</Text>
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
+                )
               })
             ) : (
               <div className="flex justify-center items-center p-8 w-full">
                 <Text disabled>No comment</Text>
               </div>
             )}
+            <Input
+              className="rounded-lg"
+              placeholder="Say something"
+              prefix={
+                <Avatar
+                  className="flex justify-center items-center"
+                  size="small"
+                  icon={<UserOutlined className="mx-2" />}
+                />
+              }
+              suffix={<SendOutlined />}
+            />
           </Row>
         </Col>
         <Col span={24} lg={{ span: 6 }} className="pl-4">
