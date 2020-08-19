@@ -1,8 +1,7 @@
+import { Table } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React from 'react'
 import { LayoutDashboard } from '../components/DashboardComponent'
-import MemberTable from '../components/MemberTable'
-import { Sorter } from '../utils/Sorter'
 
 function Member() {
   const columns = [
@@ -17,26 +16,17 @@ function Member() {
     {
       title: 'Name',
       dataIndex: 'name',
-      sorter: {
-        compare: Sorter.DEFAULT,
-        multiple: 3,
-      },
+      sorter: (a: any, b: any) => a.name.length - b.name.length,
     },
     {
       title: 'Job Position',
       dataIndex: 'position',
-      sorter: {
-        compare: Sorter.DEFAULT,
-        multiple: 2,
-      },
+      sorter: (a: any, b: any) => a.position.length - b.position.length,
     },
     {
       title: 'Project(s)',
       dataIndex: 'project',
-      sorter: {
-        compare: Sorter.DEFAULT,
-        multiple: 1,
-      },
+      sorter: (a: any, b: any) => a.project - b.project,
     },
   ]
 
@@ -80,7 +70,7 @@ function Member() {
 
   return (
     <LayoutDashboard>
-      <MemberTable columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: 10 }} />
     </LayoutDashboard>
   )
 }
