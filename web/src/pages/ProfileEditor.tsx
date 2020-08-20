@@ -1,139 +1,72 @@
-import { CameraOutlined } from '@ant-design/icons'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 // @ts-ignore
 import ReactTagInput from '@pathofdev/react-tag-input'
 import '@pathofdev/react-tag-input/build/index.css'
-import { Button, Card, Col, Divider, Form, Input, Row, Select, Typography } from 'antd'
-import Avatar from 'antd/lib/avatar/avatar'
+import { Card, Col, Row, Typography, Upload } from 'antd'
 import React, { useState } from 'react'
-import { LayoutDashboard } from '../components/DashboardComponent'
+import { LayoutDashboard, ProfileForm } from '../components/DashboardComponent'
+import { USER_DATA } from '../DATA'
 
 function ProfileEditor() {
   const { Text } = Typography
-  const [email, setEmail] = useState('test@mail.com')
-  const [firstname, setFirstname] = useState('John')
-  const [lastname, setLastname] = useState('Doe')
-  const [position, setPosition] = useState('Designers/Programmers')
   const [skills, setSkills] = useState(['HTML', 'JavaScript', 'React', 'Redux', 'UI', 'UX'])
-  const [facebook, setFacebook] = useState('http://localhost:3000/profile')
-  const [twitter, setTwitter] = useState('http://localhost:3000/profile')
-  const [instagram, setInstagram] = useState('http://localhost:3000/profile')
-  const [gitlab, setGitlab] = useState('http://localhost:3000/profile')
-  const [github, setGithub] = useState('http://localhost:3000/profile')
-  const { Option } = Select
+  const [imageUrl, setImageUrl] = useState()
+  const [loading, setLoading] = useState(false)
 
-  function handleChange() {
-    setPosition(position)
+  function getBase64(img: any, callback: any) {
+    const reader = new FileReader()
+    reader.addEventListener('load', () => callback(reader.result))
+    reader.readAsDataURL(img)
+  }
+
+  function beforeUpload(file: any) {
+    const isValid = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isValid) {
+      alert('You upload invalid file!')
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2
+    if (!isLt2M) {
+      alert('Image must smaller than 2MB!')
+    }
+    return isValid && isLt2M
+  }
+
+  function handleChange(info: any) {
+    if (info.file.status === 'uploading') {
+      setLoading(true)
+      return
+    }
+    if (info.file.status === 'done') {
+      getBase64(info.file.originFileObj, (imageUrl: any) => {
+        setImageUrl(imageUrl)
+        setLoading(false)
+      })
+    }
   }
 
   return (
     <LayoutDashboard>
       <Row>
-        <Col span={17} push={7}>
-          <Card title="Edit Profile" headStyle={{ fontWeight: 'bold' }}>
-            <Form name="normal_edit" className="edit-form" initialValues={{ remember: true }}>
-              <div className="flex items-center justify-between">
-                <Form.Item
-                  name="firstname"
-                  label="Firstname"
-                  className="mr-2 w-2/4"
-                  rules={[{ required: true, message: 'Please input your Firstname!' }]}
-                >
-                  <Input
-                    placeholder="Firstname..."
-                    value={firstname}
-                    onChange={() => setFirstname(firstname)}
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="lastname"
-                  label="Lastname"
-                  className="w-2/4"
-                  rules={[{ required: true, message: 'Please input your Lastname!' }]}
-                >
-                  <Input
-                    placeholder="Lastname..."
-                    value={lastname}
-                    onChange={() => setLastname(lastname)}
-                  />
-                </Form.Item>
-              </div>
-              <Form.Item
-                name="email"
-                label="Email"
-                rules={[
-                  {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!',
-                  },
-                  {
-                    required: true,
-                    message: 'Please input your E-mail!',
-                  },
-                ]}
-              >
-                <Input placeholder="Email..." value={email} onChange={() => setEmail(email)} />
-              </Form.Item>
-              <Form.Item label="Job Position">
-                <Select defaultValue={position} style={{ width: '50%' }} onChange={handleChange}>
-                  <Option value="Head of Development">Head of Development</Option>
-                  <Option value="Assistant">Assistant</Option>
-                  <Option value="Product/Project Manager">Product/Project Manager</Option>
-                  <Option value="Business Analysis Manager">Business Analysis Manager</Option>
-                  <Option value="Software Development Manager">Software Development Manager</Option>
-                  <Option value="Quality Analysis Manager">Quality Analysis Manager</Option>
-                  <Option value="Analysis">Analysis</Option>
-                  <Option value="Designers/Programmers">Designers/Programmers</Option>
-                  <Option value="Testers">Testers</Option>
-                </Select>
-              </Form.Item>
-              <Divider />
-              <Form.Item name="facebook" label="Facebook">
-                <Input
-                  placeholder="http://"
-                  value={facebook}
-                  onChange={() => setFacebook(facebook)}
-                />
-              </Form.Item>
-              <Form.Item name="twitter" label="Twitter">
-                <Input placeholder="http://" value={twitter} onChange={() => setTwitter(twitter)} />
-              </Form.Item>
-              <Form.Item name="instagram" label="Instagram">
-                <Input
-                  placeholder="http://"
-                  value={instagram}
-                  onChange={() => setInstagram(instagram)}
-                />
-              </Form.Item>
-              <Form.Item name="gitlab" label="Gitlab">
-                <Input placeholder="http://" value={gitlab} onChange={() => setGitlab(gitlab)} />
-              </Form.Item>
-              <Form.Item name="github" label="Github">
-                <Input placeholder="http://" value={github} onChange={() => setGithub(github)} />
-              </Form.Item>
-
-              <Divider />
-              <Form.Item className="text-center">
-                <Button type="primary" htmlType="submit" className="edit-form-button w-48">
-                  <Text strong className="text-white">
-                    Save Changes
-                  </Text>
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-        <Col span={6} pull={17}>
+        <Col xs={24} xl={6} className="mr-12 mb-4">
           <Card className="flex items-center justify-center text-center mb-4">
-            <Avatar
-              src="https://source.unsplash.com/600x600/?people"
-              alt="user"
-              size={125}
-              className="mb-8"
-            />
-            <Button type="primary" ghost icon={<CameraOutlined />}>
-              Upload an image
-            </Button>
-            <Button type="text">Remove an image</Button>
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              {imageUrl ? (
+                <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+              ) : (
+                <div>
+                  {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                  <div className="ant-upload-text">Upload</div>
+                </div>
+              )}
+            </Upload>
           </Card>
           <Card>
             <Text className="text-lg font-bold">Skill(s)</Text>
@@ -144,6 +77,14 @@ function ProfileEditor() {
               removeOnBackspace={true}
               onChange={(newTags: any) => setSkills(newTags)}
             />
+          </Card>
+        </Col>
+
+        <Col xs={24} xl={17}>
+          <Card title="Edit Profile" headStyle={{ fontWeight: 'bold' }}>
+            {USER_DATA.map((items, index) => (
+              <ProfileForm data={items} key={index} />
+            ))}
           </Card>
         </Col>
       </Row>
