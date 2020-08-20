@@ -53,16 +53,14 @@ function ProjectCard({ data }: any) {
   function renderAllMember(item: any) {
     return (
       <div>
-        {item.map((items: any) => {
-          return (
-            <Link key={items.id} to={{ pathname: '/profile', state: { profileId: items.id } }}>
-              <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                <Avatar key={items.id} src={items.image} className="ml-2" alt={items.name} />
-                <div className="ml-4 text-lg">{items.name}</div>
-              </div>
-            </Link>
-          )
-        })}
+        {item.map((items: any) => (
+          <Link key={items.id} to={{ pathname: '/profile', state: { profileId: items.id } }}>
+            <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
+              <Avatar key={items.id} src={items.image} className="ml-2" alt={items.name} />
+              <div className="ml-4 text-lg">{items.name}</div>
+            </div>
+          </Link>
+        ))}
       </div>
     )
   }

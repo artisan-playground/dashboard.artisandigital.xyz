@@ -75,13 +75,11 @@ function TaskCard({ data, project }: any) {
                 maxCount={2}
                 maxStyle={{ color: '#fff', backgroundColor: '#222', filter: 'brightness(0.6)' }}
               >
-                {data.team.map((item: any) => {
-                  return (
-                    <Tooltip title={item.name} placement="top">
-                      <Avatar key={item.id} src={item.image} alt={item.name}></Avatar>
-                    </Tooltip>
-                  )
-                })}
+                {data.team.map((item: any) => (
+                  <Tooltip title={item.name} placement="top">
+                    <Avatar key={item.id} src={item.image} alt={item.name}></Avatar>
+                  </Tooltip>
+                ))}
               </Avatar.Group>
             </Col>
             <Col className="absolute bottom-0 right-0 flex items-center justify-end">

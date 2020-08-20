@@ -124,9 +124,7 @@ function ProjectDetail(props: any) {
             <div className="py-8 px-4">
               <div className="font-bold text-2xl mb-4">Tasks</div>
               {filteredTasks.length !== 0 ? (
-                filteredTasks.map((item, key) => {
-                  return <TaskCard key={key} data={item} project={data} />
-                })
+                filteredTasks.map((item, key) => <TaskCard key={key} data={item} project={data} />)
               ) : (
                 <div className="flex justify-center items-center p-8">
                   <Text disabled>No task</Text>
