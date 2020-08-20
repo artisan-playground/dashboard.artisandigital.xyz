@@ -259,19 +259,23 @@ export const TASK_DATA: any[] = [
         file: '',
       },
       {
-        id: '2',
-        file: 'https://source.unsplash.com/601x601/?website',
+        id: '24',
+        file: 'https://source.unsplash.com/601x601/?computer',
       },
       {
-        id: '3',
-        file: 'https://source.unsplash.com/601x602/?website',
+        id: '33',
+        file: 'https://source.unsplash.com/601x602/?cat',
       },
       {
-        id: '4',
-        file: 'https://source.unsplash.com/602x601/?design',
+        id: '42',
+        file: 'https://source.unsplash.com/602x601/?dog',
       },
       {
-        id: '5',
+        id: '55',
+        file: '',
+      },
+      {
+        id: '51',
         file: '',
       },
     ],
