@@ -22,13 +22,10 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
 
   const [taskData, setTaskData] = useState<Task | null>(null)
   const [modalVisible, setModalVisible] = useState(false)
+  // eslint-disable-next-line
   const [imageUrl, setImageUrl] = useState()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
-
-  console.log('imageUrl', imageUrl)
-  console.log('taskData', taskData)
-  console.log('data', data)
 
   useEffect(() => {
     setTaskData(data)
