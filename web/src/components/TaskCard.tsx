@@ -28,9 +28,7 @@ function TaskCard({ data, project }: any) {
 
   function onDoneClick(event: any) {
     event.stopPropagation()
-
-    const tempData = Object.assign({}, taskData)
-    setTaskData({ ...tempData, isDone: !tempData.isDone })
+    if (taskData) setTaskData({ ...taskData, isDone: !taskData.isDone })
   }
 
   return !taskData && !data ? (
