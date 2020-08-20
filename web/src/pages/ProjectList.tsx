@@ -55,34 +55,6 @@ function ProjectList() {
     }
     setLoading(false)
   }
-  function handleTypeChange(e: any) {
-    setTypes(e.target.value)
-  }
-
-  function handleKeywordChange(e: any) {
-    setLoading(true)
-    setKeyword(e.target.value)
-    if (e.target.value === '') {
-      setFilteredData(DATA)
-      setTypes('all')
-      setLoading(false)
-    } else {
-      const kw: any[] = DATA.filter((item) => {
-        if (types === 'all') {
-          return item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
-        } else {
-          return (
-            item.status === types &&
-            item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
-          )
-        }
-      })
-
-      setFilteredData(kw)
-      setLoading(false)
-    }
-    setLoading(false)
-  }
 
   useEffect(() => {
     switch (types) {
@@ -102,7 +74,6 @@ function ProjectList() {
         break
     }
   }, [types]) // eslint-disable-line react-hooks/exhaustive-deps
-
 
   return (
     <LayoutDashboard>
