@@ -8,4 +8,5 @@ import SideNav from '../components/SideNav'
 import TaskCard from '../components/TaskCard'
 import WelcomeCard from '../components/WelcomeCard'
 
-export { NavBar, SideNav, LayoutDashboard, WelcomeCard, ProjectCard, TaskCard, LayoutProfile, LogCard, ProfileSide }
+export { NavBar, SideNav, LayoutDashboard, WelcomeCard, ProjectCard, TaskCard, LayoutProfile, ProfileSide, LogCard}
+
