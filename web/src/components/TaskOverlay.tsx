@@ -89,23 +89,25 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   }
 
   function handleSubmit() {
-    let commentId = data.comments.length
-    let commentsTemp: Comment = {
-      id: (commentId + 1).toString(),
-      timestamp: new Date(),
-      userId: '33',
-      image: '',
-      userImg: 'https://source.unsplash.com/600x600/?cat',
-      userName: 'John Doe',
-      message,
+    if (message !== '') {
+      let commentId = data.comments.length
+      let commentsTemp: Comment = {
+        id: (commentId + 1).toString(),
+        timestamp: new Date(),
+        userId: '33',
+        image: '',
+        userImg: 'https://source.unsplash.com/600x600/?cat',
+        userName: 'John Doe',
+        message,
+      }
+
+      const tempData: Task = taskData
+        ? { ...taskData, comments: [...taskData.comments!, commentsTemp] }
+        : { ...data }
+
+      setTaskData(tempData)
+      setMessage('')
     }
-
-    const tempData: Task = taskData
-      ? { ...taskData, comments: [...taskData.comments!, commentsTemp] }
-      : { ...data }
-
-    setTaskData(tempData)
-    setMessage('')
   }
 
   return !taskData ? (
