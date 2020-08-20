@@ -31,10 +31,6 @@ function ProjectList() {
     }
   }, [types]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  function handleTypeChange(e: any) {
-    setTypes(e.target.value)
-  }
-
   function handleKeywordChange(e: any) {
     setLoading(true)
     setKeyword(e.target.value)
@@ -71,7 +67,7 @@ function ProjectList() {
             onChange={handleKeywordChange}
             loading={loading}
           />
-          <Radio.Group className="my-4" value={types} onChange={handleTypeChange}>
+          <Radio.Group className="my-4" value={types} onChange={(e) => setTypes(e.target.value)}>
             <Radio.Button value="all">All</Radio.Button>
             <Radio.Button value="undone">WIP</Radio.Button>
             <Radio.Button value="done">Closed</Radio.Button>
