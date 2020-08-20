@@ -17,7 +17,7 @@ function ProfileTaskCard({ data }: any) {
     >
       <Card hoverable title={data.taskName} headStyle={{ fontWeight: 'bold' }} bordered={false}>
         <Col className="flex flex-col">
-          <Text>{data.taskDetail.substr(0, 80) + '...'}</Text>
+          <Text>{data.taskDetail.substr(0, 40) + '...'}</Text>
         </Col>
         <Row className="flex items-end justify-end mt-6">
           <Col>

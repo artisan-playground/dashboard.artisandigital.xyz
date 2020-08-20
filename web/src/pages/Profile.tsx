@@ -1,19 +1,20 @@
+import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Col, Empty, Radio, Row, Typography } from 'antd'
-import { useEmblaCarousel } from 'embla-carousel/react'
 import React, { useEffect, useState } from 'react'
+// @ts-ignore
+import ItemsCarousel from 'react-items-carousel'
 import {
   LayoutProfile,
   ProfileProjectCard,
   ProfileTaskCard,
 } from '../components/DashboardComponent'
 import { DATA, TASK_DATA } from '../DATA'
-import '../styles/embla.css'
 
 function Profile() {
   const { Title } = Typography
-  const [EmblaCarouselReact] = useEmblaCarousel()
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
+  const [activeItemIndex, setActiveItemIndex] = useState(0)
 
   useEffect(() => {
     switch (types) {
@@ -41,20 +42,32 @@ function Profile() {
   return (
     <LayoutProfile>
       <Title level={3}>Today's task</Title>
-      <div className="embla">
-        <EmblaCarouselReact className="embla__viewport">
-          <div className="embla__container">
+      <div className="relative mr-auto ml-auto mb-12 max-w-screen-md">
+        <div className="w-full">
+          <ItemsCarousel
+            infiniteLoop={false}
+            gutter={16}
+            activePosition={'center'}
+            chevronWidth={60}
+            disableSwipe={false}
+            alwaysShowChevrons={false}
+            numberOfCards={3}
+            slidesToScroll={3}
+            outsideChevron={true}
+            showSlither={true}
+            firstAndLastGutter={true}
+            activeItemIndex={activeItemIndex}
+            requestToChangeActive={setActiveItemIndex}
+            rightChevron={<RightOutlined />}
+            leftChevron={<LeftOutlined />}
+          >
             {TASK_DATA.map((items, index) => (
-              <div className="embla__slide" key={index}>
-                <div className="embla__slide__inner">
-                  <Col lg={{ span: 24 }} key={index}>
-                    <ProfileTaskCard data={items} />
-                  </Col>
-                </div>
-              </div>
+              <Col lg={{ span: 24 }} key={index}>
+                <ProfileTaskCard data={items} />
+              </Col>
             ))}
-          </div>
-        </EmblaCarouselReact>
+          </ItemsCarousel>
+        </div>
       </div>
 
       <Row gutter={[8, 24]} className="mb-2">
