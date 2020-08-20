@@ -1,13 +1,14 @@
 import { schema } from 'nexus'
-import { User } from '.'
 
 schema.extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('user', {
+    t.field('getUser', {
       type: 'User',
       args: { id: schema.stringArg({ required: true }) },
-      resolve: (_, args, ctx) => ctx.memoryDB.users.find((u: User) => u.id === args.id),
+      resolve(_, args, ctx) {
+        return ctx.db.users.find((u) => u.id === args.id) || null
+      },
     })
   },
 })
@@ -15,10 +16,10 @@ schema.extendType({
 schema.extendType({
   type: 'Query',
   definition(t) {
-    t.list.field('users', {
+    t.list.field('getUsers', {
       type: 'User',
       resolve(_, _args, ctx) {
-        return ctx.memoryDB.users
+        return ctx.db.users
       },
     })
   },

@@ -5,7 +5,7 @@ export interface Project {
   name: string
 }
 
-export const Project = schema.objectType({
+schema.objectType({
   name: 'Project',
   definition(t) {
     t.string('id')

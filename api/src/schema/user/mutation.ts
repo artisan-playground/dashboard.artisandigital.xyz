@@ -1,6 +1,5 @@
 import { schema } from 'nexus'
 import { nanoid } from 'nanoid'
-import { User } from '.'
 
 const InputType = schema.inputObjectType({
   name: 'CreateUserInput',
@@ -16,11 +15,10 @@ schema.extendType({
       type: 'User',
       args: { input: InputType },
       resolve: (_, args, ctx) => {
-        const user: User = {
+        return {
           id: nanoid(),
           name: args.input?.name || '',
         }
-        return user
       },
     })
   },
