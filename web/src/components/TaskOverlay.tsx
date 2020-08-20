@@ -141,19 +141,17 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
           </Row>
           <Row className="py-2 px-2 overflow-y-auto flex w-full">
             {taskData.files ? (
-              taskData.files.map((item: any) => {
-                return (
-                  <Tooltip title={item.id}>
-                    <div className="w-24 h-24 bg-gray-200 ml-2 mb-2 mr-1 flex justify-center items-center col-4">
-                      {item.file ? (
-                        <img src={item.file} alt={item.file} className="w-full h-full p-0" />
-                      ) : (
-                        <PaperClipOutlined style={{ color: '#444' }} />
-                      )}
-                    </div>
-                  </Tooltip>
-                )
-              })
+              taskData.files.map((item: any) => (
+                <Tooltip title={item.id}>
+                  <div className="w-24 h-24 bg-gray-200 ml-2 mb-2 mr-1 flex justify-center items-center col-4">
+                    {item.file ? (
+                      <img src={item.file} alt={item.file} className="w-full h-full p-0" />
+                    ) : (
+                      <PaperClipOutlined style={{ color: '#444' }} />
+                    )}
+                  </div>
+                </Tooltip>
+              ))
             ) : (
               <div className="flex w-full justify-center p-4 mb-4">
                 <Text disabled>No file</Text>
@@ -181,34 +179,32 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
           </Row>
           <Row className="py-2 px-2">
             {taskData.comments ? (
-              taskData.comments.map((item: any) => {
-                return (
-                  <div className="w-full ml-1 mb-2">
-                    <Row>
-                      <Col
-                        span={4}
-                        lg={{ span: 2 }}
-                        className="flex justify-center items-center mr-2"
-                      >
-                        <Avatar size="large" src={item.userImg} />
-                      </Col>
-                      <Col span={18} lg={{ span: 20 }}>
-                        <div className="w-full py-2 px-4 mx-0 bg-white shadow-lg rounded-lg">
-                          <Text className="font-bold text-lg mr-2">{item.userName}</Text>
-                          <Text disabled>
-                            {item.timestamp.toLocaleTimeString([], {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            })}
-                          </Text>
-                          <br />
-                          <Text className="text-md">{item.message}</Text>
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-                )
-              })
+              taskData.comments.map((item: any) => (
+                <div className="w-full ml-1 mb-2">
+                  <Row>
+                    <Col
+                      span={4}
+                      lg={{ span: 2 }}
+                      className="flex justify-center items-center mr-2"
+                    >
+                      <Avatar size="large" src={item.userImg} />
+                    </Col>
+                    <Col span={18} lg={{ span: 20 }}>
+                      <div className="w-full py-2 px-4 mx-0 bg-white shadow-lg rounded-lg">
+                        <Text className="font-bold text-lg mr-2">{item.userName}</Text>
+                        <Text disabled>
+                          {item.timestamp.toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </Text>
+                        <br />
+                        <Text className="text-md">{item.message}</Text>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              ))
             ) : (
               <div className="flex justify-center items-center p-8 w-full">
                 <Text disabled>No comment</Text>
@@ -262,20 +258,18 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
           </Row>
           <Row className="ml-2 mb-4 overflow-y-auto h-56">
             {taskData.team ? (
-              taskData.team.map((items: any) => {
-                return (
-                  <Link
-                    className="w-full"
-                    key={items.id}
-                    to={{ pathname: '/profile', state: { profileId: items.id } }}
-                  >
-                    <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                      <Avatar key={items.id} src={items.image} alt={items.name} />
-                      <div className="ml-4 text-lg">{items.name}</div>
-                    </div>
-                  </Link>
-                )
-              })
+              taskData.team.map((items: any) => (
+                <Link
+                  className="w-full"
+                  key={items.id}
+                  to={{ pathname: '/profile', state: { profileId: items.id } }}
+                >
+                  <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
+                    <Avatar key={items.id} src={items.image} alt={items.name} />
+                    <div className="ml-4 text-lg">{items.name}</div>
+                  </div>
+                </Link>
+              ))
             ) : (
               <div />
             )}

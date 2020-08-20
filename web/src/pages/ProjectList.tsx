@@ -77,13 +77,11 @@ function ProjectList() {
       <div className="site-card-wrapper">
         <Row gutter={[8, 24]}>
           {filteredData.length !== 0 ? (
-            filteredData.map((items, index) => {
-              return (
-                <Col span={24} key={index}>
-                  <ProjectCard data={items} />
-                </Col>
-              )
-            })
+            filteredData.map((items, index) => (
+              <Col span={24} key={index}>
+                <ProjectCard data={items} />
+              </Col>
+            ))
           ) : (
             <div className="flex w-full justify-center my-8">
               <Text disabled>Not found</Text>
