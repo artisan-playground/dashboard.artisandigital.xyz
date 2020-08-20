@@ -29,7 +29,7 @@ function TaskCard({ data, project }: any) {
   function onDoneClick(event: any) {
     event.stopPropagation()
 
-    let tempData = { ...taskData }
+    let tempData = Object.assign({}, taskData)
     setTaskData({ ...tempData, isDone: !tempData.isDone })
   }
 
