@@ -65,7 +65,11 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      24 DEC 20
+                      {data.dueDate.toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Release Date
@@ -80,7 +84,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      3
+                      {data.team.length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Developer
@@ -95,7 +99,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      67
+                      {TASK_DATA.filter((item) => item.projectId === projectId).length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Today's tasks
@@ -110,7 +114,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      2
+                      {filteredLog.length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Done tasks

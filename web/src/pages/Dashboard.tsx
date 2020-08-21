@@ -3,7 +3,7 @@ import { Card, Col, Row, Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { LayoutDashboard, ProjectCard, WelcomeCard } from '../components/DashboardComponent'
-import { DATA } from '../DATA'
+import { DATA, TASK_DATA, USER_DATA } from '../DATA'
 import '../styles/main.css'
 function Dashboard() {
   const { Title, Text } = Typography
@@ -26,7 +26,7 @@ function Dashboard() {
                     <FundProjectionScreenOutlined
                       style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
                     />
-                    <Title level={2}>123</Title>
+                    <Title level={2}>{DATA.length}</Title>
                     <Text disabled className="text-lg -mt-4">
                       Projects
                     </Text>
@@ -39,7 +39,7 @@ function Dashboard() {
                 <Card hoverable className="min-w-full rounded-lg shadow-md">
                   <div className="flex flex-col justify-center items-center">
                     <TeamOutlined style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }} />
-                    <Title level={2}>45</Title>
+                    <Title level={2}>{USER_DATA.length}</Title>
                     <Text disabled className="text-lg -mt-4">
                       Paticipants
                     </Text>
@@ -54,7 +54,7 @@ function Dashboard() {
                     <ProfileOutlined
                       style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
                     />
-                    <Title level={2}>67</Title>
+                    <Title level={2}>{TASK_DATA.length}</Title>
                     <Text disabled className="text-lg -mt-4">
                       Today's tasks
                     </Text>

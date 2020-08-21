@@ -621,3 +621,5 @@ export const EVENT_DATA = [
     ],
   },
 ]
+
+export const USER_DATA = []
