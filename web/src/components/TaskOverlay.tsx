@@ -256,7 +256,7 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             <TeamOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Team</Text>
           </Row>
-          <Row className="ml-2 mb-4 overflow-y-auto h-56">
+          <Row className="ml-2 mb-4 overflow-y-auto">
             {taskData.team ? (
               taskData.team.map((items: any) => (
                 <Link
