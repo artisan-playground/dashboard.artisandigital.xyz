@@ -1,8 +1,8 @@
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Col, Empty, Radio, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 // @ts-ignore
-import ItemsCarousel from 'react-items-carousel'
+import Carousel from 'react-multi-carousel'
+import 'react-multi-carousel/lib/styles.css'
 import {
   LayoutProfile,
   ProfileProjectCard,
@@ -14,7 +14,6 @@ function Profile() {
   const { Title } = Typography
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
-  const [activeItemIndex, setActiveItemIndex] = useState(0)
 
   useEffect(() => {
     switch (types) {
@@ -42,31 +41,45 @@ function Profile() {
   return (
     <LayoutProfile>
       <Title level={3}>Today's task</Title>
-      <div className="relative mr-auto ml-auto mb-12 max-w-screen-md">
+      <div className="relative mr-auto ml-auto max-w-screen-md">
         <div className="w-full">
-          <ItemsCarousel
-            infiniteLoop={false}
-            gutter={16}
-            activePosition={'center'}
-            chevronWidth={60}
-            disableSwipe={false}
-            alwaysShowChevrons={false}
-            numberOfCards={3}
-            slidesToScroll={3}
-            outsideChevron={true}
-            showSlither={true}
-            firstAndLastGutter={true}
-            activeItemIndex={activeItemIndex}
-            requestToChangeActive={setActiveItemIndex}
-            rightChevron={<RightOutlined />}
-            leftChevron={<LeftOutlined />}
+          <Carousel
+            additionalTransfrom={0}
+            arrows
+            autoPlaySpeed={3000}
+            centerMode
+            className=""
+            containerClass="container"
+            dotListClass=""
+            draggable
+            focusOnSelect={false}
+            infinite={false}
+            itemClass=""
+            keyBoardControl
+            minimumTouchDrag={80}
+            renderButtonGroupOutside={true}
+            renderDotsOutside={false}
+            responsive={{
+              desktop: {
+                breakpoint: {
+                  max: 2000,
+                  min: 1024,
+                },
+                items: 2,
+                partialVisibilityGutter: 40,
+              },
+            }}
+            showDots={true}
+            sliderClass=""
+            slidesToSlide={3}
+            swipeable
           >
             {TASK_DATA.map((items, index) => (
-              <Col lg={{ span: 24 }} key={index}>
+              <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
                 <ProfileTaskCard data={items} />
               </Col>
             ))}
-          </ItemsCarousel>
+          </Carousel>
         </div>
       </div>
 
