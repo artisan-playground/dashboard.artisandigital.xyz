@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/static/css/main.f740e9a6.chunk.css",
-    "main.js": "/static/js/main.193bd9c5.chunk.js",
+    "main.js": "/static/js/main.cdcd5872.chunk.js",
     "runtime-main.js": "/static/js/runtime-main.2059e4ff.js",
     "static/css/2.0894033c.chunk.css": "/static/css/2.0894033c.chunk.css",
-    "static/js/2.86ecc44a.chunk.js": "/static/js/2.86ecc44a.chunk.js",
+    "static/js/2.56a3e272.chunk.js": "/static/js/2.56a3e272.chunk.js",
     "index.html": "/index.html",
-    "precache-manifest.5cb2350e8f9ca3dd3b68c37e4930b631.js": "/precache-manifest.5cb2350e8f9ca3dd3b68c37e4930b631.js",
+    "precache-manifest.1bb1301008f0fb3fcaf8a0a018f489ce.js": "/precache-manifest.1bb1301008f0fb3fcaf8a0a018f489ce.js",
     "service-worker.js": "/service-worker.js",
-    "static/js/2.86ecc44a.chunk.js.LICENSE.txt": "/static/js/2.86ecc44a.chunk.js.LICENSE.txt",
+    "static/js/2.56a3e272.chunk.js.LICENSE.txt": "/static/js/2.56a3e272.chunk.js.LICENSE.txt",
     "static/media/artisan-logo.png": "/static/media/artisan-logo.5d7b735c.png",
     "static/media/logo3.png": "/static/media/logo3.74ac3a04.png"
   },
   "entrypoints": [
     "static/js/runtime-main.2059e4ff.js",
     "static/css/2.0894033c.chunk.css",
-    "static/js/2.86ecc44a.chunk.js",
+    "static/js/2.56a3e272.chunk.js",
     "static/css/main.f740e9a6.chunk.css",
-    "static/js/main.193bd9c5.chunk.js"
+    "static/js/main.cdcd5872.chunk.js"
   ]
 }
