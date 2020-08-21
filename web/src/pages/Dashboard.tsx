@@ -15,7 +15,7 @@ function Dashboard() {
         <div className="site-card-wrapper">
           <Row gutter={[8, 24]}>
             <Col md={{ span: 24 }}>
-              <WelcomeCard name="John" project={2} task={4} />
+              <WelcomeCard name="John Doe" project={2} task={4} />
             </Col>
           </Row>
           <Row gutter={[16, 24]}>
