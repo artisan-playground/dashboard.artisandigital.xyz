@@ -53,6 +53,7 @@ function News() {
       <Row className="w-full justify-center overflow-y-auto mb-4 p-2">
         <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
           <Card
+            hoverable
             className="w-full rounded-lg shadow-lg"
             cover={<img src="https://source.unsplash.com/600x600/?cat" alt="kityy1" />}
           >
@@ -74,6 +75,7 @@ function News() {
         </Col>
         <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
           <Card
+            hoverable
             className="w-full rounded-lg shadow-lg"
             cover={<img src="https://source.unsplash.com/600x601/?cat" alt="kityy2" />}
           >
@@ -95,6 +97,7 @@ function News() {
         </Col>
         <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
           <Card
+            hoverable
             className="w-full rounded-lg shadow-lg"
             cover={<img src="https://source.unsplash.com/601x600/?cat" alt="kityy1" />}
           >
@@ -118,7 +121,7 @@ function News() {
 
       <div className="font-bold text-2xl mb-4">Paragraph #2</div>
       <Row className="w-full  overflow-y-auto mb-4 p-4">
-        <Card className="w-full rounded-lg shadow-lg">
+        <Card hoverable className="w-full rounded-lg shadow-lg">
           <Row>
             <Col span={24} md={{ span: 10 }}>
               <img

@@ -36,7 +36,11 @@ function TaskCard({ data, project }: any) {
       <Skeleton />
     </Card>
   ) : (
-    <Card className="w-full rounded-lg shadow-md px-2 py-1 mb-4 cursor-pointer" onClick={openModal}>
+    <Card
+      hoverable
+      className="w-full rounded-lg shadow-md px-2 py-1 mb-4 cursor-pointer"
+      onClick={openModal}
+    >
       <TaskOverlay
         onCloseModal={toggleModal}
         visible={modalVisible}

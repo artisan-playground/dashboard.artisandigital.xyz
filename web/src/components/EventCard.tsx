@@ -10,7 +10,7 @@ function EventCard({ data }: any) {
     </div>
   ) : (
     data.map((item: any) => (
-      <Card className="w-full rounded-lg shadow-lg mb-4">
+      <Card hoverable className="w-full rounded-lg shadow-lg mb-4">
         <Row>
           <div className="flex flex-col justify-center items-center border-r-2 pr-8 pl-4">
             <Text disabled className="font-bold text-lg">

@@ -13,6 +13,7 @@ function WelcomeCard({ name, task, project }: any) {
     <div />
   ) : (
     <Card
+      hoverable
       className="w-full rounded-lg h-36 pl-12 py-4 shadow-md"
       style={{ backgroundColor: '#518AFF' }}
     >
