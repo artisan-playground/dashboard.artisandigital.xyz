@@ -11,7 +11,7 @@ function EventCard({ data }: any) {
   ) : (
     data.map((item: any) => (
       <Card hoverable className="w-full rounded-lg shadow-lg mb-4">
-        <Row>
+        <Row className="md: justify-around">
           <div className="flex flex-col justify-center items-center border-r-2 pr-8 pl-4">
             <Text disabled className="font-bold text-lg">
               {item.eventDate.toLocaleDateString('en-US', {
@@ -32,12 +32,13 @@ function EventCard({ data }: any) {
             </Text>
           </div>
 
-          <Col span={12} className="items-center justify-center pl-8">
+          <Col span={16} className="items-center justify-center mt-4 md:mt-0">
             <Text className="font-bold text-lg">{item.eventName}</Text>
             <br />
             <Text className="text-md ml-2">{item.note}</Text>
           </Col>
-          <Col span={24} md={{ span: 8 }} className="mt-4 md:mt-0">
+
+          <Col span={24} md={{ span: 4 }} className="w-full mt-4 md:mt-0 ">
             <Row className="justify-start md:justify-end">
               <Tag className="rounded-full py-1 px-2 bg-progressop border-0 flex items-center">
                 <Text className="font-bold">{item.tag}</Text>
