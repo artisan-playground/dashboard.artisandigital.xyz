@@ -10,7 +10,7 @@ function ProfileProjectCard({ data }: any) {
 
   function renderShowItems(item: any) {
     for (let i = 0; i < item.length; ++i) {
-      if (i < 5) {
+      if (i < 4) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
             <Link to={{ pathname: '/profile', state: { profileId: item[i].id } }}>
@@ -34,10 +34,10 @@ function ProfileProjectCard({ data }: any) {
                   className="absolute mx-1 left-0 right-0 w-full text-center text-white font-bold z-10"
                   style={{ marginTop: 6 }}
                 >
-                  +{item.length - 5}
+                  +{item.length - 4}
                 </div>
                 <Avatar
-                  src={item[5].image}
+                  src={item[4].image}
                   className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
                   style={{ filter: 'brightness(0.6)' }}
                 ></Avatar>

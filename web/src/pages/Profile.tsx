@@ -70,7 +70,7 @@ function Profile() {
         </div>
       </div>
 
-      <Row gutter={[8, 24]} className="mb-2">
+      <Row className="mb-2">
         <Col flex={1}>
           <Row>
             <Title level={3}>Project(s)</Title>
@@ -85,11 +85,11 @@ function Profile() {
         </Col>
       </Row>
 
-      <Row gutter={[8, 24]}>
+      <Row>
         {filteredData.length !== 0 ? (
           filteredData.map((items, index) => {
             return (
-              <Col span={8} key={index}>
+              <Col xs={24} xl={{ span: 8 }} key={index} className="w-full px-2 py-2">
                 <ProfileProjectCard data={items} />
               </Col>
             )
