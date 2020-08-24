@@ -74,7 +74,7 @@ function ProjectCard({ data }: any) {
         },
       }}
     >
-      <Card className="min-w-full rounded-lg shadow-md">
+      <Card hoverable className="min-w-full rounded-lg shadow-md">
         <Row gutter={[8, 8]} className="w-full">
           <Col span={24}>
             <Row className="flex justify-between">
