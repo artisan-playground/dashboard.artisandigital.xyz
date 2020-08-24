@@ -30,7 +30,7 @@ function Member() {
     },
   ]
 
-  const data = [
+  const USER_DATA = [
     {
       key: '1',
       image: 'https://source.unsplash.com/600x600/?people',
@@ -70,7 +70,7 @@ function Member() {
 
   return (
     <LayoutDashboard>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: 10 }} />
+      <Table columns={columns} dataSource={USER_DATA} pagination={{ pageSize: 10 }} />
     </LayoutDashboard>
   )
 }
