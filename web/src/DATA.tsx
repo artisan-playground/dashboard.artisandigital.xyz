@@ -555,6 +555,69 @@ export const TASK_DATA: any[] = [
       },
     ],
   },
+  {
+    id: '11',
+    projectId: '6',
+    taskName: 'Progress check',
+    time: new Date('2020-08-24T15:30:00'),
+    taskDetail: 'normally progress check',
+    isDone: false,
+    team: [
+      {
+        id: '10',
+        email: 'now@mail.com',
+        name: 'Nhow Tonnow',
+        image:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+      },
+      {
+        id: '11',
+        email: 'nan@mail.com',
+        name: 'Nan Kullanan',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+      },
+      {
+        id: '14',
+        email: 'nat@mail.com',
+        name: 'Nat W',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-UNGSE8TPH-g4cf4f9cc0af-512',
+      },
+      {
+        id: '13',
+        email: 'tonkla@mail.com',
+        name: 'Tonkla Surakarn',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U016R3WAQ4U-0e8e2de8e11e-512',
+      },
+      {
+        id: '15',
+        email: 'tonkla@mail.com',
+        name: 'Mint Thanwimol',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-UPX5YQEDU-3f1c55434773-512',
+      },
+    ],
+    files: [],
+    comments: [
+      {
+        id: '1',
+        timestamp: new Date('2020-08-24T09:30:00'),
+        userId: '10',
+        image: '',
+        userImg:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+        userName: 'Nhow Tonnow',
+        message: 'I will go',
+      },
+      {
+        id: '2',
+        timestamp: new Date('2020-08-24T09:31:00'),
+        userId: '10',
+        image: '',
+        userImg: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+        userName: 'Nan Kullanan',
+        message: 'Me too',
+      },
+    ],
+  },
 ]
 
 export const EVENT_DATA = [
