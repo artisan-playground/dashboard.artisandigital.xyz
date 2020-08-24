@@ -60,7 +60,7 @@ function ProfileEditor() {
     <LayoutDashboard>
       <Row>
         {USER_DATA.map((items, index) => (
-          <Col xs={24} xl={6} className="mr-12 mb-4">
+          <Col xs={24} xl={6} className="mr-12 mb-4" key={index}>
             <Card className="flex items-center justify-center text-center mb-4">
               <ImgCrop rotate>
                 <Upload
@@ -74,7 +74,12 @@ function ProfileEditor() {
                   onPreview={onPreview}
                 >
                   {items ? (
-                    <img src={items.image} alt="avatar" style={{ width: '100%' }} />
+                    <div>
+                      <img src={items.image} alt="avatar" style={{ width: '100%' }} />
+                      <div className="ant-upload-text px-3 flex items-center">
+                        {loading ? <LoadingOutlined /> : <PlusOutlined />}Upload
+                      </div>
+                    </div>
                   ) : (
                     <div>
                       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -84,7 +89,7 @@ function ProfileEditor() {
                 </Upload>
               </ImgCrop>
             </Card>
-            <ProfileSkillTags data={items} key={index} />
+            <ProfileSkillTags data={items} />
           </Col>
         ))}
 
