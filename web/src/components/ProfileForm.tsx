@@ -10,14 +10,14 @@ function ProfileForm({ data }: any) {
   const [facebook, setFacebook] = useState('')
   const [twitter, setTwitter] = useState('')
   const [instagram, setInstagram] = useState('')
-  const [gitlab, setGitlab] = useState()
-  const [github, setGithub] = useState()
+  const [gitlab, setGitlab] = useState('')
+  const [github, setGithub] = useState('')
   const { Option } = Select
 
   function handleChange() {
     setPosition(position)
   }
-  console.log(data.firstname)
+
   return (
     <Form name="normal_edit" className="edit-form" initialValues={{ remember: true }}>
       <div className="flex items-center justify-between">
