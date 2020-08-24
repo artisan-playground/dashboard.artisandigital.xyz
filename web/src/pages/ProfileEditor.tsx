@@ -1,15 +1,11 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-// @ts-ignore
-import ReactTagInput from '@pathofdev/react-tag-input'
 import '@pathofdev/react-tag-input/build/index.css'
-import { Card, Col, Row, Typography, Upload } from 'antd'
+import { Card, Col, Row, Upload } from 'antd'
 import React, { useState } from 'react'
-import { LayoutDashboard, ProfileForm } from '../components/DashboardComponent'
+import { LayoutDashboard, ProfileForm, ProfileSkillTags } from '../components/DashboardComponent'
 import { USER_DATA } from '../DATA'
 
 function ProfileEditor() {
-  const { Text } = Typography
-  const [skills, setSkills] = useState(['HTML', 'JavaScript', 'React', 'Redux', 'UI', 'UX'])
   const [imageUrl, setImageUrl] = useState()
   const [loading, setLoading] = useState(false)
 
@@ -68,16 +64,9 @@ function ProfileEditor() {
               )}
             </Upload>
           </Card>
-          <Card>
-            <Text className="text-lg font-bold">Skill(s)</Text>
-            <ReactTagInput
-              tags={skills}
-              editable={true}
-              readOnly={false}
-              removeOnBackspace={true}
-              onChange={(newTags: any) => setSkills(newTags)}
-            />
-          </Card>
+          {USER_DATA.map((items, index) => (
+            <ProfileSkillTags data={items} key={index} />
+          ))}
         </Col>
 
         <Col xs={24} xl={17}>
