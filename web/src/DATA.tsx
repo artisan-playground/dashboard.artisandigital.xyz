@@ -510,14 +510,12 @@ export const USER_DATA: any[] = [
     image: 'https://source.unsplash.com/600x600/?people',
     position: 'Designers/Programmers',
     skills: ['HTML', 'JavaScript', 'React', 'Redux', 'UI', 'UX'],
-    contacts: [
-      {
-        facebook: 'http://localhost:3000/profile',
-        twitter: 'http://localhost:3000/profile',
-        instagram: 'http://localhost:3000/profile',
-        gitlab: 'http://localhost:3000/profile',
-        github: 'http://localhost:3000/profile',
-      },
-    ],
+    contacts: {
+      facebook: 'http://localhost:3000/profile',
+      twitter: 'http://localhost:3000/profile',
+      instagram: 'http://localhost:3000/profile',
+      gitlab: 'http://localhost:3000/profile',
+      github: 'http://localhost:3000/profile',
+    },
   },
 ]

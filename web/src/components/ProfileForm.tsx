@@ -29,7 +29,7 @@ function ProfileForm({ data }: any) {
         >
           <Input
             placeholder="Firstname..."
-            value={data.firstname}
+            defaultValue={data.firstname}
             onChange={() => setFirstname(firstname)}
           />
         </Form.Item>
@@ -41,7 +41,7 @@ function ProfileForm({ data }: any) {
         >
           <Input
             placeholder="Lastname..."
-            value={data.lastname}
+            defaultValue={data.lastname}
             onChange={() => setLastname(lastname)}
           />
         </Form.Item>
@@ -60,7 +60,7 @@ function ProfileForm({ data }: any) {
           },
         ]}
       >
-        <Input placeholder="Email..." value={data.email} onChange={() => setEmail(email)} />
+        <Input placeholder="Email..." defaultValue={data.email} onChange={() => setEmail(email)} />
       </Form.Item>
       <Form.Item label="Job Position">
         <Select defaultValue={data.position} style={{ width: '50%' }} onChange={handleChange}>
@@ -77,23 +77,39 @@ function ProfileForm({ data }: any) {
       </Form.Item>
       <Divider />
       <Form.Item name="facebook" label="Facebook">
-        <Input placeholder="http://" value={data.facebook} onChange={() => setFacebook(facebook)} />
+        <Input
+          placeholder="http://"
+          defaultValue={data.contacts.facebook}
+          onChange={() => setFacebook(facebook)}
+        />
       </Form.Item>
       <Form.Item name="twitter" label="Twitter">
-        <Input placeholder="http://" value={data.twitter} onChange={(e) => setTwitter(twitter)} />
+        <Input
+          placeholder="http://"
+          defaultValue={data.contacts.twitter}
+          onChange={(e) => setTwitter(twitter)}
+        />
       </Form.Item>
       <Form.Item name="instagram" label="Instagram">
         <Input
           placeholder="http://"
-          value={data.instagram}
+          defaultValue={data.contacts.instagram}
           onChange={() => setInstagram(instagram)}
         />
       </Form.Item>
       <Form.Item name="gitlab" label="Gitlab">
-        <Input placeholder="http://" value={data.gitlab} onChange={() => setGitlab(gitlab)} />
+        <Input
+          placeholder="http://"
+          defaultValue={data.contacts.gitlab}
+          onChange={() => setGitlab(gitlab)}
+        />
       </Form.Item>
       <Form.Item name="github" label="Github">
-        <Input placeholder="http://" value={data.github} onChange={() => setGithub(github)} />
+        <Input
+          placeholder="http://"
+          defaultValue={data.contacts.github}
+          onChange={() => setGithub(github)}
+        />
       </Form.Item>
 
       <Divider />
