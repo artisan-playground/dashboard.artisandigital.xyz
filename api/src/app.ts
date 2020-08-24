@@ -1,27 +1,11 @@
-/**
- * This file is your server entrypoint. Don't worry about its emptyness, Nexus handles everything for you.
- * However, if you need to add settings, enable plugins, schema middleware etc, this is place to do it.
- * Below are some examples of what you can do. Uncomment them to try them out!
- */
+import { schema, settings } from 'nexus'
 
-/**
- * Change a variety of settings
- */
+settings.change({
+  server: {
+    port: process.env.PORT ? Number(process.env.PORT) : 4000,
+  },
+})
 
-// import { settings } from 'nexus'
-//
-// settings.change({
-//   server: {
-//     port: 4001
-//   }
-// })
-
-/**
- * Add some schema middleware
- */
-
-// import { schema } from 'nexus'
-//
 // schema.middleware((_config) => {
 //   return async (root, args, ctx, info, next) {
 //     ctx.log.trace('before resolver')
@@ -30,11 +14,26 @@
 //   }
 // })
 
-/**
- * Enable the Prisma plugin. (Needs `nexus-plugin-prisma` installed)
- */
-
 // import { use } from 'nexus'
 // import { prisma } from 'nexus-plugin-prisma'
 //
 // use(prisma())
+
+const projects = [
+  { id: '1', name: 'Project 1' },
+  { id: '2', name: 'Project 2' },
+]
+
+const users = [
+  { id: '1', name: 'User 1' },
+  { id: '2', name: 'User 2' },
+]
+
+schema.addToContext((req) => {
+  return {
+    db: {
+      projects,
+      users,
+    },
+  }
+})
