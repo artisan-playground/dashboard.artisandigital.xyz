@@ -697,4 +697,21 @@ export const EVENT_DATA = [
   },
 ]
 
-export const USER_DATA = []
+export const USER_DATA: any[] = [
+  {
+    id: '0',
+    email: 'test@mail.com',
+    firstname: 'John',
+    lastname: 'Doe',
+    image: 'https://source.unsplash.com/600x600/?people',
+    position: 'Designers/Programmers',
+    skills: ['HTML', 'JavaScript', 'React', 'Redux', 'UI', 'UX'],
+    contacts: {
+      facebook: 'http://localhost:3000/profile',
+      twitter: 'http://localhost:3000/profile',
+      instagram: 'http://localhost:3000/profile',
+      gitlab: 'http://localhost:3000/profile',
+      github: 'http://localhost:3000/profile',
+    },
+  },
+]

@@ -5,6 +5,9 @@ import LayoutProfile from '../components/LayoutProfile'
 import NavBar from '../components/NavBar'
 import ProfileSide from '../components/ProfileSide'
 import ProjectCard from '../components/ProjectCard'
+import ProfileForm from '../components/ProfileForm'
+import ProfileSide from '../components/ProfileSide'
+import ProfileSkillTags from '../components/ProfileSkillTags'
 import SideNav from '../components/SideNav'
 import SideProfile from '../components/SideProfile'
 import ProfileProjectCard from './ProfileProjectCard'
@@ -20,6 +23,9 @@ export {
   WelcomeCard,
   ProjectCard,
   LayoutProfile,
+  ProfileSide,
+  ProfileForm,
+  ProfileSkillTags,
   SideProfile,
   ProfileProjectCard,
   ProfileTaskCard,
