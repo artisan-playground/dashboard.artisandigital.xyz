@@ -7,7 +7,8 @@ import { LayoutDashboard, ProfileForm, ProfileSkillTags } from '../components/Da
 import { USER_DATA } from '../DATA'
 
 function ProfileEditor() {
-  const [, setImageUrl] = useState('')
+  // esLint-disable-next-line
+  const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
 
   function getBase64(img: any, callback: any) {
