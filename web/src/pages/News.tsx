@@ -2,123 +2,22 @@ import { Card, Col, Row, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React from 'react'
 import { EventCard, LayoutDashboard } from '../components/DashboardComponent'
+import { EVENT_DATA as data } from '../DATA'
 
 function News() {
   const { Text } = Typography
   const { Meta } = Card
 
-  const data = [
-    {
-      id: '1',
-      eventDate: new Date(),
-      eventName: 'Meeting #1',
-      note: 'In 2nd floor meeting room',
-      tag: 'Important',
-      invited: [
-        {
-          id: '1',
-          name: 'Lara',
-          image: 'https://source.unsplash.com/601x601/?user',
-        },
-        {
-          id: '2',
-          name: 'Pogba',
-          image: 'https://source.unsplash.com/602x601/?user',
-        },
-      ],
-    },
-    {
-      id: '2',
-      eventDate: new Date(),
-      eventName: 'Drinking',
-      note: 'Tha Chang Café',
-      tag: 'Important',
-      invited: [
-        {
-          id: '3',
-          name: 'Jaonaaw',
-          image: 'https://source.unsplash.com/603x601/?user',
-        },
-        {
-          id: '4',
-          name: 'Moew',
-          image: 'https://source.unsplash.com/604x601/?user',
-        },
-      ],
-    },
-  ]
   return (
     <LayoutDashboard noCard>
-      <div className="font-bold text-2xl mb-4">Paragraph #1</div>
-      <Row className="w-full justify-center overflow-y-auto mb-4 p-2">
-        <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
-          <Card
-            className="w-full rounded-lg shadow-lg"
-            cover={<img src="https://source.unsplash.com/600x600/?cat" alt="kityy1" />}
-          >
-            <Meta
-              avatar={<Avatar src="https://source.unsplash.com/600x600/?user" />}
-              title="Kitty 1"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua."
-            />
-            <Row className="justify-between mt-4 pl-12">
-              <Col span={24} xl={{ span: 12 }}>
-                <Text disabled>{new Date().toLocaleDateString()}</Text>
-              </Col>
-              <Col span={24} xl={{ span: 12 }}>
-                <a href="/news">Read more</a>
-              </Col>
-            </Row>
-          </Card>
-        </Col>
-        <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
-          <Card
-            className="w-full rounded-lg shadow-lg"
-            cover={<img src="https://source.unsplash.com/600x601/?cat" alt="kityy2" />}
-          >
-            <Meta
-              avatar={<Avatar src="https://source.unsplash.com/600x601/?user" />}
-              title="Kitty 2"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua."
-            />
-            <Row className="justify-between mt-4 pl-12">
-              <Col span={24} xl={{ span: 12 }}>
-                <Text disabled>{new Date().toLocaleDateString()}</Text>
-              </Col>
-              <Col span={24} xl={{ span: 12 }}>
-                <a href="/news">Read more</a>
-              </Col>
-            </Row>
-          </Card>
-        </Col>
-        <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
-          <Card
-            className="w-full rounded-lg shadow-lg"
-            cover={<img src="https://source.unsplash.com/601x600/?cat" alt="kityy1" />}
-          >
-            <Meta
-              avatar={<Avatar src="https://source.unsplash.com/601x600/?user" />}
-              title="Kitty 3"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua."
-            />
-            <Row className="justify-between mt-4 pl-12">
-              <Col span={24} xl={{ span: 12 }}>
-                <Text disabled>{new Date().toLocaleDateString()}</Text>
-              </Col>
-              <Col span={24} xl={{ span: 12 }}>
-                <a href="/news">Read more</a>
-              </Col>
-            </Row>
-          </Card>
-        </Col>
+      <div className="font-bold text-2xl mb-4">Event</div>
+      <Row className="w-full  overflow-y-auto mb-4 p-4">
+        <EventCard data={data} />
       </Row>
 
       <div className="font-bold text-2xl mb-4">Paragraph #2</div>
       <Row className="w-full  overflow-y-auto mb-4 p-4">
-        <Card className="w-full rounded-lg shadow-lg">
+        <Card hoverable className="w-full rounded-lg shadow-lg">
           <Row>
             <Col span={24} md={{ span: 10 }}>
               <img
@@ -148,9 +47,74 @@ function News() {
         </Card>
       </Row>
 
-      <div className="font-bold text-2xl mb-4">Event</div>
-      <Row className="w-full  overflow-y-auto mb-4 p-4">
-        <EventCard data={data} />
+      <div className="font-bold text-2xl mb-4">Paragraph #1</div>
+      <Row className="w-full justify-center overflow-y-auto mb-4 p-2">
+        <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
+          <Card
+            hoverable
+            className="w-full rounded-lg shadow-lg"
+            cover={<img src="https://source.unsplash.com/600x600/?cat" alt="kityy1" />}
+          >
+            <Meta
+              avatar={<Avatar src="https://source.unsplash.com/600x600/?user" />}
+              title="Kitty 1"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua."
+            />
+            <Row className="justify-between mt-4 pl-12">
+              <Col span={24} xl={{ span: 12 }}>
+                <Text disabled>{new Date().toLocaleDateString()}</Text>
+              </Col>
+              <Col span={24} xl={{ span: 12 }}>
+                <a href="/news">Read more</a>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+        <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
+          <Card
+            hoverable
+            className="w-full rounded-lg shadow-lg"
+            cover={<img src="https://source.unsplash.com/600x601/?cat" alt="kityy2" />}
+          >
+            <Meta
+              avatar={<Avatar src="https://source.unsplash.com/600x601/?user" />}
+              title="Kitty 2"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua."
+            />
+            <Row className="justify-between mt-4 pl-12">
+              <Col span={24} xl={{ span: 12 }}>
+                <Text disabled>{new Date().toLocaleDateString()}</Text>
+              </Col>
+              <Col span={24} xl={{ span: 12 }}>
+                <a href="/news">Read more</a>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+        <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
+          <Card
+            hoverable
+            className="w-full rounded-lg shadow-lg"
+            cover={<img src="https://source.unsplash.com/601x600/?cat" alt="kityy1" />}
+          >
+            <Meta
+              avatar={<Avatar src="https://source.unsplash.com/601x600/?user" />}
+              title="Kitty 3"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua."
+            />
+            <Row className="justify-between mt-4 pl-12">
+              <Col span={24} xl={{ span: 12 }}>
+                <Text disabled>{new Date().toLocaleDateString()}</Text>
+              </Col>
+              <Col span={24} xl={{ span: 12 }}>
+                <a href="/news">Read more</a>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
       </Row>
     </LayoutDashboard>
   )

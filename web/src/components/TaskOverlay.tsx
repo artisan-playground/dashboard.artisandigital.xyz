@@ -14,6 +14,7 @@ import {
 } from '@ant-design/icons'
 import { Avatar, Button, Col, Input, Modal, Row, Skeleton, Tooltip, Typography, Upload } from 'antd'
 import React, { useEffect, useState } from 'react'
+import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
 import { Comment, Task } from '../typings'
 
@@ -187,11 +188,15 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
                       lg={{ span: 2 }}
                       className="flex justify-center items-center mr-2"
                     >
-                      <Avatar size="large" src={item.userImg} />
+                      <Link to={{ pathname: '/profile', state: { profileId: item.id } }}>
+                        <Avatar size="large" src={item.userImg} />
+                      </Link>
                     </Col>
                     <Col span={18} lg={{ span: 20 }}>
                       <div className="w-full py-2 px-4 mx-0 bg-white shadow-lg rounded-lg">
-                        <Text className="font-bold text-lg mr-2">{item.userName}</Text>
+                        <Link to={{ pathname: '/profile', state: { profileId: item.id } }}>
+                          <Text className="font-bold text-lg mr-2">{item.userName}</Text>
+                        </Link>
                         <Text disabled>
                           {item.timestamp.toLocaleTimeString([], {
                             hour: '2-digit',
@@ -199,7 +204,9 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
                           })}
                         </Text>
                         <br />
-                        <Text className="text-md">{item.message}</Text>
+                        <Linkify>
+                          <Text className="text-md">{item.message}</Text>
+                        </Linkify>
                       </div>
                     </Col>
                   </Row>
@@ -256,7 +263,7 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             <TeamOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Team</Text>
           </Row>
-          <Row className="ml-2 mb-4 overflow-y-auto h-56">
+          <Row className="ml-2 mb-4 overflow-y-auto">
             {taskData.team ? (
               taskData.team.map((items: any) => (
                 <Link
