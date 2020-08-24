@@ -24,6 +24,11 @@ const projects = [
   { id: '2', name: 'Project 2' },
 ]
 
+const tasks = [
+  { id: '1', taskName: 'TASK 1' },
+  { id: '2', taskName: 'TASK 2' },
+]
+
 const users = [
   { id: '1', name: 'User 1' },
   { id: '2', name: 'User 2' },
@@ -34,6 +39,7 @@ schema.addToContext((req) => {
     db: {
       projects,
       users,
+      tasks,
     },
   }
 })
