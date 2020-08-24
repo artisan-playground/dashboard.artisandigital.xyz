@@ -3,7 +3,6 @@ import LayoutDashboard from '../components/LayoutDashboard'
 import LogCard from '../components/LogCard'
 import LayoutProfile from '../components/LayoutProfile'
 import NavBar from '../components/NavBar'
-import ProfileSide from '../components/ProfileSide'
 import ProjectCard from '../components/ProjectCard'
 import ProfileForm from '../components/ProfileForm'
 import ProfileSide from '../components/ProfileSide'
@@ -23,7 +22,6 @@ export {
   WelcomeCard,
   ProjectCard,
   LayoutProfile,
-  ProfileSide,
   ProfileForm,
   ProfileSkillTags,
   SideProfile,
