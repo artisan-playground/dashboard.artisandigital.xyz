@@ -1,3 +1,4 @@
+.tmp_build/
 .nexus/
 node_modules/
 tmp/

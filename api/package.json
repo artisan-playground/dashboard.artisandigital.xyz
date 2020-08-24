@@ -5,10 +5,12 @@
   "scripts": {
     "clean": "rm -rf .nexus/ api.graphql",
     "dev": "nexus dev",
-    "build": "yarn run clean && nexus build",
+    "build": "npm run clean && nexus build",
     "start": "node .nexus/build/src"
   },
   "dependencies": {
+    "acorn": "^6.0.1",
+    "nanoid": "^3.1.12",
     "nexus": "0.26.1"
   },
   "devDependencies": {

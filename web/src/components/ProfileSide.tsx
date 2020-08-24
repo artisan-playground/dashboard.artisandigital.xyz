@@ -17,12 +17,11 @@ import Avatar from 'antd/lib/avatar/avatar'
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
-const { Text, Link } = Typography
-const { SubMenu } = Menu
-const { Sider } = Layout
-
 function ProfileSide({ children }: any) {
   const [collapse, setcollapse] = useState(false)
+  const { Text, Link } = Typography
+  const { SubMenu } = Menu
+  const { Sider } = Layout
   const user = {
     id: '0',
     email: 'test@mail.com',
