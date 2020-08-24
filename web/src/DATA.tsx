@@ -590,9 +590,15 @@ export const TASK_DATA: any[] = [
       },
       {
         id: '15',
-        email: 'tonkla@mail.com',
+        email: 'mint@mail.com',
         name: 'Mint Thanwimol',
         image: 'https://ca.slack-edge.com/T03EKL88Y-UPX5YQEDU-3f1c55434773-512',
+      },
+      {
+        id: '16',
+        email: 'jayjay@mail.com',
+        name: 'Jayjay Chalobon',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-UTMUCNH1P-557445587bf1-512',
       },
     ],
     files: [],
