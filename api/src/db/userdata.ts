@@ -1,4 +1,6 @@
-export const users = [
+import { User } from 'src/schema/user'
+
+export const users: User[] = [
   {
     id: '1',
     email: 'test1@mail.com',
