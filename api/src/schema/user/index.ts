@@ -4,7 +4,12 @@ import { Project } from '../project'
 export interface User {
   id: string
   name: string
-  projects: Project
+  email: string
+  image: string
+  skill?: []
+  contacts?: []
+  projects?: Project[]
+  task?: []
 }
 
 schema.objectType({
@@ -14,10 +19,6 @@ schema.objectType({
     t.string('name')
     t.list.field('projects', {
       type: 'Project',
-      nullable: true,
-      resolve(_root, args, ctx) {
-        return ctx.db.projects.team.filter((item) => item.includes(args.id))
-      },
     })
   },
 })

@@ -10,9 +10,9 @@ export interface Task {
   time: Date
   taskDetail: string
   isDone: boolean
-  team: Team
-  files: File
-  comments: Comment
+  team?: Team[]
+  files?: File[]
+  comments?: Comment[]
 }
 
 schema.objectType({
