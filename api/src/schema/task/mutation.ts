@@ -8,7 +8,6 @@ const InputTaskType = schema.inputObjectType({
     t.string('taskName', { required: true })
     t.string('projectId', { required: true })
     t.string('taskDetail', { required: false })
-    t.string('taskDetail', { required: false })
   },
 })
 
@@ -29,6 +28,25 @@ schema.extendType({
         }
         ctx.db.tasks.push(task)
         return task
+      },
+    })
+  },
+})
+
+schema.extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('deleteTask', {
+      type: 'Task',
+      args: { id: schema.stringArg({ required: true }) },
+      resolve: (_root, args, ctx): any => {
+        let index = ctx.db.tasks.findIndex((t) => t.id === args.id)
+        if (index !== -1) {
+          ctx.db.tasks.splice(index, 1)
+          return ctx.db.tasks
+        } else {
+          return new Error(`No data at id ${args.id} and index ${index}`)
+        }
       },
     })
   },
