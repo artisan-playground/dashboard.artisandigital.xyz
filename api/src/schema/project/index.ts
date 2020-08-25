@@ -6,9 +6,10 @@ export interface Project {
   projectName: string
   projectType: string
   projectDetail: string
+  projectImage?: string
   status: string
   dueDate: Date
-  team: Team
+  team?: Team[]
 }
 
 schema.objectType({
