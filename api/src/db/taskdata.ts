@@ -1,4 +1,6 @@
-export const tasks = [
+import { Task } from 'src/schema/task'
+
+export const tasks: Task[] = [
   {
     id: '1',
     projectId: '1',
@@ -9,24 +11,22 @@ export const tasks = [
     isDone: false,
     team: [
       {
-        id: '9',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
+        id: '1',
+        email: 'test1@mail.com',
+        name: 'John Dee',
+        image: 'https://source.unsplash.com/700x700/?people',
       },
       {
-        id: '99',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x609/?people',
+        id: '2',
+        email: 'test2@mail.com',
+        name: 'Jane Doe',
+        image: 'https://source.unsplash.com/800x600/?people',
       },
       {
-        id: '19',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/608x600/?people',
-      },
-      {
-        id: '29',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x601/?people',
+        id: '3',
+        email: 'test3@mail.com',
+        name: 'Joe Dee',
+        image: 'https://source.unsplash.com/600x900/?people',
       },
     ],
     files: [
@@ -77,8 +77,8 @@ export const tasks = [
         timestamp: new Date('August 17, 2020 08:00:00'),
         userId: '1',
         image: '',
-        userImg: 'https://source.unsplash.com/607x601/?people',
-        userName: 'Alicia ki',
+        userImg: 'https://source.unsplash.com/700x700/?people',
+        userName: 'John Dee',
         message: "I'll do Login page",
       },
       {
@@ -86,44 +86,17 @@ export const tasks = [
         timestamp: new Date('August 17, 2020 08:30:00'),
         userId: '1',
         image: '',
-        userImg: 'https://source.unsplash.com/608x601/?people',
-        userName: 'Thomas train',
+        userImg: 'https://source.unsplash.com/700x700/?people',
+        userName: 'John Dee',
         message: 'OK, lets go dude',
       },
       {
         id: '3',
         timestamp: new Date('August 17, 2020 09:00:00'),
-        userId: '12',
+        userId: '2',
         image: '',
-        userImg: 'https://source.unsplash.com/607x599/?people',
-        userName: 'Salmon train',
-        message: 'OK, lets go dude',
-      },
-      {
-        id: '4',
-        timestamp: new Date('August 17, 2020 09:45:00'),
-        userId: '22',
-        image: '',
-        userImg: 'https://source.unsplash.com/607x598/?people',
-        userName: 'Sashimi eiei',
-        message: 'OK, lets go dude',
-      },
-      {
-        id: '5',
-        timestamp: new Date('August 17, 2020 10:00:00'),
-        userId: '32',
-        image: '',
-        userImg: 'https://source.unsplash.com/607x602/?people',
-        userName: 'Doble black',
-        message: 'OK, lets go dude',
-      },
-      {
-        id: '6',
-        timestamp: new Date('August 17, 2020 10:21:00'),
-        userId: '33',
-        image: '',
-        userImg: 'https://source.unsplash.com/609x601/?people',
-        userName: 'Daisy Doaas',
+        userImg: 'https://source.unsplash.com/800x600/?people',
+        userName: 'Jane Doe',
         message: 'OK, lets go dude',
       },
     ],
@@ -137,53 +110,24 @@ export const tasks = [
     isDone: true,
     team: [
       {
-        id: '9',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
-      },
-      {
-        id: '90',
-        name: 'Dasisy Dsaoe',
-        image: 'https://source.unsplash.com/607x609/?people',
-      },
-      {
-        id: '21',
-        name: 'Arossma krif',
-        image: 'https://source.unsplash.com/607x599/?people',
-      },
-      {
-        id: '31',
-        name: 'Korn lek',
-        image: 'https://source.unsplash.com/599x599/?people',
-      },
-      {
-        id: '234',
-        name: 'Killua',
-        image: 'https://source.unsplash.com/598x599/?people',
-      },
-      {
-        id: '23w4',
-        name: 'Giant',
-        image: 'https://source.unsplash.com/598x598/?people',
-      },
-      {
-        id: '2384',
-        name: 'Nobita',
-        image: 'https://source.unsplash.com/597x598/?people',
-      },
-      {
-        id: '22w4',
-        name: 'Doraemon',
-        image: 'https://source.unsplash.com/598x597/?people',
-      },
-      {
-        id: '23w43',
-        name: 'Tsuneo',
-        image: 'https://source.unsplash.com/596x598/?people',
+        id: '3',
+        email: 'test3@mail.com',
+        name: 'Joe Dee',
+        image: 'https://source.unsplash.com/600x900/?people',
       },
     ],
     files: [],
-    comments: [],
+    comments: [
+      {
+        id: '1',
+        timestamp: new Date('August 17, 2020 09:00:00'),
+        userId: '3',
+        image: '',
+        userImg: 'https://source.unsplash.com/600x900/?people',
+        userName: 'Joe Dee',
+        message: 'OK, lets go dude',
+      },
+    ],
   },
   {
     id: '3',
@@ -194,9 +138,16 @@ export const tasks = [
     isDone: true,
     team: [
       {
-        id: '9',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
+        id: '3',
+        email: 'test3@mail.com',
+        name: 'Joe Dee',
+        image: 'https://source.unsplash.com/600x900/?people',
+      },
+      {
+        id: '4',
+        email: 'test4@mail.com',
+        name: 'Josh Dai',
+        image: 'https://source.unsplash.com/900x900/?people',
       },
     ],
     files: [],
@@ -211,9 +162,16 @@ export const tasks = [
     isDone: true,
     team: [
       {
-        id: '9',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
+        id: '3',
+        email: 'test3@mail.com',
+        name: 'Joe Dee',
+        image: 'https://source.unsplash.com/600x900/?people',
+      },
+      {
+        id: '4',
+        email: 'test4@mail.com',
+        name: 'Josh Dai',
+        image: 'https://source.unsplash.com/900x900/?people',
       },
     ],
     files: [],
@@ -228,9 +186,16 @@ export const tasks = [
     isDone: false,
     team: [
       {
-        id: '9',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
+        id: '3',
+        email: 'test3@mail.com',
+        name: 'Joe Dee',
+        image: 'https://source.unsplash.com/600x900/?people',
+      },
+      {
+        id: '4',
+        email: 'test4@mail.com',
+        name: 'Josh Dai',
+        image: 'https://source.unsplash.com/900x900/?people',
       },
     ],
     files: [],
@@ -245,9 +210,16 @@ export const tasks = [
     isDone: false,
     team: [
       {
-        id: '9',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
+        id: '3',
+        email: 'test3@mail.com',
+        name: 'Joe Dee',
+        image: 'https://source.unsplash.com/600x900/?people',
+      },
+      {
+        id: '4',
+        email: 'test4@mail.com',
+        name: 'Josh Dai',
+        image: 'https://source.unsplash.com/900x900/?people',
       },
     ],
     files: [],
@@ -262,9 +234,16 @@ export const tasks = [
     isDone: true,
     team: [
       {
-        id: '9',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
+        id: '3',
+        email: 'test3@mail.com',
+        name: 'Joe Dee',
+        image: 'https://source.unsplash.com/600x900/?people',
+      },
+      {
+        id: '4',
+        email: 'test4@mail.com',
+        name: 'Josh Dai',
+        image: 'https://source.unsplash.com/900x900/?people',
       },
     ],
     files: [],
@@ -280,14 +259,10 @@ export const tasks = [
     isDone: true,
     team: [
       {
-        id: '9',
-        name: 'Jukii Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
-      },
-      {
-        id: '10',
-        name: 'Jane Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
+        id: '6',
+        email: 'test6@mail.com',
+        name: 'Jake Wang',
+        image: 'https://source.unsplash.com/600x600/?people',
       },
     ],
     files: [],
@@ -303,12 +278,221 @@ export const tasks = [
     isDone: false,
     team: [
       {
+        id: '7',
+        email: 'test7@mail.com',
+        name: 'Jaka Amei',
+        image: 'https://source.unsplash.com/400x600/?people',
+      },
+      {
+        id: '8',
+        email: 'test8@mail.com',
+        name: 'Jaki Jiji',
+        image: 'https://source.unsplash.com/600x400/?people',
+      },
+
+      {
         id: '9',
-        name: 'John Doe',
-        image: 'https://source.unsplash.com/607x600/?people',
+        email: 'test10@mail.com',
+        name: 'Jeki Jang',
+        image: 'https://source.unsplash.com/600x601/?people',
       },
     ],
     files: [],
     comments: [],
+  },
+  {
+    id: '10',
+    projectId: '6',
+    taskName: 'Implement Database',
+    time: new Date('2020-08-24T09:30:00'),
+    taskDetail: 'Add Database to the project',
+    isDone: false,
+    team: [
+      {
+        id: '10',
+        email: 'now@mail.com',
+        name: 'Nhow Tonnow',
+        image:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+      },
+      {
+        id: '11',
+        email: 'nan@mail.com',
+        name: 'Nan Kullanan',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+      },
+    ],
+    files: [
+      {
+        id: '1',
+        file:
+          'https://trello-attachments.s3.amazonaws.com/5f27b2c5284a1b4df3eb4230/5f27b385aa8a2d7fbf5a4f9b/20ab1a46b6cf02ad897d392df4b069cc/0.png',
+      },
+    ],
+    comments: [
+      {
+        id: '1',
+        timestamp: new Date('2020-08-21T13:30:00'),
+        userId: '10',
+        image: '',
+        userImg:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+        userName: 'Nhow Tonnow',
+        message: 'Use PostgreSQL https://www.postgresql.org/',
+      },
+      {
+        id: '2',
+        timestamp: new Date('2020-08-21T13:31:00'),
+        userId: '10',
+        image: '',
+        userImg: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+        userName: 'Nan Kullanan',
+        message: 'and Nexus https://nexus.js.org/ ',
+      },
+      {
+        id: '3',
+        timestamp: new Date('2020-08-21T13:34:00'),
+        userId: '10',
+        image: '',
+        userImg:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+        userName: 'Nhow Tonnow',
+        message: 'OK!',
+      },
+    ],
+  },
+  {
+    id: '11',
+    projectId: '6',
+    taskName: 'Progress check',
+    time: new Date('2020-08-24T15:30:00'),
+    taskDetail: 'normally progress check',
+    isDone: false,
+    team: [
+      {
+        id: '10',
+        email: 'now@mail.com',
+        name: 'Nhow Tonnow',
+        image:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+      },
+      {
+        id: '11',
+        email: 'nan@mail.com',
+        name: 'Nan Kullanan',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+      },
+      {
+        id: '14',
+        email: 'nat@mail.com',
+        name: 'Nat W',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-UNGSE8TPH-g4cf4f9cc0af-512',
+      },
+      {
+        id: '13',
+        email: 'tonkla@mail.com',
+        name: 'Tonkla Surakarn',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U016R3WAQ4U-0e8e2de8e11e-512',
+      },
+      {
+        id: '15',
+        email: 'mint@mail.com',
+        name: 'Mint Thanwimol',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-UPX5YQEDU-3f1c55434773-512',
+      },
+      {
+        id: '16',
+        email: 'jayjay@mail.com',
+        name: 'Jayjay Chalobon',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-UTMUCNH1P-557445587bf1-512',
+      },
+    ],
+    files: [],
+    comments: [
+      {
+        id: '1',
+        timestamp: new Date('2020-08-24T09:30:00'),
+        userId: '10',
+        image: '',
+        userImg:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+        userName: 'Nhow Tonnow',
+        message: 'I will go',
+      },
+      {
+        id: '2',
+        timestamp: new Date('2020-08-24T09:31:00'),
+        userId: '10',
+        image: '',
+        userImg: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+        userName: 'Nan Kullanan',
+        message: 'Me too',
+      },
+    ],
+  },
+]
+
+export const EVENT_DATA = [
+  {
+    id: '1',
+    eventDate: new Date('2020-08-25T14:30'),
+    endDate: new Date('2020-08-25T15:30'),
+    eventName: 'Intern | progress',
+    note: 'In 2nd floor meeting room',
+    tag: 'Important',
+    invited: [
+      {
+        id: '10',
+        email: 'now@mail.com',
+        name: 'Nhow Tonnow',
+        image:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+      },
+      {
+        id: '11',
+        email: 'nan@mail.com',
+        name: 'Nan Kullanan',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+      },
+    ],
+  },
+  {
+    id: '2',
+    eventDate: new Date(),
+    endDate: new Date(),
+    eventName: 'Feeding',
+    note: 'Moew moew',
+    tag: 'Important',
+    invited: [
+      {
+        id: '10',
+        email: 'now@mail.com',
+        name: 'Nhow Tonnow',
+        image:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+      },
+      {
+        id: '12',
+        email: 'moew@mail.com',
+        name: 'Moew',
+        image: 'https://source.unsplash.com/604x601/?cat',
+      },
+    ],
+  },
+  {
+    id: '3',
+    eventDate: new Date(),
+    endDate: new Date(),
+    eventName: 'Sleep',
+    note: 'zzz',
+    tag: 'Important',
+    invited: [
+      {
+        id: '12',
+        email: 'moew@mail.com',
+        name: 'Moew',
+        image: 'https://source.unsplash.com/604x601/?cat',
+      },
+    ],
   },
 ]
