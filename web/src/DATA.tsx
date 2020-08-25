@@ -196,6 +196,30 @@ export const DATA: any[] = [
         name: 'Nan Kullanan',
         image: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
       },
+      {
+        id: '13',
+        email: 'tonkla@mail.com',
+        name: 'Tonkla Surakarn',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U016R3WAQ4U-0e8e2de8e11e-512',
+      },
+      {
+        id: '14',
+        email: 'nat@mail.com',
+        name: 'Nat W',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-UNGSE8TPH-g4cf4f9cc0af-512',
+      },
+      {
+        id: '15',
+        email: 'mint@mail.com',
+        name: 'Mint Thanwimol',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-UPX5YQEDU-3f1c55434773-512',
+      },
+      {
+        id: '16',
+        email: 'jayjay@mail.com',
+        name: 'Jayjay Chalobon',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-UTMUCNH1P-557445587bf1-512',
+      },
     ],
   },
 ]
@@ -712,6 +736,28 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: '',
     },
+    projects: [
+      {
+        id: '1',
+        projectName: 'Project #1',
+        projectType: 'Web design',
+        projectDetail: 'Commodo adipiscing ornare sit lorem sit tempus urna, vestibulum, neque.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'undone',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '1',
+        projectId: '1',
+        taskName: 'Design Webpage',
+        time: new Date(),
+        taskDetail:
+          'Sit amet mattis vulputate enim nulla aliquet porttitor lacus. Aliquam sem fringilla ut morbi. Arcu non odio euismod lacinia at quis risus sed. Varius duis at consectetur lorem donec massa. A arcu cursus vitae congue mauris rhoncus.',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '2',
@@ -727,6 +773,28 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '1',
+        projectName: 'Project #1',
+        projectType: 'Web design',
+        projectDetail: 'Commodo adipiscing ornare sit lorem sit tempus urna, vestibulum, neque.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'undone',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '1',
+        projectId: '1',
+        taskName: 'Design Webpage',
+        time: new Date(),
+        taskDetail:
+          'Sit amet mattis vulputate enim nulla aliquet porttitor lacus. Aliquam sem fringilla ut morbi. Arcu non odio euismod lacinia at quis risus sed. Varius duis at consectetur lorem donec massa. A arcu cursus vitae congue mauris rhoncus.',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '3',
@@ -742,6 +810,85 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '1',
+        projectName: 'Project #1',
+        projectType: 'Web design',
+        projectDetail: 'Commodo adipiscing ornare sit lorem sit tempus urna, vestibulum, neque.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'undone',
+        dueDate: new Date(),
+      },
+      {
+        id: '2',
+        projectName: 'Project #2',
+        projectType: 'Marketing',
+        projectDetail: 'Consequat tempus nisi, orci, ligula duis.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '1',
+        projectId: '1',
+        taskName: 'Design Webpage',
+        time: new Date(),
+        taskDetail:
+          'Sit amet mattis vulputate enim nulla aliquet porttitor lacus. Aliquam sem fringilla ut morbi. Arcu non odio euismod lacinia at quis risus sed. Varius duis at consectetur lorem donec massa. A arcu cursus vitae congue mauris rhoncus.',
+        isDone: false,
+      },
+      {
+        id: '2',
+        projectId: '1',
+        taskName: 'Implement code',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: true,
+      },
+      {
+        id: '3',
+        projectId: '2',
+        taskName: '#1',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: true,
+      },
+      {
+        id: '4',
+        projectId: '2',
+        taskName: '#2',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: true,
+      },
+      {
+        id: '5',
+        projectId: '2',
+        taskName: '#3',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: false,
+      },
+      {
+        id: '6',
+        projectId: '2',
+        taskName: '#4',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: false,
+      },
+      {
+        id: '7',
+        projectId: '2',
+        taskName: '#5',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: true,
+      },
+    ],
   },
   {
     id: '4',
@@ -757,6 +904,59 @@ export const USER_DATA: any[] = [
       gitlab: '',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '2',
+        projectName: 'Project #2',
+        projectType: 'Marketing',
+        projectDetail: 'Consequat tempus nisi, orci, ligula duis.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '3',
+        projectId: '2',
+        taskName: '#1',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: true,
+      },
+      {
+        id: '4',
+        projectId: '2',
+        taskName: '#2',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: true,
+      },
+      {
+        id: '5',
+        projectId: '2',
+        taskName: '#3',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: false,
+      },
+      {
+        id: '6',
+        projectId: '2',
+        taskName: '#4',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: false,
+      },
+      {
+        id: '7',
+        projectId: '2',
+        taskName: '#5',
+        time: new Date(),
+        taskDetail: 'Odio ut sem nulla pharetra. Pharetra et ultrices neque ornare aenean.',
+        isDone: true,
+      },
+    ],
   },
   {
     id: '5',
@@ -772,6 +972,28 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '2',
+        projectName: 'Project #2',
+        projectType: 'Marketing',
+        projectDetail: 'Consequat tempus nisi, orci, ligula duis.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+      {
+        id: '3',
+        projectName: 'Project #3',
+        projectType: 'Mobile App',
+        projectDetail:
+          'Nisi lacus sed viverra tellus in hac. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [{}],
   },
   {
     id: '6',
@@ -787,6 +1009,38 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '2',
+        projectName: 'Project #2',
+        projectType: 'Marketing',
+        projectDetail: 'Consequat tempus nisi, orci, ligula duis.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+      {
+        id: '3',
+        projectName: 'Project #3',
+        projectType: 'Mobile App',
+        projectDetail:
+          'Nisi lacus sed viverra tellus in hac. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '8',
+        projectId: '3',
+        taskName: 'Sunflower',
+        time: new Date(),
+        taskDetail:
+          'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        isDone: true,
+      },
+    ],
   },
   {
     id: '7',
@@ -802,6 +1056,47 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: '',
     },
+    projects: [
+      {
+        id: '2',
+        projectName: 'Project #2',
+        projectType: 'Marketing',
+        projectDetail: 'Consequat tempus nisi, orci, ligula duis.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+      {
+        id: '4',
+        projectName: 'Project #4',
+        projectType: 'Mobile App',
+        projectDetail:
+          'Urna nunc id cursus metus aliquam eleifend. Ultrices neque ornare aenean euismod elementum. Eget arcu dictum varius duis at consectetur',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+      {
+        id: '5',
+        projectName: 'Project #5',
+        projectType: 'Mobile App',
+        projectDetail: 'Blandit volutpat maecenas volutpat blandit aliquam etiam erat.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '9',
+        projectId: '4',
+        taskName: 'Proin nibh nisl condimentum id venenatis a condimentum vitae.',
+        time: new Date(),
+        taskDetail:
+          'Lobortis feugiat vivamus at augue eget. Sed faucibus turpis in eu mi bibendum. A arcu cursus vitae congue. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin.',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '8',
@@ -817,6 +1112,47 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '2',
+        projectName: 'Project #2',
+        projectType: 'Marketing',
+        projectDetail: 'Consequat tempus nisi, orci, ligula duis.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+      {
+        id: '4',
+        projectName: 'Project #4',
+        projectType: 'Mobile App',
+        projectDetail:
+          'Urna nunc id cursus metus aliquam eleifend. Ultrices neque ornare aenean euismod elementum. Eget arcu dictum varius duis at consectetur',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+      {
+        id: '5',
+        projectName: 'Project #5',
+        projectType: 'Mobile App',
+        projectDetail: 'Blandit volutpat maecenas volutpat blandit aliquam etiam erat.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '9',
+        projectId: '4',
+        taskName: 'Proin nibh nisl condimentum id venenatis a condimentum vitae.',
+        time: new Date(),
+        taskDetail:
+          'Lobortis feugiat vivamus at augue eget. Sed faucibus turpis in eu mi bibendum. A arcu cursus vitae congue. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin.',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '9',
@@ -832,6 +1168,47 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: '',
     },
+    projects: [
+      {
+        id: '2',
+        projectName: 'Project #2',
+        projectType: 'Marketing',
+        projectDetail: 'Consequat tempus nisi, orci, ligula duis.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+      {
+        id: '4',
+        projectName: 'Project #4',
+        projectType: 'Mobile App',
+        projectDetail:
+          'Urna nunc id cursus metus aliquam eleifend. Ultrices neque ornare aenean euismod elementum. Eget arcu dictum varius duis at consectetur',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+      {
+        id: '5',
+        projectName: 'Project #5',
+        projectType: 'Mobile App',
+        projectDetail: 'Blandit volutpat maecenas volutpat blandit aliquam etiam erat.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '9',
+        projectId: '4',
+        taskName: 'Proin nibh nisl condimentum id venenatis a condimentum vitae.',
+        time: new Date(),
+        taskDetail:
+          'Lobortis feugiat vivamus at augue eget. Sed faucibus turpis in eu mi bibendum. A arcu cursus vitae congue. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin.',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '10',
@@ -848,6 +1225,45 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '5',
+        projectName: 'Project #5',
+        projectType: 'Mobile App',
+        projectDetail: 'Blandit volutpat maecenas volutpat blandit aliquam etiam erat.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'done',
+        dueDate: new Date(),
+      },
+      {
+        id: '6',
+        projectName: `Artisan' Dashboard Project`,
+        projectType: 'Web Application',
+        projectDetail:
+          'The Dashboard that show the flow of work in the project. Dashboards allow managers to monitor the contribution of the various departments in their organization. To gauge exactly how well an organization is performing overall, digital dashboards allow you to capture and report specific data points from each department within the organization, thus providing a "snapshot" of performance.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'undone',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '10',
+        projectId: '6',
+        taskName: 'Implement Database',
+        time: new Date('2020-08-24T09:30:00'),
+        taskDetail: 'Add Database to the project',
+        isDone: false,
+      },
+      {
+        id: '11',
+        projectId: '6',
+        taskName: 'Progress check',
+        time: new Date('2020-08-24T15:30:00'),
+        taskDetail: 'normally progress check',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '11',
@@ -863,6 +1279,36 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '6',
+        projectName: `Artisan' Dashboard Project`,
+        projectType: 'Web Application',
+        projectDetail:
+          'The Dashboard that show the flow of work in the project. Dashboards allow managers to monitor the contribution of the various departments in their organization. To gauge exactly how well an organization is performing overall, digital dashboards allow you to capture and report specific data points from each department within the organization, thus providing a "snapshot" of performance.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'undone',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '10',
+        projectId: '6',
+        taskName: 'Implement Database',
+        time: new Date('2020-08-24T09:30:00'),
+        taskDetail: 'Add Database to the project',
+        isDone: false,
+      },
+      {
+        id: '11',
+        projectId: '6',
+        taskName: 'Progress check',
+        time: new Date('2020-08-24T15:30:00'),
+        taskDetail: 'normally progress check',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '12',
@@ -878,6 +1324,8 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [{}],
+    tasks: [{}],
   },
   {
     id: '13',
@@ -893,6 +1341,28 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '6',
+        projectName: `Artisan' Dashboard Project`,
+        projectType: 'Web Application',
+        projectDetail:
+          'The Dashboard that show the flow of work in the project. Dashboards allow managers to monitor the contribution of the various departments in their organization. To gauge exactly how well an organization is performing overall, digital dashboards allow you to capture and report specific data points from each department within the organization, thus providing a "snapshot" of performance.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'undone',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '11',
+        projectId: '6',
+        taskName: 'Progress check',
+        time: new Date('2020-08-24T15:30:00'),
+        taskDetail: 'normally progress check',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '14',
@@ -908,6 +1378,28 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: '',
     },
+    projects: [
+      {
+        id: '6',
+        projectName: `Artisan' Dashboard Project`,
+        projectType: 'Web Application',
+        projectDetail:
+          'The Dashboard that show the flow of work in the project. Dashboards allow managers to monitor the contribution of the various departments in their organization. To gauge exactly how well an organization is performing overall, digital dashboards allow you to capture and report specific data points from each department within the organization, thus providing a "snapshot" of performance.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'undone',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '11',
+        projectId: '6',
+        taskName: 'Progress check',
+        time: new Date('2020-08-24T15:30:00'),
+        taskDetail: 'normally progress check',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '15',
@@ -923,6 +1415,28 @@ export const USER_DATA: any[] = [
       gitlab: '',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '6',
+        projectName: `Artisan' Dashboard Project`,
+        projectType: 'Web Application',
+        projectDetail:
+          'The Dashboard that show the flow of work in the project. Dashboards allow managers to monitor the contribution of the various departments in their organization. To gauge exactly how well an organization is performing overall, digital dashboards allow you to capture and report specific data points from each department within the organization, thus providing a "snapshot" of performance.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'undone',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '11',
+        projectId: '6',
+        taskName: 'Progress check',
+        time: new Date('2020-08-24T15:30:00'),
+        taskDetail: 'normally progress check',
+        isDone: false,
+      },
+    ],
   },
   {
     id: '16',
@@ -938,5 +1452,27 @@ export const USER_DATA: any[] = [
       gitlab: 'http://localhost:3000/profile',
       github: 'http://localhost:3000/profile',
     },
+    projects: [
+      {
+        id: '6',
+        projectName: `Artisan' Dashboard Project`,
+        projectType: 'Web Application',
+        projectDetail:
+          'The Dashboard that show the flow of work in the project. Dashboards allow managers to monitor the contribution of the various departments in their organization. To gauge exactly how well an organization is performing overall, digital dashboards allow you to capture and report specific data points from each department within the organization, thus providing a "snapshot" of performance.',
+        projectImage: 'https://source.unsplash.com/700x700/?work',
+        status: 'undone',
+        dueDate: new Date(),
+      },
+    ],
+    tasks: [
+      {
+        id: '11',
+        projectId: '6',
+        taskName: 'Progress check',
+        time: new Date('2020-08-24T15:30:00'),
+        taskDetail: 'normally progress check',
+        isDone: false,
+      },
+    ],
   },
 ]
