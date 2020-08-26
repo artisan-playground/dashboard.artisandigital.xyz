@@ -1,6 +1,6 @@
-import { events } from './eventdata'
-import { projects } from './projectdata'
-import { tasks } from './taskdata'
-import { users } from './userdata'
+import * as events from './eventdata'
+import * as projects from './projectdata'
+import * as tasks from './taskdata'
+import * as users from './userdata'
 
 export { projects, tasks, users, events }
