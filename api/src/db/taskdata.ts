@@ -80,6 +80,7 @@ export const tasks: Task[] = [
         userImg: 'https://source.unsplash.com/700x700/?people',
         userName: 'John Dee',
         message: "I'll do Login page",
+        taskId: '1',
       },
       {
         id: '2',
@@ -89,6 +90,7 @@ export const tasks: Task[] = [
         userImg: 'https://source.unsplash.com/700x700/?people',
         userName: 'John Dee',
         message: 'OK, lets go dude',
+        taskId: '1',
       },
       {
         id: '3',
@@ -98,6 +100,7 @@ export const tasks: Task[] = [
         userImg: 'https://source.unsplash.com/800x600/?people',
         userName: 'Jane Doe',
         message: 'OK, lets go dude',
+        taskId: '1',
       },
     ],
   },
@@ -126,6 +129,7 @@ export const tasks: Task[] = [
         userImg: 'https://source.unsplash.com/600x900/?people',
         userName: 'Joe Dee',
         message: 'OK, lets go dude',
+        taskId: '2',
       },
     ],
   },
@@ -339,6 +343,7 @@ export const tasks: Task[] = [
           'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
         userName: 'Nhow Tonnow',
         message: 'Use PostgreSQL https://www.postgresql.org/',
+        taskId: '10',
       },
       {
         id: '2',
@@ -348,6 +353,7 @@ export const tasks: Task[] = [
         userImg: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
         userName: 'Nan Kullanan',
         message: 'and Nexus https://nexus.js.org/ ',
+        taskId: '10',
       },
       {
         id: '3',
@@ -358,6 +364,7 @@ export const tasks: Task[] = [
           'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
         userName: 'Nhow Tonnow',
         message: 'OK!',
+        taskId: '10',
       },
     ],
   },
@@ -418,6 +425,7 @@ export const tasks: Task[] = [
           'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
         userName: 'Nhow Tonnow',
         message: 'I will go',
+        taskId: '11',
       },
       {
         id: '2',
@@ -427,6 +435,7 @@ export const tasks: Task[] = [
         userImg: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
         userName: 'Nan Kullanan',
         message: 'Me too',
+        taskId: '11',
       },
     ],
   },

@@ -8,6 +8,7 @@ export interface Comment {
   userImg: string
   userName: string
   message: string
+  taskId: string
 }
 
 schema.objectType({
@@ -20,5 +21,6 @@ schema.objectType({
     t.string('userImg')
     t.string('userName')
     t.string('message')
+    t.string('taskId')
   },
 })
