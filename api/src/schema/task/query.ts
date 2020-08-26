@@ -7,7 +7,7 @@ schema.extendType({
       type: 'Task',
       args: { id: schema.stringArg({ required: true }) },
       resolve: (_, args, ctx): any => {
-        return ctx.db.tasks.filter((p) => p.id === args.id) || []
+        return ctx.db.tasks.filter((p) => p.id === args.id)
       },
     })
   },

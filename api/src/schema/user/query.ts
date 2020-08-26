@@ -7,7 +7,7 @@ schema.extendType({
       type: 'User',
       args: { id: schema.stringArg({ required: true }) },
       resolve(_, args, ctx): any {
-        return ctx.db.users.filter((u) => u.id === args.id) || []
+        return ctx.db.users.find((u) => u.id === args.id) || null
       },
     })
   },
