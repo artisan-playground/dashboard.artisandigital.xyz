@@ -1,76 +1,87 @@
-import { Table } from 'antd'
+import { Table, Tag, Col, Row, Tooltip, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React from 'react'
 import { LayoutDashboard } from '../components/DashboardComponent'
+import { USER_DATA } from '../DATA'
+import { Link } from 'react-router-dom'
 
 function Member() {
+  const { Text } = Typography
   const columns = [
     {
       dataIndex: 'image',
+      width: '5%',
       render: (image: any) => (
-        <div className="-mr-64">
+        <Link to={{ pathname: '/profile', state: { profileId: image.id } }}>
           <Avatar src={image} />
-        </div>
+        </Link>
       ),
     },
     {
       title: 'Name',
       dataIndex: 'name',
+      width: '20%',
+      render: (name: any) => (
+        <Link to={{ pathname: '/profile' }}>
+          <Text>{name}</Text>
+        </Link>
+      ),
       sorter: (a: any, b: any) => a.name.length - b.name.length,
     },
     {
       title: 'Job Position',
       dataIndex: 'position',
+      width: '30%',
       sorter: (a: any, b: any) => a.position.length - b.position.length,
     },
     {
+      title: 'Skill(s)',
+      dataIndex: 'skills',
+      width: '25%',
+      render: (skills: any) => (
+        <>
+          {skills.map((skill: any, index: any) => (
+            <Tag color="blue" key={index}>
+              {skill}
+            </Tag>
+          ))}
+        </>
+      ),
+      sorter: (a: any, b: any) => a.skills.length - b.skills.length,
+    },
+    {
       title: 'Project(s)',
-      dataIndex: 'project',
-      sorter: (a: any, b: any) => a.project - b.project,
-    },
-  ]
-
-  const USER_DATA = [
-    {
-      key: '1',
-      image: 'https://source.unsplash.com/600x600/?people',
-      name: 'John Brown',
-      position: 'Frontend Developer',
-      project: 2,
-    },
-    {
-      key: '2',
-      image: 'https://source.unsplash.com/600x600/?people',
-      name: 'Jim Green',
-      position: 'Designer',
-      project: 1,
-    },
-    {
-      key: '3',
-      image: 'https://source.unsplash.com/600x600/?people',
-      name: 'Joe Black',
-      position: 'Backend Developer',
-      project: 3,
-    },
-    {
-      key: '4',
-      image: 'https://source.unsplash.com/600x600/?people',
-      name: 'Jim Red',
-      position: 'Business Analysis',
-      project: 5,
-    },
-    {
-      key: '5',
-      image: 'https://source.unsplash.com/600x600/?people',
-      name: 'John Doe',
-      position: 'Full Stack Developer',
-      project: 4,
+      dataIndex: 'projects',
+      width: '20%',
+      render: (projects: any) => (
+        <>
+          {projects
+            ? projects.map((project: any, index: any) => (
+                <Link to={{ pathname: `/projects/${project.id}`, state: { data: project } }}>
+                  <Tooltip placement="top" title={project.projectName}>
+                    <Avatar src={project.projectImage} key={index} className="mr-1" />
+                  </Tooltip>
+                </Link>
+              ))
+            : ''}
+        </>
+      ),
+      sorter: (a: any, b: any) => a.projects.length - b.projects.length,
     },
   ]
 
   return (
-    <LayoutDashboard>
-      <Table columns={columns} dataSource={USER_DATA} pagination={{ pageSize: 10 }} />
+    <LayoutDashboard noCard>
+      <Row>
+        <Col xs={24} xl={24}>
+          <Table
+            columns={columns}
+            dataSource={USER_DATA}
+            pagination={{ pageSize: 10 }}
+            scroll={{ x: 1000 }}
+          />
+        </Col>
+      </Row>
     </LayoutDashboard>
   )
 }

@@ -10,7 +10,7 @@ function LayoutProfile({ className, children }: any) {
     <>
       <NavBar />
       <SideNav>
-          <Layout className="p-0 w-full ">
+          <Layout className="p-0 w-full">
             <Content className="pt-8 pb-24 px-8 w-full">{children}</Content>
             <SideProfile />
           </Layout>
