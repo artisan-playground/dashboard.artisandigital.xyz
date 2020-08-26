@@ -6,8 +6,8 @@ schema.extendType({
     t.field('getTaskById', {
       type: 'Task',
       args: { id: schema.stringArg({ required: true }) },
-      resolve: (_, args, ctx) => {
-        return ctx.db.tasks.find((p) => p.id === args.id) || null
+      resolve: (_, args, ctx): any => {
+        return ctx.db.tasks.filter((p) => p.id === args.id) || []
       },
     })
   },

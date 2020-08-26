@@ -6,8 +6,8 @@ schema.extendType({
     t.field('getTeam', {
       type: 'Team',
       args: { id: schema.stringArg({ required: true }) },
-      resolve: (_, args, ctx) => {
-        const team = ctx.db.projects.map((p) => p.team?.filter((i) => i.id === args.id)) || null
+      resolve: (_, args, ctx): any => {
+        const team = ctx.db.projects.map((p) => p.team?.filter((i) => i.id === args.id)) || []
         return team
       },
     })

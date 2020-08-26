@@ -7,7 +7,7 @@ schema.extendType({
       type: 'Comment',
       args: { projectId: schema.stringArg({ required: true }) },
       resolve: (_, args, ctx) => {
-        return ctx.db.tasks.filter((f) => f.projectId === args.projectId) || null
+        return ctx.db.tasks.filter((f) => f.projectId === args.projectId) || []
       },
     })
   },

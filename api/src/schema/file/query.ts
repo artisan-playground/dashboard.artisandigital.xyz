@@ -6,8 +6,8 @@ schema.extendType({
     t.field('getFile', {
       type: 'File',
       args: { id: schema.stringArg({ required: true }) },
-      resolve: (_, args, ctx) => {
-        return ctx.db.tasks.find((f) => f.id === args.id) || null
+      resolve: (_, args, ctx): any => {
+        return ctx.db.tasks.filter((f) => f.id === args.id) || []
       },
     })
   },
