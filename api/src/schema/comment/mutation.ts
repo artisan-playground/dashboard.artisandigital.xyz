@@ -36,3 +36,27 @@ schema.extendType({
     })
   },
 })
+
+schema.extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('deleteComment', {
+      type: 'Comment',
+      args: {
+        commentId: schema.stringArg({ required: true }),
+        taskId: schema.stringArg({ required: true }),
+      },
+      resolve: (_root, args, ctx): any => {
+        let taskIndex = ctx.db.tasks.map((t) => t.id).indexOf(args.taskId)
+        let commentIndex = ctx.db.tasks[taskIndex].comments.map((c) => c.id).indexOf(args.commentId)
+
+        if (commentIndex !== -1 && taskIndex !== -1) {
+          ctx.db.tasks[taskIndex].comments.splice(commentIndex, 1)
+          return ctx.db.tasks
+        } else {
+          return new Error(`No data at comment id ${args.commentId} and project id ${args.taskId}`)
+        }
+      },
+    })
+  },
+})
