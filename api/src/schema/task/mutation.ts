@@ -51,3 +51,23 @@ schema.extendType({
     })
   },
 })
+
+schema.extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('toggleIsDone', {
+      type: 'Task',
+      args: { id: schema.stringArg({ required: true }) },
+      resolve: (_root, args, ctx): any => {
+        ctx.db.tasks.map((task, index) => {
+          if (task.id === args.id) {
+            task.isDone = !ctx.db.tasks[index].isDone
+            return ctx.db.tasks
+          } else {
+            return new Error(`No data at id ${args.id}`)
+          }
+        })
+      },
+    })
+  },
+})

@@ -3,7 +3,7 @@ import { schema } from 'nexus'
 schema.extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('getTask', {
+    t.field('getTaskById', {
       type: 'Task',
       args: { id: schema.stringArg({ required: true }) },
       resolve: (_, args, ctx) => {
@@ -16,7 +16,7 @@ schema.extendType({
 schema.extendType({
   type: 'Query',
   definition(t) {
-    t.list.field('getTasks', {
+    t.list.field('getAllTasks', {
       type: 'Task',
       resolve(_, _args, ctx) {
         return ctx.db.tasks
