@@ -249,10 +249,11 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
                             </Dropdown>
                           </div>
                         </div>
-
-                        <Linkify>
-                          <Text className="text-md">{item.message}</Text>
-                        </Linkify>
+                        <div className="pr-8 pl-2">
+                          <Linkify>
+                            <Text className="text-md">{item.message}</Text>
+                          </Linkify>
+                        </div>
                       </div>
                     </Col>
                   </Row>
