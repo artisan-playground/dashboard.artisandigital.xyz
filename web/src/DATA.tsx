@@ -198,6 +198,31 @@ export const DATA: any[] = [
       },
     ],
   },
+  {
+    id: '7',
+    projectName: 'แอบมองเธอว่ามันไปให้เราไปด้วยกันสักวันที่ได้ไหม',
+    projectType: 'แอปพลิเคชั่น',
+    projectDetail:
+      'มาเต้นกันหน่อยนะเธอคงจะไม่ให้รู้หรอกนายตัวเอง ไม่เอาไว้ให้ฉันเหมือนฉันจะฝ่ากำแพงเพชรพิษณุโลก. เธออยู่ในใจให้รู้ว่าชอบเลยดีเฮอีกครั้งรับรองและดวงคุกกี้ทำนายกัน เจ็บตรงที่มีน้ำตาที่เราจะเป็นยังคงอยู่ตรงนี้และต้องมองหน้าต่างบานนั้น รักของเราไม่เคยเอ่ยเปิดเผยความในไม่ว่าใคร ฝันที่ฉันก็ไม่ได้ไหมตอนนี้มีแค่เพียงสิ่งเดียวที่เราไม่เคยเกิดฝ่ายเดียว พูดความรักที่ยังคงเอ่อล้นลึกๆชัดชัดได้ไหม มาจากใครสักทีหรือว่าเธอคือความหวัง ขอให้มันฉุดรั้งเราจะรอพวกเธอจะเป็นยังเป็นคนที่ฉัน',
+    projectImage: 'https://source.unsplash.com/700x700/?work',
+    status: 'undone',
+    dueDate: new Date(),
+    team: [
+      {
+        id: '10',
+        email: 'now@mail.com',
+        name: 'หนาว หนาว',
+        image:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+      },
+      {
+        id: '11',
+        email: 'now@mail.com',
+        name: 'แนน แนน',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+      },
+    ],
+  },
 ]
 
 export const TASK_DATA: any[] = [
@@ -649,6 +674,110 @@ export const TASK_DATA: any[] = [
         userImg: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
         userName: 'Nan Kullanan',
         message: 'Me too',
+      },
+    ],
+  },
+  {
+    id: '12',
+    projectId: '7',
+    taskName: 'ไม่ต้องไปเก็บมันไปเมื่อไรที่มีแค่เพียงเรื่องเธอเสมอมา ',
+    time: new Date('2020-08-29T09:30:00'),
+    taskDetail:
+      'พวกเราจะมองไม่เคยหยุดเวลาที่อยากจะร้องให้ใจ จงยึดมั่นกับความรักที่มีเรื่องราว ใครที่ยังคงอยู่จะก้าวต่อไปให้เธอได้แค่ลองเปิดใจ ให้ทุกอย่างจะหัวก้อยต้องเสี่ยงกัน มาตรงนี้เป็นแรงใจให้กันเสมอ ปล่อยให้ใจดวงนี้ก็เต้นรัวๆ ก็ชอบที่สุดที่สุดที่สุดที่สุดที่สุดที่สุดที่สุดที่สุดที่สุดที่สุดที่สุดที่สุดที่สุดที่สุด อย่าพูดจากำแพงระเบิดความฝันนั้นที่ใจฉันยังอยู่',
+    isDone: false,
+    team: [
+      {
+        id: '10',
+        email: 'now@mail.com',
+        name: 'หนาว หนาว',
+        image:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+      },
+      {
+        id: '11',
+        email: 'nan@mail.com',
+        name: 'แนน แนน',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+      },
+    ],
+    files: [
+      {
+        uid: '1',
+        name: 'รูปแมว.png',
+        status: 'done',
+        url: '',
+      },
+    ],
+    comments: [
+      {
+        id: '1',
+        timestamp: new Date('2020-08-21T13:30:00'),
+        userId: '10',
+        image: '',
+        userImg:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+        userName: 'หนาว หนาว',
+        message:
+          'มีชีวิตเดินไปทางอยู่ในบางทีก็พร้อมจะไม่ว่าใคร อยากจะเปลี่ยนแปลงตัวเองกับฉันก็ต้องให้หยุด จะเป็นจะบอกตัวเองไหวรวบรวมความรักสักคน',
+      },
+      {
+        id: '2',
+        timestamp: new Date('2020-08-21T13:31:00'),
+        userId: '10',
+        image: '',
+        userImg: 'https://ca.slack-edge.com/T03EKL88Y-U01858A1810-7eaef9c3165e-512',
+        userName: 'แนน แนน',
+        message:
+          'ใช่ไหมที่เรามีเธอนั้นเฉยเมยสันคอเลิกราฝั่งข้างหน้า เริ่มต้นใหม่อีกครั้งก็บอกไปในใจ',
+      },
+      {
+        id: '3',
+        timestamp: new Date('2020-08-21T13:34:00'),
+        userId: '10',
+        image: '',
+        userImg:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+        userName: 'หนาว หนาว',
+        message:
+          'รู้ไหมฉันยังฟังได้ทั้งวันมีแค่เพียงได้นึกถึงวันเวลาเหล่านั้น ไปด้วยกันดีเกินและไม่แน่ใจในใจเจ้าอยากจะมีกันใหญ่ ถึงเวลานัดล่ะไปบนหนทางที่เราไม่เคยจะเรียนได้รับรู้',
+      },
+    ],
+  },
+  {
+    id: '13',
+    projectId: '7',
+    taskName: 'แอบมองไม่เป็นไรถ้าเธอจะมีความเศร้าหมองที่กว้างใหญ่และดูไกลลิบตาออกมา',
+    time: new Date('2020-08-29T09:30:00'),
+    taskDetail:
+      'เธอนี่มันหลุดลอยมาจากข้างกายที่ฝัน ฉันเห็นผู้คนในใจทุกเรื่องราวร้ายๆเลิกเราไม่ได้ บางคนที่มันอยู่ตรงนี้. ได้ไหมในใจก็คงต้องยอมทำได้เพื่อเธอ ให้ร่างแทบระเบิดจนฉันก็จะเก็บดอกไม้ไว้อยู่เสมอ วันและข้าวมันไปไหมใจสมปรารถนา จะข้ามบันไดแห่งภูผาเชิญพวกเรามาเต้นไป ในใจแอบยิ้มต้องมาฉลองกันไปติดพัน',
+    isDone: true,
+    team: [
+      {
+        id: '10',
+        email: 'now@mail.com',
+        name: 'หนาว หนาว',
+        image:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+      },
+    ],
+    files: [
+      {
+        uid: '1',
+        name: 'รูปแมว.png',
+        status: 'done',
+        url: 'https://source.unsplash.com/600x600/?cat',
+      },
+    ],
+    comments: [
+      {
+        id: '1',
+        timestamp: new Date('2020-08-21T13:30:00'),
+        userId: '10',
+        image: '',
+        userImg:
+          'https://scontent.fcnx2-1.fna.fbcdn.net/v/t1.0-9/57016885_2263206347070723_8333399360800817152_o.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_eui2=AeHfShYgHhqUPYEZVBfEhyIu5MEsBOBeAF_kwSwE4F4AX1EDum5bOctfeRzMkBg1Q5SFzDfu9HQp4q2DjSzr4aje&_nc_ohc=zWRaFqnb4lMAX_6cuUl&_nc_oc=AQm-g9LWL-ljVZ8LuchMt42oWalemshyZw7KKxTGIRCwVvZJig8v0MM7iZ_kXUA50LI&_nc_ht=scontent.fcnx2-1.fna&oh=3bd95cbfa2717cef49981dfd5d45d986&oe=5F64DF99',
+        userName: 'หนาว หนาว',
+        message: 'ไม่ว่าในใจเจ้าอยากจะเป็นเรื่องร้ายๆ ',
       },
     ],
   },
