@@ -1,10 +1,22 @@
 import {
-  BorderOutlined,
-  CheckSquareOutlined,
+  CheckCircleOutlined,
   CommentOutlined,
+  ExclamationCircleOutlined,
+  LoadingOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Card, Col, Popover, Row, Skeleton, Tooltip, Typography } from 'antd'
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  message,
+  Popover,
+  Row,
+  Skeleton,
+  Tooltip,
+  Typography,
+} from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import TaskOverlay from './TaskOverlay'
@@ -29,7 +41,20 @@ function TaskCard({ data, project }: any) {
 
   function onDoneClick(event: any) {
     event.stopPropagation()
-    if (taskData) setTaskData({ ...taskData, isDone: !taskData.isDone })
+    message.loading({
+      content: 'Loading...',
+      duration: 2,
+      icon: <LoadingOutlined style={{ fontSize: 20, top: -2 }} spin />,
+    })
+
+    setTimeout(() => {
+      if (taskData) setTaskData({ ...taskData, isDone: !taskData.isDone })
+      message.success({
+        content: 'Successfully updated',
+        duration: 2,
+        icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
+      })
+    }, 2200)
   }
 
   function renderShowItems(item: any) {
@@ -107,22 +132,51 @@ function TaskCard({ data, project }: any) {
         project={project}
       />
       <Row gutter={[8, 16]}>
-        <div className="flex flex-col col-12 items-start justify-center">
-          <div className="flex flex-row items-center">
-            <Text className="font-bold text-xl">{data.taskName}</Text>
-            {data.files.length !== 0 ? (
-              <PaperClipOutlined className="ml-2 text-gray-500" />
+        <div className="flex flex-row items-start justify-center">
+          <div className="flex flex-row items-center justify-center my-2 mx-2">
+            {taskData.isDone ? (
+              <Button
+                className="flex items-center justify-center bg-primary shadow-sm hover:bg-primaryopacity transition duration-200 ease-in outline-none"
+                type="primary"
+                shape="circle"
+                size="large"
+                onClick={onDoneClick}
+              >
+                <CheckCircleOutlined style={{ fontSize: 24, color: '#fff', marginTop: -2 }} />
+              </Button>
             ) : (
-              <div />
-            )}
-            {data.comments.length !== 0 ? (
-              <CommentOutlined className="ml-2 text-gray-500" />
-            ) : (
-              <div />
+              <Button
+                className="flex items-center justify-center shadow-sm hover:bg-red-200 transition duration-200 ease-in outline-none"
+                type="primary"
+                shape="circle"
+                size="large"
+                danger
+                onClick={onDoneClick}
+              >
+                <ExclamationCircleOutlined
+                  // className="animate-ping"
+                  style={{ fontSize: 24, color: '#fff', marginTop: -2 }}
+                />
+              </Button>
             )}
           </div>
-          <div className="flex flex-row">
-            <Text disabled>{data.time.toLocaleTimeString() || '...'}</Text>
+          <div className="flex flex-col">
+            <div className="flex flex-row items-center w-full">
+              <Text className="font-bold text-xl ml-2">{data.taskName}</Text>
+              {data.files.length !== 0 ? (
+                <PaperClipOutlined className="ml-2 text-gray-500" />
+              ) : (
+                <div />
+              )}
+              {data.comments.length !== 0 ? (
+                <CommentOutlined className="ml-2 text-gray-500" />
+              ) : (
+                <div />
+              )}
+            </div>
+            <div className="flex flex-col ml-2">
+              <Text disabled>{data.time.toLocaleTimeString() || '...'}</Text>
+            </div>
           </div>
         </div>
 
@@ -133,29 +187,6 @@ function TaskCard({ data, project }: any) {
           <Row className="justify-between">
             <Col className=" min-h-full">
               <Row className="justify-end items-end">{renderShowItems(data.team)}</Row>
-            </Col>
-            <Col className="absolute bottom-0 right-0 flex items-center justify-end">
-              {taskData.isDone ? (
-                <Button
-                  className="flex items-center justify-center"
-                  type="text"
-                  shape="circle"
-                  size="large"
-                  onClick={onDoneClick}
-                >
-                  <CheckSquareOutlined style={{ fontSize: 24 }} />
-                </Button>
-              ) : (
-                <Button
-                  className="flex items-center justify-center"
-                  type="text"
-                  shape="circle"
-                  size="large"
-                  onClick={onDoneClick}
-                >
-                  <BorderOutlined style={{ fontSize: 24 }} />
-                </Button>
-              )}
             </Col>
           </Row>
         </Col>
