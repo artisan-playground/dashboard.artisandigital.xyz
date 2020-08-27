@@ -8,28 +8,28 @@ import {
   ProfileProjectCard,
   ProfileTaskCard,
 } from '../components/DashboardComponent'
-import { DATA, TASK_DATA } from '../DATA'
 
-function Profile() {
+function Profile(props: any) {
   const { Title } = Typography
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
+  const data = props.location.state.data
 
   useEffect(() => {
     switch (types) {
       case 'undone':
-        let wip: any[] = DATA.filter((item) => item.status === 'undone')
+        let wip: any[] = data.projects.filter((item: any) => item.status === 'undone')
         setFilteredData(wip)
         break
       case 'done':
-        let closed: any[] = DATA.filter((item) => item.status === 'done')
+        let closed: any[] = data.projects.filter((item: any) => item.status === 'done')
         setFilteredData(closed)
         break
       case 'all':
-        setFilteredData(DATA)
+        setFilteredData(data.projects)
         break
       default:
-        setFilteredData(DATA)
+        setFilteredData(data.projects)
         break
     }
   }, [types])
@@ -39,8 +39,8 @@ function Profile() {
   }
 
   return (
-    <LayoutProfile>
-      <Title level={3}>Today's task</Title>
+    <LayoutProfile data={data}>
+      <Title level={3}>Today's Tasks</Title>
       <div className="relative mr-auto ml-auto max-w-screen-md">
         <div className="w-full">
           <Carousel
@@ -74,11 +74,18 @@ function Profile() {
             slidesToSlide={3}
             swipeable
           >
-            {TASK_DATA.map((items, index) => (
-              <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
-                <ProfileTaskCard data={items} />
-              </Col>
-            ))}
+            {data.tasks ? (
+              data.tasks.map((items: any, index: any) => (
+                <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
+                  <ProfileTaskCard data={items} />
+                </Col>
+              ))
+            ) : (
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                className="flex items-center justify-center text-center"
+              />
+            )}
           </Carousel>
         </div>
       </div>
@@ -86,7 +93,7 @@ function Profile() {
       <Row className="mb-2">
         <Col flex={1}>
           <Row>
-            <Title level={3}>Project(s)</Title>
+            <Title level={3}>Projects</Title>
           </Row>
         </Col>
         <Col>

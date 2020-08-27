@@ -12,9 +12,13 @@ function Member() {
       dataIndex: 'image',
       width: '5%',
       render: (image: any) => (
-        <Link to={{ pathname: '/profile', state: { profileId: image.id } }}>
-          <Avatar src={image} />
-        </Link>
+        <>
+          {USER_DATA.filter((item: any) => item.image === image).map((item: any, index: any) => (
+            <Link key={index} to={{ pathname: '/profile', state: { data: item } }}>
+              <Avatar src={image} />
+            </Link>
+          ))}
+        </>
       ),
     },
     {
@@ -22,9 +26,13 @@ function Member() {
       dataIndex: 'name',
       width: '20%',
       render: (name: any) => (
-        <Link to={{ pathname: '/profile' }}>
-          <Text>{name}</Text>
-        </Link>
+        <>
+          {USER_DATA.filter((item: any) => item.name === name).map((item: any, index: any) => (
+            <Link key={index} to={{ pathname: '/profile', state: { data: item } }}>
+              <Text>{name}</Text>
+            </Link>
+          ))}
+        </>
       ),
       sorter: (a: any, b: any) => a.name.length - b.name.length,
     },
