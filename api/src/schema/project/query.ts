@@ -7,7 +7,7 @@ schema.extendType({
       type: 'Project',
       args: { id: schema.stringArg({ required: true }) },
       resolve: (_, args, ctx) => {
-        return ctx.db.projects.find((p) => p.id === args.id) || null
+        return ctx.db.projects.filter((p) => p.id === args.id) || null
       },
     })
   },
