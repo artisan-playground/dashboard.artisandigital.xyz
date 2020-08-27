@@ -136,17 +136,18 @@ function TaskCard({ data, project }: any) {
           <div className="flex flex-row items-center justify-center my-2 mx-2">
             {taskData.isDone ? (
               <Button
-                className="flex items-center justify-center bg-primary shadow-sm hover:bg-primaryopacity transition duration-200 ease-in outline-none"
+                className="flex items-center justify-center shadow-md hover:bg-green-600 transition duration-200 ease-in outline-none"
                 type="primary"
                 shape="circle"
                 size="large"
+                style={{ backgroundColor: '#68d391', border: '0' }}
                 onClick={onDoneClick}
               >
                 <CheckCircleOutlined style={{ fontSize: 24, color: '#fff', marginTop: -2 }} />
               </Button>
             ) : (
               <Button
-                className="flex items-center justify-center shadow-sm hover:bg-red-200 transition duration-200 ease-in outline-none"
+                className="flex items-center justify-center shadow-md bg-red-400 hover:bg-red-600 transition duration-200 ease-in outline-none"
                 type="primary"
                 shape="circle"
                 size="large"
