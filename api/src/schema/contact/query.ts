@@ -6,8 +6,8 @@ schema.extendType({
     t.field('getContact', {
       type: 'Contact',
       args: { id: schema.stringArg({ required: true }) },
-      resolve(_, args, ctx) {
-        const contact = ctx.db.users.find((c) => c.contacts?.filter((i) => i.id === args.id)) || []
+      resolve: (_, args, ctx): any => {
+        const contact = ctx.db.users.map((p) => p.contacts?.filter((i) => i.id === args.id)) || []
         return contact
       },
     })
