@@ -50,7 +50,14 @@ function Profile(props: any) {
       </Button>
     )
   }
-  
+
+  const CustomLeftArrow = ({ onClick }: any) => (
+    <LeftCircleOutlined className="absolute left-0 rounded-full" onClick={() => onClick()}size={50} />
+  )
+  const CustomRightArrow = ({ onClick }: any) => (
+    <RightCircleOutlined className="absolute right-0 rounded-full" onClick={() => onClick()}size={50} />
+  )
+
   return (
     <LayoutProfile data={data}>
       <Title level={3}>Today's Tasks</Title>
@@ -87,6 +94,8 @@ function Profile(props: any) {
             slidesToSlide={3}
             swipeable
             customDot={<CustomDot />}
+            customRightArrow={<CustomRightArrow />}
+            customLeftArrow={<CustomLeftArrow />}
           >
             {data.tasks ? (
               data.tasks.map((items: any, index: any) => (
