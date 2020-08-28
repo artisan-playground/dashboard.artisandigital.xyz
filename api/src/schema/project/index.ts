@@ -20,8 +20,11 @@ schema.objectType({
     t.string('projectDetail')
     t.string('status')
     t.date('dueDate')
-    t.list.field('members', {
+    t.list.field('memberIds', {
       type: 'User',
+      resolve: (_root, args, ctx): any => {
+        return ctx.db.users.filter((u) => _root.memberIds.includes(u.id))
+      },
     })
   },
 })
