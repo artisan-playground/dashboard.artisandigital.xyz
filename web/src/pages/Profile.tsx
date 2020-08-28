@@ -8,7 +8,7 @@ import {
   ProfileProjectCard,
   ProfileTaskCard,
 } from '../components/DashboardComponent'
-import { LineOutlined, LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons'
+import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 
 function Profile(props: any) {
   const { Title } = Typography
@@ -52,10 +52,22 @@ function Profile(props: any) {
   }
 
   const CustomLeftArrow = ({ onClick }: any) => (
-    <LeftCircleOutlined className="absolute left-0 rounded-full" onClick={() => onClick()}size={50} />
+    <Button
+      type="primary"
+      className="absolute left-0 rounded-full flex items-center w-12 h-12"
+      onClick={() => onClick()}
+    >
+      <LeftOutlined className="text-lg" />
+    </Button>
   )
   const CustomRightArrow = ({ onClick }: any) => (
-    <RightCircleOutlined className="absolute right-0 rounded-full" onClick={() => onClick()}size={50} />
+    <Button
+      type="primary"
+      className="absolute right-0 rounded-full flex items-center w-12 h-12"
+      onClick={() => onClick()}
+    >
+      <RightOutlined className="text-lg" />
+    </Button>
   )
 
   return (
