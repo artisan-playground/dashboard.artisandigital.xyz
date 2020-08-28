@@ -1,4 +1,4 @@
-import { Col, Empty, Radio, Row, Typography } from 'antd'
+import { Col, Empty, Radio, Row, Typography, Button } from 'antd'
 import React, { useEffect, useState } from 'react'
 // @ts-ignore
 import Carousel from 'react-multi-carousel'
@@ -8,6 +8,7 @@ import {
   ProfileProjectCard,
   ProfileTaskCard,
 } from '../components/DashboardComponent'
+import { LineOutlined, LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons'
 
 function Profile(props: any) {
   const { Title } = Typography
@@ -38,6 +39,18 @@ function Profile(props: any) {
     setTypes(e.target.value)
   }
 
+  const CustomDot = ({ onClick, active }: any) => {
+    return (
+      <Button
+        style={{ backgroundColor: active ? '#105EFC' : '#AAAAAA' }}
+        className="rounded-full h-1 w-1"
+        onClick={() => onClick()}
+      >
+        &nbsp;
+      </Button>
+    )
+  }
+  
   return (
     <LayoutProfile data={data}>
       <Title level={3}>Today's Tasks</Title>
@@ -58,7 +71,7 @@ function Profile(props: any) {
             keyBoardControl
             minimumTouchDrag={80}
             renderButtonGroupOutside={true}
-            renderDotsOutside={false}
+            renderDotsOutside={true}
             responsive={{
               desktop: {
                 breakpoint: {
@@ -73,6 +86,7 @@ function Profile(props: any) {
             sliderClass=""
             slidesToSlide={3}
             swipeable
+            customDot={<CustomDot />}
           >
             {data.tasks ? (
               data.tasks.map((items: any, index: any) => (
@@ -81,10 +95,12 @@ function Profile(props: any) {
                 </Col>
               ))
             ) : (
-              <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                className="flex items-center justify-center text-center"
-              />
+              <Col lg={{ span: 24 }}>
+                <Empty
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  className="flex items-center justify-center text-center"
+                />
+              </Col>
             )}
           </Carousel>
         </div>
@@ -115,10 +131,9 @@ function Profile(props: any) {
             )
           })
         ) : (
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            className="flex items-center justify-center text-center"
-          />
+          <Col xs={24} className="flex items-center justify-center text-center">
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          </Col>
         )}
       </Row>
     </LayoutProfile>
