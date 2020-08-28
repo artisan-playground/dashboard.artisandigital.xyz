@@ -41,7 +41,7 @@ schema.extendType({
           projectImage: args.input?.projectImage,
           status: 'undone',
           dueDate: args.input?.dueDate || new Date(),
-          team: [],
+          memberIds: [],
         }
         ctx.db.projects.push(project)
         return project
@@ -67,7 +67,7 @@ schema.extendType({
               projectImage: args.input?.projectImage,
               status: args.input?.status || 'undone',
               dueDate: new Date(),
-              team: [],
+              memberIds: [],
             }
             return ctx.db.projects
           } else {
