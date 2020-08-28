@@ -17,6 +17,8 @@ schema.objectType({
   definition(t) {
     t.string('id')
     t.string('name')
+    t.string('email')
+    t.string('image')
     t.list.field('projects', {
       type: 'Project',
     })
