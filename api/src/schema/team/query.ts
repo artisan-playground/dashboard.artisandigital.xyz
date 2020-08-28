@@ -3,7 +3,7 @@ import { schema } from 'nexus'
 schema.extendType({
   type: 'Query',
   definition: (t) => {
-    t.list.field('getTeamInProject', {
+    t.list.field('getTeamByProjectId', {
       type: 'Team',
       args: { projectId: schema.stringArg({ required: true }) },
       resolve: (_root, args, ctx) => {
