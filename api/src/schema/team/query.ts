@@ -3,12 +3,14 @@ import { schema } from 'nexus'
 schema.extendType({
   type: 'Query',
   definition: (t) => {
-    t.field('getTeam', {
+    t.list.field('getTeamInProject', {
       type: 'Team',
-      args: { id: schema.stringArg({ required: true }) },
-      resolve: (_, args, ctx): any => {
-        const team = ctx.db.projects.map((p) => p.team?.filter((i) => i.id === args.id)) || []
-        return team
+      args: { projectId: schema.stringArg({ required: true }) },
+      resolve: (_root, args, ctx) => {
+        return ctx.db.projects
+          .map((item) => item.id === args.projectId && item.team)
+          .filter((x) => x)
+          .flat()
       },
     })
   },
