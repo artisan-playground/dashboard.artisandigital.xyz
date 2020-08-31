@@ -1,18 +1,36 @@
 import {
   BorderOutlined,
+  CheckCircleOutlined,
   CheckSquareOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
   CommentOutlined,
+  DeleteOutlined,
+  EditOutlined,
   FundProjectionScreenOutlined,
   LoadingOutlined,
+  MoreOutlined,
   PaperClipOutlined,
   PlusOutlined,
+  RollbackOutlined,
   SendOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { Avatar, Button, Col, Input, Modal, Row, Skeleton, Tooltip, Typography, Upload } from 'antd'
+import {
+  Avatar,
+  Button,
+  Col,
+  Dropdown,
+  Input,
+  Menu,
+  message as Message,
+  Modal,
+  Row,
+  Skeleton,
+  Typography,
+  Upload,
+} from 'antd'
 import React, { useEffect, useState } from 'react'
 import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
@@ -37,16 +55,28 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
   }, [visible])
 
   function onDoneClick() {
-    const tempData: Task = taskData
-      ? {
-          ...taskData,
-          isDone: !taskData.isDone,
-        }
-      : {
-          ...data,
-          isDone: !data.isDone,
-        }
-    setTaskData(tempData)
+    Message.loading({
+      content: 'Loading...',
+      duration: 2,
+      icon: <LoadingOutlined style={{ fontSize: 20, top: -2 }} spin />,
+    })
+    setTimeout(() => {
+      const tempData: Task = taskData
+        ? {
+            ...taskData,
+            isDone: !taskData.isDone,
+          }
+        : {
+            ...data,
+            isDone: !data.isDone,
+          }
+      setTaskData(tempData)
+      Message.success({
+        content: 'Successfully updated',
+        duration: 2,
+        icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
+      })
+    }, 2200)
   }
 
   function onCancleClick(event: any) {
@@ -108,6 +138,27 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
     }
   }
 
+  const menu = (
+    <Menu>
+      <Menu.Item className="flex flex-row px-4 items-center">
+        <RollbackOutlined />
+        <a target="_blank" rel="noopener noreferrer" href="/">
+          Reply
+        </a>
+      </Menu.Item>
+      <Menu.Item className="flex flex-row px-4 items-center">
+        <EditOutlined />
+        <a target="_blank" rel="noopener noreferrer" href="/">
+          Edit
+        </a>
+      </Menu.Item>
+      <Menu.Item danger className="flex flex-row px-4 items-center">
+        <DeleteOutlined />
+        Delete
+      </Menu.Item>
+    </Menu>
+  )
+
   return !taskData ? (
     <Modal visible={modalVisible}>
       <Skeleton />
@@ -128,47 +179,27 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
       destroyOnClose
       closeIcon={<CloseCircleOutlined style={{ color: 'red', fontSize: 24 }} />}
     >
-      <Text className="absolute top-0 left-0 text-2xl font-bold mt-4 ml-4">
-        {taskData.taskName}
-      </Text>
+      <Text className="font-bold text-4xl ml-2">{taskData.taskName}</Text>
       <Row className="py-4">
         <Col span={24} lg={{ span: 18 }} className="pl-4 pr-4 pt-2 border-r-2">
           <Row>
-            <Text className="text-lg pl-2 mb-8">{taskData.taskDetail}</Text>
+            <Text className="text-lg pl-4 pr-4 mb-8">{taskData.taskDetail}</Text>
           </Row>
           <Row className="items-center">
             <PaperClipOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Clipboard</Text>
           </Row>
-          <Row className="py-2 px-2 overflow-y-auto flex w-full">
-            {taskData.files ? (
-              taskData.files.map((item: any) => (
-                <Tooltip title={item.id}>
-                  <div className="w-24 h-24 bg-gray-200 ml-2 mb-2 mr-1 flex justify-center items-center col-4">
-                    {item.file ? (
-                      <img src={item.file} alt={item.file} className="w-full h-full p-0" />
-                    ) : (
-                      <PaperClipOutlined style={{ color: '#444' }} />
-                    )}
-                  </div>
-                </Tooltip>
-              ))
-            ) : (
-              <div className="flex w-full justify-center p-4 mb-4">
-                <Text disabled>No file</Text>
-              </div>
-            )}
-
+          <Row className="py-2 px-4 overflow-y-auto flex flex-row clearfix">
             <Upload
+              fileList={taskData.files}
               name="avatar"
               listType="picture-card"
-              className="avatar-uploader w-full h-32 ml-1/8 mb-1 flex flex-row p-0"
               showUploadList={true}
               action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
               beforeUpload={beforeUpload}
               onChange={handleChange}
             >
-              <div className="w-20 h-20 mx-auto my-auto flex flex-row justify-center items-center p-0">
+              <div className="flex flex-row justify-center items-center">
                 {loading ? <LoadingOutlined /> : <PlusOutlined />}
                 <div className="ant-upload-text">Upload</div>
               </div>
@@ -193,20 +224,36 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
                       </Link>
                     </Col>
                     <Col span={18} lg={{ span: 20 }}>
-                      <div className="w-full py-2 px-4 mx-0 bg-white shadow-lg rounded-lg">
-                        <Link to={{ pathname: '/profile', state: { profileId: item.id } }}>
-                          <Text className="font-bold text-lg mr-2">{item.userName}</Text>
-                        </Link>
-                        <Text disabled>
-                          {item.timestamp.toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </Text>
-                        <br />
-                        <Linkify>
-                          <Text className="text-md">{item.message}</Text>
-                        </Linkify>
+                      <div className="w-full py-2 pl-4 mx-0 bg-white shadow-lg rounded-lg">
+                        <div className="flex flex-row justify-between">
+                          <div>
+                            <Link to={{ pathname: '/profile', state: { profileId: item.id } }}>
+                              <Text className="font-bold text-lg mr-2">{item.userName}</Text>
+                            </Link>
+                            <Text disabled>
+                              {item.timestamp.toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              })}
+                            </Text>
+                          </div>
+                          <div>
+                            <Dropdown overlay={menu}>
+                              <Button
+                                className="flex items-center justify-center"
+                                type="text"
+                                shape="circle"
+                              >
+                                <MoreOutlined />
+                              </Button>
+                            </Dropdown>
+                          </div>
+                        </div>
+                        <div className="pr-8 pl-2">
+                          <Linkify>
+                            <Text className="text-md">{item.message}</Text>
+                          </Linkify>
+                        </div>
                       </div>
                     </Col>
                   </Row>
@@ -249,14 +296,14 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             />
             <Text className="text-lg font-bold">Project Name</Text>
           </Row>
-          <Row className="ml-2 mb-2">
+          <Row className="ml-2 mb-8 mt-2">
             <Text className="text-lg">{project.projectName}</Text>
           </Row>
           <Row className="items-center">
             <ClockCircleOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
             <Text className="text-lg font-bold">Due Date</Text>
           </Row>
-          <Row className="ml-2 mb-2">
+          <Row className="ml-2 mb-8 mt-2">
             <Text className="text-lg">{project.dueDate.toLocaleDateString('en-Gb')}</Text>
           </Row>
           <Row className="items-center">
@@ -283,14 +330,14 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
           </Row>
           <Row className="justify-center">
             <Button
-              className="flex items-center p-4 m-4"
+              className="flex items-center justify-center py-4 m-4 text-md font-bold w-full"
               type="primary"
               danger={taskData.isDone ? true : false}
               icon={
                 taskData.isDone ? (
-                  <BorderOutlined style={{ fontSize: 16 }} />
+                  <BorderOutlined style={{ fontSize: 14 }} />
                 ) : (
-                  <CheckSquareOutlined style={{ fontSize: 16 }} />
+                  <CheckSquareOutlined style={{ fontSize: 14 }} />
                 )
               }
               shape="round"
