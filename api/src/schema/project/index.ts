@@ -18,6 +18,7 @@ schema.objectType({
     t.string('projectName')
     t.string('projectType')
     t.string('projectDetail')
+    t.string('projectImage')
     t.string('status')
     t.date('dueDate')
     t.list.field('memberIds', {
