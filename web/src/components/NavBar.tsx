@@ -72,7 +72,7 @@ function NavBar() {
           </RouterLink>
         </div>
 
-        <Menu theme="light" mode="horizontal" selectable={false} className="w-auto h-16 mr-4">
+        <Menu theme="light" mode="horizontal" selectable={false} className="w-auto h-16">
           <Menu.Item key="2" className="font-bold">
             <Dropdown overlay={userDropDown} placement="bottomCenter" arrow>
               <Row className="justify-center items-center">
