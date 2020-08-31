@@ -304,7 +304,7 @@ function TaskOverlay({ data, project, visible, onCloseModal }: any) {
             <Text className="text-lg font-bold">Due Date</Text>
           </Row>
           <Row className="ml-2 mb-8 mt-2">
-            <Text className="text-lg">{project.dueDate.toLocaleDateString('en-Gb')}</Text>
+            <Text className="text-lg">{new Date(project.dueDate).toLocaleDateString('en-Gb')}</Text>
           </Row>
           <Row className="items-center">
             <TeamOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />

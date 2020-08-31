@@ -1,12 +1,21 @@
 import { FundProjectionScreenOutlined, ProfileOutlined, TeamOutlined } from '@ant-design/icons'
+import { useQuery } from '@apollo/client'
 import { Card, Col, Row, Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { LayoutDashboard, ProjectCard, WelcomeCard } from '../components/DashboardComponent'
-import { DATA, TASK_DATA, USER_DATA } from '../DATA'
+import { PROJECT } from '../api'
+import {
+  LayoutDashboard,
+  LoadingComponent,
+  ProjectCard,
+  WelcomeCard,
+} from '../components/DashboardComponent'
+import { TASK_DATA, USER_DATA } from '../DATA'
 import '../styles/main.css'
+
 function Dashboard() {
   const { Title, Text } = Typography
+  const { loading, data } = useQuery(PROJECT)
 
   return (
     <LayoutDashboard>
@@ -26,7 +35,7 @@ function Dashboard() {
                     <FundProjectionScreenOutlined
                       style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
                     />
-                    <Title level={2}>{DATA.length}</Title>
+                    <Title level={2}>{data ? data.getProjects.length : 0}</Title>
                     <Text disabled className="text-lg -mt-4">
                       Projects
                     </Text>
@@ -64,13 +73,19 @@ function Dashboard() {
             </Col>
           </Row>
           <Row gutter={[8, 24]}>
-            {DATA.filter((filtered) => filtered.status === 'undone').map((items, index) => {
-              return (
-                <Col lg={{ span: 24 }} key={index}>
-                  <ProjectCard data={items} />
-                </Col>
-              )
-            })}
+            {loading ? (
+              <LoadingComponent project />
+            ) : (
+              data.getProjects
+                .filter((filtered: any) => filtered.status === 'undone')
+                .map((items: any, index: any) => {
+                  return (
+                    <Col lg={{ span: 24 }} key={index}>
+                      <ProjectCard data={items} />
+                    </Col>
+                  )
+                })
+            )}
           </Row>
         </div>
       </div>

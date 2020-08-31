@@ -27,6 +27,7 @@ export const PROJECT = gql`
       projectName
       projectType
       projectDetail
+      projectImage
       status
       dueDate
       memberIds {

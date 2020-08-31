@@ -66,7 +66,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {data.dueDate.toLocaleDateString('en-GB', {
+                      {new Date(data.dueDate).toLocaleDateString('en-GB', {
                         day: 'numeric',
                         month: 'short',
                         year: 'numeric',
@@ -85,7 +85,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {data.team.length}
+                      {data.memberIds.length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Developer

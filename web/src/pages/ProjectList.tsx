@@ -14,6 +14,7 @@ function ProjectList() {
   const [keyword, setKeyword] = useState('')
   const [filterloading, setLoading] = useState(false)
 
+  console.log('loading', data)
   useEffect(() => {
     if (!error && !loading) {
       switch (types) {
