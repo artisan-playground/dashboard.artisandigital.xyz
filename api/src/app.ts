@@ -1,5 +1,5 @@
 import { schema, settings } from 'nexus'
-
+import { projects, tasks, users } from './db'
 settings.change({
   server: {
     port: process.env.PORT ? Number(process.env.PORT) : 4000,
@@ -19,21 +19,12 @@ settings.change({
 //
 // use(prisma())
 
-const projects = [
-  { id: '1', name: 'Project 1' },
-  { id: '2', name: 'Project 2' },
-]
-
-const users = [
-  { id: '1', name: 'User 1' },
-  { id: '2', name: 'User 2' },
-]
-
 schema.addToContext((req) => {
   return {
     db: {
       projects,
       users,
+      tasks,
     },
   }
 })

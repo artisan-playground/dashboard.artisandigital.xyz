@@ -1,17 +1,18 @@
 import EventCard from '../components/EventCard'
 import LayoutDashboard from '../components/LayoutDashboard'
-import LogCard from '../components/LogCard'
 import LayoutProfile from '../components/LayoutProfile'
+import LoadingComponent from '../components/LoadingComponent'
+import LogCard from '../components/LogCard'
 import NavBar from '../components/NavBar'
-import ProjectCard from '../components/ProjectCard'
 import ProfileForm from '../components/ProfileForm'
 import ProfileSkillTags from '../components/ProfileSkillTags'
+import ProjectCard from '../components/ProjectCard'
 import SideNav from '../components/SideNav'
 import SideProfile from '../components/SideProfile'
-import ProfileProjectCard from './ProfileProjectCard'
-import ProfileTaskCard from './ProfileTaskCard'
 import TaskCard from '../components/TaskCard'
 import WelcomeCard from '../components/WelcomeCard'
+import ProfileProjectCard from './ProfileProjectCard'
+import ProfileTaskCard from './ProfileTaskCard'
 
 export {
   EventCard,
@@ -28,4 +29,5 @@ export {
   ProfileTaskCard,
   LogCard,
   TaskCard,
+  LoadingComponent,
 }

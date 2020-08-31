@@ -3,11 +3,11 @@ import { schema } from 'nexus'
 schema.extendType({
   type: 'Query',
   definition: (t) => {
-    t.list.field('getProject', {
-      type: 'Project',
+    t.field('getTaskById', {
+      type: 'Task',
       args: { id: schema.stringArg({ required: true }) },
-      resolve: (_, args, ctx) => {
-        return ctx.db.projects.filter((p) => p.id === args.id) || null
+      resolve: (_, args, ctx): any => {
+        return ctx.db.tasks.find((p) => p.id === args.id)
       },
     })
   },
@@ -16,10 +16,10 @@ schema.extendType({
 schema.extendType({
   type: 'Query',
   definition(t) {
-    t.list.field('getProjects', {
-      type: 'Project',
+    t.list.field('getAllTasks', {
+      type: 'Task',
       resolve(_, _args, ctx) {
-        return ctx.db.projects
+        return ctx.db.tasks
       },
     })
   },

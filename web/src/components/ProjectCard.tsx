@@ -108,7 +108,7 @@ function ProjectCard({ data }: any) {
               </Col>
               <Col span={24} lg={{ span: 8 }}>
                 <div className="items-end">
-                  <Row className="justify-end items-end">{renderShowItems(data.team)}</Row>
+                  <Row className="justify-end items-end">{renderShowItems(data.memberIds)}</Row>
                 </div>
               </Col>
             </Row>
