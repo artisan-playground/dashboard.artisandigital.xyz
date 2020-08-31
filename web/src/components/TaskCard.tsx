@@ -5,20 +5,10 @@ import {
   LoadingOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  message,
-  Popover,
-  Row,
-  Skeleton,
-  Tooltip,
-  Typography,
-} from 'antd'
+import { Avatar, Button, Card, Col, message, Popover, Row, Tooltip, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import LoadingComponent from './LoadingComponent'
 import TaskOverlay from './TaskOverlay'
 
 function TaskCard({ data, project }: any) {
@@ -27,6 +17,7 @@ function TaskCard({ data, project }: any) {
   const [modalVisible, setModalVisible] = useState(false)
   const [taskData, setTaskData]: any = useState({})
   const showItems: any[] = []
+
   useEffect(() => {
     setTaskData(data)
   }, [data])
@@ -116,9 +107,7 @@ function TaskCard({ data, project }: any) {
   }
 
   return !taskData && !data ? (
-    <Card>
-      <Skeleton />
-    </Card>
+    <LoadingComponent task />
   ) : (
     <Card
       hoverable
@@ -131,6 +120,7 @@ function TaskCard({ data, project }: any) {
         data={taskData}
         project={project}
       />
+
       <Row gutter={[8, 16]}>
         <div className="flex flex-row items-start justify-center">
           <div className="flex flex-row items-center justify-center my-2 mx-2">
@@ -176,7 +166,7 @@ function TaskCard({ data, project }: any) {
               )}
             </div>
             <div className="flex flex-col ml-2">
-              <Text disabled>{data.time.toLocaleTimeString() || '...'}</Text>
+              <Text disabled>{new Date(data.time).toLocaleTimeString() || '...'}</Text>
             </div>
           </div>
         </div>
@@ -187,7 +177,7 @@ function TaskCard({ data, project }: any) {
         <Col span={24}>
           <Row className="justify-between">
             <Col className=" min-h-full">
-              <Row className="justify-end items-end">{renderShowItems(data.team)}</Row>
+              <Row className="justify-end items-end">{renderShowItems(data.memberIds)}</Row>
             </Col>
           </Row>
         </Col>

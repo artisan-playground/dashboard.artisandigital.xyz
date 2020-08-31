@@ -7,14 +7,13 @@ import { LayoutDashboard, LoadingComponent, ProjectCard } from '../components/Da
 function ProjectList() {
   const { Search } = Input
   const { Text } = Typography
-  const { loading, error, data } = useQuery(PROJECT)
 
+  const { loading, error, data } = useQuery(PROJECT)
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
   const [keyword, setKeyword] = useState('')
   const [filterloading, setLoading] = useState(false)
 
-  console.log('loading', data)
   useEffect(() => {
     if (!error && !loading) {
       switch (types) {
@@ -79,7 +78,7 @@ function ProjectList() {
           </Radio.Group>
         </Row>
       </Row>
-      {loading ? (
+      {loading || error ? (
         <LoadingComponent project />
       ) : (
         <div className="site-card-wrapper">

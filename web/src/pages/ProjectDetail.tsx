@@ -5,31 +5,37 @@ import {
   ScheduleOutlined,
   SmileOutlined,
 } from '@ant-design/icons'
+import { useQuery } from '@apollo/client'
 import { Button, Card, Col, Row, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+// import { TASK_DATA } from '../DATA'
+import { TASKS_BY_ID } from '../api'
 import { LayoutDashboard, LogCard, TaskCard } from '../components/DashboardComponent'
-import { TASK_DATA } from '../DATA'
 
 function ProjectDetail(props: any) {
-  const { projectId } = useParams()
   const { Title, Text } = Typography
+  const projectData = props.location.state.data
 
-  const data = props.location.state.data
+  const { projectId } = useParams()
+  const { loading, error, data } = useQuery(TASKS_BY_ID, {
+    variables: { projectId: projectId },
+  })
 
   const [filteredTasks, setFilteredTasks] = useState([])
   const [filteredLog, setFilteredLog] = useState([])
 
   useEffect(() => {
-    let tempTask: any = TASK_DATA.filter((filtered) => filtered.projectId === projectId)
-    let tempLog: any = TASK_DATA.filter(
-      (filteredId: any) => filteredId.projectId === projectId
-    ).filter((filteredStatus: any) => filteredStatus.isDone === true)
+    if (!error && !loading) {
+      let tempLog: any = data.getTaskByProjectId
+        .filter((filteredId: any) => filteredId.projectId === projectId)
+        .filter((filteredStatus: any) => filteredStatus.isDone === true)
 
-    setFilteredTasks(tempTask)
-    setFilteredLog(tempLog)
-  }, [projectId])
+      setFilteredTasks(data.getTaskByProjectId)
+      setFilteredLog(tempLog)
+    }
+  }, [projectId, loading]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <LayoutDashboard noCard>
@@ -42,15 +48,15 @@ function ProjectDetail(props: any) {
               </Col>
               <Col span={24} lg={{ span: 20 }} className="px-4">
                 <Row>
-                  <Title level={2}>{data.projectName}</Title>
+                  <Title level={2}>{projectData.projectName}</Title>
                 </Row>
                 <Row>
                   <Text disabled className="text-md -mt-4 mb-2">
-                    {data.projectType}
+                    {projectData.projectType}
                   </Text>
                 </Row>
                 <Row>
-                  <Text className="text-lg">{data.projectDetail}</Text>
+                  <Text className="text-lg">{projectData.projectDetail}</Text>
                 </Row>
               </Col>
             </Row>
@@ -66,7 +72,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {new Date(data.dueDate).toLocaleDateString('en-GB', {
+                      {new Date(projectData.dueDate).toLocaleDateString('en-GB', {
                         day: 'numeric',
                         month: 'short',
                         year: 'numeric',
@@ -85,7 +91,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {data.memberIds.length}
+                      {projectData.memberIds.length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Developer
@@ -100,7 +106,8 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {TASK_DATA.filter((item) => item.projectId === projectId).length}
+                      {filteredTasks &&
+                        filteredTasks.filter((item: any) => item.projectId === projectId).length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Today's tasks
@@ -141,7 +148,9 @@ function ProjectDetail(props: any) {
                 </div>
               </Row>
               {filteredTasks.length !== 0 ? (
-                filteredTasks.map((item, key) => <TaskCard key={key} data={item} project={data} />)
+                filteredTasks.map((item: any) => (
+                  <TaskCard key={item.id} data={item} project={projectData} />
+                ))
               ) : (
                 <div className="flex justify-center items-center p-8">
                   <Text disabled>No task</Text>
