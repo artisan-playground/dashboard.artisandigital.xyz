@@ -1,7 +1,7 @@
 import { Card, Col, Row, Skeleton } from 'antd'
 import React from 'react'
 
-function LoadingComponent({ project, task }: any) {
+function LoadingComponent({ project, task, overlay }: any) {
   return project ? (
     <>
       <Card className="mb-4">
@@ -55,6 +55,36 @@ function LoadingComponent({ project, task }: any) {
           </Col>
         </Row>
       </Card>
+    </>
+  ) : task ? (
+    <Card className="mb-4 rounded-lg">
+      <Skeleton loading={true} active avatar paragraph={{ rows: 3 }} />
+      <div className="pl-16 mt-4">
+        <Skeleton.Avatar className="pr-2" active size="default" shape="circle" />
+        <Skeleton.Avatar className="pr-2" active size="default" shape="circle" />
+        <Skeleton.Avatar className="pr-2" active size="default" shape="circle" />
+      </div>
+    </Card>
+  ) : overlay ? (
+    <>
+      <Row>
+        <Col span={18} className="px-4">
+          <Skeleton loading={true} active paragraph={{ rows: 4 }} />
+          <Skeleton loading={true} active paragraph={{ rows: 3 }} />
+          <Skeleton loading={true} active paragraph={{ rows: 3 }} />
+          <Skeleton loading={true} active paragraph={{ rows: 3 }} />
+        </Col>
+        <Col span={6} className="px-4">
+          <Skeleton loading={true} active paragraph={{ rows: 3 }} />
+          <Skeleton loading={true} active paragraph={{ rows: 3 }} />
+          <Skeleton loading={true} active paragraph={{ rows: 3 }} />
+          <div className="mt-4">
+            <Skeleton.Avatar className="pr-2" active size="default" shape="circle" />
+            <Skeleton.Avatar className="pr-2" active size="default" shape="circle" />
+            <Skeleton.Avatar className="pr-2" active size="default" shape="circle" />
+          </div>
+        </Col>
+      </Row>
     </>
   ) : (
     <Card>
