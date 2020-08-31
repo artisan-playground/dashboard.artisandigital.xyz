@@ -4,7 +4,7 @@ import React from 'react'
 function LoadingComponent({ project, task, overlay }: any) {
   return project ? (
     <>
-      <Card className="mb-4">
+      <Card className="mb-4 rounded-lg shadow-md">
         <Row justify="space-between">
           <Col span={18} className="justify-end">
             <Skeleton loading={true} active paragraph={{ rows: 3 }} />

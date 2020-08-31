@@ -12,7 +12,12 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 // import { TASK_DATA } from '../DATA'
 import { TASKS_BY_ID } from '../api'
-import { LayoutDashboard, LogCard, TaskCard } from '../components/DashboardComponent'
+import {
+  LayoutDashboard,
+  LoadingComponent,
+  LogCard,
+  TaskCard,
+} from '../components/DashboardComponent'
 
 function ProjectDetail(props: any) {
   const { Title, Text } = Typography
@@ -147,14 +152,19 @@ function ProjectDetail(props: any) {
                   </Button>
                 </div>
               </Row>
-              {filteredTasks.length !== 0 ? (
-                filteredTasks.map((item: any) => (
-                  <TaskCard key={item.id} data={item} project={projectData} />
-                ))
+
+              {filteredTasks && !loading ? (
+                filteredTasks.length !== 0 ? (
+                  filteredTasks.map((item: any) => (
+                    <TaskCard key={item.id} data={item} project={projectData} />
+                  ))
+                ) : (
+                  <div className="flex justify-center items-center p-8">
+                    <Text disabled>No task</Text>
+                  </div>
+                )
               ) : (
-                <div className="flex justify-center items-center p-8">
-                  <Text disabled>No task</Text>
-                </div>
+                <LoadingComponent task />
               )}
             </div>
           </Col>

@@ -46,8 +46,6 @@ function TaskOverlay({ project, visible, onCloseModal, data }: any) {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-  console.log('taskData', taskData)
-
   useEffect(() => {
     setTaskData(data)
   }, [data])
