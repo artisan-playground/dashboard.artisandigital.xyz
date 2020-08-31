@@ -1,12 +1,33 @@
-import { Table, Tag, Col, Row, Tooltip, Typography } from 'antd'
+import { Table, Tag, Col, Row, Tooltip, Typography, Input } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
-import React from 'react'
+import React, { useState } from 'react'
 import { LayoutDashboard } from '../components/DashboardComponent'
 import { USER_DATA } from '../DATA'
 import { Link } from 'react-router-dom'
 
 function Member() {
   const { Text } = Typography
+  const { Search } = Input
+  const [dataSource, setDataSource] = useState(USER_DATA)
+  const [value, setValue] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  function handleKeywordChange(e: any) {
+    setLoading(true)
+    setValue(e.target.value)
+    if (e.target.value === '') {
+      setDataSource(USER_DATA)
+      setLoading(false)
+    } else {
+      const kw: any[] = USER_DATA.filter((item) =>
+        item.name.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+      setDataSource(kw)
+      setLoading(false)
+    }
+    setLoading(false)
+  }
+
   const columns = [
     {
       dataIndex: 'image',
@@ -82,9 +103,19 @@ function Member() {
     <LayoutDashboard noCard>
       <Row>
         <Col xs={24} xl={24}>
+          <Col className='flex justify-end'>
+            <Search
+              placeholder="Search Name"
+              value={value}
+              onChange={handleKeywordChange}
+              loading={loading}
+              allowClear
+              className="w-1/3 mb-4"
+            />
+          </Col>
           <Table
             columns={columns}
-            dataSource={USER_DATA}
+            dataSource={dataSource}
             pagination={{ pageSize: 10 }}
             scroll={{ x: 1000 }}
           />

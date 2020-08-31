@@ -72,7 +72,40 @@ function NavBar() {
           </RouterLink>
         </div>
 
-        <Menu theme="light" mode="horizontal" selectable={false} className="w-auto h-16 mr-4">
+        <Menu theme="light" mode="horizontal" selectable={false} className="w-auto h-16">
+          <Menu.SubMenu key="1" title={<div>
+                  <BellOutlined style={{ fontSize: 24 }} />
+                  <Badge
+                    count={
+                      TASK_DATA.filter((task: any) =>
+                        task.team.filter((taskTeam: any) => taskTeam.id === '1')
+                      ).length
+                    }
+                    className="-ml-4 -mt-4"
+                  ></Badge>
+                </div>}>
+            <Menu.Item key="1">
+              <Dropdown
+                className="px-2 py-0 w-full"
+                overlay={notifications}
+                placement="bottomLeft"
+                arrow
+              >
+                <div>
+                  <BellOutlined style={{ fontSize: 24 }} />
+                  <Badge
+                    count={
+                      TASK_DATA.filter((task: any) =>
+                        task.team.filter((taskTeam: any) => taskTeam.id === '1')
+                      ).length
+                    }
+                    className="-ml-4 -mt-4"
+                  ></Badge>
+                </div>
+              </Dropdown>
+            </Menu.Item>
+          </Menu.SubMenu>
+
           <Menu.Item key="2" className="font-bold">
             <Dropdown overlay={userDropDown} placement="bottomCenter" arrow>
               <Row className="justify-center items-center">
@@ -89,27 +122,6 @@ function NavBar() {
                   <DownOutlined style={{ fontSize: 20 }} />
                 </div>
               </Row>
-            </Dropdown>
-          </Menu.Item>
-
-          <Menu.Item key="1">
-            <Dropdown
-              className="px-2 py-0 w-full"
-              overlay={notifications}
-              placement="bottomLeft"
-              arrow
-            >
-              <div>
-                <BellOutlined style={{ fontSize: 24 }} />
-                <Badge
-                  count={
-                    TASK_DATA.filter((task: any) =>
-                      task.team.filter((taskTeam: any) => taskTeam.id === '1')
-                    ).length
-                  }
-                  className="-ml-4 -mt-4"
-                ></Badge>
-              </div>
             </Dropdown>
           </Menu.Item>
         </Menu>
