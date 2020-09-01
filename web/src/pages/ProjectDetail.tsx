@@ -1,10 +1,11 @@
 import {
   FileDoneOutlined,
+  PlusCircleOutlined,
   ProfileOutlined,
   ScheduleOutlined,
   SmileOutlined,
 } from '@ant-design/icons'
-import { Card, Col, Row, Typography } from 'antd'
+import { Button, Card, Col, Row, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -84,7 +85,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {data.team.length}
+                      {data.team ? data.team.length : ''}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Developer
@@ -126,7 +127,19 @@ function ProjectDetail(props: any) {
           </Col>
           <Col span={24} lg={{ span: 18 }}>
             <div className="py-8 px-4">
-              <div className="font-bold text-2xl mb-4">Tasks</div>
+              <Row justify="space-between">
+                <div className="font-bold text-2xl mb-4">Tasks</div>
+                <div>
+                  <Button
+                    className="flex items-center justify-center bg-primaryopacity shadow-lg hover:bg-primary transition duration-200 ease-in outline-none"
+                    type="primary"
+                    size="large"
+                    shape="circle"
+                  >
+                    <PlusCircleOutlined style={{ fontSize: 36, marginTop: -3, color: '#fff' }} />
+                  </Button>
+                </div>
+              </Row>
               {filteredTasks.length !== 0 ? (
                 filteredTasks.map((item, key) => <TaskCard key={key} data={item} project={data} />)
               ) : (

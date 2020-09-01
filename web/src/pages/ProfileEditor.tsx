@@ -57,9 +57,9 @@ function ProfileEditor() {
   }
 
   return (
-    <LayoutDashboard>
+    <LayoutDashboard noCard>
       <Row>
-        {USER_DATA.map((items, index) => (
+        {USER_DATA.filter((filtered) => filtered.id === '1').map((items, index) => (
           <Col xs={24} xl={6} className="mr-12 mb-4" key={index}>
             <Card className="flex items-center justify-center text-center mb-4">
               <ImgCrop rotate>
@@ -95,7 +95,7 @@ function ProfileEditor() {
 
         <Col xs={24} xl={17}>
           <Card title="Edit Profile" headStyle={{ fontWeight: 'bold' }}>
-            {USER_DATA.map((items, index) => (
+            {USER_DATA.filter((filtered) => filtered.id === '1').map((items, index) => (
               <ProfileForm data={items} key={index} />
             ))}
           </Card>

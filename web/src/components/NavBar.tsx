@@ -5,6 +5,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { DATA, TASK_DATA } from '../DATA'
 import { useStoreActions } from '../store'
 import '../styles/main.css'
+
 function NavBar() {
   const { Header } = Layout
   const { Text, Link } = Typography
@@ -71,8 +72,8 @@ function NavBar() {
           </RouterLink>
         </div>
 
-        <Menu theme="light" mode="horizontal" selectable={false} className="w-auto h-16 mr-4">
-          <Menu.Item key="2">
+        <Menu theme="light" mode="horizontal" selectable={false} className="w-auto h-16">
+          <Menu.Item key="2" className="font-bold">
             <Dropdown overlay={userDropDown} placement="bottomCenter" arrow>
               <Row className="justify-center items-center">
                 <div className="block hover:hidden">
@@ -82,7 +83,7 @@ function NavBar() {
                     alt="user"
                     size="large"
                   />
-                  <Text strong>John Doe</Text>
+                  John Dee
                 </div>
                 <div className="hover:block hidden">
                   <DownOutlined style={{ fontSize: 20 }} />

@@ -1,4 +1,4 @@
-import { Col, Empty, Radio, Row, Typography } from 'antd'
+import { Col, Empty, Radio, Row, Typography, Button } from 'antd'
 import React, { useEffect, useState } from 'react'
 // @ts-ignore
 import Carousel from 'react-multi-carousel'
@@ -8,28 +8,29 @@ import {
   ProfileProjectCard,
   ProfileTaskCard,
 } from '../components/DashboardComponent'
-import { DATA, TASK_DATA } from '../DATA'
+import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 
-function Profile() {
+function Profile(props: any) {
   const { Title } = Typography
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
+  const data = props.location.state.data
 
   useEffect(() => {
     switch (types) {
       case 'undone':
-        let wip: any[] = DATA.filter((item) => item.status === 'undone')
+        let wip: any[] = data.projects.filter((item: any) => item.status === 'undone')
         setFilteredData(wip)
         break
       case 'done':
-        let closed: any[] = DATA.filter((item) => item.status === 'done')
+        let closed: any[] = data.projects.filter((item: any) => item.status === 'done')
         setFilteredData(closed)
         break
       case 'all':
-        setFilteredData(DATA)
+        setFilteredData(data.projects)
         break
       default:
-        setFilteredData(DATA)
+        setFilteredData(data.projects)
         break
     }
   }, [types])
@@ -38,9 +39,40 @@ function Profile() {
     setTypes(e.target.value)
   }
 
+  const CustomDot = ({ onClick, active }: any) => {
+    return (
+      <Button
+        style={{ backgroundColor: active ? '#105EFC' : '#AAAAAA' }}
+        className="rounded-full h-1 w-1"
+        onClick={() => onClick()}
+      >
+        &nbsp;
+      </Button>
+    )
+  }
+
+  const CustomLeftArrow = ({ onClick }: any) => (
+    <Button
+      type="primary"
+      className="absolute left-0 rounded-full flex items-center w-12 h-12"
+      onClick={() => onClick()}
+    >
+      <LeftOutlined className="text-lg" />
+    </Button>
+  )
+  const CustomRightArrow = ({ onClick }: any) => (
+    <Button
+      type="primary"
+      className="absolute right-0 rounded-full flex items-center w-12 h-12"
+      onClick={() => onClick()}
+    >
+      <RightOutlined className="text-lg" />
+    </Button>
+  )
+
   return (
-    <LayoutProfile>
-      <Title level={3}>Today's task</Title>
+    <LayoutProfile data={data}>
+      <Title level={3}>Today's Tasks</Title>
       <div className="relative mr-auto ml-auto max-w-screen-md">
         <div className="w-full">
           <Carousel
@@ -58,7 +90,7 @@ function Profile() {
             keyBoardControl
             minimumTouchDrag={80}
             renderButtonGroupOutside={true}
-            renderDotsOutside={false}
+            renderDotsOutside={true}
             responsive={{
               desktop: {
                 breakpoint: {
@@ -73,12 +105,24 @@ function Profile() {
             sliderClass=""
             slidesToSlide={3}
             swipeable
+            customDot={<CustomDot />}
+            customRightArrow={<CustomRightArrow />}
+            customLeftArrow={<CustomLeftArrow />}
           >
-            {TASK_DATA.map((items, index) => (
-              <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
-                <ProfileTaskCard data={items} />
+            {data.tasks ? (
+              data.tasks.map((items: any, index: any) => (
+                <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
+                  <ProfileTaskCard data={items} />
+                </Col>
+              ))
+            ) : (
+              <Col lg={{ span: 24 }}>
+                <Empty
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  className="flex items-center justify-center text-center"
+                />
               </Col>
-            ))}
+            )}
           </Carousel>
         </div>
       </div>
@@ -86,7 +130,7 @@ function Profile() {
       <Row className="mb-2">
         <Col flex={1}>
           <Row>
-            <Title level={3}>Project(s)</Title>
+            <Title level={3}>Projects</Title>
           </Row>
         </Col>
         <Col>
@@ -108,10 +152,9 @@ function Profile() {
             )
           })
         ) : (
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            className="flex items-center justify-center text-center"
-          />
+          <Col xs={24} className="flex items-center justify-center text-center">
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          </Col>
         )}
       </Row>
     </LayoutProfile>

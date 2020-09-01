@@ -1,7 +1,6 @@
 import { schema } from 'nexus'
 import { Comment } from '../comment'
 import { File } from '../file'
-import { Team } from '../team'
 
 export interface Task {
   id: string
@@ -10,7 +9,7 @@ export interface Task {
   time: Date
   taskDetail: string
   isDone: boolean
-  team?: Team[]
+  memberIds?: String[]
   files?: File[]
   comments?: Comment[]
 }
@@ -24,8 +23,11 @@ schema.objectType({
     t.date('time')
     t.string('taskDetail')
     t.boolean('isDone')
-    t.list.field('team', {
-      type: 'Team',
+    t.list.field('memberIds', {
+      type: 'User',
+      resolve: (_root, args, ctx): any => {
+        return ctx.db.users.filter((u) => _root.memberIds.includes(u.id))
+      },
     })
     t.list.field('files', {
       type: 'File',
