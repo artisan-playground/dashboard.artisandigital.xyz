@@ -5,18 +5,22 @@ import {
   LoadingOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
+import { useMutation } from '@apollo/client'
 import { Avatar, Button, Card, Col, message, Popover, Row, Tooltip, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { TOGGLE_TASK_DONE } from '../api'
 import LoadingComponent from './LoadingComponent'
 import TaskOverlay from './TaskOverlay'
 
-function TaskCard({ data, project }: any) {
+function TaskCard({ data, project, refetch }: any) {
   const { Text } = Typography
 
   const [modalVisible, setModalVisible] = useState(false)
   const [taskData, setTaskData]: any = useState({})
   const showItems: any[] = []
+
+  const [toggleIsDone, { loading, error }] = useMutation(TOGGLE_TASK_DONE)
 
   useEffect(() => {
     setTaskData(data)
@@ -38,14 +42,17 @@ function TaskCard({ data, project }: any) {
       icon: <LoadingOutlined style={{ fontSize: 20, top: -2 }} spin />,
     })
 
-    setTimeout(() => {
-      if (taskData) setTaskData({ ...taskData, isDone: !taskData.isDone })
-      message.success({
-        content: 'Successfully updated',
-        duration: 2,
-        icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
-      })
-    }, 2200)
+    toggleIsDone({ variables: { id: data.id } }).then((res) => {
+      console.log('res', res)
+      if (res && !loading && !error) {
+        message.success({
+          content: 'Successfully updated',
+          duration: 2,
+          icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
+        })
+        setTaskData({ ...taskData, isDone: !taskData.isDone })
+      }
+    })
   }
 
   function renderShowItems(item: any) {

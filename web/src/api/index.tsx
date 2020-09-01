@@ -74,6 +74,7 @@ export const TASKS = gql`
     }
   }
 `
+
 export const TASKS_BY_ID = gql`
   query Tasks($projectId: String!) {
     getTaskByProjectId(projectId: $projectId) {
@@ -108,9 +109,45 @@ export const TASKS_BY_ID = gql`
     }
   }
 `
+
 export const TASKS_BY_TASKID = gql`
   query Tasks($id: String!) {
     getTaskById(id: $id) {
+      id
+      projectId
+      taskName
+      time
+      taskDetail
+      isDone
+      memberIds {
+        id
+        name
+        email
+        image
+      }
+      files {
+        uid
+        url
+        name
+        status
+      }
+      comments {
+        id
+        timestamp
+        userId
+        image
+        userImg
+        userName
+        message
+        taskId
+      }
+    }
+  }
+`
+
+export const TOGGLE_TASK_DONE = gql`
+  mutation Tasks($id: String!) {
+    toggleIsDone(id: $id) {
       id
       projectId
       taskName

@@ -24,7 +24,7 @@ function ProjectDetail(props: any) {
   const projectData = props.location.state.data
 
   const { projectId } = useParams()
-  const { loading, error, data } = useQuery(TASKS_BY_ID, {
+  const { loading, error, data, refetch } = useQuery(TASKS_BY_ID, {
     variables: { projectId: projectId },
   })
 
@@ -156,7 +156,7 @@ function ProjectDetail(props: any) {
               {filteredTasks && !loading ? (
                 filteredTasks.length !== 0 ? (
                   filteredTasks.map((item: any) => (
-                    <TaskCard key={item.id} data={item} project={projectData} />
+                    <TaskCard key={item.id} data={item} project={projectData} refetch={refetch} />
                   ))
                 ) : (
                   <div className="flex justify-center items-center p-8">
