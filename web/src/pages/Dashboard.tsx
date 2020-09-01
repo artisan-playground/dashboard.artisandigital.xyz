@@ -17,6 +17,17 @@ function Dashboard() {
   const { Title, Text } = Typography
   const { loading, data } = useQuery(PROJECT)
 
+  function calProjects() {
+    let num =
+      !loading && data !== undefined
+        ? data.getProjects
+            .map((item: any) => item.memberIds.filter((x: any) => x.id === '2'))
+            .flat()
+            .filter((y: any) => y).length
+        : 0
+    return num
+  }
+
   return (
     <LayoutDashboard>
       <div>
@@ -24,7 +35,7 @@ function Dashboard() {
         <div className="site-card-wrapper">
           <Row gutter={[8, 24]}>
             <Col md={{ span: 24 }}>
-              <WelcomeCard name="John Doe" project={2} task={4} />
+              <WelcomeCard name="John Doe" project={calProjects()} task={4} />
             </Col>
           </Row>
           <Row gutter={[16, 24]}>
