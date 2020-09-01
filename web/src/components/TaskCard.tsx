@@ -130,34 +130,6 @@ function TaskCard({ data, project, refetch }: any) {
 
       <Row gutter={[8, 16]}>
         <div className="flex flex-row items-start justify-center">
-          <div className="flex flex-row items-center justify-center my-2 mx-2">
-            {taskData.isDone ? (
-              <Button
-                className="flex items-center justify-center shadow-md hover:bg-green-600 transition duration-200 ease-in outline-none"
-                type="primary"
-                shape="circle"
-                size="large"
-                style={{ backgroundColor: '#68d391', border: '0' }}
-                onClick={onDoneClick}
-              >
-                <CheckCircleOutlined style={{ fontSize: 24, color: '#fff', marginTop: -2 }} />
-              </Button>
-            ) : (
-              <Button
-                className="flex items-center justify-center shadow-md bg-red-400 hover:bg-red-600 transition duration-200 ease-in outline-none"
-                type="primary"
-                shape="circle"
-                size="large"
-                danger
-                onClick={onDoneClick}
-              >
-                <ExclamationCircleOutlined
-                  // className="animate-ping"
-                  style={{ fontSize: 24, color: '#fff', marginTop: -2 }}
-                />
-              </Button>
-            )}
-          </div>
           <div className="flex flex-col">
             <div className="flex flex-row items-center w-full">
               <Text className="font-bold text-xl ml-2">{data.taskName}</Text>
@@ -186,6 +158,32 @@ function TaskCard({ data, project, refetch }: any) {
             <Col className=" min-h-full">
               <Row className="justify-end items-end">{renderShowItems(data.memberIds)}</Row>
             </Col>
+
+            <div className="flex flex-row items-center justify-center">
+              {taskData.isDone ? (
+                <Button
+                  className="flex items-center justify-center shadow-md hover:shadow-lg bg-green-400 focus:bg-green-600 hover:bg-red-600 transition duration-800 ease-in border-0 w-24"
+                  type="primary"
+                  shape="round"
+                  size="large"
+                  onClick={onDoneClick}
+                >
+                  <CheckCircleOutlined className="hover:hidden" />
+                  <Text className="hover:block hidden text-white">Done</Text>
+                </Button>
+              ) : (
+                <Button
+                  className="flex items-center justify-center shadow-md hover:shadow-lg bg-red-400 focus:bg-red-600 hover:bg-green-600 transition duration-800 ease-in border-0 w-24"
+                  type="primary"
+                  shape="round"
+                  size="large"
+                  onClick={onDoneClick}
+                >
+                  <ExclamationCircleOutlined />
+                  <Text className="hover:hidden text-white">WIP</Text>
+                </Button>
+              )}
+            </div>
           </Row>
         </Col>
       </Row>
