@@ -10,7 +10,6 @@ import { Button, Card, Col, Row, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-// import { TASK_DATA } from '../DATA'
 import { TASKS_BY_ID } from '../api'
 import {
   LayoutDashboard,
@@ -27,6 +26,7 @@ function ProjectDetail(props: any) {
   const { projectId } = useParams()
   const { loading, error, data, refetch } = useQuery(TASKS_BY_ID, {
     variables: { projectId: projectId },
+    notifyOnNetworkStatusChange: true,
   })
 
   const [filteredTasks, setFilteredTasks] = useState([])
@@ -47,6 +47,7 @@ function ProjectDetail(props: any) {
   function closeDawer() {
     setDrawerVisible(false)
   }
+
   return (
     <LayoutDashboard noCard>
       <Row className="w-full">
@@ -157,7 +158,6 @@ function ProjectDetail(props: any) {
                     <PlusCircleOutlined className="hover:scale-150 " />
                     <Text className="hidden hover:block text-white">Create</Text>
                   </Button>
-
                   <TaskDrawer visibillity={drawerVisible} onCloseDrawer={closeDawer} />
                 </div>
               </Row>
@@ -165,7 +165,12 @@ function ProjectDetail(props: any) {
               {filteredTasks && !loading ? (
                 filteredTasks.length !== 0 ? (
                   filteredTasks.map((item: any) => (
-                    <TaskCard key={item.id} data={item} project={projectData} refetch={refetch} />
+                    <TaskCard
+                      key={item.id}
+                      data={item}
+                      project={projectData}
+                      refetch={() => refetch()}
+                    />
                   ))
                 ) : (
                   <div className="flex justify-center items-center p-8">

@@ -17,6 +17,7 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
+import { useMutation } from '@apollo/client'
 import {
   Avatar,
   Button,
@@ -33,11 +34,14 @@ import {
 import React, { useEffect, useState } from 'react'
 import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
+import { TOGGLE_TASK_DONE } from '../api'
 import { Task } from '../typings'
 import LoadingComponent from './LoadingComponent'
 
-function TaskOverlay({ project, visible, onCloseModal, data }: any) {
+function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   const { Text } = Typography
+
+  const [toggleIsDone, { loading: loadingMutation, error }] = useMutation(TOGGLE_TASK_DONE)
 
   const [taskData, setTaskData] = useState<Task | null>(null)
   const [modalVisible, setModalVisible] = useState(false)
@@ -48,38 +52,35 @@ function TaskOverlay({ project, visible, onCloseModal, data }: any) {
 
   useEffect(() => {
     setTaskData(data)
-  }, [data])
+  }, [data, loadingMutation])
 
   useEffect(() => {
     setModalVisible(visible)
   }, [visible])
 
-  function onDoneClick() {
+  function onDoneClick(event: any) {
     Message.loading({
       content: 'Loading...',
       duration: 2,
       icon: <LoadingOutlined style={{ fontSize: 20, top: -2 }} spin />,
     })
-    setTimeout(() => {
-      // const tempData: Task = taskData
-      //   ? {
-      //       ...taskData,
-      //       isDone: !taskData.isDone,
-      //     }
-      //   : {
-      //       ...data,
-      //       isDone: !data.isDone,
-      //     }
-      // setTaskData(tempData)
-      Message.success({
-        content: 'Successfully updated',
-        duration: 2,
-        icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
+
+    toggleIsDone({ variables: { id: data.id } })
+      .then((res) => {
+        if (res && !loading && !error) {
+          Message.success({
+            content: 'Successfully updated',
+            duration: 2,
+            icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
+          })
+        }
       })
-    }, 2200)
+      .then(() => {
+        setTaskData({ ...data, isDone: !data.isDone })
+      })
   }
 
-  function onCancleClick(event: any) {
+  function onCancelClick(event: any) {
     event.stopPropagation()
     setModalVisible(false)
     onCloseModal()
@@ -171,7 +172,7 @@ function TaskOverlay({ project, visible, onCloseModal, data }: any) {
       width={'80%'}
       maskClosable={true}
       closable={true}
-      onCancel={(e) => onCancleClick(e)}
+      onCancel={(e) => onCancelClick(e)}
       destroyOnClose
       closeIcon={<CloseCircleOutlined style={{ color: 'red', fontSize: 24 }} />}
     >
@@ -332,22 +333,39 @@ function TaskOverlay({ project, visible, onCloseModal, data }: any) {
                 )}
               </Row>
               <Row className="justify-center">
-                <Button
-                  className="flex items-center justify-center py-4 m-4 text-md font-bold w-full"
-                  type="primary"
-                  danger={taskData.isDone ? true : false}
-                  icon={
-                    taskData.isDone ? (
-                      <BorderOutlined style={{ fontSize: 14 }} />
-                    ) : (
-                      <CheckSquareOutlined style={{ fontSize: 14 }} />
-                    )
-                  }
-                  shape="round"
-                  onClick={onDoneClick}
-                >
-                  {taskData.isDone ? 'Mark as Undone' : 'Mark as Done'}
-                </Button>
+                {taskData.isDone ? (
+                  <Button
+                    className="flex items-center justify-center py-4 m-4 text-md font-bold w-full shadow-md hover:shadow-lg bg-green-400 focus:bg-green-600 hover:bg-red-600 transition duration-800 ease-in border-0 "
+                    type="primary"
+                    icon={
+                      loadingMutation ? (
+                        <LoadingOutlined style={{ fontSize: 14 }} spin />
+                      ) : (
+                        <CheckSquareOutlined style={{ fontSize: 14 }} />
+                      )
+                    }
+                    shape="round"
+                    onClick={onDoneClick}
+                  >
+                    Mark as Undone
+                  </Button>
+                ) : (
+                  <Button
+                    className="flex items-center justify-center py-4 m-4 text-md font-bold w-full shadow-md hover:shadow-lg bg-red-400 focus:bg-red-600 hover:bg-green-600 transition duration-800 ease-in border-0 "
+                    type="primary"
+                    icon={
+                      loadingMutation ? (
+                        <LoadingOutlined style={{ fontSize: 14 }} spin />
+                      ) : (
+                        <BorderOutlined style={{ fontSize: 14 }} />
+                      )
+                    }
+                    shape="round"
+                    onClick={onDoneClick}
+                  >
+                    Mark as Done
+                  </Button>
+                )}
               </Row>
             </Col>
           </Row>

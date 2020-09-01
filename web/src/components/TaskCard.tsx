@@ -15,11 +15,10 @@ import TaskOverlay from './TaskOverlay'
 
 function TaskCard({ data, project, refetch }: any) {
   const { Text } = Typography
+  const showItems: any[] = []
 
   const [modalVisible, setModalVisible] = useState(false)
   const [taskData, setTaskData]: any = useState({})
-  const showItems: any[] = []
-
   const [toggleIsDone, { loading, error }] = useMutation(TOGGLE_TASK_DONE)
 
   useEffect(() => {
@@ -27,6 +26,7 @@ function TaskCard({ data, project, refetch }: any) {
   }, [data])
 
   function toggleModal() {
+    refetch()
     setModalVisible(false)
   }
 
@@ -42,17 +42,19 @@ function TaskCard({ data, project, refetch }: any) {
       icon: <LoadingOutlined style={{ fontSize: 20, top: -2 }} spin />,
     })
 
-    toggleIsDone({ variables: { id: data.id } }).then((res) => {
-      console.log('res', res)
-      if (res && !loading && !error) {
-        message.success({
-          content: 'Successfully updated',
-          duration: 2,
-          icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
-        })
-        setTaskData({ ...taskData, isDone: !taskData.isDone })
-      }
-    })
+    toggleIsDone({ variables: { id: data.id } })
+      .then((res) => {
+        if (res && !loading && !error) {
+          message.success({
+            content: 'Successfully updated',
+            duration: 2,
+            icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
+          })
+        }
+      })
+      .then(() => {
+        refetch()
+      })
   }
 
   function renderShowItems(item: any) {
@@ -113,7 +115,7 @@ function TaskCard({ data, project, refetch }: any) {
     )
   }
 
-  return !taskData && !data ? (
+  return loading || !taskData ? (
     <LoadingComponent task />
   ) : (
     <Card
@@ -126,6 +128,7 @@ function TaskCard({ data, project, refetch }: any) {
         visible={modalVisible}
         data={taskData}
         project={project}
+        refetch={refetch}
       />
 
       <Row gutter={[8, 16]}>
