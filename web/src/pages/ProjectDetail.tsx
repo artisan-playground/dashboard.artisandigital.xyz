@@ -17,6 +17,7 @@ import {
   LoadingComponent,
   LogCard,
   TaskCard,
+  TaskDrawer,
 } from '../components/DashboardComponent'
 
 function ProjectDetail(props: any) {
@@ -30,6 +31,7 @@ function ProjectDetail(props: any) {
 
   const [filteredTasks, setFilteredTasks] = useState([])
   const [filteredLog, setFilteredLog] = useState([])
+  const [drawerVisible, setDrawerVisible] = useState(false)
 
   useEffect(() => {
     if (!error && !loading) {
@@ -42,6 +44,9 @@ function ProjectDetail(props: any) {
     }
   }, [projectId, loading]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  function closeDawer() {
+    setDrawerVisible(false)
+  }
   return (
     <LayoutDashboard noCard>
       <Row className="w-full">
@@ -143,13 +148,17 @@ function ProjectDetail(props: any) {
                 <div className="font-bold text-2xl mb-4">Tasks</div>
                 <div>
                   <Button
-                    className="flex items-center justify-center bg-primaryopacity shadow-lg hover:bg-primary transition duration-200 ease-in outline-none"
+                    className="flex items-center justify-center bg-primaryopacity shadow-md hover:shadow-lg hover:bg-primary transition duration-200 ease-in outline-none border-0 "
                     type="primary"
                     size="large"
-                    shape="circle"
+                    shape="round"
+                    onClick={() => setDrawerVisible(true)}
                   >
-                    <PlusCircleOutlined style={{ fontSize: 36, marginTop: -3, color: '#fff' }} />
+                    <PlusCircleOutlined className="hover:scale-150 " />
+                    <Text className="hidden hover:block text-white">Create</Text>
                   </Button>
+
+                  <TaskDrawer visibillity={drawerVisible} onCloseDrawer={closeDawer} />
                 </div>
               </Row>
 
