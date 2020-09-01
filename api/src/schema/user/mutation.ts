@@ -9,8 +9,6 @@ const InputType = schema.inputObjectType({
     t.string('name', { required: true })
     t.string('image', { required: true })
     t.string('position', { required: true })
-    t.string('skills', { required: true })
-    t.string('contacts', { required: true })
   },
 })
 
@@ -29,6 +27,8 @@ schema.extendType({
           position: args.input?.position || '',
           skills: [],
           contacts: [],
+          projects: [],
+          tasks: [],
         }
         ctx.db.users.push(user)
         return user
