@@ -5,7 +5,6 @@ import LoadingComponent from '../components/LoadingComponent'
 import LogCard from '../components/LogCard'
 import NavBar from '../components/NavBar'
 import ProfileForm from '../components/ProfileForm'
-import ProfileSide from '../components/ProfileSide'
 import ProfileSkillTags from '../components/ProfileSkillTags'
 import ProjectCard from '../components/ProjectCard'
 import SideNav from '../components/SideNav'
@@ -28,7 +27,6 @@ export {
   SideProfile,
   ProfileProjectCard,
   ProfileTaskCard,
-  ProfileSide,
   LogCard,
   TaskCard,
   LoadingComponent,
