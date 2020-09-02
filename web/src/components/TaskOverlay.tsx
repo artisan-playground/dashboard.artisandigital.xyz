@@ -34,7 +34,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
-import { TOGGLE_TASK_DONE } from '../api'
+import { COMMENT, DELETE_COMMENT, TOGGLE_TASK_DONE } from '../api'
 import { Task } from '../typings'
 import LoadingComponent from './LoadingComponent'
 
@@ -42,6 +42,8 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   const { Text } = Typography
 
   const [toggleIsDone, { loading: loadingMutation, error }] = useMutation(TOGGLE_TASK_DONE)
+  const [createComment] = useMutation(COMMENT)
+  const [deleteComment] = useMutation(DELETE_COMMENT)
 
   const [taskData, setTaskData] = useState<Task | null>(null)
   const [modalVisible, setModalVisible] = useState(false)
@@ -119,46 +121,90 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
 
   function handleSubmit() {
     if (message !== '') {
-      // let commentId = data.getTaskById.comments.length
-      // let commentsTemp: Comment = {
-      //   id: (commentId + 1).toString(),
-      //   timestamp: new Date(),
-      //   userId: '33',
-      //   image: '',
-      //   userImg: 'https://source.unsplash.com/600x600/?cat',
-      //   userName: 'John Doe',
-      //   message,
-      // }
+      let commentsTemp = {
+        userId: '2',
+        userImg: 'https://source.unsplash.com/600x600/?cat',
+        userName: 'John Doe',
+        message,
+        taskId: data.id,
+      }
 
-      // const tempData: Task = taskData
-      //   ? { ...taskData, comments: [...taskData.comments!, commentsTemp] }
-      //   : { ...data }
+      if (taskData) {
+        createComment({
+          variables: {
+            input: commentsTemp,
+          },
+        })
+          .then((res) => {
+            if (res) {
+              const tempData: Task = taskData
+                ? { ...taskData, comments: [...taskData.comments!, commentsTemp] }
+                : { ...data }
 
-      // setTaskData(tempData)
+              setTaskData(tempData)
+            }
+          })
+          .catch((err) => {
+            Message.error({
+              content: `Error : ${err}`,
+              duration: 2,
+              icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+            })
+          })
+      }
       setMessage('')
     }
   }
 
-  const menu = (
-    <Menu>
-      <Menu.Item className="flex flex-row px-4 items-center">
-        <RollbackOutlined />
-        <a target="_blank" rel="noopener noreferrer" href="/">
-          Reply
-        </a>
-      </Menu.Item>
-      <Menu.Item className="flex flex-row px-4 items-center">
-        <EditOutlined />
-        <a target="_blank" rel="noopener noreferrer" href="/">
-          Edit
-        </a>
-      </Menu.Item>
-      <Menu.Item danger className="flex flex-row px-4 items-center">
-        <DeleteOutlined />
-        Delete
-      </Menu.Item>
-    </Menu>
-  )
+  function handleDelete(commentId: string) {
+    if (taskData) {
+      deleteComment({
+        variables: {
+          commentId,
+          taskId: taskData.id,
+        },
+      })
+        .then((res) => {
+          setTaskData({ ...taskData, comments: res.data.deleteComment })
+        })
+        .catch((err) => {
+          Message.error({
+            content: `Error : ${err}`,
+            duration: 2,
+            icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+          })
+        })
+    }
+  }
+
+  function menu(item: any) {
+    return (
+      <Menu>
+        <Menu.Item className="flex flex-row px-4 items-center">
+          <RollbackOutlined />
+          <a target="_blank" rel="noopener noreferrer" href="/">
+            Reply
+          </a>
+        </Menu.Item>
+        <Menu.Item className="flex flex-row px-4 items-center">
+          <EditOutlined />
+          <a target="_blank" rel="noopener noreferrer" href="/">
+            Edit
+          </a>
+        </Menu.Item>
+        <Menu.Item
+          danger
+          className="flex flex-row px-4 items-center"
+          onClick={() => {
+            window.confirm('Are you sure to delete this comment') && handleDelete(item.id)
+          }}
+        >
+          <DeleteOutlined />
+          Delete
+        </Menu.Item>
+      </Menu>
+    )
+  }
 
   return (
     <Modal
@@ -240,7 +286,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                                 </Text>
                               </div>
                               <div>
-                                <Dropdown overlay={menu}>
+                                <Dropdown overlay={() => menu(item)}>
                                   <Button
                                     className="flex items-center justify-center"
                                     type="text"

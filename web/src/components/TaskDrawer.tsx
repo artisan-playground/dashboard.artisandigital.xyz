@@ -18,20 +18,18 @@ function TaskDrawer({ visibillity, onCloseDrawer, project }: any) {
   useEffect(() => {
     setVisible(visibillity)
     if (!loading && data) {
-      // let temp = data.getUsers.map((item: any) => item.name)
       setUserList(data.getUsers)
     }
     if (project) {
-      // let temp = project.memberIds.map((item: any) => item.name)
       setMemberList(project.memberIds)
     }
-  }, [visibillity, data, project])
+  }, [visibillity, data, project, loading])
 
   function onClose() {
     setVisible(false)
     onCloseDrawer()
   }
-  console.log('project', memberList)
+
   function onChange(value: any, dateString: any) {
     console.log('Selected Time: ', value)
     console.log('Formatted Selected Time: ', dateString)

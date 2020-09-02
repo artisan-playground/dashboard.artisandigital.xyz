@@ -18,7 +18,7 @@ function NavBar() {
     <Menu>
       {TASK_DATA.filter((task: any) => task.team.filter((team: any) => team.id === '1')).map(
         (mapItem) => (
-          <Menu.Item>
+          <Menu.Item key={mapItem.projectId}>
             <RouterLink
               to={{
                 pathname: `/projects/${mapItem.projectId}`,
