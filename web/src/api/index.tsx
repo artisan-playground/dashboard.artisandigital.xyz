@@ -179,3 +179,14 @@ export const TOGGLE_TASK_DONE = gql`
     }
   }
 `
+
+export const GET_USERS = gql`
+  query User {
+    getUsers {
+      id
+      name
+      email
+      image
+    }
+  }
+`

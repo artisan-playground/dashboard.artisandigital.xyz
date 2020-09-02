@@ -182,7 +182,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
         <>
           <Text className="font-bold text-4xl ml-2">{taskData.taskName}</Text>
           <Row className="py-4">
-            <Col span={24} lg={{ span: 18 }} className="pl-4 pr-4 pt-2 border-r-2">
+            <Col span={24} lg={{ span: 18 }} className="pl-4 pr-4 pt-2 border-0 lg:border-r-2">
               <Row>
                 <Text className="text-lg pl-4 pr-4 mb-8">{taskData.taskDetail}</Text>
               </Row>

@@ -1,18 +1,44 @@
-import { Button, Col, Drawer, Form, Input, Row, Select } from 'antd'
+import { useQuery } from '@apollo/client'
+import { Button, Col, DatePicker, Drawer, Form, Input, Mentions, Row, Select } from 'antd'
+import Avatar from 'antd/lib/avatar/avatar'
 import React, { useEffect, useState } from 'react'
+import { GET_USERS } from '../api'
 
-function TaskDrawer({ visibillity, onCloseDrawer }: any) {
+function TaskDrawer({ visibillity, onCloseDrawer, project }: any) {
   const { Option } = Select
+  const { RangePicker } = DatePicker
+  const { Option: MentionOption } = Mentions
+
+  const { loading, data } = useQuery(GET_USERS)
 
   const [visible, setVisible] = useState(false)
+  const [userList, setUserList] = useState([])
+  const [memberList, setMemberList] = useState([])
 
   useEffect(() => {
     setVisible(visibillity)
-  }, [visibillity])
+    if (!loading && data) {
+      // let temp = data.getUsers.map((item: any) => item.name)
+      setUserList(data.getUsers)
+    }
+    if (project) {
+      // let temp = project.memberIds.map((item: any) => item.name)
+      setMemberList(project.memberIds)
+    }
+  }, [visibillity, data, project])
 
   function onClose() {
     setVisible(false)
     onCloseDrawer()
+  }
+  console.log('project', memberList)
+  function onChange(value: any, dateString: any) {
+    console.log('Selected Time: ', value)
+    console.log('Formatted Selected Time: ', dateString)
+  }
+
+  function onOk(value: any) {
+    console.log('onOk: ', value)
   }
 
   return (
@@ -42,11 +68,11 @@ function TaskDrawer({ visibillity, onCloseDrawer }: any) {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                name="name"
-                label="Name"
-                rules={[{ required: true, message: 'Please enter user name' }]}
+                name="taskName"
+                label="Task name"
+                rules={[{ required: true, message: 'Please enter task name' }]}
               >
-                <Input placeholder="Please enter user name" />
+                <Input placeholder="Please enter task name" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -67,14 +93,26 @@ function TaskDrawer({ visibillity, onCloseDrawer }: any) {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                name="owner"
-                label="Owner"
-                rules={[{ required: true, message: 'Please select an owner' }]}
+                name="Member"
+                label="Member"
+                rules={[{ required: true, message: 'Please select a member' }]}
               >
-                <Select placeholder="Please select an owner">
-                  <Option value="xiao">Xiaoxiao Fu</Option>
-                  <Option value="mao">Maomao Zhou</Option>
-                </Select>
+                <Mentions
+                  style={{ width: '100%' }}
+                  placeholder="input @ to mention people"
+                  prefix={['@']}
+                >
+                  {(memberList || []).map((value: any) => (
+                    <MentionOption
+                      key={value.id}
+                      value={value.name}
+                      className="hover:bg-primary hover:text-white py-2 px-4"
+                    >
+                      <Avatar shape="circle" size="default" src={value.image} className="mr-2" />
+                      {value.name}
+                    </MentionOption>
+                  ))}
+                </Mentions>
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -97,18 +135,37 @@ function TaskDrawer({ visibillity, onCloseDrawer }: any) {
                 label="Approver"
                 rules={[{ required: true, message: 'Please choose the approver' }]}
               >
-                <Select placeholder="Please choose the approver">
-                  <Option value="jack">Jack Ma</Option>
-                  <Option value="tom">Tom Liu</Option>
-                </Select>
+                <Mentions
+                  style={{ width: '100%' }}
+                  placeholder="input @ to mention people"
+                  prefix={['@']}
+                >
+                  {(userList || []).map((value: any) => (
+                    <MentionOption
+                      key={value.id}
+                      value={value.name}
+                      className="hover:bg-primary hover:text-white py-2 px-4"
+                    >
+                      <Avatar shape="circle" size="default" src={value.image} className="mr-2" />
+                      {value.name}
+                    </MentionOption>
+                  ))}
+                </Mentions>
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
-                name="dateTime"
-                label="DateTime"
-                rules={[{ required: true, message: 'Please choose the dateTime' }]}
-              ></Form.Item>
+                name="dueDate"
+                label="Date"
+                rules={[{ required: true, message: 'Please choose the due date' }]}
+              >
+                <RangePicker
+                  showTime={{ format: 'HH:mm' }}
+                  format="YYYY-MM-DD HH:mm"
+                  onChange={onChange}
+                  onOk={onOk}
+                />
+              </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
@@ -119,11 +176,11 @@ function TaskDrawer({ visibillity, onCloseDrawer }: any) {
                 rules={[
                   {
                     required: true,
-                    message: 'please enter url description',
+                    message: 'please enter task description',
                   },
                 ]}
               >
-                <Input.TextArea rows={4} placeholder="please enter url description" />
+                <Input.TextArea rows={4} placeholder="please enter task description" />
               </Form.Item>
             </Col>
           </Row>

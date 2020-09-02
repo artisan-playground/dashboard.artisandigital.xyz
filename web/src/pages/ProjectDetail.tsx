@@ -158,7 +158,11 @@ function ProjectDetail(props: any) {
                     <PlusCircleOutlined className="hover:scale-150 " />
                     <Text className="hidden hover:block text-white">Create</Text>
                   </Button>
-                  <TaskDrawer visibillity={drawerVisible} onCloseDrawer={closeDawer} />
+                  <TaskDrawer
+                    visibillity={drawerVisible}
+                    onCloseDrawer={closeDawer}
+                    project={projectData}
+                  />
                 </div>
               </Row>
 
