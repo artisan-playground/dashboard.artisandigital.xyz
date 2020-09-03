@@ -46,7 +46,8 @@ export const TASKS = gql`
       id
       projectId
       taskName
-      time
+      startTime
+      endTime
       taskDetail
       isDone
       memberIds {
@@ -81,7 +82,8 @@ export const TASKS_BY_ID = gql`
       id
       projectId
       taskName
-      time
+      startTime
+      endTime
       taskDetail
       isDone
       memberIds {
@@ -116,7 +118,8 @@ export const TASKS_BY_TASKID = gql`
       id
       projectId
       taskName
-      time
+      startTime
+      endTime
       taskDetail
       isDone
       memberIds {
@@ -151,7 +154,8 @@ export const TOGGLE_TASK_DONE = gql`
       id
       projectId
       taskName
-      time
+      startTime
+      endTime
       taskDetail
       isDone
       memberIds {
@@ -215,6 +219,19 @@ export const DELETE_COMMENT = gql`
       userImg
       userName
       message
+    }
+  }
+`
+export const ADD_TASK = gql`
+  mutation CreateTaskInput($input: CreateTaskInput) {
+    createTask(input: $input) {
+      id
+      projectId
+      taskName
+      startTime
+      endTime
+      taskDetail
+      isDone
     }
   }
 `

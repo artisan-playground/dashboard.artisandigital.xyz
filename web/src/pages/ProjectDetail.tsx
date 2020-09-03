@@ -162,6 +162,7 @@ function ProjectDetail(props: any) {
                     visibillity={drawerVisible}
                     onCloseDrawer={closeDawer}
                     project={projectData}
+                    refetch={() => refetch()}
                   />
                 </div>
               </Row>

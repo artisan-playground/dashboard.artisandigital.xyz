@@ -1,5 +1,6 @@
 import {
   CheckCircleOutlined,
+  CloseCircleOutlined,
   CommentOutlined,
   ExclamationCircleOutlined,
   LoadingOutlined,
@@ -54,6 +55,13 @@ function TaskCard({ data, project, refetch }: any) {
       })
       .then(() => {
         refetch()
+      })
+      .catch((err) => {
+        message.error({
+          content: `Error : ${err}`,
+          duration: 2,
+          icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+        })
       })
   }
 
@@ -148,7 +156,26 @@ function TaskCard({ data, project, refetch }: any) {
               )}
             </div>
             <div className="flex flex-col ml-2">
-              <Text disabled>{new Date(data.time).toLocaleTimeString() || '...'}</Text>
+              {data.endTime ? (
+                <Text disabled>
+                  {new Date(data.startTime || 0).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}{' '}
+                  -{' '}
+                  {new Date(data.endTime || 0).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </Text>
+              ) : (
+                <Text disabled>
+                  {new Date(data.startTime || 0).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </Text>
+              )}
             </div>
           </div>
         </div>
