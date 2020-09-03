@@ -1,4 +1,4 @@
-import { CloseCircleOutlined } from '@ant-design/icons'
+import { CloseCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Col, DatePicker, Drawer, Form, Input, Mentions, message, Row, Select } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
@@ -50,31 +50,39 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
   }
 
   function handleCreateTask() {
-    const temp = {
-      projectId: project.id,
-      taskName,
-      taskDetail,
-      startTime: new Date(startTime),
-      endTime: new Date(endTime),
-      memberIds,
-    }
-    createTask({ variables: { input: temp } })
-      .then((res) => {
-        console.log('res', res)
-        setTaskName('')
-        setTaskDetail('')
-        setMemberIds([])
-        setStartTime(new Date())
-        setEndTime(new Date())
-        onClose()
-      })
-      .catch((err) => {
-        message.error({
-          content: `Error : ${err}`,
-          duration: 2,
-          icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+    if (taskName !== '' && taskDetail !== '' && memberIds.length !== 0) {
+      const temp = {
+        projectId: project.id,
+        taskName,
+        taskDetail,
+        startTime: new Date(startTime),
+        endTime: new Date(endTime),
+        memberIds,
+      }
+      createTask({ variables: { input: temp } })
+        .then((res) => {
+          console.log('res', res)
+          setTaskName('')
+          setTaskDetail('')
+          setMemberIds([])
+          setStartTime(new Date())
+          setEndTime(new Date())
+          onClose()
         })
+        .catch((err) => {
+          message.error({
+            content: `Error : ${err}`,
+            duration: 2,
+            icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+          })
+        })
+    } else {
+      message.warning({
+        content: `Please insert all field`,
+        duration: 2,
+        icon: <ExclamationCircleOutlined style={{ fontSize: 20, top: -2 }} />,
       })
+    }
   }
 
   function handleMention(value: any) {
