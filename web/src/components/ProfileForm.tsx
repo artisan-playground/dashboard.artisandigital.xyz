@@ -4,8 +4,7 @@ import React, { useState } from 'react'
 function ProfileForm({ data }: any) {
   const { Text } = Typography
   const [email, setEmail] = useState('')
-  const [firstname, setFirstname] = useState('')
-  const [lastname, setLastname] = useState('')
+  const [name, setName] = useState('')
   const [position, setPosition] = useState('')
   const [facebook, setFacebook] = useState('')
   const [twitter, setTwitter] = useState('')
@@ -20,32 +19,13 @@ function ProfileForm({ data }: any) {
 
   return (
     <Form name="normal_edit" className="edit-form" initialValues={{ remember: true }}>
-      <div className="flex items-center justify-between">
-        <Form.Item
-          name="firstname"
-          label="Firstname"
-          className="mr-2 w-2/4"
-          rules={[{ required: true, message: 'Please input your Firstname!' }]}
-        >
-          <Input
-            placeholder="Firstname..."
-            defaultValue={data.firstname}
-            onChange={() => setFirstname(firstname)}
-          />
-        </Form.Item>
-        <Form.Item
-          name="lastname"
-          label="Lastname"
-          className="w-2/4"
-          rules={[{ required: true, message: 'Please input your Lastname!' }]}
-        >
-          <Input
-            placeholder="Lastname..."
-            defaultValue={data.lastname}
-            onChange={() => setLastname(lastname)}
-          />
-        </Form.Item>
-      </div>
+      <Form.Item
+        name="name"
+        label="Name"
+        rules={[{ required: true, message: 'Please input your Firstname!' }]}
+      >
+        <Input placeholder="Name..." defaultValue={data.name} onChange={() => setName(name)} />
+      </Form.Item>
       <Form.Item
         name="email"
         label="Email"
