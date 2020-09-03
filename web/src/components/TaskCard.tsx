@@ -1,37 +1,33 @@
 import {
   CheckCircleOutlined,
+  CloseCircleOutlined,
   CommentOutlined,
   ExclamationCircleOutlined,
   LoadingOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  message,
-  Popover,
-  Row,
-  Skeleton,
-  Tooltip,
-  Typography,
-} from 'antd'
+import { useMutation } from '@apollo/client'
+import { Avatar, Button, Card, Col, message, Popover, Row, Tooltip, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { TOGGLE_TASK_DONE } from '../api'
+import LoadingComponent from './LoadingComponent'
 import TaskOverlay from './TaskOverlay'
 
-function TaskCard({ data, project }: any) {
+function TaskCard({ data, project, refetch }: any) {
   const { Text } = Typography
+  const showItems: any[] = []
 
   const [modalVisible, setModalVisible] = useState(false)
   const [taskData, setTaskData]: any = useState({})
-  const showItems: any[] = []
+  const [toggleIsDone, { loading, error }] = useMutation(TOGGLE_TASK_DONE)
+
   useEffect(() => {
     setTaskData(data)
   }, [data])
 
   function toggleModal() {
+    refetch()
     setModalVisible(false)
   }
 
@@ -47,14 +43,26 @@ function TaskCard({ data, project }: any) {
       icon: <LoadingOutlined style={{ fontSize: 20, top: -2 }} spin />,
     })
 
-    setTimeout(() => {
-      if (taskData) setTaskData({ ...taskData, isDone: !taskData.isDone })
-      message.success({
-        content: 'Successfully updated',
-        duration: 2,
-        icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
+    toggleIsDone({ variables: { id: data.id } })
+      .then((res) => {
+        if (res && !loading && !error) {
+          message.success({
+            content: 'Successfully updated',
+            duration: 2,
+            icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
+          })
+        }
       })
-    }, 2200)
+      .then(() => {
+        refetch()
+      })
+      .catch((err) => {
+        message.error({
+          content: `Error : ${err}`,
+          duration: 2,
+          icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+        })
+      })
   }
 
   function renderShowItems(item: any) {
@@ -115,10 +123,8 @@ function TaskCard({ data, project }: any) {
     )
   }
 
-  return !taskData && !data ? (
-    <Card>
-      <Skeleton />
-    </Card>
+  return loading || !taskData ? (
+    <LoadingComponent task />
   ) : (
     <Card
       hoverable
@@ -130,37 +136,11 @@ function TaskCard({ data, project }: any) {
         visible={modalVisible}
         data={taskData}
         project={project}
+        refetch={refetch}
       />
+
       <Row gutter={[8, 16]}>
         <div className="flex flex-row items-start justify-center">
-          <div className="flex flex-row items-center justify-center my-2 mx-2">
-            {taskData.isDone ? (
-              <Button
-                className="flex items-center justify-center shadow-md hover:bg-green-600 transition duration-200 ease-in outline-none"
-                type="primary"
-                shape="circle"
-                size="large"
-                style={{ backgroundColor: '#68d391', border: '0' }}
-                onClick={onDoneClick}
-              >
-                <CheckCircleOutlined style={{ fontSize: 24, color: '#fff', marginTop: -2 }} />
-              </Button>
-            ) : (
-              <Button
-                className="flex items-center justify-center shadow-md bg-red-400 hover:bg-red-600 transition duration-200 ease-in outline-none"
-                type="primary"
-                shape="circle"
-                size="large"
-                danger
-                onClick={onDoneClick}
-              >
-                <ExclamationCircleOutlined
-                  // className="animate-ping"
-                  style={{ fontSize: 24, color: '#fff', marginTop: -2 }}
-                />
-              </Button>
-            )}
-          </div>
           <div className="flex flex-col">
             <div className="flex flex-row items-center w-full">
               <Text className="font-bold text-xl ml-2">{data.taskName}</Text>
@@ -176,7 +156,26 @@ function TaskCard({ data, project }: any) {
               )}
             </div>
             <div className="flex flex-col ml-2">
-              <Text disabled>{data.time.toLocaleTimeString() || '...'}</Text>
+              {data.endTime ? (
+                <Text disabled>
+                  {new Date(data.startTime || 0).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}{' '}
+                  -{' '}
+                  {new Date(data.endTime || 0).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </Text>
+              ) : (
+                <Text disabled>
+                  {new Date(data.startTime || 0).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </Text>
+              )}
             </div>
           </div>
         </div>
@@ -187,8 +186,34 @@ function TaskCard({ data, project }: any) {
         <Col span={24}>
           <Row className="justify-between">
             <Col className=" min-h-full">
-              <Row className="justify-end items-end">{renderShowItems(data.team)}</Row>
+              <Row className="justify-end items-end">{renderShowItems(data.memberIds)}</Row>
             </Col>
+
+            <div className="flex flex-row items-center justify-center">
+              {taskData.isDone ? (
+                <Button
+                  className="flex items-center justify-center shadow-md hover:shadow-lg bg-green-400 focus:bg-green-600 hover:bg-red-600 transition duration-800 ease-in border-0 w-24"
+                  type="primary"
+                  shape="round"
+                  size="large"
+                  onClick={onDoneClick}
+                >
+                  <CheckCircleOutlined className="hover:hidden" />
+                  <Text className="hover:block hidden text-white">Done</Text>
+                </Button>
+              ) : (
+                <Button
+                  className="flex items-center justify-center shadow-md hover:shadow-lg bg-red-400 focus:bg-red-600 hover:bg-green-600 transition duration-800 ease-in border-0 w-24"
+                  type="primary"
+                  shape="round"
+                  size="large"
+                  onClick={onDoneClick}
+                >
+                  <ExclamationCircleOutlined />
+                  <Text className="hover:hidden text-white">WIP</Text>
+                </Button>
+              )}
+            </div>
           </Row>
         </Col>
       </Row>

@@ -33,8 +33,10 @@ function LogCard({ data }: any) {
               <Row className="justify-end">
                 <Text className="text-lg"> {item.taskName + ','}</Text>
                 <Text className="mx-2 text-lg">by</Text>
-                {item.team.map((team: any) => (
-                  <Text className="font-bold text-lg mr-2">{team.name}</Text>
+                {item.memberIds.map((team: any) => (
+                  <Text key={team.id} className="font-bold text-lg mr-2">
+                    {team.name}
+                  </Text>
                 ))}
               </Row>
             </Col>

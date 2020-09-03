@@ -15,6 +15,19 @@ schema.extendType({
 
 schema.extendType({
   type: 'Query',
+  definition: (t) => {
+    t.list.field('getTaskByProjectId', {
+      type: 'Task',
+      args: { projectId: schema.stringArg({ required: true }) },
+      resolve: (_, args, ctx): any => {
+        return ctx.db.tasks.filter((p) => p.projectId === args.projectId)
+      },
+    })
+  },
+})
+
+schema.extendType({
+  type: 'Query',
   definition(t) {
     t.list.field('getAllTasks', {
       type: 'Task',

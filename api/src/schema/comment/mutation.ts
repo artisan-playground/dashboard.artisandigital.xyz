@@ -31,6 +31,7 @@ schema.extendType({
           taskId: args.input?.taskId || '',
         }
         ctx.db.tasks.find((t) => t.id === args.input?.taskId).comments.push(comment)
+        // ctx.db.comment.create({ data: comment })
         return comment
       },
     })
@@ -40,7 +41,7 @@ schema.extendType({
 schema.extendType({
   type: 'Mutation',
   definition: (t) => {
-    t.field('deleteComment', {
+    t.list.field('deleteComment', {
       type: 'Comment',
       args: {
         commentId: schema.stringArg({ required: true }),
@@ -48,11 +49,12 @@ schema.extendType({
       },
       resolve: (_root, args, ctx): any => {
         let taskIndex = ctx.db.tasks.map((t) => t.id).indexOf(args.taskId)
-        let commentIndex = ctx.db.tasks[taskIndex].comments.map((c) => c.id).indexOf(args.commentId)
-
+        let commentIndex = ctx.db.tasks[taskIndex].comments
+          .map((c: any) => c.id)
+          .indexOf(args.commentId)
         if (commentIndex !== -1 && taskIndex !== -1) {
           ctx.db.tasks[taskIndex].comments.splice(commentIndex, 1)
-          return ctx.db.tasks
+          return ctx.db.tasks[taskIndex].comments
         } else {
           return new Error(`No data at comment id ${args.commentId} and project id ${args.taskId}`)
         }

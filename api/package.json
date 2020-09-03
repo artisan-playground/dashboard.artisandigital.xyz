@@ -11,7 +11,8 @@
   "dependencies": {
     "acorn": "^6.0.1",
     "nanoid": "^3.1.12",
-    "nexus": "0.26.1"
+    "nexus": "0.26.1",
+    "nexus-plugin-prisma": "^0.17.0"
   },
   "devDependencies": {
     "prettier": "^2.0.5",

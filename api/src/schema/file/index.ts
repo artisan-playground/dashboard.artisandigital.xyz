@@ -1,14 +1,18 @@
 import { schema } from 'nexus'
 
 export interface File {
-  id: string
-  file: string
+  uid: string
+  url: string
+  name: string
+  status: string
 }
 
 schema.objectType({
   name: 'File',
   definition(t) {
-    t.string('id')
-    t.string('file')
+    t.string('uid')
+    t.string('url')
+    t.string('name')
+    t.string('status')
   },
 })

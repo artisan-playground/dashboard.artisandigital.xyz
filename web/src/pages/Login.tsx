@@ -10,7 +10,7 @@ function Login() {
   const login = useStoreActions((a) => a.userState.logIn)
   const { Text, Link } = Typography
   const testUser = {
-    id: '0',
+    id: '2',
     email: 'test@mail.com',
   }
 

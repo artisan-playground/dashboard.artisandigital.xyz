@@ -5,9 +5,12 @@ import { Task } from '.'
 const InputTaskType = schema.inputObjectType({
   name: 'CreateTaskInput',
   definition(t) {
-    t.string('taskName', { required: true })
     t.string('projectId', { required: true })
+    t.string('taskName', { required: true })
     t.string('taskDetail', { required: false })
+    t.date('startTime', { required: false })
+    t.date('endTime', { required: false })
+    t.list.string('memberIds')
   },
 })
 
@@ -22,9 +25,13 @@ schema.extendType({
           id: nanoid(),
           taskName: args.input?.taskName || '',
           projectId: args.input?.projectId || '',
-          time: new Date(),
+          startTime: args.input?.startTime || new Date(),
+          endTime: args.input?.endTime || new Date(),
           taskDetail: args.input?.taskDetail || '',
           isDone: false,
+          memberIds: args.input?.memberIds || [],
+          comments: [],
+          files: [],
         }
         ctx.db.tasks.push(task)
         return task
