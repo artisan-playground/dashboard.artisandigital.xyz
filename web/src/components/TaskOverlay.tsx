@@ -31,6 +31,7 @@ import {
   Typography,
   Upload,
 } from 'antd'
+import { useStoreState } from 'easy-peasy'
 import React, { useEffect, useState } from 'react'
 import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
@@ -44,6 +45,8 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   const [toggleIsDone, { loading: loadingMutation, error }] = useMutation(TOGGLE_TASK_DONE)
   const [createComment] = useMutation(COMMENT)
   const [deleteComment] = useMutation(DELETE_COMMENT)
+
+  const user = useStoreState((s) => s.userState.user)
 
   const [taskData, setTaskData] = useState<Task | null>(null)
   const [modalVisible, setModalVisible] = useState(false)
@@ -178,6 +181,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   }
 
   function menu(item: any) {
+    console.log('item', item)
     return (
       <Menu>
         <Menu.Item className="flex flex-row px-4 items-center">
@@ -186,22 +190,28 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
             Reply
           </a>
         </Menu.Item>
-        <Menu.Item className="flex flex-row px-4 items-center">
-          <EditOutlined />
-          <a target="_blank" rel="noopener noreferrer" href="/">
-            Edit
-          </a>
-        </Menu.Item>
-        <Menu.Item
-          danger
-          className="flex flex-row px-4 items-center"
-          onClick={() => {
-            window.confirm('Are you sure to delete this comment') && handleDelete(item.id)
-          }}
-        >
-          <DeleteOutlined />
-          Delete
-        </Menu.Item>
+        {item.userId === user.id && (
+          <Menu>
+            <Menu.Item className="flex flex-row px-4 items-center">
+              <EditOutlined />
+              <a target="_blank" rel="noopener noreferrer" href="/">
+                Edit
+              </a>
+            </Menu.Item>
+            <Menu.Item
+              danger
+              className="flex flex-row px-4 items-center hover:bg-red-400 "
+              onClick={() => {
+                window.confirm('Are you sure to delete this comment') && handleDelete(item.id)
+              }}
+            >
+              <div className="hover:text-white flex items-center">
+                <DeleteOutlined />
+                Delete
+              </div>
+            </Menu.Item>
+          </Menu>
+        )}
       </Menu>
     )
   }
