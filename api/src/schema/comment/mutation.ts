@@ -31,6 +31,7 @@ schema.extendType({
           taskId: args.input?.taskId || '',
         }
         ctx.db.tasks.find((t) => t.id === args.input?.taskId).comments.push(comment)
+        // ctx.db.comment.create({ data: comment })
         return comment
       },
     })

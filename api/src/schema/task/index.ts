@@ -6,7 +6,8 @@ export interface Task {
   id: string
   projectId: string
   taskName: string
-  time: Date
+  startTime: Date
+  endTime: Date
   taskDetail: string
   isDone: boolean
   memberIds?: String[]
@@ -20,7 +21,8 @@ schema.objectType({
     t.string('id', { nullable: false })
     t.string('projectId', { nullable: false })
     t.string('taskName')
-    t.date('time')
+    t.date('startTime')
+    t.date('endTime')
     t.string('taskDetail')
     t.boolean('isDone')
     t.list.field('memberIds', {
