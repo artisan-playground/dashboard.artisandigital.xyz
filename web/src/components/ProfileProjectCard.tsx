@@ -13,7 +13,7 @@ function ProfileProjectCard({ data }: any) {
       if (i < 4) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
-            <Link to={{ pathname: '/profile', state: { profileId: item[i].id } }}>
+            <Link to={{ pathname: '/profile', state: { data: item[i] } }}>
               <Tooltip placement="top" title={item[i].name}>
                 <Avatar
                   key={item[i].id}
@@ -56,7 +56,7 @@ function ProfileProjectCard({ data }: any) {
       <div>
         {item.map((items: any) => {
           return (
-            <Link key={items.id} to={{ pathname: '/profile', state: { profileId: items.id } }}>
+            <Link key={items.id} to={{ pathname: '/profile', state: { data: items } }}>
               <div className="flex mx-1 my-1 p-1 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
                 <Avatar key={items.id} src={items.image} className="ml-2" alt={items.name} />
                 <div className="ml-4">{items.name}</div>
@@ -84,7 +84,7 @@ function ProfileProjectCard({ data }: any) {
           description={`${data.projectType} | ...Tasks`}
         />
         <Text className="font-bold">Member(s)</Text>
-        <Row className="pl-16 mt-2">{renderShowItems(data.team)}</Row>
+        <Row className="pl-16 mt-2">{renderShowItems(data.memberIds)}</Row>
         <Row className="flex items-end justify-end mt-6">
           <Col>
             {data.status === 'done' ? (

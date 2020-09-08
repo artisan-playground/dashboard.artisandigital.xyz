@@ -19,21 +19,21 @@ function Profile(props: any) {
   useEffect(() => {
     switch (types) {
       case 'undone':
-        let wip: any[] = data.projects.filter((item: any) => item.status === 'undone')
+        let wip: any[] = data.projectIds.filter((item: any) => item.status === 'undone')
         setFilteredData(wip)
         break
       case 'done':
-        let closed: any[] = data.projects.filter((item: any) => item.status === 'done')
+        let closed: any[] = data.projectIds.filter((item: any) => item.status === 'done')
         setFilteredData(closed)
         break
       case 'all':
-        setFilteredData(data.projects)
+        setFilteredData(data.projectIds)
         break
       default:
-        setFilteredData(data.projects)
+        setFilteredData(data.projectIds)
         break
     }
-  }, [types])
+  }, [types, data])
 
   function handleTypeChange(e: any) {
     setTypes(e.target.value)
@@ -109,8 +109,8 @@ function Profile(props: any) {
             customRightArrow={<CustomRightArrow />}
             customLeftArrow={<CustomLeftArrow />}
           >
-            {data.tasks ? (
-              data.tasks.map((items: any, index: any) => (
+            {data.taskIds ? (
+              data.taskIds.map((items: any, index: any) => (
                 <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
                   <ProfileTaskCard data={items} />
                 </Col>
