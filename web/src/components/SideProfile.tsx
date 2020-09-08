@@ -44,12 +44,12 @@ function SideProfile({ data }: any) {
         <Col className="mb-8">
           <Row className="flex items-center justify-between">
             <Text className="text-lg font-bold">All Project(s)</Text>
-            <Text className="text-lg font-bold text-blue-500">{data.projects.length}</Text>
+            <Text className="text-lg font-bold text-blue-500">{data.projectIds.length}</Text>
           </Row>
           <Row className="flex items-center justify-between">
             <Text className="text-lg font-bold">Closed Project(s)</Text>
             <Text className="text-lg font-bold text-blue-500">
-              {data.projects.filter((item: any) => item.status === 'done').length}
+              {data.projectIds.filter((item: any) => item.status === 'done').length}
             </Text>
           </Row>
         </Col>
@@ -58,33 +58,33 @@ function SideProfile({ data }: any) {
           <Col>
             <Text className="text-lg font-bold">{data.contacts ? 'Contact(s)' : ''}</Text>
             <Row className="mb-1 mt-2">
-              {data.contacts.facebook ? <FacebookOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.facebook} target="_blank">
-                {data.contacts.facebook ? 'Facebook' : ''}
+              {data.contacts[0].facebook ? <FacebookOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={data.contacts[0].facebook} target="_blank">
+                {data.contacts[0].facebook ? 'Facebook' : ''}
               </Link>
             </Row>
             <Row className="mb-1">
-              {data.contacts.twitter ? <TwitterOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.twitter} target="_blank">
-                {data.contacts.twitter ? 'Twitter' : ''}
+              {data.contacts[0].twitter ? <TwitterOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={data.contacts[0].twitter} target="_blank">
+                {data.contacts[0].twitter ? 'Twitter' : ''}
               </Link>
             </Row>
             <Row className="mb-1">
-              {data.contacts.instagram ? <InstagramOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.instagram} target="_blank">
-                {data.contacts.instagram ? 'Instagram' : ''}
+              {data.contacts[0].instagram ? <InstagramOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={data.contacts[0].instagram} target="_blank">
+                {data.contacts[0].instagram ? 'Instagram' : ''}
               </Link>
             </Row>
             <Row className="mb-1">
-              {data.contacts.gitlab ? <GitlabOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.gitlab} target="_blank">
-                {data.contacts.gitlab ? 'Gitlab' : ''}
+              {data.contacts[0].gitlab ? <GitlabOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={data.contacts[0].gitlab} target="_blank">
+                {data.contacts[0].gitlab ? 'Gitlab' : ''}
               </Link>
             </Row>
             <Row className="mb-1">
-              {data.contacts.github ? <GithubOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.github} target="_blank">
-                {data.contacts.github ? 'Github' : ''}
+              {data.contacts[0].github ? <GithubOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={data.contacts[0].github} target="_blank">
+                {data.contacts[0].github ? 'Github' : ''}
               </Link>
             </Row>
           </Col>
