@@ -27,8 +27,8 @@ schema.extendType({
           position: args.input?.position || '',
           skills: [],
           contacts: [],
-          projects: [],
-          tasks: [],
+          projectIds: [],
+          taskIds: [],
         }
         ctx.db.users.push(user)
         return user

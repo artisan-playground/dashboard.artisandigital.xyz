@@ -200,7 +200,7 @@ export const GET_USERS = gql`
         gitlab
         github
       }
-      projects {
+      projectIds {
         id
         projectName
         projectType
@@ -208,6 +208,63 @@ export const GET_USERS = gql`
         projectImage
         status
         dueDate
+        memberIds {
+          id
+          name
+          email
+          image
+          position
+          skills
+          contacts {
+            facebook
+            twitter
+            instagram
+            gitlab
+            github
+          }
+          projectIds {
+            id
+            projectName
+            projectType
+            projectDetail
+            projectImage
+            status
+            dueDate
+            memberIds {
+              id
+              name
+              email
+              image
+              position
+              skills
+              contacts {
+                facebook
+                twitter
+                instagram
+                gitlab
+                github
+              }
+            }
+          }
+          taskIds {
+            id
+            projectId
+            taskName
+            startTime
+            endTime
+            taskDetail
+            isDone
+          }
+        }
+      }
+      taskIds {
+        id
+        projectId
+        taskName
+        startTime
+        endTime
+        taskDetail
+        isDone
       }
     }
   }
