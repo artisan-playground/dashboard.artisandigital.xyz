@@ -1,6 +1,4 @@
 import { schema } from 'nexus'
-import { Project } from '../project'
-import { Task } from '../task'
 import { Contact } from '../contact'
 
 export interface User {
@@ -9,10 +7,10 @@ export interface User {
   email: string
   image?: string
   position: string
-  skills?: []
+  skills?: String[]
   contacts?: Contact[]
-  projects?: Project[]
-  tasks?: Task[]
+  projectIds?: String[]
+  taskIds?: String[]
 }
 
 schema.objectType({
@@ -27,11 +25,17 @@ schema.objectType({
     t.list.field('contacts', {
       type: 'Contact',
     })
-    t.list.field('projects', {
+    t.list.field('projectIds', {
       type: 'Project',
+      resolve: (_root, args, ctx): any => {
+        return ctx.db.projects.filter((p) => _root.projectIds.includes(p.id))
+      },
     })
-    t.list.field('tasks', {
+    t.list.field('taskIds', {
       type: 'Task',
+      resolve: (_root, args, ctx): any => {
+        return ctx.db.tasks.filter((t) => _root.taskIds.includes(t.id))
+      },
     })
   },
 })
