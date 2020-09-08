@@ -191,6 +191,24 @@ export const GET_USERS = gql`
       name
       email
       image
+      position
+      skills
+      contacts {
+        facebook
+        twitter
+        instagram
+        gitlab
+        github
+      }
+      projects {
+        id
+        projectName
+        projectType
+        projectDetail
+        projectImage
+        status
+        dueDate
+      }
     }
   }
 `
