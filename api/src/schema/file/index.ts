@@ -10,9 +10,9 @@ export interface File {
 schema.objectType({
   name: 'File',
   definition(t) {
-    t.string('uid')
-    t.string('url')
-    t.string('name')
-    t.string('status')
+    t.model.uid()
+    t.model.url()
+    t.model.name()
+    t.model.status()
   },
 })
