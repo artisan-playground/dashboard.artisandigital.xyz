@@ -1,0 +1,98 @@
+// This Prisma Schema file was created by Nexus
+// If you're new to Nexus or Prisma you may find these docs useful:
+//
+//   - Prisma plugin docs http://nxs.li/nexus-plugin-prisma
+//   - Prisma Schema docs https://pris.ly/d/prisma-schema
+
+// This "Example" model has been generated for you by Nexus.
+// Nexus does this when you do not have any models defined.
+// For more detail and examples of working with your Prisma
+// Schema, refer to its complete docs at https://pris.ly/d/prisma-schema.
+
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+generator prisma_client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  name       String?
+  image      String?
+  position   String?
+  skills     String[]
+  contact    Contact[]
+  projectIds Project[]
+  taskIds    Task[]
+  contactId  Int
+  projectId  Int
+  taskId     Int
+  role       Role      @default(USER)
+}
+
+model Contact {
+  id        Int     @id
+  facebook  String?
+  twitter   String?
+  instagram String?
+  gitlab    String?
+  github    String?
+  User      User[]
+}
+
+model Project {
+  id            Int      @id
+  projectName   String?
+  projectType   String?
+  projectDetail String?
+  projectImage  String?
+  status        String?
+  dueDate       DateTime
+  memberIds     String[]
+  User          User[]
+}
+
+model Task {
+  id         Int       @id
+  projectId  String?
+  taskName   String?
+  startTime  DateTime
+  endTime    DateTime
+  taskDetail String?
+  isDone     Boolean
+  memberIds  String[]
+  files      File[]
+  comments   Comment[]
+  User       User[]
+  fileUid    Int
+  commentId  Int
+}
+
+model File {
+  uid    Int     @id
+  url    String?
+  name   String?
+  status String?
+  Task   Task[]
+}
+
+model Comment {
+  id        Int      @id
+  timestamp DateTime
+  userId    String?
+  image     String?
+  userImg   String?
+  userName  String?
+  message   String?
+  taskId    String?
+  Task      Task[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
