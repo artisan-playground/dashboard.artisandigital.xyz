@@ -1,6 +1,14 @@
-import { schema, settings } from 'nexus'
+import { schema, settings,use } from 'nexus'
 import { projects, tasks, users } from './db'
-// import { prisma,settings, use } from 'nexus-plugin-prisma'
+import { prisma } from 'nexus-plugin-prisma'
+import { PrismaClient } from 'nexus-plugin-prisma/client'
+
+use(
+  prisma({
+    client: { instance: new PrismaClient() },
+    features: { crud: true }
+  })
+)
 
 settings.change({
   server: {
@@ -17,4 +25,3 @@ schema.addToContext((req) => {
     },
   }
 })
-// use(prisma({ features: { crud: true } }))
