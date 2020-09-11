@@ -12,11 +12,11 @@ export interface Contact {
 schema.objectType({
   name: 'Contact',
   definition(t) {
-    t.string('id')
-    t.string('facebook')
-    t.string('twitter')
-    t.string('instagram')
-    t.string('gitlab')
-    t.string('github')
+    t.model.id()
+    t.model.facebook()
+    t.model.twitter()
+    t.model.instagram()
+    t.model.gitlab()
+    t.model.github()
   },
 })
