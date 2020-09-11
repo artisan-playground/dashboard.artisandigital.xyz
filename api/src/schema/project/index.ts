@@ -14,18 +14,13 @@ export interface Project {
 schema.objectType({
   name: 'Project',
   definition(t) {
-    t.string('id')
-    t.string('projectName')
-    t.string('projectType')
-    t.string('projectDetail')
-    t.string('projectImage')
-    t.string('status')
-    t.date('dueDate')
-    t.list.field('memberIds', {
-      type: 'User',
-      resolve: (_root, args, ctx): any => {
-        return ctx.db.users.filter((u) => _root.memberIds.includes(u.id))
-      },
-    })
+    t.model.id()
+    t.model.projectName()
+    t.model.projectType()
+    t.model.projectDetail()
+    t.model.projectImage()
+    t.model.status()
+    t.model.dueDate()
+    t.model.memberIds()
   },
 })
