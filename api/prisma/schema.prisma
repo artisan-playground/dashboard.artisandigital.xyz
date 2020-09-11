@@ -1,20 +1,87 @@
-// This Prisma Schema file was created by Nexus
-// If you're new to Nexus or Prisma you may find these docs useful: 
-//
-//   - Prisma plugin docs http://nxs.li/nexus-plugin-prisma
-//   - Prisma Schema docs https://pris.ly/d/prisma-schema
-
-// This "Example" model has been generated for you by Nexus.
-// Nexus does this when you do not have any models defined.
-// For more detail and examples of working with your Prisma
-// Schema, refer to its complete docs at https://pris.ly/d/prisma-schema.
-
-model Example {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-}
-
 generator prisma_client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  name       String?
+  image      String?
+  position   String?
+  skills     String[]
+  contacts   Contact[] @relation(references: [id])
+  projectIds Project[] @relation(references: [id])
+  taskIds    Task[]    @relation(references: [id])
+  role       Role      @default(USER)
+}
+
+model Contact {
+  id        Int     @id @default(autoincrement())
+  facebook  String?
+  twitter   String?
+  instagram String?
+  gitlab    String?
+  github    String?
+  User      User[]
+}
+
+model Project {
+  id            Int      @id @default(autoincrement())
+  projectName   String?
+  projectType   String?
+  projectDetail String?
+  projectImage  String?
+  status        String?
+  dueDate       DateTime
+  memberIds     String[]
+  User          User[]
+  tasks         Task[]
+}
+
+model Task {
+  id                      Int       @id @default(autoincrement())
+  projectId               String?
+  taskName                String?
+  startTime               DateTime  @default(now())
+  endTime                 DateTime
+  taskDetail              String?
+  isDone                  Boolean
+  memberIds               String[]
+  fileUid                 Int
+  commentId               Int
+  comments                Comment[]
+  files                   File[]
+  User                    User[]
+  Project                 Project?  @relation(fields: [projectId_ProjectToTask], references: [id])
+  projectId_ProjectToTask Int?
+}
+
+model File {
+  uid    Int     @id @default(autoincrement())
+  url    String?
+  name   String?
+  status String?
+  Task   Task[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime
+  userId    String?
+  image     String?
+  userImg   String?
+  userName  String?
+  message   String?
+  taskId    String?
+  Task      Task[]
+}
+
+enum Role {
+  ADMIN
+  USER
 }
