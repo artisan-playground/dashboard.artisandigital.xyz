@@ -16,26 +16,14 @@ export interface User {
 schema.objectType({
   name: 'User',
   definition(t) {
-    t.string('id')
-    t.string('email')
-    t.string('name')
-    t.string('image')
-    t.string('position')
-    t.list.string('skills')
-    t.list.field('contacts', {
-      type: 'Contact',
-    })
-    t.list.field('projectIds', {
-      type: 'Project',
-      resolve: (_root, args, ctx): any => {
-        return ctx.db.projects.filter((p) => _root.projectIds.includes(p.id))
-      },
-    })
-    t.list.field('taskIds', {
-      type: 'Task',
-      resolve: (_root, args, ctx): any => {
-        return ctx.db.tasks.filter((t) => _root.taskIds.includes(t.id))
-      },
-    })
+    t.model.id()
+    t.model.email()
+    t.model.name()
+    t.model.image()
+    t.model.position()
+    t.model.skills()
+    t.model.contacts()
+    t.model.projectIds()
+    t.model.taskIds()
   },
 })
