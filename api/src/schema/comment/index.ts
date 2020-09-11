@@ -14,13 +14,13 @@ export interface Comment {
 schema.objectType({
   name: 'Comment',
   definition(t) {
-    t.string('id')
-    t.date('timestamp')
-    t.string('userId')
-    t.string('image')
-    t.string('userImg')
-    t.string('userName')
-    t.string('message')
-    t.string('taskId')
+    t.model.id()
+    t.model.timestamp()
+    t.model.userId()
+    t.model.image()
+    t.model.userImg()
+    t.model.userName()
+    t.model.message()
+    t.model.taskId()
   },
 })
