@@ -7,7 +7,7 @@ schema.extendType({
       type: 'User',
       args: { id: schema.stringArg({ required: true }) },
       resolve(_, args, ctx): any {
-        return ctx.db.users.find((u) => u.id === args.id) || null
+        return ctx.db.user.findOne({ where: { id: args.id } }) || null
       },
     })
   },
@@ -19,7 +19,7 @@ schema.extendType({
     t.list.field('getUsers', {
       type: 'User',
       resolve(_, _args, ctx) {
-        return ctx.db.users
+        return ctx.db.user
       },
     })
   },

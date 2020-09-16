@@ -1,8 +1,6 @@
-import { nanoid } from 'nanoid'
 import { schema } from 'nexus'
-import { Task } from '.'
 
-const InputTaskType = schema.inputObjectType({
+schema.inputObjectType({
   name: 'CreateTaskInput',
   definition(t) {
     t.string('projectId', { required: true })
@@ -19,22 +17,9 @@ schema.extendType({
   definition: (t) => {
     t.field('createTask', {
       type: 'Task',
-      args: { input: InputTaskType },
+      args: { input: 'CreateTaskInput' },
       resolve: (_root, args, ctx) => {
-        const task: Task = {
-          id: nanoid(),
-          taskName: args.input?.taskName || '',
-          projectId: args.input?.projectId || '',
-          startTime: args.input?.startTime || new Date(),
-          endTime: args.input?.endTime || new Date(),
-          taskDetail: args.input?.taskDetail || '',
-          isDone: false,
-          memberIds: args.input?.memberIds || [],
-          comments: [],
-          files: [],
-        }
-        ctx.db.tasks.push(task)
-        return task
+        return ctx.db.task.create(args.input)
       },
     })
   },
@@ -45,15 +30,9 @@ schema.extendType({
   definition: (t) => {
     t.field('deleteTask', {
       type: 'Task',
-      args: { id: schema.stringArg({ required: true }) },
+      args: { id: schema.intArg({ required: true }) },
       resolve: (_root, args, ctx): any => {
-        let index = ctx.db.tasks.findIndex((t) => t.id === args.id)
-        if (index !== -1) {
-          ctx.db.tasks.splice(index, 1)
-          return ctx.db.tasks
-        } else {
-          return new Error(`No data at id ${args.id} and index ${index}`)
-        }
+        return ctx.db.task.delete(args.id)
       },
     })
   },
@@ -64,16 +43,9 @@ schema.extendType({
   definition: (t) => {
     t.field('toggleIsDone', {
       type: 'Task',
-      args: { id: schema.stringArg({ required: true }) },
+      args: { id: schema.intArg({ required: true }) },
       resolve: (_root, args, ctx): any => {
-        ctx.db.tasks.map((task, index) => {
-          if (task.id === args.id) {
-            task.isDone = !ctx.db.tasks[index].isDone
-            return ctx.db.tasks
-          } else {
-            return new Error(`No data at id ${args.id}`)
-          }
-        })
+        return ctx.db.task.update(args.id)
       },
     })
   },

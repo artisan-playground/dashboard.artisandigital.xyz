@@ -1,17 +1,4 @@
 import { schema } from 'nexus'
-import { Contact } from '../contact'
-
-export interface User {
-  id: string
-  name: string
-  email: string
-  image?: string
-  position: string
-  skills?: String[]
-  contacts?: Contact[]
-  projectIds?: String[]
-  taskIds?: String[]
-}
 
 schema.objectType({
   name: 'User',

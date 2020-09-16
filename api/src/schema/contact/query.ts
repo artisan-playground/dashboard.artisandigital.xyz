@@ -5,12 +5,9 @@ schema.extendType({
   definition: (t) => {
     t.list.field('getContact', {
       type: 'Contact',
-      args: { id: schema.stringArg({ required: true }) },
+      args: { id: schema.intArg({ required: true }) },
       resolve: (_root, args, ctx) => {
-        return ctx.db.users
-          .map((item) => item.id === args.id && item.contacts)
-          .filter((x) => x)
-          .flat()
+        return ctx.db.contact.findOne({ where: { id: args.id } }) || null
       },
     })
   },
@@ -21,11 +18,8 @@ schema.extendType({
   definition(t) {
     t.list.field('getContacts', {
       type: 'Contact',
-      resolve(_, _args, ctx) {
-        return ctx.db.users
-          .map((item) => item.contacts)
-          .filter((x) => x)
-          .flat()
+      resolve(_, args, ctx) {
+        return ctx.db.contact
       },
     })
   },

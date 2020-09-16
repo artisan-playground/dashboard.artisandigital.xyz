@@ -1,8 +1,6 @@
 import { schema } from 'nexus'
-import { nanoid } from 'nanoid'
-import { Contact } from '.'
 
-const InputType = schema.inputObjectType({
+schema.inputObjectType({
   name: 'CreateContactInput',
   definition(t) {
     t.string('facebook', { required: true })
@@ -18,18 +16,22 @@ schema.extendType({
   definition: (t) => {
     t.field('createContact', {
       type: 'Contact',
-      args: { input: InputType },
+      args: { input: 'CreateContactInput' },
       resolve: (_, args, ctx) => {
-        const contact: Contact = {
-          id: nanoid(),
-          facebook: args.input?.facebook || '',
-          twitter: args.input?.twitter || '',
-          instagram: args.input?.instagram || '',
-          gitlab: args.input?.gitlab || '',
-          github: args.input?.github || '',
-        }
-        ctx.db.tasks.find((t) => t.id === args.input?.id).contacts.push(contact)
-        return contact
+        return ctx.db.contact.create(args.input)
+      },
+    })
+  },
+})
+
+schema.extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('editContact', {
+      type: 'Contact',
+      args: { id: schema.intArg({ required: true }) },
+      resolve: (_, args, ctx) => {
+        return ctx.db.contact.update(args.id)
       },
     })
   },

@@ -5,22 +5,9 @@ schema.extendType({
   definition: (t) => {
     t.field('getTaskById', {
       type: 'Task',
-      args: { id: schema.stringArg({ required: true }) },
+      args: { id: schema.intArg({ required: true }) },
       resolve: (_, args, ctx): any => {
-        return ctx.db.tasks.find((p) => p.id === args.id)
-      },
-    })
-  },
-})
-
-schema.extendType({
-  type: 'Query',
-  definition: (t) => {
-    t.list.field('getTaskByProjectId', {
-      type: 'Task',
-      args: { projectId: schema.stringArg({ required: true }) },
-      resolve: (_, args, ctx): any => {
-        return ctx.db.tasks.filter((p) => p.projectId === args.projectId)
+        return ctx.db.task.findOne({ where: { id: args.id } }) || null
       },
     })
   },
@@ -32,7 +19,7 @@ schema.extendType({
     t.list.field('getAllTasks', {
       type: 'Task',
       resolve(_, _args, ctx) {
-        return ctx.db.tasks
+        return ctx.db.task
       },
     })
   },

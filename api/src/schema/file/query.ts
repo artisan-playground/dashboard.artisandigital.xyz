@@ -5,9 +5,9 @@ schema.extendType({
   definition: (t) => {
     t.field('getFile', {
       type: 'File',
-      args: { id: schema.stringArg({ required: true }) },
+      args: { id: schema.intArg({ required: true }) },
       resolve: (_, args, ctx): any => {
-        return ctx.db.tasks.find((f) => f.id === args.id) || null
+        return ctx.db.file.findOne({ where: { id: args.id } }) || null
       },
     })
   },
@@ -19,7 +19,7 @@ schema.extendType({
     t.list.field('getFiles', {
       type: 'File',
       resolve(_, _args, ctx) {
-        return ctx.db.tasks
+        return ctx.db.file
       },
     })
   },
