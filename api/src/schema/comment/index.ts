@@ -1,16 +1,5 @@
 import { schema } from 'nexus'
 
-export interface Comment {
-  id: string
-  timestamp: Date
-  userId: string
-  image: string
-  userImg: string
-  userName: string
-  message: string
-  taskId: string
-}
-
 schema.objectType({
   name: 'Comment',
   definition(t) {

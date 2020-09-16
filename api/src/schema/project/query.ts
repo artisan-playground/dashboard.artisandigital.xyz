@@ -5,9 +5,9 @@ schema.extendType({
   definition: (t) => {
     t.list.field('getProject', {
       type: 'Project',
-      args: { id: schema.stringArg({ required: true }) },
+      args: { id: schema.intArg({ required: true }) },
       resolve: (_, args, ctx) => {
-        return ctx.db.projects.filter((p) => p.id === args.id) || null
+        return ctx.db.project.findOne({ where: { id: args.id } }) || null
       },
     })
   },
@@ -19,7 +19,7 @@ schema.extendType({
     t.list.field('getProjects', {
       type: 'Project',
       resolve(_, _args, ctx) {
-        return ctx.db.projects
+        return ctx.db.project
       },
     })
   },

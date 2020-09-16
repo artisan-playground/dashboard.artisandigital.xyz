@@ -7,14 +7,14 @@ main()
 async function main() {
   const users = [
     {
-      email:"test0@mail.com",
-      name:"John Doe",
-      position:"Developer",
+      email: 'test0@mail.com',
+      name: 'John Doe',
+      position: 'Developer',
     },
     {
-      email:"test1@mail.com",
-      name:"Jane Dee",
-      position:"Developer",
+      email: 'test1@mail.com',
+      name: 'Jane Dee',
+      position: 'Developer',
     },
   ]
 
@@ -22,6 +22,9 @@ async function main() {
 
   for (const user of users) {
     results.push(await db.user.create({ data: user }))
+    // results.push(await db.user.findMany())
+    // results.push(await db.user.updateMany({ where: { id: 1 }, data: user }))
+    // results.push(await db.user.delete({ where: { id: 2 } }))
   }
 
   console.log('User: %j', results)

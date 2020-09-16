@@ -1,8 +1,6 @@
 import { schema } from 'nexus'
-import { nanoid } from 'nanoid'
-import { User } from '.'
 
-const InputType = schema.inputObjectType({
+schema.inputObjectType({
   name: 'CreateUserInput',
   definition(t) {
     t.string('email', { required: true })
@@ -17,21 +15,22 @@ schema.extendType({
   definition: (t) => {
     t.field('createUser', {
       type: 'User',
-      args: { input: InputType },
+      args: { input: 'CreateUserInput' },
       resolve: (_, args, ctx) => {
-        const user: User = {
-          id: nanoid(),
-          email: args.input?.email || '',
-          name: args.input?.name || '',
-          image: args.input?.image,
-          position: args.input?.position || '',
-          skills: [],
-          contacts: [],
-          projectIds: [],
-          taskIds: [],
-        }
-        ctx.db.users.push(user)
-        return user
+        return ctx.db.user.create(args.input)
+      },
+    })
+  },
+})
+
+schema.extendType({
+  type: 'Mutation',
+  definition: (t) => {
+    t.field('updateUser', {
+      type: 'User',
+      args: { id: schema.intArg({ required: true }) },
+      resolve: (_, args, ctx) => {
+        return ctx.db.user.update(args.id)
       },
     })
   },

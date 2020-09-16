@@ -1,14 +1,5 @@
 import { schema } from 'nexus'
 
-export interface Contact {
-  id: string
-  facebook: string
-  twitter: string
-  instagram: string
-  gitlab: string
-  github: string
-}
-
 schema.objectType({
   name: 'Contact',
   definition(t) {

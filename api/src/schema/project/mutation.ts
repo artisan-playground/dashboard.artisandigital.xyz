@@ -1,8 +1,6 @@
-import { nanoid } from 'nanoid'
 import { schema } from 'nexus'
-import { Project } from '.'
 
-const InputType = schema.inputObjectType({
+schema.inputObjectType({
   name: 'CreateProjectInput',
   definition(t) {
     t.string('projectName', { required: true })
@@ -13,7 +11,7 @@ const InputType = schema.inputObjectType({
   },
 })
 
-const InputEditType = schema.inputObjectType({
+schema.inputObjectType({
   name: 'EditProjectInput',
   definition(t) {
     t.string('id', { required: true })
@@ -31,20 +29,9 @@ schema.extendType({
   definition: (t) => {
     t.field('createProject', {
       type: 'Project',
-      args: { input: InputType },
+      args: { input: 'CreateProjectInput' },
       resolve: (_, args, ctx) => {
-        const project: Project = {
-          id: nanoid(),
-          projectName: args.input?.projectName || '',
-          projectType: args.input?.projectType || '',
-          projectDetail: args.input?.projectDetail || '',
-          projectImage: args.input?.projectImage,
-          status: 'undone',
-          dueDate: args.input?.dueDate || new Date(),
-          memberIds: [],
-        }
-        ctx.db.projects.push(project)
-        return project
+        return ctx.db.project.create(args.input)
       },
     })
   },
@@ -55,25 +42,9 @@ schema.extendType({
   definition: (t) => {
     t.field('editProject', {
       type: 'Project',
-      args: { input: InputEditType },
+      args: { input: 'EditProjectInput' },
       resolve: (_, args, ctx): any => {
-        ctx.db.projects.map((item, i) => {
-          if (item.id === args.input?.id) {
-            ctx.db.projects[i] = {
-              id: args.input?.id || '',
-              projectName: args.input?.projectName || '',
-              projectType: args.input?.projectType || '',
-              projectDetail: args.input?.projectDetail || '',
-              projectImage: args.input?.projectImage,
-              status: args.input?.status || 'undone',
-              dueDate: new Date(),
-              memberIds: [],
-            }
-            return ctx.db.projects
-          } else {
-            return new Error(`No data at id ${args.input?.id}`)
-          }
-        })
+        return ctx.db.project.update(args.input)
       },
     })
   },

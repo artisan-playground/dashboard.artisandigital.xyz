@@ -148,6 +148,13 @@
     {
       "tag": "CreateField",
       "model": "User",
+      "field": "comments",
+      "type": "Comment",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
       "field": "role",
       "type": "Role",
       "arity": "Required"
@@ -429,7 +436,7 @@
     {
       "tag": "CreateField",
       "model": "Project",
-      "field": "user",
+      "field": "users",
       "type": "User",
       "arity": "List"
     },
@@ -439,7 +446,7 @@
         "path": {
           "tag": "Field",
           "model": "Project",
-          "field": "user"
+          "field": "users"
         },
         "directive": "relation"
       }
@@ -451,12 +458,12 @@
         "path": {
           "tag": "Field",
           "model": "Project",
-          "field": "user"
+          "field": "users"
         },
         "directive": "relation"
       },
       "argument": "fields",
-      "value": "[memberId]"
+      "value": "[memberIds]"
     },
     {
       "tag": "CreateArgument",
@@ -465,7 +472,7 @@
         "path": {
           "tag": "Field",
           "model": "Project",
-          "field": "user"
+          "field": "users"
         },
         "directive": "relation"
       },
@@ -475,7 +482,7 @@
     {
       "tag": "CreateField",
       "model": "Project",
-      "field": "memberId",
+      "field": "memberIds",
       "type": "Int",
       "arity": "Optional"
     },
@@ -649,7 +656,7 @@
     {
       "tag": "CreateField",
       "model": "Task",
-      "field": "user",
+      "field": "users",
       "type": "User",
       "arity": "List"
     },
@@ -659,7 +666,7 @@
         "path": {
           "tag": "Field",
           "model": "Task",
-          "field": "user"
+          "field": "users"
         },
         "directive": "relation"
       }
@@ -671,12 +678,12 @@
         "path": {
           "tag": "Field",
           "model": "Task",
-          "field": "user"
+          "field": "users"
         },
         "directive": "relation"
       },
       "argument": "fields",
-      "value": "[memberId]"
+      "value": "[memberIds]"
     },
     {
       "tag": "CreateArgument",
@@ -685,7 +692,7 @@
         "path": {
           "tag": "Field",
           "model": "Task",
-          "field": "user"
+          "field": "users"
         },
         "directive": "relation"
       },
@@ -695,21 +702,21 @@
     {
       "tag": "CreateField",
       "model": "Task",
-      "field": "memberId",
+      "field": "memberIds",
       "type": "Int",
       "arity": "Optional"
     },
     {
       "tag": "CreateField",
       "model": "Task",
-      "field": "comment",
+      "field": "comments",
       "type": "Comment",
       "arity": "List"
     },
     {
       "tag": "CreateField",
       "model": "Task",
-      "field": "file",
+      "field": "files",
       "type": "File",
       "arity": "List"
     },
@@ -916,7 +923,7 @@
     {
       "tag": "CreateField",
       "model": "Comment",
-      "field": "user",
+      "field": "users",
       "type": "User",
       "arity": "Optional"
     },
@@ -926,7 +933,7 @@
         "path": {
           "tag": "Field",
           "model": "Comment",
-          "field": "user"
+          "field": "users"
         },
         "directive": "relation"
       }
@@ -938,7 +945,7 @@
         "path": {
           "tag": "Field",
           "model": "Comment",
-          "field": "user"
+          "field": "users"
         },
         "directive": "relation"
       },
@@ -952,7 +959,7 @@
         "path": {
           "tag": "Field",
           "model": "Comment",
-          "field": "user"
+          "field": "users"
         },
         "directive": "relation"
       },
@@ -964,6 +971,20 @@
       "model": "Comment",
       "field": "userId",
       "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Comment",
+      "field": "userImg",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Comment",
+      "field": "userName",
+      "type": "String",
       "arity": "Optional"
     },
     {

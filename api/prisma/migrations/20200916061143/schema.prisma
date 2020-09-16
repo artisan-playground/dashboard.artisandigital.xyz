@@ -17,6 +17,7 @@ model User {
   contacts   Contact[]
   projectIds Project[]
   taskIds    Task[]
+  comments   Comment[]
   role       Role      @default(USER)
 }
 
@@ -39,8 +40,8 @@ model Project {
   projectImage  String?
   status        String?  @default(value: "undone")
   dueDate       DateTime
-  user          User[]   @relation(fields: [memberId], references: [id])
-  memberId      Int?
+  users          User[]   @relation(fields: [memberIds], references: [id])
+  memberIds     Int?
   task          Task[]
 }
 
@@ -53,10 +54,10 @@ model Task {
   endTime    DateTime
   taskDetail String?
   isDone     Boolean
-  user       User[]    @relation(fields: [memberId], references: [id])
-  memberId   Int?
-  comment    Comment[]
-  file       File[]
+  users       User[]    @relation(fields: [memberIds], references: [id])
+  memberIds  Int?
+  comments   Comment[]
+  files       File[]
 }
 
 model File {
@@ -71,8 +72,10 @@ model File {
 model Comment {
   id        Int      @id @default(autoincrement())
   timestamp DateTime @default(now())
-  user      User?   @relation(fields: [userId], references: [id])
+  users      User?    @relation(fields: [userId], references: [id])
   userId    Int?
+  userImg   String?
+  userName  String?
   image     String?
   message   String?
   task      Task?    @relation(fields: [taskId], references: [id])
