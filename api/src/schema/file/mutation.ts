@@ -15,8 +15,8 @@ schema.extendType({
     t.field('createFile', {
       type: 'File',
       args: { input: 'CreateFileInput' },
-      resolve: (_root, args, ctx) => {
-        return ctx.db.file.create({ data: args.input })
+      resolve: (_, args, ctx) => {
+        return ctx.db.file.create({ data: args.input! })
       },
     })
   },
@@ -25,10 +25,10 @@ schema.extendType({
 schema.extendType({
   type: 'Mutation',
   definition: (t) => {
-    t.list.field('deleteFile', {
+    t.field('deleteFile', {
       type: 'File',
       args: { id: schema.intArg({ required: true }) },
-      resolve: (_root, args, ctx) => {
+      resolve: (_, args, ctx) => {
         return ctx.db.file.delete({ where: { id: args.id } })
       },
     })

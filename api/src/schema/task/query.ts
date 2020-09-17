@@ -6,7 +6,7 @@ schema.extendType({
     t.field('getTaskById', {
       type: 'Task',
       args: { id: schema.intArg({ required: true }) },
-      resolve: (_, args, ctx): any => {
+      resolve: (_, args, ctx) => {
         return ctx.db.task.findOne({ where: { id: args.id } }) || null
       },
     })
@@ -18,8 +18,8 @@ schema.extendType({
   definition(t) {
     t.list.field('getAllTasks', {
       type: 'Task',
-      resolve(_, _args, ctx) {
-        return ctx.db.task
+      resolve: (_, args, ctx) => {
+        return ctx.db.task.findMany()
       },
     })
   },

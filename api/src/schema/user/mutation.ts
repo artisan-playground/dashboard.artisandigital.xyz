@@ -5,7 +5,7 @@ schema.inputObjectType({
   definition(t) {
     t.string('email', { required: true })
     t.string('name', { required: true })
-    t.string('image', { required: true })
+    t.string('image', { required: false })
     t.string('position', { required: true })
   },
 })
@@ -13,12 +13,11 @@ schema.inputObjectType({
 schema.inputObjectType({
   name: 'EditUserInput',
   definition(t) {
-    t.string('id', { required: true })
+    t.int('id', { required: true })
     t.string('email', { required: true })
     t.string('name', { required: true })
     t.string('image', { required: true })
     t.string('position', { required: true })
-    t.string('skills', { required: true })
   },
 })
 
@@ -29,7 +28,7 @@ schema.extendType({
       type: 'User',
       args: { input: 'CreateUserInput' },
       resolve: (_, args, ctx) => {
-        return ctx.db.user.create({ data: args.input })
+        return ctx.db.user.create({ data: args.input! })
       },
     })
   },
@@ -42,7 +41,7 @@ schema.extendType({
       type: 'User',
       args: { input: 'EditUserInput', id: schema.intArg({ required: true }) },
       resolve: (_, args, ctx) => {
-        return ctx.db.user.update({ where: { id: args.id }, data: args.input })
+        return ctx.db.user.update({ where: { id: args.id }, data: args.input! })
       },
     })
   },

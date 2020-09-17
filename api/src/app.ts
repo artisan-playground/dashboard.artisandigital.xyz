@@ -1,5 +1,4 @@
 import { schema, settings, use } from 'nexus'
-import { projects, tasks, users } from './db'
 import { prisma } from 'nexus-plugin-prisma'
 import { PrismaClient } from 'nexus-plugin-prisma/client'
 
@@ -19,9 +18,7 @@ settings.change({
 schema.addToContext((req) => {
   return {
     db: {
-      projects,
-      users,
-      tasks,
+      req
     },
   }
 })
