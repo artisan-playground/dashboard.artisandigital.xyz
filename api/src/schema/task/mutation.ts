@@ -12,6 +12,20 @@ schema.inputObjectType({
   },
 })
 
+schema.inputObjectType({
+  name: 'EditTaskInput',
+  definition(t) {
+    t.string('id', { required: true })
+    t.string('projectId', { required: true })
+    t.string('taskName', { required: true })
+    t.string('taskDetail', { required: false })
+    t.date('startTime', { required: false })
+    t.date('endTime', { required: false })
+    t.date('isDone', { required: false })
+    t.list.string('memberIds')
+  },
+})
+
 schema.extendType({
   type: 'Mutation',
   definition: (t) => {
@@ -19,7 +33,7 @@ schema.extendType({
       type: 'Task',
       args: { input: 'CreateTaskInput' },
       resolve: (_root, args, ctx) => {
-        return ctx.db.task.create(args.input)
+        return ctx.db.task.create({ data: args.input })
       },
     })
   },
@@ -32,7 +46,7 @@ schema.extendType({
       type: 'Task',
       args: { id: schema.intArg({ required: true }) },
       resolve: (_root, args, ctx): any => {
-        return ctx.db.task.delete(args.id)
+        return ctx.db.task.delete({ where: { id: args.id } })
       },
     })
   },
@@ -43,9 +57,9 @@ schema.extendType({
   definition: (t) => {
     t.field('toggleIsDone', {
       type: 'Task',
-      args: { id: schema.intArg({ required: true }) },
+      args: { input: 'EditTaskInput', id: schema.intArg({ required: true }) },
       resolve: (_root, args, ctx): any => {
-        return ctx.db.task.update(args.id)
+        return ctx.db.task.update({ where: { id: args.id }, data: args.input?.isDone })
       },
     })
   },

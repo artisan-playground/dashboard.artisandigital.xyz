@@ -5,7 +5,7 @@ schema.extendType({
   definition: (t) => {
     t.field('getUser', {
       type: 'User',
-      args: { id: schema.stringArg({ required: true }) },
+      args: { id: schema.intArg({ required: true }) },
       resolve(_, args, ctx): any {
         return ctx.db.user.findOne({ where: { id: args.id } }) || null
       },

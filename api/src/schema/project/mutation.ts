@@ -31,7 +31,7 @@ schema.extendType({
       type: 'Project',
       args: { input: 'CreateProjectInput' },
       resolve: (_, args, ctx) => {
-        return ctx.db.project.create(args.input)
+        return ctx.db.project.create({ data: args.input })
       },
     })
   },
@@ -42,9 +42,9 @@ schema.extendType({
   definition: (t) => {
     t.field('editProject', {
       type: 'Project',
-      args: { input: 'EditProjectInput' },
+      args: { input: 'EditProjectInput', id: schema.intArg({ required: true }) },
       resolve: (_, args, ctx): any => {
-        return ctx.db.project.update(args.input)
+        return ctx.db.project.update({ where: { id: args.id }, data: args.input })
       },
     })
   },
