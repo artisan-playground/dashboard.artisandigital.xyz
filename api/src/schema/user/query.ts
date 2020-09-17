@@ -6,7 +6,7 @@ schema.extendType({
     t.field('getUser', {
       type: 'User',
       args: { id: schema.intArg({ required: true }) },
-      resolve(_, args, ctx): any {
+      resolve: (_, args, ctx) => {
         return ctx.db.user.findOne({ where: { id: args.id } }) || null
       },
     })
@@ -18,8 +18,8 @@ schema.extendType({
   definition(t) {
     t.list.field('getUsers', {
       type: 'User',
-      resolve(_, _args, ctx) {
-        return ctx.db.user
+      resolve: (_, args, ctx) => {
+        return ctx.db.user.findMany()
       },
     })
   },

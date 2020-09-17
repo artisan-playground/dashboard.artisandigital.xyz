@@ -18,8 +18,8 @@ schema.extendType({
   definition(t) {
     t.list.field('getFiles', {
       type: 'File',
-      resolve(_, _args, ctx) {
-        return ctx.db.file
+      resolve: (_, args, ctx) => {
+        return ctx.db.file.findMany()
       },
     })
   },

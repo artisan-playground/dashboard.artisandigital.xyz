@@ -14,7 +14,7 @@ schema.inputObjectType({
 schema.inputObjectType({
   name: 'EditProjectInput',
   definition(t) {
-    t.string('id', { required: true })
+    t.int('id', { required: true })
     t.string('projectName', { required: true })
     t.string('projectType', { required: true })
     t.string('projectDetail', { required: true })
@@ -31,7 +31,7 @@ schema.extendType({
       type: 'Project',
       args: { input: 'CreateProjectInput' },
       resolve: (_, args, ctx) => {
-        return ctx.db.project.create({ data: args.input })
+        return ctx.db.project.create({ data: args.input! })
       },
     })
   },
@@ -44,7 +44,7 @@ schema.extendType({
       type: 'Project',
       args: { input: 'EditProjectInput', id: schema.intArg({ required: true }) },
       resolve: (_, args, ctx): any => {
-        return ctx.db.project.update({ where: { id: args.id }, data: args.input })
+        return ctx.db.project.update({ where: { id: args.id }, data: args.input! })
       },
     })
   },
