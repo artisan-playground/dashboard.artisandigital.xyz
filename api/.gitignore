@@ -1,7 +1,0 @@
-.tmp_build/
-.nexus/
-node_modules/
-tmp/
-.DS_Store
-api.graphql
-*.log
