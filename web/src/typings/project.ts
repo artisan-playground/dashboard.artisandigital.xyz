@@ -6,5 +6,9 @@ export interface Project {
   projectImage?: string
   status: string
   dueDate: Date
-  memberIds?: String[]
+  members?: []
+}
+
+export interface ProjectData {
+  projects: Project
 }
