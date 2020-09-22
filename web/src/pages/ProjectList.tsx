@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { Col, Input, Radio, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { PROJECT } from '../api'
+import { PROJECT } from '../services/api/project'
 import { LayoutDashboard, LoadingComponent, ProjectCard } from '../components/DashboardComponent'
 
 function ProjectList() {
@@ -18,18 +18,18 @@ function ProjectList() {
     if (!error && !loading) {
       switch (types) {
         case 'undone':
-          let wip: any[] = data.getProjects.filter((item: any) => item.status === 'undone')
+          let wip: any[] = data.projects.filter((item: any) => item.status === 'undone')
           setFilteredData(wip)
           break
         case 'done':
-          let closed: any[] = data.getProjects.filter((item: any) => item.status === 'done')
+          let closed: any[] = data.projects.filter((item: any) => item.status === 'done')
           setFilteredData(closed)
           break
         case 'all':
-          setFilteredData(data.getProjects)
+          setFilteredData(data.projects)
           break
         default:
-          setFilteredData(data.getProjects)
+          setFilteredData(data.projects)
           break
       }
     }
@@ -39,11 +39,11 @@ function ProjectList() {
     setLoading(true)
     setKeyword(e.target.value)
     if (e.target.value === '') {
-      setFilteredData(data.getProjects)
+      setFilteredData(data.projects)
       setTypes('all')
       setLoading(false)
     } else {
-      const kw: any[] = data.getProjects.filter((item: any) => {
+      const kw: any[] = data.projects.filter((item: any) => {
         if (types === 'all') {
           return item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
         } else {

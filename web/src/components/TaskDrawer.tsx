@@ -4,7 +4,8 @@ import { Button, Col, DatePicker, Drawer, Form, Input, Mentions, message, Row, S
 import Avatar from 'antd/lib/avatar/avatar'
 import Text from 'antd/lib/typography/Text'
 import React, { useEffect, useState } from 'react'
-import { ADD_TASK, GET_USERS } from '../api'
+import { ADD_TASK } from '../services/api/task'
+import { GET_USERS } from '../services/api/user'
 
 function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
   const { Option } = Select
