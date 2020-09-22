@@ -134,20 +134,6 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "projectIds",
-      "type": "Project",
-      "arity": "List"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "taskIds",
-      "type": "Task",
-      "arity": "List"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
       "field": "comments",
       "type": "Comment",
       "arity": "List"
@@ -183,6 +169,20 @@
       },
       "argument": "",
       "value": "USER"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "projects",
+      "type": "ProjectOnUser",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "tasks",
+      "type": "TaskOnUser",
+      "arity": "List"
     },
     {
       "tag": "CreateModel",
@@ -436,17 +436,35 @@
     {
       "tag": "CreateField",
       "model": "Project",
-      "field": "users",
-      "type": "User",
+      "field": "members",
+      "type": "ProjectOnUser",
       "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Project",
+      "field": "task",
+      "type": "Task",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "ProjectOnUser"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProjectOnUser",
+      "field": "user",
+      "type": "User",
+      "arity": "Required"
     },
     {
       "tag": "CreateDirective",
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Project",
-          "field": "users"
+          "model": "ProjectOnUser",
+          "field": "user"
         },
         "directive": "relation"
       }
@@ -457,13 +475,13 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Project",
-          "field": "users"
+          "model": "ProjectOnUser",
+          "field": "user"
         },
         "directive": "relation"
       },
       "argument": "fields",
-      "value": "[memberIds]"
+      "value": "[userId]"
     },
     {
       "tag": "CreateArgument",
@@ -471,8 +489,8 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Project",
-          "field": "users"
+          "model": "ProjectOnUser",
+          "field": "user"
         },
         "directive": "relation"
       },
@@ -481,17 +499,118 @@
     },
     {
       "tag": "CreateField",
-      "model": "Project",
-      "field": "memberIds",
+      "model": "ProjectOnUser",
+      "field": "userId",
       "type": "Int",
-      "arity": "Optional"
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
-      "model": "Project",
-      "field": "task",
-      "type": "Task",
-      "arity": "List"
+      "model": "ProjectOnUser",
+      "field": "project",
+      "type": "Project",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ProjectOnUser",
+          "field": "project"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ProjectOnUser",
+          "field": "project"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[projectId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ProjectOnUser",
+          "field": "project"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProjectOnUser",
+      "field": "projectId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProjectOnUser",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "ProjectOnUser",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "ProjectOnUser",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "ProjectOnUser"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "ProjectOnUser"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[userId, projectId]"
     },
     {
       "tag": "CreateModel",
@@ -656,55 +775,9 @@
     {
       "tag": "CreateField",
       "model": "Task",
-      "field": "users",
-      "type": "User",
+      "field": "members",
+      "type": "TaskOnUser",
       "arity": "List"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Task",
-          "field": "users"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Task",
-          "field": "users"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[memberIds]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Task",
-          "field": "users"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Task",
-      "field": "memberIds",
-      "type": "Int",
-      "arity": "Optional"
     },
     {
       "tag": "CreateField",
@@ -719,6 +792,171 @@
       "field": "files",
       "type": "File",
       "arity": "List"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "TaskOnUser"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnUser",
+      "field": "user",
+      "type": "User",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnUser",
+          "field": "user"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnUser",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnUser",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnUser",
+      "field": "userId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnUser",
+      "field": "task",
+      "type": "Task",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnUser",
+          "field": "task"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnUser",
+          "field": "task"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[taskId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnUser",
+          "field": "task"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnUser",
+      "field": "taskId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnUser",
+      "field": "cretedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnUser",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnUser",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "TaskOnUser"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "TaskOnUser"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[userId, taskId]"
     },
     {
       "tag": "CreateModel",
