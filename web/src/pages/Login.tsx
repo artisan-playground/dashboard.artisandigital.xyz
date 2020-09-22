@@ -3,19 +3,23 @@ import { Button, Card, Divider, Form, Input, Typography, Col } from 'antd'
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useStoreActions, useStoreState } from '../store'
+import { GET_USER } from '../services/api/user'
+import { User, UserData } from '../typings'
+import { useLazyQuery } from '@apollo/client'
 
 function Login() {
   const [email, setEmail] = useState('')
   const user = useStoreState((s) => s.userState.user)
   const login = useStoreActions((a) => a.userState.logIn)
   const { Text, Link } = Typography
-  const testUser = {
-    id: '2',
-    email: 'test@mail.com',
-  }
-
+  const [getUser, { data }] = useLazyQuery<UserData>(GET_USER)
   async function onLogin() {
-    await login(testUser)
+    if (email) {
+      getUser({ variables: { email } })
+    }
+  }
+  if (data?.user) {
+    login(data.user as User)
   }
 
   return user ? (
