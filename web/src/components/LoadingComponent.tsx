@@ -1,8 +1,8 @@
 import { Card, Col, Row, Skeleton } from 'antd'
 import React from 'react'
 
-function LoadingComponent({ project, task, overlay }: any) {
-  return project ? (
+function LoadingComponent({ projects, task, overlay }: any) {
+  return projects ? (
     <>
       <Card className="mb-4 rounded-lg shadow-md">
         <Row justify="space-between">

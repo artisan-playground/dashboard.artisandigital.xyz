@@ -13,12 +13,13 @@ function ProjectCard({ data }: any) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
             <Link to={{ pathname: `/profile`, state: { data: item[i] } }}>
-              <Tooltip placement="top" title={item[i].name}>
+              {console.log(item)}
+              <Tooltip placement="top" title={item[i].user.name}>
                 <Avatar
-                  key={item[i].id}
-                  src={item[i].image}
+                  key={item[i].user.id}
+                  src={item[i].user.image}
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
-                  alt={item[i].name}
+                  alt={item[i].user.name}
                 />
               </Tooltip>
             </Link>
@@ -109,7 +110,7 @@ function ProjectCard({ data }: any) {
                 </Col>
                 <Col span={24} lg={{ span: 8 }}>
                   <div className="items-end">
-                    <Row className="justify-end items-end">{renderShowItems(data.memberIds)}</Row>
+                    <Row className="justify-end items-end">{renderShowItems(data.members)}</Row>
                   </div>
                 </Col>
               </Row>

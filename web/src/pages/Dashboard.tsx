@@ -1,27 +1,30 @@
 import { FundProjectionScreenOutlined, ProfileOutlined, TeamOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
-import { Card, Col, Row, Typography } from 'antd'
+import { Card, Col, Row, Typography, Empty } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { PROJECT } from '../api'
+import { PROJECT } from '../services/api/project'
+import { TASKS } from '../services/api/task'
+import { GET_USERS } from '../services/api/user'
 import {
   LayoutDashboard,
   LoadingComponent,
   ProjectCard,
   WelcomeCard,
 } from '../components/DashboardComponent'
-import { TASK_DATA, USER_DATA } from '../DATA'
 import '../styles/main.css'
 
 function Dashboard() {
   const { Title, Text } = Typography
-  const { loading, data } = useQuery(PROJECT)
+  const { loading, data: projectData } = useQuery(PROJECT)
+  const { data: taskData } = useQuery(TASKS)
+  const { data: userData } = useQuery(GET_USERS)
 
   function calProjects() {
     let num =
-      !loading && data !== undefined
-        ? data.getProjects
-            .map((item: any) => item.memberIds.filter((x: any) => x.id === '2'))
+      !loading && projectData !== undefined
+        ? projectData.projects
+            .map((item: any) => item.members.filter((x: any) => x.id === '2'))
             .flat()
             .filter((y: any) => y).length
         : 0
@@ -35,7 +38,11 @@ function Dashboard() {
         <div className="site-card-wrapper">
           <Row gutter={[8, 24]}>
             <Col md={{ span: 24 }}>
-              <WelcomeCard name="John Doe" project={calProjects()} task={4} />
+              <WelcomeCard
+                name="John Doe"
+                project={calProjects()}
+                task={taskData ? taskData.tasks.length : 0}
+              />
             </Col>
           </Row>
           <Row gutter={[16, 24]}>
@@ -46,7 +53,7 @@ function Dashboard() {
                     <FundProjectionScreenOutlined
                       style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
                     />
-                    <Title level={2}>{data ? data.getProjects.length : 0}</Title>
+                    <Title level={2}>{projectData ? projectData.projects.length : 0}</Title>
                     <Text disabled className="text-lg -mt-4">
                       Projects
                     </Text>
@@ -59,7 +66,7 @@ function Dashboard() {
                 <Card hoverable className="min-w-full rounded-lg shadow-md">
                   <div className="flex flex-col justify-center items-center">
                     <TeamOutlined style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }} />
-                    <Title level={2}>{USER_DATA.length}</Title>
+                    <Title level={2}>{userData ? userData.users.length : 0}</Title>
                     <Text disabled className="text-lg -mt-4">
                       Paticipants
                     </Text>
@@ -74,7 +81,7 @@ function Dashboard() {
                     <ProfileOutlined
                       style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
                     />
-                    <Title level={2}>{TASK_DATA.length}</Title>
+                    <Title level={2}>{taskData ? taskData.tasks.length : 0}</Title>
                     <Text disabled className="text-lg -mt-4">
                       Today's tasks
                     </Text>
@@ -85,9 +92,10 @@ function Dashboard() {
           </Row>
           <Row gutter={[8, 24]}>
             {loading ? (
-              <LoadingComponent project />
+              <LoadingComponent projects />
             ) : (
-              data.getProjects
+              projectData.projects &&
+              projectData.projects
                 .filter((filtered: any) => filtered.status === 'undone')
                 .map((items: any, index: any) => {
                   return (
