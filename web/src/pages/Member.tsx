@@ -3,7 +3,7 @@ import Avatar from 'antd/lib/avatar/avatar'
 import React, { useState, useEffect } from 'react'
 import { LayoutDashboard } from '../components/DashboardComponent'
 import { Link } from 'react-router-dom'
-import { GET_USERS } from '../api'
+import { GET_USERS } from '../services/api/user'
 import { useQuery } from '@apollo/client'
 
 function Member() {
@@ -18,10 +18,10 @@ function Member() {
     setLoading(true)
     setValue(e.target.value)
     if (e.target.value === '') {
-      setDataSource(data.getUsers)
+      setDataSource(data.users)
       setLoading(false)
     } else {
-      const kw: any[] = data.getUsers.filter((item: any) =>
+      const kw: any[] = data.users.filter((item: any) =>
         item.name.toLowerCase().includes(e.target.value.toLowerCase())
       )
       setDataSource(kw)
@@ -32,7 +32,7 @@ function Member() {
 
   useEffect(() => {
     if (!error && !loading) {
-      setDataSource(data.getUsers)
+      setDataSource(data.users)
     }
   }, [loading, error, data])
 
@@ -42,7 +42,7 @@ function Member() {
       width: '5%',
       render: (image: any) => (
         <>
-          {data.getUsers
+          {data.users
             .filter((item: any) => item.image === image)
             .map((item: any, index: any) => (
               <Link key={index} to={{ pathname: `/profile/${item.name}`, state: { data: item } }}>
@@ -58,7 +58,7 @@ function Member() {
       width: '20%',
       render: (name: any) => (
         <>
-          {data.getUsers
+          {data.users
             .filter((item: any) => item.name === name)
             .map((item: any, index: any) => (
               <Link key={index} to={{ pathname: `/profile/${name}`, state: { data: item } }}>

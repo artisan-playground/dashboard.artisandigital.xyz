@@ -10,7 +10,7 @@ import { useMutation } from '@apollo/client'
 import { Avatar, Button, Card, Col, message, Popover, Row, Tooltip, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { TOGGLE_TASK_DONE } from '../api'
+import { TOGGLE_TASK_DONE } from '../services/api/task'
 import LoadingComponent from './LoadingComponent'
 import TaskOverlay from './TaskOverlay'
 

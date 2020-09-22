@@ -10,7 +10,7 @@ import { Button, Card, Col, Row, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { TASKS_BY_ID } from '../api'
+import { TASKS_BY_ID } from '../services/api/task'
 import {
   LayoutDashboard,
   LoadingComponent,
@@ -22,7 +22,6 @@ import {
 function ProjectDetail(props: any) {
   const { Title, Text } = Typography
   const projectData = props.location.state.data
-
   const { projectId } = useParams()
   const { loading, error, data, refetch } = useQuery(TASKS_BY_ID, {
     variables: { projectId: projectId },
