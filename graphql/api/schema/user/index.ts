@@ -10,7 +10,7 @@ schema.objectType({
       t.model.position()
       t.model.skills()
       t.model.contacts()
-      t.model.projectIds()
-      t.model.taskIds()
+      t.model.projects()
+      t.model.tasks()
     },
   })

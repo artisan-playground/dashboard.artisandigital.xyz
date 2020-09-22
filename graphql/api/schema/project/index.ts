@@ -10,6 +10,15 @@ schema.objectType({
     t.model.projectImage()
     t.model.status()
     t.model.dueDate()
-    t.model.memberIds()
+    t.model.members()
+  },
+})
+
+schema.objectType({
+  name: 'ProjectOnUser',
+  definition(t) {
+    t.model.createdAt()
+    t.model.user()
+    t.model.project()
   },
 })
