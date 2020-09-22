@@ -10,8 +10,17 @@ schema.objectType({
     t.model.endTime()
     t.model.taskDetail()
     t.model.isDone()
-    t.model.memberIds()
+    t.model.members()
     t.model.files()
     t.model.comments()
+  },
+})
+
+schema.objectType({
+  name: 'TaskOnUser',
+  definition(t) {
+    t.model.cretedAt()
+    t.model.user()
+    t.model.task()
   },
 })
