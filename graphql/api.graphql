@@ -6,159 +6,285 @@ input BoolFieldUpdateOperationsInput {
   set: Boolean
 }
 
-input BoolFilter {
-  equals: Boolean
-  not: NestedBoolFilter
-}
-
 type Comment {
   id: Int!
   image: String
   message: String
-  taskId: Int
   timestamp: DateTime!
-  userId: Int
-  userImg: String
-  userName: String
 }
 
 input CommentCreateInput {
   image: String
   message: String
-  task: TaskCreateOneWithoutCommentsInput
+  task: CommentOnTaskCreateManyWithoutCommentInput
   timestamp: DateTime
-  userImg: String
-  userName: String
-  users: UserCreateOneWithoutCommentsInput
+  user: CommentOnUserCreateManyWithoutCommentInput
 }
 
-input CommentCreateManyWithoutTaskInput {
-  connect: [CommentWhereUniqueInput!]
-  create: [CommentCreateWithoutTaskInput!]
+input CommentCreateOneWithoutTaskInput {
+  connect: CommentWhereUniqueInput
+  create: CommentCreateWithoutTaskInput
 }
 
-input CommentCreateManyWithoutUsersInput {
-  connect: [CommentWhereUniqueInput!]
-  create: [CommentCreateWithoutUsersInput!]
+input CommentCreateOneWithoutUserInput {
+  connect: CommentWhereUniqueInput
+  create: CommentCreateWithoutUserInput
 }
 
 input CommentCreateWithoutTaskInput {
   image: String
   message: String
   timestamp: DateTime
-  userImg: String
-  userName: String
-  users: UserCreateOneWithoutCommentsInput
+  user: CommentOnUserCreateManyWithoutCommentInput
 }
 
-input CommentCreateWithoutUsersInput {
+input CommentCreateWithoutUserInput {
   image: String
   message: String
-  task: TaskCreateOneWithoutCommentsInput
+  task: CommentOnTaskCreateManyWithoutCommentInput
   timestamp: DateTime
-  userImg: String
-  userName: String
 }
 
-input CommentScalarWhereInput {
-  AND: [CommentScalarWhereInput!]
-  id: IntFilter
-  image: StringNullableFilter
-  message: StringNullableFilter
-  NOT: [CommentScalarWhereInput!]
-  OR: [CommentScalarWhereInput!]
-  taskId: IntNullableFilter
-  timestamp: DateTimeFilter
-  userId: IntNullableFilter
-  userImg: StringNullableFilter
-  userName: StringNullableFilter
+input CommentOnTaskCreateManyWithoutCommentInput {
+  connect: [CommentOnTaskWhereUniqueInput!]
+  create: [CommentOnTaskCreateWithoutCommentInput!]
+}
+
+input CommentOnTaskCreateManyWithoutTaskInput {
+  connect: [CommentOnTaskWhereUniqueInput!]
+  create: [CommentOnTaskCreateWithoutTaskInput!]
+}
+
+input CommentOnTaskCreateWithoutCommentInput {
+  cretedAt: DateTime
+  task: TaskCreateOneWithoutCommentsInput!
+}
+
+input CommentOnTaskCreateWithoutTaskInput {
+  comment: CommentCreateOneWithoutTaskInput!
+  cretedAt: DateTime
+}
+
+input CommentOnTaskScalarWhereInput {
+  AND: [CommentOnTaskScalarWhereInput!]
+  commentId: IntFilter
+  cretedAt: DateTimeFilter
+  NOT: [CommentOnTaskScalarWhereInput!]
+  OR: [CommentOnTaskScalarWhereInput!]
+  taskId: IntFilter
+}
+
+input CommentOnTaskUpdateManyDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input CommentOnTaskUpdateManyWithoutCommentInput {
+  connect: [CommentOnTaskWhereUniqueInput!]
+  create: [CommentOnTaskCreateWithoutCommentInput!]
+  delete: [CommentOnTaskWhereUniqueInput!]
+  deleteMany: [CommentOnTaskScalarWhereInput!]
+  disconnect: [CommentOnTaskWhereUniqueInput!]
+  set: [CommentOnTaskWhereUniqueInput!]
+  update: [CommentOnTaskUpdateWithWhereUniqueWithoutCommentInput!]
+  updateMany: [CommentOnTaskUpdateManyWithWhereNestedInput!]
+  upsert: [CommentOnTaskUpsertWithWhereUniqueWithoutCommentInput!]
+}
+
+input CommentOnTaskUpdateManyWithoutTaskInput {
+  connect: [CommentOnTaskWhereUniqueInput!]
+  create: [CommentOnTaskCreateWithoutTaskInput!]
+  delete: [CommentOnTaskWhereUniqueInput!]
+  deleteMany: [CommentOnTaskScalarWhereInput!]
+  disconnect: [CommentOnTaskWhereUniqueInput!]
+  set: [CommentOnTaskWhereUniqueInput!]
+  update: [CommentOnTaskUpdateWithWhereUniqueWithoutTaskInput!]
+  updateMany: [CommentOnTaskUpdateManyWithWhereNestedInput!]
+  upsert: [CommentOnTaskUpsertWithWhereUniqueWithoutTaskInput!]
+}
+
+input CommentOnTaskUpdateManyWithWhereNestedInput {
+  data: CommentOnTaskUpdateManyDataInput!
+  where: CommentOnTaskScalarWhereInput!
+}
+
+input CommentOnTaskUpdateWithoutCommentDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+  task: TaskUpdateOneRequiredWithoutCommentsInput
+}
+
+input CommentOnTaskUpdateWithoutTaskDataInput {
+  comment: CommentUpdateOneRequiredWithoutTaskInput
+  cretedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input CommentOnTaskUpdateWithWhereUniqueWithoutCommentInput {
+  data: CommentOnTaskUpdateWithoutCommentDataInput!
+  where: CommentOnTaskWhereUniqueInput!
+}
+
+input CommentOnTaskUpdateWithWhereUniqueWithoutTaskInput {
+  data: CommentOnTaskUpdateWithoutTaskDataInput!
+  where: CommentOnTaskWhereUniqueInput!
+}
+
+input CommentOnTaskUpsertWithWhereUniqueWithoutCommentInput {
+  create: CommentOnTaskCreateWithoutCommentInput!
+  update: CommentOnTaskUpdateWithoutCommentDataInput!
+  where: CommentOnTaskWhereUniqueInput!
+}
+
+input CommentOnTaskUpsertWithWhereUniqueWithoutTaskInput {
+  create: CommentOnTaskCreateWithoutTaskInput!
+  update: CommentOnTaskUpdateWithoutTaskDataInput!
+  where: CommentOnTaskWhereUniqueInput!
+}
+
+input CommentOnTaskWhereUniqueInput {
+  taskId_commentId: TaskIdCommentIdCompoundUniqueInput
+}
+
+input CommentOnUserCreateManyWithoutCommentInput {
+  connect: [CommentOnUserWhereUniqueInput!]
+  create: [CommentOnUserCreateWithoutCommentInput!]
+}
+
+input CommentOnUserCreateManyWithoutUserInput {
+  connect: [CommentOnUserWhereUniqueInput!]
+  create: [CommentOnUserCreateWithoutUserInput!]
+}
+
+input CommentOnUserCreateWithoutCommentInput {
+  cretedAt: DateTime
+  user: UserCreateOneWithoutCommentsInput!
+}
+
+input CommentOnUserCreateWithoutUserInput {
+  comment: CommentCreateOneWithoutUserInput!
+  cretedAt: DateTime
+}
+
+input CommentOnUserScalarWhereInput {
+  AND: [CommentOnUserScalarWhereInput!]
+  commentId: IntFilter
+  cretedAt: DateTimeFilter
+  NOT: [CommentOnUserScalarWhereInput!]
+  OR: [CommentOnUserScalarWhereInput!]
+  userId: IntFilter
+}
+
+input CommentOnUserUpdateManyDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input CommentOnUserUpdateManyWithoutCommentInput {
+  connect: [CommentOnUserWhereUniqueInput!]
+  create: [CommentOnUserCreateWithoutCommentInput!]
+  delete: [CommentOnUserWhereUniqueInput!]
+  deleteMany: [CommentOnUserScalarWhereInput!]
+  disconnect: [CommentOnUserWhereUniqueInput!]
+  set: [CommentOnUserWhereUniqueInput!]
+  update: [CommentOnUserUpdateWithWhereUniqueWithoutCommentInput!]
+  updateMany: [CommentOnUserUpdateManyWithWhereNestedInput!]
+  upsert: [CommentOnUserUpsertWithWhereUniqueWithoutCommentInput!]
+}
+
+input CommentOnUserUpdateManyWithoutUserInput {
+  connect: [CommentOnUserWhereUniqueInput!]
+  create: [CommentOnUserCreateWithoutUserInput!]
+  delete: [CommentOnUserWhereUniqueInput!]
+  deleteMany: [CommentOnUserScalarWhereInput!]
+  disconnect: [CommentOnUserWhereUniqueInput!]
+  set: [CommentOnUserWhereUniqueInput!]
+  update: [CommentOnUserUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [CommentOnUserUpdateManyWithWhereNestedInput!]
+  upsert: [CommentOnUserUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input CommentOnUserUpdateManyWithWhereNestedInput {
+  data: CommentOnUserUpdateManyDataInput!
+  where: CommentOnUserScalarWhereInput!
+}
+
+input CommentOnUserUpdateWithoutCommentDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+  user: UserUpdateOneRequiredWithoutCommentsInput
+}
+
+input CommentOnUserUpdateWithoutUserDataInput {
+  comment: CommentUpdateOneRequiredWithoutUserInput
+  cretedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input CommentOnUserUpdateWithWhereUniqueWithoutCommentInput {
+  data: CommentOnUserUpdateWithoutCommentDataInput!
+  where: CommentOnUserWhereUniqueInput!
+}
+
+input CommentOnUserUpdateWithWhereUniqueWithoutUserInput {
+  data: CommentOnUserUpdateWithoutUserDataInput!
+  where: CommentOnUserWhereUniqueInput!
+}
+
+input CommentOnUserUpsertWithWhereUniqueWithoutCommentInput {
+  create: CommentOnUserCreateWithoutCommentInput!
+  update: CommentOnUserUpdateWithoutCommentDataInput!
+  where: CommentOnUserWhereUniqueInput!
+}
+
+input CommentOnUserUpsertWithWhereUniqueWithoutUserInput {
+  create: CommentOnUserCreateWithoutUserInput!
+  update: CommentOnUserUpdateWithoutUserDataInput!
+  where: CommentOnUserWhereUniqueInput!
+}
+
+input CommentOnUserWhereUniqueInput {
+  userId_commentId: UserIdCommentIdCompoundUniqueInput
 }
 
 input CommentUpdateInput {
   image: NullableStringFieldUpdateOperationsInput
   message: NullableStringFieldUpdateOperationsInput
-  task: TaskUpdateOneWithoutCommentsInput
+  task: CommentOnTaskUpdateManyWithoutCommentInput
   timestamp: DateTimeFieldUpdateOperationsInput
-  userImg: NullableStringFieldUpdateOperationsInput
-  userName: NullableStringFieldUpdateOperationsInput
-  users: UserUpdateOneWithoutCommentsInput
+  user: CommentOnUserUpdateManyWithoutCommentInput
 }
 
-input CommentUpdateManyDataInput {
-  image: NullableStringFieldUpdateOperationsInput
-  message: NullableStringFieldUpdateOperationsInput
-  timestamp: DateTimeFieldUpdateOperationsInput
-  userImg: NullableStringFieldUpdateOperationsInput
-  userName: NullableStringFieldUpdateOperationsInput
+input CommentUpdateOneRequiredWithoutTaskInput {
+  connect: CommentWhereUniqueInput
+  create: CommentCreateWithoutTaskInput
+  update: CommentUpdateWithoutTaskDataInput
+  upsert: CommentUpsertWithoutTaskInput
 }
 
-input CommentUpdateManyWithoutTaskInput {
-  connect: [CommentWhereUniqueInput!]
-  create: [CommentCreateWithoutTaskInput!]
-  delete: [CommentWhereUniqueInput!]
-  deleteMany: [CommentScalarWhereInput!]
-  disconnect: [CommentWhereUniqueInput!]
-  set: [CommentWhereUniqueInput!]
-  update: [CommentUpdateWithWhereUniqueWithoutTaskInput!]
-  updateMany: [CommentUpdateManyWithWhereNestedInput!]
-  upsert: [CommentUpsertWithWhereUniqueWithoutTaskInput!]
-}
-
-input CommentUpdateManyWithoutUsersInput {
-  connect: [CommentWhereUniqueInput!]
-  create: [CommentCreateWithoutUsersInput!]
-  delete: [CommentWhereUniqueInput!]
-  deleteMany: [CommentScalarWhereInput!]
-  disconnect: [CommentWhereUniqueInput!]
-  set: [CommentWhereUniqueInput!]
-  update: [CommentUpdateWithWhereUniqueWithoutUsersInput!]
-  updateMany: [CommentUpdateManyWithWhereNestedInput!]
-  upsert: [CommentUpsertWithWhereUniqueWithoutUsersInput!]
-}
-
-input CommentUpdateManyWithWhereNestedInput {
-  data: CommentUpdateManyDataInput!
-  where: CommentScalarWhereInput!
+input CommentUpdateOneRequiredWithoutUserInput {
+  connect: CommentWhereUniqueInput
+  create: CommentCreateWithoutUserInput
+  update: CommentUpdateWithoutUserDataInput
+  upsert: CommentUpsertWithoutUserInput
 }
 
 input CommentUpdateWithoutTaskDataInput {
   image: NullableStringFieldUpdateOperationsInput
   message: NullableStringFieldUpdateOperationsInput
   timestamp: DateTimeFieldUpdateOperationsInput
-  userImg: NullableStringFieldUpdateOperationsInput
-  userName: NullableStringFieldUpdateOperationsInput
-  users: UserUpdateOneWithoutCommentsInput
+  user: CommentOnUserUpdateManyWithoutCommentInput
 }
 
-input CommentUpdateWithoutUsersDataInput {
+input CommentUpdateWithoutUserDataInput {
   image: NullableStringFieldUpdateOperationsInput
   message: NullableStringFieldUpdateOperationsInput
-  task: TaskUpdateOneWithoutCommentsInput
+  task: CommentOnTaskUpdateManyWithoutCommentInput
   timestamp: DateTimeFieldUpdateOperationsInput
-  userImg: NullableStringFieldUpdateOperationsInput
-  userName: NullableStringFieldUpdateOperationsInput
 }
 
-input CommentUpdateWithWhereUniqueWithoutTaskInput {
-  data: CommentUpdateWithoutTaskDataInput!
-  where: CommentWhereUniqueInput!
-}
-
-input CommentUpdateWithWhereUniqueWithoutUsersInput {
-  data: CommentUpdateWithoutUsersDataInput!
-  where: CommentWhereUniqueInput!
-}
-
-input CommentUpsertWithWhereUniqueWithoutTaskInput {
+input CommentUpsertWithoutTaskInput {
   create: CommentCreateWithoutTaskInput!
   update: CommentUpdateWithoutTaskDataInput!
-  where: CommentWhereUniqueInput!
 }
 
-input CommentUpsertWithWhereUniqueWithoutUsersInput {
-  create: CommentCreateWithoutUsersInput!
-  update: CommentUpdateWithoutUsersDataInput!
-  where: CommentWhereUniqueInput!
+input CommentUpsertWithoutUserInput {
+  create: CommentCreateWithoutUserInput!
+  update: CommentUpdateWithoutUserDataInput!
 }
 
 input CommentWhereUniqueInput {
@@ -180,12 +306,12 @@ input ContactCreateInput {
   gitlab: String
   instagram: String
   twitter: String
-  user: UserCreateOneWithoutContactsInput
+  User: UserCreateManyWithoutContactsInput
 }
 
-input ContactCreateManyWithoutUserInput {
-  connect: [ContactWhereUniqueInput!]
-  create: [ContactCreateWithoutUserInput!]
+input ContactCreateOneWithoutUserInput {
+  connect: ContactWhereUniqueInput
+  create: ContactCreateWithoutUserInput
 }
 
 input ContactCreateWithoutUserInput {
@@ -196,51 +322,20 @@ input ContactCreateWithoutUserInput {
   twitter: String
 }
 
-input ContactScalarWhereInput {
-  AND: [ContactScalarWhereInput!]
-  facebook: StringNullableFilter
-  github: StringNullableFilter
-  gitlab: StringNullableFilter
-  id: IntFilter
-  instagram: StringNullableFilter
-  NOT: [ContactScalarWhereInput!]
-  OR: [ContactScalarWhereInput!]
-  twitter: StringNullableFilter
-  userId: IntNullableFilter
-}
-
 input ContactUpdateInput {
   facebook: NullableStringFieldUpdateOperationsInput
   github: NullableStringFieldUpdateOperationsInput
   gitlab: NullableStringFieldUpdateOperationsInput
   instagram: NullableStringFieldUpdateOperationsInput
   twitter: NullableStringFieldUpdateOperationsInput
-  user: UserUpdateOneWithoutContactsInput
+  User: UserUpdateManyWithoutContactsInput
 }
 
-input ContactUpdateManyDataInput {
-  facebook: NullableStringFieldUpdateOperationsInput
-  github: NullableStringFieldUpdateOperationsInput
-  gitlab: NullableStringFieldUpdateOperationsInput
-  instagram: NullableStringFieldUpdateOperationsInput
-  twitter: NullableStringFieldUpdateOperationsInput
-}
-
-input ContactUpdateManyWithoutUserInput {
-  connect: [ContactWhereUniqueInput!]
-  create: [ContactCreateWithoutUserInput!]
-  delete: [ContactWhereUniqueInput!]
-  deleteMany: [ContactScalarWhereInput!]
-  disconnect: [ContactWhereUniqueInput!]
-  set: [ContactWhereUniqueInput!]
-  update: [ContactUpdateWithWhereUniqueWithoutUserInput!]
-  updateMany: [ContactUpdateManyWithWhereNestedInput!]
-  upsert: [ContactUpsertWithWhereUniqueWithoutUserInput!]
-}
-
-input ContactUpdateManyWithWhereNestedInput {
-  data: ContactUpdateManyDataInput!
-  where: ContactScalarWhereInput!
+input ContactUpdateOneRequiredWithoutUserInput {
+  connect: ContactWhereUniqueInput
+  create: ContactCreateWithoutUserInput
+  update: ContactUpdateWithoutUserDataInput
+  upsert: ContactUpsertWithoutUserInput
 }
 
 input ContactUpdateWithoutUserDataInput {
@@ -251,15 +346,9 @@ input ContactUpdateWithoutUserDataInput {
   twitter: NullableStringFieldUpdateOperationsInput
 }
 
-input ContactUpdateWithWhereUniqueWithoutUserInput {
-  data: ContactUpdateWithoutUserDataInput!
-  where: ContactWhereUniqueInput!
-}
-
-input ContactUpsertWithWhereUniqueWithoutUserInput {
+input ContactUpsertWithoutUserInput {
   create: ContactCreateWithoutUserInput!
   update: ContactUpdateWithoutUserDataInput!
-  where: ContactWhereUniqueInput!
 }
 
 input ContactWhereUniqueInput {
@@ -298,13 +387,13 @@ type File {
 input FileCreateInput {
   name: String
   status: String
-  task: TaskCreateOneWithoutFilesInput
+  task: FileOnTaskCreateManyWithoutFileInput
   url: String
 }
 
-input FileCreateManyWithoutTaskInput {
-  connect: [FileWhereUniqueInput!]
-  create: [FileCreateWithoutTaskInput!]
+input FileCreateOneWithoutTaskInput {
+  connect: FileWhereUniqueInput
+  create: FileCreateWithoutTaskInput
 }
 
 input FileCreateWithoutTaskInput {
@@ -313,45 +402,116 @@ input FileCreateWithoutTaskInput {
   url: String
 }
 
-input FileScalarWhereInput {
-  AND: [FileScalarWhereInput!]
-  id: IntFilter
-  name: StringNullableFilter
-  NOT: [FileScalarWhereInput!]
-  OR: [FileScalarWhereInput!]
-  status: StringNullableFilter
-  taskId: IntNullableFilter
-  url: StringNullableFilter
+input FileOnTaskCreateManyWithoutFileInput {
+  connect: [FileOnTaskWhereUniqueInput!]
+  create: [FileOnTaskCreateWithoutFileInput!]
+}
+
+input FileOnTaskCreateManyWithoutTaskInput {
+  connect: [FileOnTaskWhereUniqueInput!]
+  create: [FileOnTaskCreateWithoutTaskInput!]
+}
+
+input FileOnTaskCreateWithoutFileInput {
+  cretedAt: DateTime
+  task: TaskCreateOneWithoutFilesInput!
+}
+
+input FileOnTaskCreateWithoutTaskInput {
+  cretedAt: DateTime
+  file: FileCreateOneWithoutTaskInput!
+}
+
+input FileOnTaskScalarWhereInput {
+  AND: [FileOnTaskScalarWhereInput!]
+  cretedAt: DateTimeFilter
+  fileId: IntFilter
+  NOT: [FileOnTaskScalarWhereInput!]
+  OR: [FileOnTaskScalarWhereInput!]
+  taskId: IntFilter
+}
+
+input FileOnTaskUpdateManyDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input FileOnTaskUpdateManyWithoutFileInput {
+  connect: [FileOnTaskWhereUniqueInput!]
+  create: [FileOnTaskCreateWithoutFileInput!]
+  delete: [FileOnTaskWhereUniqueInput!]
+  deleteMany: [FileOnTaskScalarWhereInput!]
+  disconnect: [FileOnTaskWhereUniqueInput!]
+  set: [FileOnTaskWhereUniqueInput!]
+  update: [FileOnTaskUpdateWithWhereUniqueWithoutFileInput!]
+  updateMany: [FileOnTaskUpdateManyWithWhereNestedInput!]
+  upsert: [FileOnTaskUpsertWithWhereUniqueWithoutFileInput!]
+}
+
+input FileOnTaskUpdateManyWithoutTaskInput {
+  connect: [FileOnTaskWhereUniqueInput!]
+  create: [FileOnTaskCreateWithoutTaskInput!]
+  delete: [FileOnTaskWhereUniqueInput!]
+  deleteMany: [FileOnTaskScalarWhereInput!]
+  disconnect: [FileOnTaskWhereUniqueInput!]
+  set: [FileOnTaskWhereUniqueInput!]
+  update: [FileOnTaskUpdateWithWhereUniqueWithoutTaskInput!]
+  updateMany: [FileOnTaskUpdateManyWithWhereNestedInput!]
+  upsert: [FileOnTaskUpsertWithWhereUniqueWithoutTaskInput!]
+}
+
+input FileOnTaskUpdateManyWithWhereNestedInput {
+  data: FileOnTaskUpdateManyDataInput!
+  where: FileOnTaskScalarWhereInput!
+}
+
+input FileOnTaskUpdateWithoutFileDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+  task: TaskUpdateOneRequiredWithoutFilesInput
+}
+
+input FileOnTaskUpdateWithoutTaskDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+  file: FileUpdateOneRequiredWithoutTaskInput
+}
+
+input FileOnTaskUpdateWithWhereUniqueWithoutFileInput {
+  data: FileOnTaskUpdateWithoutFileDataInput!
+  where: FileOnTaskWhereUniqueInput!
+}
+
+input FileOnTaskUpdateWithWhereUniqueWithoutTaskInput {
+  data: FileOnTaskUpdateWithoutTaskDataInput!
+  where: FileOnTaskWhereUniqueInput!
+}
+
+input FileOnTaskUpsertWithWhereUniqueWithoutFileInput {
+  create: FileOnTaskCreateWithoutFileInput!
+  update: FileOnTaskUpdateWithoutFileDataInput!
+  where: FileOnTaskWhereUniqueInput!
+}
+
+input FileOnTaskUpsertWithWhereUniqueWithoutTaskInput {
+  create: FileOnTaskCreateWithoutTaskInput!
+  update: FileOnTaskUpdateWithoutTaskDataInput!
+  where: FileOnTaskWhereUniqueInput!
+}
+
+input FileOnTaskWhereUniqueInput {
+  taskId_fileId: TaskIdFileIdCompoundUniqueInput
 }
 
 input FileUpdateInput {
   name: NullableStringFieldUpdateOperationsInput
   status: NullableStringFieldUpdateOperationsInput
-  task: TaskUpdateOneWithoutFilesInput
+  task: FileOnTaskUpdateManyWithoutFileInput
   url: NullableStringFieldUpdateOperationsInput
 }
 
-input FileUpdateManyDataInput {
-  name: NullableStringFieldUpdateOperationsInput
-  status: NullableStringFieldUpdateOperationsInput
-  url: NullableStringFieldUpdateOperationsInput
-}
-
-input FileUpdateManyWithoutTaskInput {
-  connect: [FileWhereUniqueInput!]
-  create: [FileCreateWithoutTaskInput!]
-  delete: [FileWhereUniqueInput!]
-  deleteMany: [FileScalarWhereInput!]
-  disconnect: [FileWhereUniqueInput!]
-  set: [FileWhereUniqueInput!]
-  update: [FileUpdateWithWhereUniqueWithoutTaskInput!]
-  updateMany: [FileUpdateManyWithWhereNestedInput!]
-  upsert: [FileUpsertWithWhereUniqueWithoutTaskInput!]
-}
-
-input FileUpdateManyWithWhereNestedInput {
-  data: FileUpdateManyDataInput!
-  where: FileScalarWhereInput!
+input FileUpdateOneRequiredWithoutTaskInput {
+  connect: FileWhereUniqueInput
+  create: FileCreateWithoutTaskInput
+  update: FileUpdateWithoutTaskDataInput
+  upsert: FileUpsertWithoutTaskInput
 }
 
 input FileUpdateWithoutTaskDataInput {
@@ -360,15 +520,9 @@ input FileUpdateWithoutTaskDataInput {
   url: NullableStringFieldUpdateOperationsInput
 }
 
-input FileUpdateWithWhereUniqueWithoutTaskInput {
-  data: FileUpdateWithoutTaskDataInput!
-  where: FileWhereUniqueInput!
-}
-
-input FileUpsertWithWhereUniqueWithoutTaskInput {
+input FileUpsertWithoutTaskInput {
   create: FileCreateWithoutTaskInput!
   update: FileUpdateWithoutTaskDataInput!
-  where: FileWhereUniqueInput!
 }
 
 input FileWhereUniqueInput {
@@ -383,17 +537,6 @@ input IntFilter {
   lt: Int
   lte: Int
   not: NestedIntFilter
-  notIn: [Int!]
-}
-
-input IntNullableFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntNullableFilter
   notIn: [Int!]
 }
 
@@ -423,11 +566,6 @@ type Mutation {
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
 }
 
-input NestedBoolFilter {
-  equals: Boolean
-  not: NestedBoolFilter
-}
-
 input NestedDateTimeFilter {
   equals: DateTime
   gt: DateTime
@@ -450,15 +588,18 @@ input NestedIntFilter {
   notIn: [Int!]
 }
 
-input NestedIntNullableFilter {
-  equals: Int
-  gt: Int
-  gte: Int
-  in: [Int!]
-  lt: Int
-  lte: Int
-  not: NestedIntNullableFilter
-  notIn: [Int!]
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
 }
 
 input NestedStringNullableFilter {
@@ -498,7 +639,7 @@ input ProjectCreateInput {
   projectName: String
   projectType: String
   status: String
-  task: TaskCreateManyWithoutProjectInput
+  tasks: TaskOnProjectCreateManyWithoutProjectInput
 }
 
 input ProjectCreateOneWithoutMembersInput {
@@ -506,9 +647,9 @@ input ProjectCreateOneWithoutMembersInput {
   create: ProjectCreateWithoutMembersInput
 }
 
-input ProjectCreateOneWithoutTaskInput {
+input ProjectCreateOneWithoutTasksInput {
   connect: ProjectWhereUniqueInput
-  create: ProjectCreateWithoutTaskInput
+  create: ProjectCreateWithoutTasksInput
 }
 
 input ProjectCreateWithoutMembersInput {
@@ -518,10 +659,10 @@ input ProjectCreateWithoutMembersInput {
   projectName: String
   projectType: String
   status: String
-  task: TaskCreateManyWithoutProjectInput
+  tasks: TaskOnProjectCreateManyWithoutProjectInput
 }
 
-input ProjectCreateWithoutTaskInput {
+input ProjectCreateWithoutTasksInput {
   dueDate: DateTime!
   members: ProjectOnUserCreateManyWithoutProjectInput
   projectDetail: String
@@ -529,6 +670,11 @@ input ProjectCreateWithoutTaskInput {
   projectName: String
   projectType: String
   status: String
+}
+
+input ProjectIdTaskIdCompoundUniqueInput {
+  projectId: Int!
+  taskId: Int!
 }
 
 type ProjectOnUser {
@@ -643,7 +789,7 @@ input ProjectUpdateInput {
   projectName: NullableStringFieldUpdateOperationsInput
   projectType: NullableStringFieldUpdateOperationsInput
   status: NullableStringFieldUpdateOperationsInput
-  task: TaskUpdateManyWithoutProjectInput
+  tasks: TaskOnProjectUpdateManyWithoutProjectInput
 }
 
 input ProjectUpdateOneRequiredWithoutMembersInput {
@@ -653,13 +799,11 @@ input ProjectUpdateOneRequiredWithoutMembersInput {
   upsert: ProjectUpsertWithoutMembersInput
 }
 
-input ProjectUpdateOneWithoutTaskInput {
+input ProjectUpdateOneRequiredWithoutTasksInput {
   connect: ProjectWhereUniqueInput
-  create: ProjectCreateWithoutTaskInput
-  delete: Boolean
-  disconnect: Boolean
-  update: ProjectUpdateWithoutTaskDataInput
-  upsert: ProjectUpsertWithoutTaskInput
+  create: ProjectCreateWithoutTasksInput
+  update: ProjectUpdateWithoutTasksDataInput
+  upsert: ProjectUpsertWithoutTasksInput
 }
 
 input ProjectUpdateWithoutMembersDataInput {
@@ -669,10 +813,10 @@ input ProjectUpdateWithoutMembersDataInput {
   projectName: NullableStringFieldUpdateOperationsInput
   projectType: NullableStringFieldUpdateOperationsInput
   status: NullableStringFieldUpdateOperationsInput
-  task: TaskUpdateManyWithoutProjectInput
+  tasks: TaskOnProjectUpdateManyWithoutProjectInput
 }
 
-input ProjectUpdateWithoutTaskDataInput {
+input ProjectUpdateWithoutTasksDataInput {
   dueDate: DateTimeFieldUpdateOperationsInput
   members: ProjectOnUserUpdateManyWithoutProjectInput
   projectDetail: NullableStringFieldUpdateOperationsInput
@@ -687,9 +831,9 @@ input ProjectUpsertWithoutMembersInput {
   update: ProjectUpdateWithoutMembersDataInput!
 }
 
-input ProjectUpsertWithoutTaskInput {
-  create: ProjectCreateWithoutTaskInput!
-  update: ProjectUpdateWithoutTaskDataInput!
+input ProjectUpsertWithoutTasksInput {
+  create: ProjectCreateWithoutTasksInput!
+  update: ProjectUpdateWithoutTasksDataInput!
 }
 
 input ProjectWhereUniqueInput {
@@ -720,6 +864,20 @@ input StringFieldUpdateOperationsInput {
   set: String
 }
 
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
 input StringNullableFilter {
   contains: String
   endsWith: String
@@ -734,34 +892,30 @@ input StringNullableFilter {
   startsWith: String
 }
 
+input StringNullableListFilter {
+  equals: [String!]
+}
+
 type Task {
-  comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   endTime: DateTime!
-  files(after: FileWhereUniqueInput, before: FileWhereUniqueInput, first: Int, last: Int): [File!]!
   id: Int!
   isDone: Boolean!
   members(after: TaskOnUserWhereUniqueInput, before: TaskOnUserWhereUniqueInput, first: Int, last: Int): [TaskOnUser!]!
-  projectId: Int
   startTime: DateTime!
   taskDetail: String
   taskName: String
 }
 
 input TaskCreateInput {
-  comments: CommentCreateManyWithoutTaskInput
-  endTime: DateTime!
-  files: FileCreateManyWithoutTaskInput
+  comments: CommentOnTaskCreateManyWithoutTaskInput
+  endTime: DateTime
+  files: FileOnTaskCreateManyWithoutTaskInput
   isDone: Boolean!
   members: TaskOnUserCreateManyWithoutTaskInput
-  Project: ProjectCreateOneWithoutTaskInput
+  project: TaskOnProjectCreateOneWithoutTaskInput
   startTime: DateTime
   taskDetail: String
   taskName: String
-}
-
-input TaskCreateManyWithoutProjectInput {
-  connect: [TaskWhereUniqueInput!]
-  create: [TaskCreateWithoutProjectInput!]
 }
 
 input TaskCreateOneWithoutCommentsInput {
@@ -779,48 +933,150 @@ input TaskCreateOneWithoutMembersInput {
   create: TaskCreateWithoutMembersInput
 }
 
+input TaskCreateOneWithoutProjectInput {
+  connect: TaskWhereUniqueInput
+  create: TaskCreateWithoutProjectInput
+}
+
 input TaskCreateWithoutCommentsInput {
-  endTime: DateTime!
-  files: FileCreateManyWithoutTaskInput
+  endTime: DateTime
+  files: FileOnTaskCreateManyWithoutTaskInput
   isDone: Boolean!
   members: TaskOnUserCreateManyWithoutTaskInput
-  Project: ProjectCreateOneWithoutTaskInput
+  project: TaskOnProjectCreateOneWithoutTaskInput
   startTime: DateTime
   taskDetail: String
   taskName: String
 }
 
 input TaskCreateWithoutFilesInput {
-  comments: CommentCreateManyWithoutTaskInput
-  endTime: DateTime!
+  comments: CommentOnTaskCreateManyWithoutTaskInput
+  endTime: DateTime
   isDone: Boolean!
   members: TaskOnUserCreateManyWithoutTaskInput
-  Project: ProjectCreateOneWithoutTaskInput
+  project: TaskOnProjectCreateOneWithoutTaskInput
   startTime: DateTime
   taskDetail: String
   taskName: String
 }
 
 input TaskCreateWithoutMembersInput {
-  comments: CommentCreateManyWithoutTaskInput
-  endTime: DateTime!
-  files: FileCreateManyWithoutTaskInput
+  comments: CommentOnTaskCreateManyWithoutTaskInput
+  endTime: DateTime
+  files: FileOnTaskCreateManyWithoutTaskInput
   isDone: Boolean!
-  Project: ProjectCreateOneWithoutTaskInput
+  project: TaskOnProjectCreateOneWithoutTaskInput
   startTime: DateTime
   taskDetail: String
   taskName: String
 }
 
 input TaskCreateWithoutProjectInput {
-  comments: CommentCreateManyWithoutTaskInput
-  endTime: DateTime!
-  files: FileCreateManyWithoutTaskInput
+  comments: CommentOnTaskCreateManyWithoutTaskInput
+  endTime: DateTime
+  files: FileOnTaskCreateManyWithoutTaskInput
   isDone: Boolean!
   members: TaskOnUserCreateManyWithoutTaskInput
   startTime: DateTime
   taskDetail: String
   taskName: String
+}
+
+input TaskIdCommentIdCompoundUniqueInput {
+  commentId: Int!
+  taskId: Int!
+}
+
+input TaskIdFileIdCompoundUniqueInput {
+  fileId: Int!
+  taskId: Int!
+}
+
+input TaskOnProjectCreateManyWithoutProjectInput {
+  connect: [TaskOnProjectWhereUniqueInput!]
+  create: [TaskOnProjectCreateWithoutProjectInput!]
+}
+
+input TaskOnProjectCreateOneWithoutTaskInput {
+  connect: TaskOnProjectWhereUniqueInput
+  create: TaskOnProjectCreateWithoutTaskInput
+}
+
+input TaskOnProjectCreateWithoutProjectInput {
+  cretedAt: DateTime
+  task: TaskCreateOneWithoutProjectInput!
+}
+
+input TaskOnProjectCreateWithoutTaskInput {
+  cretedAt: DateTime
+  project: ProjectCreateOneWithoutTasksInput!
+}
+
+input TaskOnProjectScalarWhereInput {
+  AND: [TaskOnProjectScalarWhereInput!]
+  cretedAt: DateTimeFilter
+  NOT: [TaskOnProjectScalarWhereInput!]
+  OR: [TaskOnProjectScalarWhereInput!]
+  projectId: IntFilter
+  taskId: IntFilter
+}
+
+input TaskOnProjectUpdateManyDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input TaskOnProjectUpdateManyWithoutProjectInput {
+  connect: [TaskOnProjectWhereUniqueInput!]
+  create: [TaskOnProjectCreateWithoutProjectInput!]
+  delete: [TaskOnProjectWhereUniqueInput!]
+  deleteMany: [TaskOnProjectScalarWhereInput!]
+  disconnect: [TaskOnProjectWhereUniqueInput!]
+  set: [TaskOnProjectWhereUniqueInput!]
+  update: [TaskOnProjectUpdateWithWhereUniqueWithoutProjectInput!]
+  updateMany: [TaskOnProjectUpdateManyWithWhereNestedInput!]
+  upsert: [TaskOnProjectUpsertWithWhereUniqueWithoutProjectInput!]
+}
+
+input TaskOnProjectUpdateManyWithWhereNestedInput {
+  data: TaskOnProjectUpdateManyDataInput!
+  where: TaskOnProjectScalarWhereInput!
+}
+
+input TaskOnProjectUpdateOneRequiredWithoutTaskInput {
+  connect: TaskOnProjectWhereUniqueInput
+  create: TaskOnProjectCreateWithoutTaskInput
+  update: TaskOnProjectUpdateWithoutTaskDataInput
+  upsert: TaskOnProjectUpsertWithoutTaskInput
+}
+
+input TaskOnProjectUpdateWithoutProjectDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+  task: TaskUpdateOneRequiredWithoutProjectInput
+}
+
+input TaskOnProjectUpdateWithoutTaskDataInput {
+  cretedAt: DateTimeFieldUpdateOperationsInput
+  project: ProjectUpdateOneRequiredWithoutTasksInput
+}
+
+input TaskOnProjectUpdateWithWhereUniqueWithoutProjectInput {
+  data: TaskOnProjectUpdateWithoutProjectDataInput!
+  where: TaskOnProjectWhereUniqueInput!
+}
+
+input TaskOnProjectUpsertWithoutTaskInput {
+  create: TaskOnProjectCreateWithoutTaskInput!
+  update: TaskOnProjectUpdateWithoutTaskDataInput!
+}
+
+input TaskOnProjectUpsertWithWhereUniqueWithoutProjectInput {
+  create: TaskOnProjectCreateWithoutProjectInput!
+  update: TaskOnProjectUpdateWithoutProjectDataInput!
+  where: TaskOnProjectWhereUniqueInput!
+}
+
+input TaskOnProjectWhereUniqueInput {
+  projectId_taskId: ProjectIdTaskIdCompoundUniqueInput
 }
 
 type TaskOnUser {
@@ -927,54 +1183,30 @@ input TaskOnUserWhereUniqueInput {
   userId_taskId: UserIdTaskIdCompoundUniqueInput
 }
 
-input TaskScalarWhereInput {
-  AND: [TaskScalarWhereInput!]
-  endTime: DateTimeFilter
-  id: IntFilter
-  isDone: BoolFilter
-  NOT: [TaskScalarWhereInput!]
-  OR: [TaskScalarWhereInput!]
-  projectId: IntNullableFilter
-  startTime: DateTimeFilter
-  taskDetail: StringNullableFilter
-  taskName: StringNullableFilter
-}
-
 input TaskUpdateInput {
-  comments: CommentUpdateManyWithoutTaskInput
+  comments: CommentOnTaskUpdateManyWithoutTaskInput
   endTime: DateTimeFieldUpdateOperationsInput
-  files: FileUpdateManyWithoutTaskInput
+  files: FileOnTaskUpdateManyWithoutTaskInput
   isDone: BoolFieldUpdateOperationsInput
   members: TaskOnUserUpdateManyWithoutTaskInput
-  Project: ProjectUpdateOneWithoutTaskInput
+  project: TaskOnProjectUpdateOneRequiredWithoutTaskInput
   startTime: DateTimeFieldUpdateOperationsInput
   taskDetail: NullableStringFieldUpdateOperationsInput
   taskName: NullableStringFieldUpdateOperationsInput
 }
 
-input TaskUpdateManyDataInput {
-  endTime: DateTimeFieldUpdateOperationsInput
-  isDone: BoolFieldUpdateOperationsInput
-  startTime: DateTimeFieldUpdateOperationsInput
-  taskDetail: NullableStringFieldUpdateOperationsInput
-  taskName: NullableStringFieldUpdateOperationsInput
+input TaskUpdateOneRequiredWithoutCommentsInput {
+  connect: TaskWhereUniqueInput
+  create: TaskCreateWithoutCommentsInput
+  update: TaskUpdateWithoutCommentsDataInput
+  upsert: TaskUpsertWithoutCommentsInput
 }
 
-input TaskUpdateManyWithoutProjectInput {
-  connect: [TaskWhereUniqueInput!]
-  create: [TaskCreateWithoutProjectInput!]
-  delete: [TaskWhereUniqueInput!]
-  deleteMany: [TaskScalarWhereInput!]
-  disconnect: [TaskWhereUniqueInput!]
-  set: [TaskWhereUniqueInput!]
-  update: [TaskUpdateWithWhereUniqueWithoutProjectInput!]
-  updateMany: [TaskUpdateManyWithWhereNestedInput!]
-  upsert: [TaskUpsertWithWhereUniqueWithoutProjectInput!]
-}
-
-input TaskUpdateManyWithWhereNestedInput {
-  data: TaskUpdateManyDataInput!
-  where: TaskScalarWhereInput!
+input TaskUpdateOneRequiredWithoutFilesInput {
+  connect: TaskWhereUniqueInput
+  create: TaskCreateWithoutFilesInput
+  update: TaskUpdateWithoutFilesDataInput
+  upsert: TaskUpsertWithoutFilesInput
 }
 
 input TaskUpdateOneRequiredWithoutMembersInput {
@@ -984,71 +1216,55 @@ input TaskUpdateOneRequiredWithoutMembersInput {
   upsert: TaskUpsertWithoutMembersInput
 }
 
-input TaskUpdateOneWithoutCommentsInput {
+input TaskUpdateOneRequiredWithoutProjectInput {
   connect: TaskWhereUniqueInput
-  create: TaskCreateWithoutCommentsInput
-  delete: Boolean
-  disconnect: Boolean
-  update: TaskUpdateWithoutCommentsDataInput
-  upsert: TaskUpsertWithoutCommentsInput
-}
-
-input TaskUpdateOneWithoutFilesInput {
-  connect: TaskWhereUniqueInput
-  create: TaskCreateWithoutFilesInput
-  delete: Boolean
-  disconnect: Boolean
-  update: TaskUpdateWithoutFilesDataInput
-  upsert: TaskUpsertWithoutFilesInput
+  create: TaskCreateWithoutProjectInput
+  update: TaskUpdateWithoutProjectDataInput
+  upsert: TaskUpsertWithoutProjectInput
 }
 
 input TaskUpdateWithoutCommentsDataInput {
   endTime: DateTimeFieldUpdateOperationsInput
-  files: FileUpdateManyWithoutTaskInput
+  files: FileOnTaskUpdateManyWithoutTaskInput
   isDone: BoolFieldUpdateOperationsInput
   members: TaskOnUserUpdateManyWithoutTaskInput
-  Project: ProjectUpdateOneWithoutTaskInput
+  project: TaskOnProjectUpdateOneRequiredWithoutTaskInput
   startTime: DateTimeFieldUpdateOperationsInput
   taskDetail: NullableStringFieldUpdateOperationsInput
   taskName: NullableStringFieldUpdateOperationsInput
 }
 
 input TaskUpdateWithoutFilesDataInput {
-  comments: CommentUpdateManyWithoutTaskInput
+  comments: CommentOnTaskUpdateManyWithoutTaskInput
   endTime: DateTimeFieldUpdateOperationsInput
   isDone: BoolFieldUpdateOperationsInput
   members: TaskOnUserUpdateManyWithoutTaskInput
-  Project: ProjectUpdateOneWithoutTaskInput
+  project: TaskOnProjectUpdateOneRequiredWithoutTaskInput
   startTime: DateTimeFieldUpdateOperationsInput
   taskDetail: NullableStringFieldUpdateOperationsInput
   taskName: NullableStringFieldUpdateOperationsInput
 }
 
 input TaskUpdateWithoutMembersDataInput {
-  comments: CommentUpdateManyWithoutTaskInput
+  comments: CommentOnTaskUpdateManyWithoutTaskInput
   endTime: DateTimeFieldUpdateOperationsInput
-  files: FileUpdateManyWithoutTaskInput
+  files: FileOnTaskUpdateManyWithoutTaskInput
   isDone: BoolFieldUpdateOperationsInput
-  Project: ProjectUpdateOneWithoutTaskInput
+  project: TaskOnProjectUpdateOneRequiredWithoutTaskInput
   startTime: DateTimeFieldUpdateOperationsInput
   taskDetail: NullableStringFieldUpdateOperationsInput
   taskName: NullableStringFieldUpdateOperationsInput
 }
 
 input TaskUpdateWithoutProjectDataInput {
-  comments: CommentUpdateManyWithoutTaskInput
+  comments: CommentOnTaskUpdateManyWithoutTaskInput
   endTime: DateTimeFieldUpdateOperationsInput
-  files: FileUpdateManyWithoutTaskInput
+  files: FileOnTaskUpdateManyWithoutTaskInput
   isDone: BoolFieldUpdateOperationsInput
   members: TaskOnUserUpdateManyWithoutTaskInput
   startTime: DateTimeFieldUpdateOperationsInput
   taskDetail: NullableStringFieldUpdateOperationsInput
   taskName: NullableStringFieldUpdateOperationsInput
-}
-
-input TaskUpdateWithWhereUniqueWithoutProjectInput {
-  data: TaskUpdateWithoutProjectDataInput!
-  where: TaskWhereUniqueInput!
 }
 
 input TaskUpsertWithoutCommentsInput {
@@ -1066,10 +1282,9 @@ input TaskUpsertWithoutMembersInput {
   update: TaskUpdateWithoutMembersDataInput!
 }
 
-input TaskUpsertWithWhereUniqueWithoutProjectInput {
+input TaskUpsertWithoutProjectInput {
   create: TaskCreateWithoutProjectInput!
   update: TaskUpdateWithoutProjectDataInput!
-  where: TaskWhereUniqueInput!
 }
 
 input TaskWhereUniqueInput {
@@ -1077,7 +1292,7 @@ input TaskWhereUniqueInput {
 }
 
 type User {
-  contacts(after: ContactWhereUniqueInput, before: ContactWhereUniqueInput, first: Int, last: Int): [Contact!]!
+  contacts: Contact!
   email: String!
   id: Int!
   image: String
@@ -1089,8 +1304,8 @@ type User {
 }
 
 input UserCreateInput {
-  comments: CommentCreateManyWithoutUsersInput
-  contacts: ContactCreateManyWithoutUserInput
+  comments: CommentOnUserCreateManyWithoutUserInput
+  contacts: ContactCreateOneWithoutUserInput!
   email: String!
   image: String
   name: String
@@ -1101,14 +1316,14 @@ input UserCreateInput {
   tasks: TaskOnUserCreateManyWithoutUserInput
 }
 
+input UserCreateManyWithoutContactsInput {
+  connect: [UserWhereUniqueInput!]
+  create: [UserCreateWithoutContactsInput!]
+}
+
 input UserCreateOneWithoutCommentsInput {
   connect: UserWhereUniqueInput
   create: UserCreateWithoutCommentsInput
-}
-
-input UserCreateOneWithoutContactsInput {
-  connect: UserWhereUniqueInput
-  create: UserCreateWithoutContactsInput
 }
 
 input UserCreateOneWithoutProjectsInput {
@@ -1126,7 +1341,7 @@ input UserCreateskillsInput {
 }
 
 input UserCreateWithoutCommentsInput {
-  contacts: ContactCreateManyWithoutUserInput
+  contacts: ContactCreateOneWithoutUserInput!
   email: String!
   image: String
   name: String
@@ -1138,7 +1353,7 @@ input UserCreateWithoutCommentsInput {
 }
 
 input UserCreateWithoutContactsInput {
-  comments: CommentCreateManyWithoutUsersInput
+  comments: CommentOnUserCreateManyWithoutUserInput
   email: String!
   image: String
   name: String
@@ -1150,8 +1365,8 @@ input UserCreateWithoutContactsInput {
 }
 
 input UserCreateWithoutProjectsInput {
-  comments: CommentCreateManyWithoutUsersInput
-  contacts: ContactCreateManyWithoutUserInput
+  comments: CommentOnUserCreateManyWithoutUserInput
+  contacts: ContactCreateOneWithoutUserInput!
   email: String!
   image: String
   name: String
@@ -1162,8 +1377,8 @@ input UserCreateWithoutProjectsInput {
 }
 
 input UserCreateWithoutTasksInput {
-  comments: CommentCreateManyWithoutUsersInput
-  contacts: ContactCreateManyWithoutUserInput
+  comments: CommentOnUserCreateManyWithoutUserInput
+  contacts: ContactCreateOneWithoutUserInput!
   email: String!
   image: String
   name: String
@@ -1171,6 +1386,11 @@ input UserCreateWithoutTasksInput {
   projects: ProjectOnUserCreateManyWithoutUserInput
   role: Role
   skills: UserCreateskillsInput
+}
+
+input UserIdCommentIdCompoundUniqueInput {
+  commentId: Int!
+  userId: Int!
 }
 
 input UserIdProjectIdCompoundUniqueInput {
@@ -1183,9 +1403,23 @@ input UserIdTaskIdCompoundUniqueInput {
   userId: Int!
 }
 
+input UserScalarWhereInput {
+  AND: [UserScalarWhereInput!]
+  contactId: IntFilter
+  email: StringFilter
+  id: IntFilter
+  image: StringNullableFilter
+  name: StringNullableFilter
+  NOT: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  position: StringNullableFilter
+  role: Role
+  skills: StringNullableListFilter
+}
+
 input UserUpdateInput {
-  comments: CommentUpdateManyWithoutUsersInput
-  contacts: ContactUpdateManyWithoutUserInput
+  comments: CommentOnUserUpdateManyWithoutUserInput
+  contacts: ContactUpdateOneRequiredWithoutUserInput
   email: StringFieldUpdateOperationsInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
@@ -1194,6 +1428,39 @@ input UserUpdateInput {
   role: Role
   skills: UserUpdateskillsInput
   tasks: TaskOnUserUpdateManyWithoutUserInput
+}
+
+input UserUpdateManyDataInput {
+  email: StringFieldUpdateOperationsInput
+  image: NullableStringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+  position: NullableStringFieldUpdateOperationsInput
+  role: Role
+  skills: UserUpdateskillsInput
+}
+
+input UserUpdateManyWithoutContactsInput {
+  connect: [UserWhereUniqueInput!]
+  create: [UserCreateWithoutContactsInput!]
+  delete: [UserWhereUniqueInput!]
+  deleteMany: [UserScalarWhereInput!]
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutContactsInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutContactsInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  data: UserUpdateManyDataInput!
+  where: UserScalarWhereInput!
+}
+
+input UserUpdateOneRequiredWithoutCommentsInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateWithoutCommentsInput
+  update: UserUpdateWithoutCommentsDataInput
+  upsert: UserUpsertWithoutCommentsInput
 }
 
 input UserUpdateOneRequiredWithoutProjectsInput {
@@ -1210,30 +1477,12 @@ input UserUpdateOneRequiredWithoutTasksInput {
   upsert: UserUpsertWithoutTasksInput
 }
 
-input UserUpdateOneWithoutCommentsInput {
-  connect: UserWhereUniqueInput
-  create: UserCreateWithoutCommentsInput
-  delete: Boolean
-  disconnect: Boolean
-  update: UserUpdateWithoutCommentsDataInput
-  upsert: UserUpsertWithoutCommentsInput
-}
-
-input UserUpdateOneWithoutContactsInput {
-  connect: UserWhereUniqueInput
-  create: UserCreateWithoutContactsInput
-  delete: Boolean
-  disconnect: Boolean
-  update: UserUpdateWithoutContactsDataInput
-  upsert: UserUpsertWithoutContactsInput
-}
-
 input UserUpdateskillsInput {
   set: [String!]
 }
 
 input UserUpdateWithoutCommentsDataInput {
-  contacts: ContactUpdateManyWithoutUserInput
+  contacts: ContactUpdateOneRequiredWithoutUserInput
   email: StringFieldUpdateOperationsInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
@@ -1245,7 +1494,7 @@ input UserUpdateWithoutCommentsDataInput {
 }
 
 input UserUpdateWithoutContactsDataInput {
-  comments: CommentUpdateManyWithoutUsersInput
+  comments: CommentOnUserUpdateManyWithoutUserInput
   email: StringFieldUpdateOperationsInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
@@ -1257,8 +1506,8 @@ input UserUpdateWithoutContactsDataInput {
 }
 
 input UserUpdateWithoutProjectsDataInput {
-  comments: CommentUpdateManyWithoutUsersInput
-  contacts: ContactUpdateManyWithoutUserInput
+  comments: CommentOnUserUpdateManyWithoutUserInput
+  contacts: ContactUpdateOneRequiredWithoutUserInput
   email: StringFieldUpdateOperationsInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
@@ -1269,8 +1518,8 @@ input UserUpdateWithoutProjectsDataInput {
 }
 
 input UserUpdateWithoutTasksDataInput {
-  comments: CommentUpdateManyWithoutUsersInput
-  contacts: ContactUpdateManyWithoutUserInput
+  comments: CommentOnUserUpdateManyWithoutUserInput
+  contacts: ContactUpdateOneRequiredWithoutUserInput
   email: StringFieldUpdateOperationsInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
@@ -1280,14 +1529,14 @@ input UserUpdateWithoutTasksDataInput {
   skills: UserUpdateskillsInput
 }
 
+input UserUpdateWithWhereUniqueWithoutContactsInput {
+  data: UserUpdateWithoutContactsDataInput!
+  where: UserWhereUniqueInput!
+}
+
 input UserUpsertWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput!
   update: UserUpdateWithoutCommentsDataInput!
-}
-
-input UserUpsertWithoutContactsInput {
-  create: UserCreateWithoutContactsInput!
-  update: UserUpdateWithoutContactsDataInput!
 }
 
 input UserUpsertWithoutProjectsInput {
@@ -1298,6 +1547,12 @@ input UserUpsertWithoutProjectsInput {
 input UserUpsertWithoutTasksInput {
   create: UserCreateWithoutTasksInput!
   update: UserUpdateWithoutTasksDataInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutContactsInput {
+  create: UserCreateWithoutContactsInput!
+  update: UserUpdateWithoutContactsDataInput!
+  where: UserWhereUniqueInput!
 }
 
 input UserWhereUniqueInput {

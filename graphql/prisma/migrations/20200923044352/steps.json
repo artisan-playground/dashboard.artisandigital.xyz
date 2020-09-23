@@ -129,13 +129,73 @@
       "model": "User",
       "field": "contacts",
       "type": "Contact",
-      "arity": "List"
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "contacts"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "contacts"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[contactId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "contacts"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "contactId",
+      "type": "Int",
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
       "model": "User",
       "field": "comments",
-      "type": "Comment",
+      "type": "CommentOnUser",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "projects",
+      "type": "ProjectOnUser",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "tasks",
+      "type": "TaskOnUser",
       "arity": "List"
     },
     {
@@ -169,20 +229,6 @@
       },
       "argument": "",
       "value": "USER"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "projects",
-      "type": "ProjectOnUser",
-      "arity": "List"
-    },
-    {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "tasks",
-      "type": "TaskOnUser",
-      "arity": "List"
     },
     {
       "tag": "CreateModel",
@@ -269,55 +315,9 @@
     {
       "tag": "CreateField",
       "model": "Contact",
-      "field": "user",
+      "field": "User",
       "type": "User",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Contact",
-          "field": "user"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Contact",
-          "field": "user"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[userId]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Contact",
-          "field": "user"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Contact",
-      "field": "userId",
-      "type": "Int",
-      "arity": "Optional"
+      "arity": "List"
     },
     {
       "tag": "CreateModel",
@@ -443,8 +443,8 @@
     {
       "tag": "CreateField",
       "model": "Project",
-      "field": "task",
-      "type": "Task",
+      "field": "tasks",
+      "type": "TaskOnProject",
       "arity": "List"
     },
     {
@@ -662,55 +662,9 @@
     {
       "tag": "CreateField",
       "model": "Task",
-      "field": "Project",
-      "type": "Project",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Task",
-          "field": "Project"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Task",
-          "field": "Project"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[projectId]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Task",
-          "field": "Project"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Task",
-      "field": "projectId",
-      "type": "Int",
-      "arity": "Optional"
+      "field": "project",
+      "type": "TaskOnProject",
+      "arity": "Required"
     },
     {
       "tag": "CreateField",
@@ -759,6 +713,31 @@
       "arity": "Required"
     },
     {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Task",
+          "field": "endTime"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Task",
+          "field": "endTime"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
       "tag": "CreateField",
       "model": "Task",
       "field": "taskDetail",
@@ -783,14 +762,14 @@
       "tag": "CreateField",
       "model": "Task",
       "field": "comments",
-      "type": "Comment",
+      "type": "CommentOnTask",
       "arity": "List"
     },
     {
       "tag": "CreateField",
       "model": "Task",
       "field": "files",
-      "type": "File",
+      "type": "FileOnTask",
       "arity": "List"
     },
     {
@@ -960,7 +939,179 @@
     },
     {
       "tag": "CreateModel",
+      "model": "TaskOnProject"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnProject",
+      "field": "project",
+      "type": "Project",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnProject",
+          "field": "project"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnProject",
+          "field": "project"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[projectId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnProject",
+          "field": "project"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnProject",
+      "field": "projectId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnProject",
+      "field": "task",
+      "type": "Task",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnProject",
+          "field": "task"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnProject",
+          "field": "task"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[taskId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnProject",
+          "field": "task"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnProject",
+      "field": "taskId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "TaskOnProject",
+      "field": "cretedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnProject",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "TaskOnProject",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "TaskOnProject"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "TaskOnProject"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[projectId, taskId]"
+    },
+    {
+      "tag": "CreateModel",
       "model": "File"
+    },
+    {
+      "tag": "CreateField",
+      "model": "File",
+      "field": "task",
+      "type": "FileOnTask",
+      "arity": "List"
     },
     {
       "tag": "CreateField",
@@ -1027,18 +1178,22 @@
       "arity": "Optional"
     },
     {
+      "tag": "CreateModel",
+      "model": "FileOnTask"
+    },
+    {
       "tag": "CreateField",
-      "model": "File",
+      "model": "FileOnTask",
       "field": "task",
       "type": "Task",
-      "arity": "Optional"
+      "arity": "Required"
     },
     {
       "tag": "CreateDirective",
       "location": {
         "path": {
           "tag": "Field",
-          "model": "File",
+          "model": "FileOnTask",
           "field": "task"
         },
         "directive": "relation"
@@ -1050,7 +1205,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "File",
+          "model": "FileOnTask",
           "field": "task"
         },
         "directive": "relation"
@@ -1064,7 +1219,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "File",
+          "model": "FileOnTask",
           "field": "task"
         },
         "directive": "relation"
@@ -1074,10 +1229,118 @@
     },
     {
       "tag": "CreateField",
-      "model": "File",
+      "model": "FileOnTask",
       "field": "taskId",
       "type": "Int",
-      "arity": "Optional"
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "FileOnTask",
+      "field": "file",
+      "type": "File",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FileOnTask",
+          "field": "file"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FileOnTask",
+          "field": "file"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[fileId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FileOnTask",
+          "field": "file"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "FileOnTask",
+      "field": "fileId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "FileOnTask",
+      "field": "cretedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "FileOnTask",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "FileOnTask",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "FileOnTask"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "FileOnTask"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[taskId, fileId]"
     },
     {
       "tag": "CreateModel",
@@ -1129,6 +1392,20 @@
     {
       "tag": "CreateField",
       "model": "Comment",
+      "field": "user",
+      "type": "CommentOnUser",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Comment",
+      "field": "task",
+      "type": "CommentOnTask",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Comment",
       "field": "timestamp",
       "type": "DateTime",
       "arity": "Required"
@@ -1161,73 +1438,6 @@
     {
       "tag": "CreateField",
       "model": "Comment",
-      "field": "users",
-      "type": "User",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Comment",
-          "field": "users"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Comment",
-          "field": "users"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[userId]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Comment",
-          "field": "users"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Comment",
-      "field": "userId",
-      "type": "Int",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Comment",
-      "field": "userImg",
-      "type": "String",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Comment",
-      "field": "userName",
-      "type": "String",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Comment",
       "field": "image",
       "type": "String",
       "arity": "Optional"
@@ -1240,18 +1450,187 @@
       "arity": "Optional"
     },
     {
+      "tag": "CreateModel",
+      "model": "CommentOnUser"
+    },
+    {
       "tag": "CreateField",
-      "model": "Comment",
-      "field": "task",
-      "type": "Task",
-      "arity": "Optional"
+      "model": "CommentOnUser",
+      "field": "user",
+      "type": "User",
+      "arity": "Required"
     },
     {
       "tag": "CreateDirective",
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Comment",
+          "model": "CommentOnUser",
+          "field": "user"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnUser",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnUser",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentOnUser",
+      "field": "userId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentOnUser",
+      "field": "comment",
+      "type": "Comment",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnUser",
+          "field": "comment"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnUser",
+          "field": "comment"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[commentId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnUser",
+          "field": "comment"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentOnUser",
+      "field": "commentId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentOnUser",
+      "field": "cretedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnUser",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnUser",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "CommentOnUser"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "CommentOnUser"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[userId, commentId]"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "CommentOnTask"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentOnTask",
+      "field": "task",
+      "type": "Task",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnTask",
           "field": "task"
         },
         "directive": "relation"
@@ -1263,7 +1642,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Comment",
+          "model": "CommentOnTask",
           "field": "task"
         },
         "directive": "relation"
@@ -1277,7 +1656,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Comment",
+          "model": "CommentOnTask",
           "field": "task"
         },
         "directive": "relation"
@@ -1287,10 +1666,118 @@
     },
     {
       "tag": "CreateField",
-      "model": "Comment",
+      "model": "CommentOnTask",
       "field": "taskId",
       "type": "Int",
-      "arity": "Optional"
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentOnTask",
+      "field": "comment",
+      "type": "Comment",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnTask",
+          "field": "comment"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnTask",
+          "field": "comment"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[commentId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnTask",
+          "field": "comment"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentOnTask",
+      "field": "commentId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "CommentOnTask",
+      "field": "cretedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnTask",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "CommentOnTask",
+          "field": "cretedAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "CommentOnTask"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "CommentOnTask"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[taskId, commentId]"
     }
   ]
 }
