@@ -7,5 +7,6 @@ schema.objectType({
     t.model.url()
     t.model.name()
     t.model.status()
+    t.model.task()
   },
 })

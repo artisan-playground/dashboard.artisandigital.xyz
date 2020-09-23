@@ -41,7 +41,7 @@ model Project {
   status        String?         @default(value: "undone")
   dueDate       DateTime
   members       ProjectOnUser[]
-  tasks         TaskOnProject[]
+  tasks         Task[]
 }
 
 model ProjectOnUser {
@@ -55,15 +55,16 @@ model ProjectOnUser {
 
 model Task {
   id         Int             @id @default(autoincrement())
-  project    TaskOnProject
+  project    Project         @relation(fields: [projectId], references: [id])
+  projectId  Int
   taskName   String?
   startTime  DateTime        @default(now())
   endTime    DateTime        @default(now())
   taskDetail String?
   isDone     Boolean
   members    TaskOnUser[]
-  comments   CommentOnTask[]
   files      FileOnTask[]
+  comments   CommentOnTask[]
 }
 
 model TaskOnUser {
@@ -75,17 +76,8 @@ model TaskOnUser {
   @@id([userId, taskId])
 }
 
-model TaskOnProject {
-  project   Project  @relation(fields: [projectId], references: [id])
-  projectId Int
-  task      Task     @relation(fields: [taskId], references: [id])
-  taskId    Int
-  cretedAt  DateTime @default(now())
-  @@id([projectId, taskId])
-}
-
 model File {
-  task   FileOnTask[]
+  task   FileOnTask
   id     Int          @id @default(autoincrement())
   url    String?
   name   String?
@@ -103,8 +95,8 @@ model FileOnTask {
 
 model Comment {
   id        Int             @id @default(autoincrement())
-  user      CommentOnUser[]
-  task      CommentOnTask[]
+  users      CommentOnUser[]
+  task      CommentOnTask
   timestamp DateTime        @default(now())
   image     String?
   message   String?

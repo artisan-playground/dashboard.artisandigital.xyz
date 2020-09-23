@@ -11,6 +11,7 @@ schema.objectType({
     t.model.status()
     t.model.dueDate()
     t.model.members()
+    t.model.tasks()
   },
 })
 
