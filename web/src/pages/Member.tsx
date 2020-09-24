@@ -92,10 +92,10 @@ function Member() {
     },
     {
       title: 'Project(s)',
-      dataIndex: 'projectIds',
+      dataIndex: 'projects',
       width: '20%',
-      render: (projectIds: any) => <>{projectIds.filter((item: any) => item).length}</>,
-      sorter: (a: any, b: any) => a.projectIds.length - b.projectIds.length,
+      render: (projects: any) => <>{projects.filter((item: any) => item).length}</>,
+      sorter: (a: any, b: any) => a.projects.length - b.projects.length,
     },
   ]
 
