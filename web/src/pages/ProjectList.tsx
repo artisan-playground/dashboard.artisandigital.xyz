@@ -61,9 +61,8 @@ function ProjectList() {
   }
 
   return (
-    <LayoutDashboard>
-      <Row className="justify-between">
-        <div className="font-bold text-2xl mb-4">Projects</div>
+    <LayoutDashboard noCard>
+      <Row className="justify-end">
         <Row className="justify-end">
           <Search
             placeholder="input search loading default"
