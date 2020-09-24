@@ -19,16 +19,18 @@ export const GET_USER = gql`
       }
       projects {
         project {
-          users {
+          id
+          projectName
+          projectType
+          projectDetail
+          projectImage
+          status
+          dueDate
+          members {
             user {
               id
             }
           }
-        }
-      }
-      tasks {
-        task {
-          id
         }
       }
     }
@@ -54,16 +56,18 @@ export const GET_USERS = gql`
       }
       projects {
         project {
-          users {
+          id
+          projectName
+          projectType
+          projectDetail
+          projectImage
+          status
+          dueDate
+          members {
             user {
               id
             }
           }
-        }
-      }
-      tasks {
-        task {
-          id
         }
       }
     }

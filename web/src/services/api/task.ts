@@ -4,114 +4,9 @@ export const TASKS = gql`
   query {
     tasks {
       id
-      projectId
-      taskName
-      startTime
-      endTime
-      taskDetail
-      isDone
-      members {
-        user{
-          id
-        }
-      }
-      files {
+      project {
         id
-        url
-        name
-        status
       }
-      comments {
-        id
-        timestamp
-        userId
-        image
-        userImg
-        userName
-        message
-        taskId
-      }
-    }
-  }
-`
-
-export const TASKS_BY_ID = gql`
-  query Task($projectId: String!) {
-    task(projectId: $projectId) {
-      id
-      projectId
-      taskName
-      startTime
-      endTime
-      taskDetail
-      isDone
-      memberIds {
-        id
-        name
-        email
-        image
-      }
-      files {
-        id
-        url
-        name
-        status
-      }
-      comments {
-        id
-        timestamp
-        userId
-        image
-        userImg
-        userName
-        message
-        taskId
-      }
-    }
-  }
-`
-
-export const TASKS_BY_TASKID = gql`
-  query Task($id: String!) {
-    task(id: $id) {
-      id
-      projectId
-      taskName
-      startTime
-      endTime
-      taskDetail
-      isDone
-      memberIds {
-        id
-        name
-        email
-        image
-      }
-      files {
-        id
-        url
-        name
-        status
-      }
-      comments {
-        id
-        timestamp
-        userId
-        image
-        userImg
-        userName
-        message
-        taskId
-      }
-    }
-  }
-`
-
-export const TOGGLE_TASK_DONE = gql`
-  mutation Task($id: String!) {
-    toggleIsDone(id: $id) {
-      id
-      projectId
       taskName
       startTime
       endTime
@@ -123,20 +18,182 @@ export const TOGGLE_TASK_DONE = gql`
         }
       }
       files {
-        id
-        url
-        name
-        status
+        file {
+          id
+          url
+          name
+          status
+          task {
+            task {
+              id
+            }
+          }
+        }
       }
       comments {
-        id
-        timestamp
-        userId
-        image
-        userImg
-        userName
-        message
-        taskId
+        comment {
+          id
+          task {
+            task {
+              id
+            }
+          }
+          users {
+            user {
+              id
+            }
+          }
+          timestamp
+          image
+          message
+        }
+      }
+    }
+  }
+`
+
+export const TASKS_BY_ID = gql`
+  query Task($projectId: Int!) {
+    task(projectId: $projectId) {
+      id
+      taskName
+      startTime
+      endTime
+      taskDetail
+      isDone
+      members {
+        user {
+          id
+        }
+      }
+      files {
+        file {
+          id
+          url
+          name
+          status
+          task {
+            task {
+              id
+            }
+          }
+        }
+      }
+      comments {
+        comment {
+          id
+          task {
+            task {
+              id
+            }
+          }
+          users {
+            user {
+              id
+            }
+          }
+          timestamp
+          image
+          message
+        }
+      }
+    }
+  }
+`
+
+export const TASKS_BY_TASKID = gql`
+  query Task($id: Int!) {
+    task(id: $id) {
+      id
+      taskName
+      startTime
+      endTime
+      taskDetail
+      isDone
+      members {
+        user {
+          id
+        }
+      }
+      files {
+        file {
+          id
+          url
+          name
+          status
+          task {
+            task {
+              id
+            }
+          }
+        }
+      }
+      comments {
+        comment {
+          id
+          task {
+            task {
+              id
+            }
+          }
+          users {
+            user {
+              id
+            }
+          }
+          timestamp
+          image
+          message
+        }
+      }
+    }
+  }
+`
+
+export const TOGGLE_TASK_DONE = gql`
+  mutation Task($id: Int!) {
+    toggleIsDone(id: $id) {
+      id
+      taskName
+      startTime
+      endTime
+      taskDetail
+      isDone
+      members {
+        user {
+          id
+        }
+      }
+      files {
+        file {
+          id
+          url
+          name
+          status
+          task {
+            task {
+              id
+            }
+          }
+        }
+      }
+      comments {
+        comment {
+          id
+          task {
+            task {
+              id
+            }
+          }
+          users {
+            user {
+              id
+            }
+          }
+          timestamp
+          image
+          message
+        }
       }
     }
   }

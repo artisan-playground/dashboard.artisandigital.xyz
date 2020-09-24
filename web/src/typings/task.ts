@@ -5,7 +5,5 @@ export interface Task {
   time: Date
   taskDetail: string
   isDone: boolean
-  memberIds: any[]
-  files: any[]
-  comments: Comment[] | any
+  members: any[]
 }
