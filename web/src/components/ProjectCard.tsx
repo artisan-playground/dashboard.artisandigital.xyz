@@ -12,8 +12,7 @@ function ProjectCard({ data }: any) {
       if (i < 3) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
-            <Link to={{ pathname: `/profile`, state: { data: item[i] } }}>
-              {console.log(item)}
+            <Link to={{ pathname: `/profile`, state: { data: item[i].user } }}>
               <Tooltip placement="top" title={item[i].user.name}>
                 <Avatar
                   key={item[i].user.id}
@@ -55,10 +54,18 @@ function ProjectCard({ data }: any) {
     return (
       <div>
         {item.map((items: any) => (
-          <Link key={items.id} to={{ pathname: '/profile', state: { profileId: items.id } }}>
+          <Link
+            key={items.user.id}
+            to={{ pathname: '/profile', state: { profileId: items.user.id } }}
+          >
             <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-              <Avatar key={items.id} src={items.image} className="ml-2" alt={items.name} />
-              <div className="ml-4 text-lg">{items.name}</div>
+              <Avatar
+                key={items.user.id}
+                src={items.user.image}
+                className="ml-2"
+                alt={items.user.name}
+              />
+              <div className="ml-4 text-base">{items.user.name}</div>
             </div>
           </Link>
         ))}
@@ -67,20 +74,15 @@ function ProjectCard({ data }: any) {
   }
 
   return (
-    <Link
-      to={{
-        pathname: `/projects/${data.id}`,
-        state: {
-          data: data,
-        },
-      }}
-    >
+    <Link to={{ pathname: `/projects/${data.id}`, state: { data: data } }}>
       <>
-        <Card hoverable className="min-w-full rounded-lg shadow-md">
+        <Card hoverable className="min-w-full rounded-lg">
           <Row gutter={[8, 8]} className="w-full">
             <Col span={24}>
               <Row className="flex justify-between">
-                <Title level={3}>{data.projectName}</Title>
+                <Title level={4} className="font-bold">
+                  {data.projectName}
+                </Title>
                 <div>
                   {data.status === 'done' ? (
                     <Tag
@@ -105,7 +107,7 @@ function ProjectCard({ data }: any) {
               <Row>
                 <Col span={24} lg={{ span: 16 }}>
                   <div className="mt-4">
-                    <Text className="text-xl">{data.projectDetail.split('.', 1)}</Text>
+                    <Text className="text-lg">{data.projectDetail.split('.', 1)}</Text>
                   </div>
                 </Col>
                 <Col span={24} lg={{ span: 8 }}>

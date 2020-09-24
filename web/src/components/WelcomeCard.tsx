@@ -16,7 +16,7 @@ function WelcomeCard({ name, task, project }: any) {
   ) : (
     <Card
       hoverable
-      className="w-full rounded-lg h-36 pl-12 py-4 shadow-md"
+      className="w-full rounded-lg h-36 pl-12"
       style={{ backgroundColor: '#518AFF' }}
     >
       <CloseCircleOutlined
@@ -27,7 +27,7 @@ function WelcomeCard({ name, task, project }: any) {
       <Link to="/projects">
         <div className="ml-24 relative z-50">
           <div>
-            <Text className="text-white text-2xl font-bold z-30">
+            <Text className="text-white text-xl font-bold z-30">
               {!name ? `Hi!` : `Hi ${name} !`}
             </Text>
           </div>
@@ -43,7 +43,7 @@ function WelcomeCard({ name, task, project }: any) {
           </div>
         </div>
         <div className="absolute left-0 bottom-0 overflow-hidden z-20 ml-8 -mb-1">
-          <svg width={87} height={144} fill="none">
+          <svg width={87} height={140} fill="none">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
@@ -80,7 +80,7 @@ function WelcomeCard({ name, task, project }: any) {
           </svg>
         </div>
         <div className="absolute right-0 bottom-0 overflow-hidden z-20 -mb-1 mr-8 hidden lg:block">
-          <svg width={124} height={146} fill="none">
+          <svg width={124} height={140} fill="none">
             <path
               fillRule="evenodd"
               clipRule="evenodd"
