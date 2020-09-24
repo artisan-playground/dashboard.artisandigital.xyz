@@ -78,7 +78,7 @@ model TaskOnUser {
 
 model File {
   task   FileOnTask
-  id     Int          @id @default(autoincrement())
+  id     Int        @id @default(autoincrement())
   url    String?
   name   String?
   status String?
@@ -95,7 +95,7 @@ model FileOnTask {
 
 model Comment {
   id        Int             @id @default(autoincrement())
-  users      CommentOnUser[]
+  users     CommentOnUser[]
   task      CommentOnTask
   timestamp DateTime        @default(now())
   image     String?

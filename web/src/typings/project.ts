@@ -6,7 +6,6 @@ export interface Project {
   projectImage?: string
   status: string
   dueDate: Date
-  members?: []
 }
 
 export interface ProjectData {
