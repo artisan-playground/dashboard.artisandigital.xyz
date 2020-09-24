@@ -1,6 +1,6 @@
 import { FundProjectionScreenOutlined, ProfileOutlined, TeamOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
-import { Card, Col, Row, Typography, Empty } from 'antd'
+import { Card, Col, Row, Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { PROJECT } from '../services/api/project'
@@ -32,9 +32,8 @@ function Dashboard() {
   }
 
   return (
-    <LayoutDashboard>
+    <LayoutDashboard noCard>
       <div>
-        <div className="font-bold text-2xl mb-4">Dashboard</div>
         <div className="site-card-wrapper">
           <Row gutter={[8, 24]}>
             <Col md={{ span: 24 }}>
@@ -48,10 +47,10 @@ function Dashboard() {
           <Row gutter={[16, 24]}>
             <Col lg={{ span: 8 }} className="w-full">
               <Link to="/projects">
-                <Card hoverable className="min-w-full rounded-lg shadow-md">
+                <Card hoverable className="min-w-full rounded-lg">
                   <div className="flex flex-col justify-center items-center">
                     <FundProjectionScreenOutlined
-                      style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
+                      style={{ color: '#105EFC', fontSize: '40px', marginBottom: 8 }}
                     />
                     <Title level={2}>{projectData ? projectData.projects.length : 0}</Title>
                     <Text disabled className="text-lg -mt-4">
@@ -63,9 +62,9 @@ function Dashboard() {
             </Col>
             <Col lg={{ span: 8 }} className="w-full">
               <Link to="/member">
-                <Card hoverable className="min-w-full rounded-lg shadow-md">
+                <Card hoverable className="min-w-full rounded-lg">
                   <div className="flex flex-col justify-center items-center">
-                    <TeamOutlined style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }} />
+                    <TeamOutlined style={{ color: '#105EFC', fontSize: '40px', marginBottom: 8 }} />
                     <Title level={2}>{userData ? userData.users.length : 0}</Title>
                     <Text disabled className="text-lg -mt-4">
                       Paticipants
@@ -76,10 +75,10 @@ function Dashboard() {
             </Col>
             <Col lg={{ span: 8 }} className="w-full">
               <Link to="/projects">
-                <Card hoverable className="min-w-full rounded-lg shadow-md">
+                <Card hoverable className="min-w-full rounded-lg">
                   <div className="flex flex-col justify-center items-center">
                     <ProfileOutlined
-                      style={{ color: '#105EFC', fontSize: '3rem', marginBottom: 8 }}
+                      style={{ color: '#105EFC', fontSize: '40px', marginBottom: 8 }}
                     />
                     <Title level={2}>{taskData ? taskData.tasks.length : 0}</Title>
                     <Text disabled className="text-lg -mt-4">
