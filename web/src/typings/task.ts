@@ -6,4 +6,6 @@ export interface Task {
   taskDetail: string
   isDone: boolean
   members: any[]
+  comments: any[]
+  files: any[]
 }

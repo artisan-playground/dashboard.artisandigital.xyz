@@ -11,12 +11,14 @@ import { Layout, Menu, Typography } from 'antd'
 import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import '../styles/main.css'
+import { useStoreState } from '../store'
 
 function SideNav({ children }: any) {
   const { Text } = Typography
   const { Sider } = Layout
   const location = useLocation()
   const [collapse, setcollapse] = useState(false)
+  const user = useStoreState((s) => s.userState.user)
 
   function getSelectedKeys() {
     const params = new URLSearchParams(location.search)
@@ -58,7 +60,7 @@ function SideNav({ children }: any) {
               <NavLink to="/member">Members</NavLink>
             </Menu.Item>
             <Menu.Item key="/profile" icon={<UserOutlined />}>
-              <NavLink to="/profile">Profile</NavLink>
+              <NavLink to={{ pathname: `/profile/${user?.name}`, state: { data: user } }}>Profile</NavLink>
             </Menu.Item>
           </Menu>
         </Sider>

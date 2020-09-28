@@ -29,7 +29,7 @@ function App() {
             <AuthorizedRoute exact path="/projects" component={ProjectList} />
             <AuthorizedRoute path="/projects/:projectId" component={ProjectDetail} />
             <AuthorizedRoute path="/profile/:name" exact component={Profile} />
-            <AuthorizedRoute path="/profile/edit" component={ProfileEditor} />
+            <AuthorizedRoute path="/profile/edit" exact component={ProfileEditor} />
             <AuthorizedRoute path="/news" component={News} />
             <AuthorizedRoute path="/member" component={Member} />
             <Redirect to="/" />

@@ -11,7 +11,7 @@ import {
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 
 function Profile(props: any) {
-  const { Title } = Typography
+  const { Title, Text } = Typography
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
   const data = props.location.state.data
@@ -19,18 +19,18 @@ function Profile(props: any) {
   useEffect(() => {
     switch (types) {
       case 'undone':
-        let wip: any[] = data.projectIds.filter((item: any) => item.status === 'undone')
+        let wip: any[] = data.projects.filter((item: any) => item.project.status === 'undone')
         setFilteredData(wip)
         break
       case 'done':
-        let closed: any[] = data.projectIds.filter((item: any) => item.status === 'done')
+        let closed: any[] = data.projects.filter((item: any) => item.project.status === 'done')
         setFilteredData(closed)
         break
       case 'all':
-        setFilteredData(data.projectIds)
+        setFilteredData(data.projects)
         break
       default:
-        setFilteredData(data.projectIds)
+        setFilteredData(data.projects)
         break
     }
   }, [types, data])
@@ -109,8 +109,8 @@ function Profile(props: any) {
             customRightArrow={<CustomRightArrow />}
             customLeftArrow={<CustomLeftArrow />}
           >
-            {data.taskIds ? (
-              data.taskIds.map((items: any, index: any) => (
+            {data.tasks ? (
+              data.tasks.map((items: any, index: any) => (
                 <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
                   <ProfileTaskCard data={items} />
                 </Col>
@@ -143,18 +143,22 @@ function Profile(props: any) {
       </Row>
 
       <Row>
-        {filteredData.length !== 0 ? (
-          filteredData.map((items, index) => {
-            return (
+        {filteredData ? (
+          filteredData.length !== 0 ? (
+            filteredData.map((items, index) => (
               <Col xs={24} xl={{ span: 8 }} key={index} className="w-full px-2 py-2">
                 <ProfileProjectCard data={items} />
               </Col>
-            )
-          })
+            ))
+          ) : (
+            <Col xs={24} className="flex items-center justify-center text-center">
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            </Col>
+          )
         ) : (
-          <Col xs={24} className="flex items-center justify-center text-center">
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-          </Col>
+          <div className="flex w-full justify-center my-8">
+            <Text disabled>Error</Text>
+          </div>
         )}
       </Row>
     </LayoutProfile>

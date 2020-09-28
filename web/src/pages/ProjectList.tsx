@@ -7,7 +7,6 @@ import { LayoutDashboard, LoadingComponent, ProjectCard } from '../components/Da
 function ProjectList() {
   const { Search } = Input
   const { Text } = Typography
-
   const { loading, error, data } = useQuery(PROJECT)
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
