@@ -15,6 +15,8 @@ export const TASKS = gql`
       members {
         user {
           id
+          name
+          image
         }
       }
       files {
@@ -41,6 +43,8 @@ export const TASKS = gql`
           users {
             user {
               id
+              name
+              image
             }
           }
           timestamp
@@ -53,9 +57,12 @@ export const TASKS = gql`
 `
 
 export const TASKS_BY_ID = gql`
-  query Task($projectId: Int!) {
-    task(projectId: $projectId) {
+  query getTaskByProjectId($id: Int!) {
+    getTaskByProjectId(id: $id) {
       id
+      project {
+        id
+      }
       taskName
       startTime
       endTime
@@ -64,6 +71,8 @@ export const TASKS_BY_ID = gql`
       members {
         user {
           id
+          name
+          image
         }
       }
       files {
@@ -90,6 +99,8 @@ export const TASKS_BY_ID = gql`
           users {
             user {
               id
+              name
+              image
             }
           }
           timestamp
@@ -113,6 +124,8 @@ export const TASKS_BY_TASKID = gql`
       members {
         user {
           id
+          name
+          image
         }
       }
       files {
@@ -139,6 +152,8 @@ export const TASKS_BY_TASKID = gql`
           users {
             user {
               id
+              name
+              image
             }
           }
           timestamp
@@ -151,8 +166,8 @@ export const TASKS_BY_TASKID = gql`
 `
 
 export const TOGGLE_TASK_DONE = gql`
-  mutation Task($id: Int!) {
-    toggleIsDone(id: $id) {
+  mutation Task($data: TaskUpdateInput!, $id: Int!) {
+    updateOneTask(where: { id: $id }, data: { isDone: $data }) {
       id
       taskName
       startTime
@@ -162,6 +177,8 @@ export const TOGGLE_TASK_DONE = gql`
       members {
         user {
           id
+          name
+          image
         }
       }
       files {
@@ -188,6 +205,8 @@ export const TOGGLE_TASK_DONE = gql`
           users {
             user {
               id
+              name
+              image
             }
           }
           timestamp
@@ -200,15 +219,22 @@ export const TOGGLE_TASK_DONE = gql`
 `
 
 export const ADD_TASK = gql`
-  mutation CreateTaskInput($input: CreateTaskInput) {
-    createTask(input: $input) {
+  mutation CreateTask($data: TaskCreateInput!) {
+    createOneTask(data: $data) {
       id
-      projectId
+      project {
+        id
+      }
       taskName
       startTime
       endTime
       taskDetail
       isDone
+      members {
+        user {
+          id
+        }
+      }
     }
   }
 `

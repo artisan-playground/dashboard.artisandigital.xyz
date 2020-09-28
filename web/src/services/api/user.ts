@@ -29,6 +29,23 @@ export const GET_USER = gql`
           members {
             user {
               id
+              name
+              image
+            }
+          }
+        }
+      }
+      tasks {
+        task {
+          id
+          taskName
+          startTime
+          endTime
+          taskDetail
+          isDone
+          members {
+            user {
+              id
             }
           }
         }
@@ -63,6 +80,23 @@ export const GET_USERS = gql`
           projectImage
           status
           dueDate
+          members {
+            user {
+              id
+              name
+              image
+            }
+          }
+        }
+      }
+      tasks {
+        task {
+          id
+          taskName
+          startTime
+          endTime
+          taskDetail
+          isDone
           members {
             user {
               id

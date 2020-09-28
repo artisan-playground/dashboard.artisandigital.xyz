@@ -17,6 +17,19 @@ export const PROJECT = gql`
           image
         }
       }
+      tasks {
+        id
+        taskName
+        startTime
+        endTime
+        taskDetail
+        isDone
+        members {
+          user {
+            id
+          }
+        }
+      }
     }
   }
 `
