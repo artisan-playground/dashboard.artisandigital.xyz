@@ -23,10 +23,7 @@ function Dashboard() {
   function calProjects() {
     let num =
       !loading && projectData !== undefined
-        ? projectData.projects
-            .map((item: any) => item.members.filter((x: any) => x.id === '2'))
-            .flat()
-            .filter((y: any) => y).length
+        ? projectData.projects.filter((item: any) => item.status === 'undone').length
         : 0
     return num
   }
