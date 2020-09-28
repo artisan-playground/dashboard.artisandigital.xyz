@@ -3,13 +3,13 @@ import { Avatar, Badge, Dropdown, Layout, Menu, Row, Typography } from 'antd'
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { DATA, TASK_DATA } from '../DATA'
-import { useStoreActions } from '../store'
+import { useStoreActions, useStoreState } from '../store'
 import '../styles/main.css'
 
 function NavBar() {
   const { Header } = Layout
   const { Text, Link } = Typography
-
+  const user = useStoreState((s) => s.userState.user)
   const logout = useStoreActions((a) => a.userState.logOut)
 
   async function onLogoutClick() {
@@ -39,14 +39,14 @@ function NavBar() {
   const userDropDown = (
     <Menu>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="/profile">
+        <RouterLink to={{ pathname: `/profile/${user?.name}`, state: { data: user } }}>
           Profile
-        </a>
+        </RouterLink>
       </Menu.Item>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="/profile/edit">
+        <RouterLink to={{ pathname: `/profile/edit`, state: { data: user } }}>
           Edit Profile
-        </a>
+        </RouterLink>
       </Menu.Item>
       <Menu.Item>
         <Link onClick={onLogoutClick}>Log out</Link>
@@ -83,7 +83,7 @@ function NavBar() {
                     alt="user"
                     size="large"
                   />
-                  John Dee
+                  {user?.name}
                 </div>
                 <div className="hover:block hidden">
                   <DownOutlined style={{ fontSize: 20 }} />
