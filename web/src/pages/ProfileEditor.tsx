@@ -6,9 +6,11 @@ import React, { useState } from 'react'
 import { LayoutDashboard, ProfileForm, ProfileSkillTags } from '../components/DashboardComponent'
 import { USER_DATA } from '../DATA'
 
-function ProfileEditor() {
-  // const [imageUrl, setImageUrl] = useState('')
+function ProfileEditor(props: any) {
+  const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
+  const data = props.location.state.data
+console.log('data',data)
 
   function getBase64(img: any, callback: any) {
     const reader = new FileReader()
@@ -35,7 +37,7 @@ function ProfileEditor() {
     }
     if (info.file.status === 'done') {
       getBase64(info.file.originFileObj, (imageUrl: any) => {
-        // setImageUrl(imageUrl)
+        setImageUrl(imageUrl)
         setLoading(false)
       })
     }
@@ -59,8 +61,7 @@ function ProfileEditor() {
   return (
     <LayoutDashboard noCard>
       <Row>
-        {USER_DATA.filter((filtered) => filtered.id === '1').map((items, index) => (
-          <Col xs={24} xl={6} className="mr-12 mb-4" key={index}>
+          <Col xs={24} xl={6} className="mr-12 mb-4">
             <Card className="flex items-center justify-center text-center mb-4">
               <ImgCrop rotate>
                 <Upload
@@ -73,9 +74,9 @@ function ProfileEditor() {
                   onChange={handleChange}
                   onPreview={onPreview}
                 >
-                  {items ? (
+                  {data ? (
                     <div>
-                      <img src={items.image} alt="avatar" style={{ width: '100%' }} />
+                      <img src={data.image} alt="avatar" style={{ width: '100%' }} />
                       <div className="ant-upload-text px-3 flex items-center">
                         {loading ? <LoadingOutlined /> : <PlusOutlined />}Upload
                       </div>
@@ -89,15 +90,12 @@ function ProfileEditor() {
                 </Upload>
               </ImgCrop>
             </Card>
-            <ProfileSkillTags data={items} />
+            <ProfileSkillTags data={data} />
           </Col>
-        ))}
 
         <Col xs={24} xl={17}>
           <Card title="Edit Profile" headStyle={{ fontWeight: 'bold' }}>
-            {USER_DATA.filter((filtered) => filtered.id === '1').map((items, index) => (
-              <ProfileForm data={items} key={index} />
-            ))}
+              <ProfileForm data={data} />
           </Card>
         </Col>
       </Row>
