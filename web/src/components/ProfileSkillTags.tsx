@@ -1,10 +1,19 @@
 import ReactTagInput from '@pathofdev/react-tag-input'
 import { Card, Typography } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { UPDATE_USER_SKILLS } from '../services/api/user'
+import { useMutation } from '@apollo/client'
 
 function ProfileSkillTags({ data }: any) {
   const { Text } = Typography
-  const [skills, setSkills] = useState(data.skills)
+  const [skills, setSkills] = useState(data.skills ? data.skills : '')
+  const [updateSkills] = useMutation(UPDATE_USER_SKILLS)
+
+  useEffect(() => {
+    updateSkills({
+      variables: { id: data.id, skills: skills },
+    })
+  }, [skills])
 
   return (
     <Card>
