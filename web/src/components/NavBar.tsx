@@ -44,7 +44,7 @@ function NavBar() {
         </RouterLink>
       </Menu.Item>
       <Menu.Item>
-        <RouterLink to={{ pathname: `/profile/edit`, state: { data: user } }}>
+        <RouterLink to={{ pathname: `/profile-edit`, state: { data: user } }}>
           Edit Profile
         </RouterLink>
       </Menu.Item>
@@ -78,7 +78,7 @@ function NavBar() {
               <Row className="justify-center items-center">
                 <div className="block hover:hidden">
                   <Avatar
-                    src="https://source.unsplash.com/600x600/?people"
+                    src={user?.image}
                     className="border-2 mr-2 "
                     alt="user"
                     size="large"
