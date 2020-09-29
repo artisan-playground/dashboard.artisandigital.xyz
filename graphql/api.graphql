@@ -852,6 +852,7 @@ type Query {
   contacts(after: ContactWhereUniqueInput, before: ContactWhereUniqueInput, first: Int, last: Int): [Contact!]!
   file(where: FileWhereUniqueInput!): File
   files(after: FileWhereUniqueInput, before: FileWhereUniqueInput, first: Int, last: Int): [File!]!
+  getTaskByProjectId(id: Int!): [Task!]
   project(where: ProjectWhereUniqueInput!): Project
   projects(after: ProjectWhereUniqueInput, before: ProjectWhereUniqueInput, first: Int, last: Int): [Project!]!
   task(where: TaskWhereUniqueInput!): Task
