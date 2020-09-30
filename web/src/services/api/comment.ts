@@ -1,16 +1,23 @@
 import { gql } from '@apollo/client'
 
 export const COMMENT = gql`
-  mutation CreateCommentInput($input: CreateCommentInput) {
-    createComment(input: $input) {
+  mutation CreateComment($userId: Int!, $taskId: Int!, $timestamp: DateTime!, $message: String!) {
+    createOneComment(
+      data: {
+        users: { create: { user: { connect: { id: $userId } } } }
+        task: { create: { task: { connect: { id: $taskId } } } }
+        timestamp: $timestamp
+        message: $message
+      }
+    ) {
       id
-      users {
-        user {
+      task {
+        task {
           id
         }
       }
-      task {
-        task {
+      users {
+        user {
           id
         }
       }

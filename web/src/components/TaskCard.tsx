@@ -17,10 +17,10 @@ import TaskOverlay from './TaskOverlay'
 function TaskCard({ data, project, refetch }: any) {
   const { Text } = Typography
   const showItems: any[] = []
-
   const [modalVisible, setModalVisible] = useState(false)
   const [taskData, setTaskData]: any = useState({})
   const [toggleIsDone, { loading, error }] = useMutation(TOGGLE_TASK_DONE)
+  const [isDone, setIsDone] = useState(false)
 
   useEffect(() => {
     setTaskData(data)
@@ -36,14 +36,14 @@ function TaskCard({ data, project, refetch }: any) {
   }
 
   function onDoneClick(event: any) {
+
     event.stopPropagation()
     message.loading({
       content: 'Loading...',
       duration: 2,
       icon: <LoadingOutlined style={{ fontSize: 20, top: -2 }} spin />,
     })
-
-    toggleIsDone({ variables: { id: data.id } })
+    toggleIsDone({ variables: { id: data.id, isDone: isDone } })
       .then((res) => {
         if (res && !loading && !error) {
           message.success({
@@ -51,6 +51,7 @@ function TaskCard({ data, project, refetch }: any) {
             duration: 2,
             icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
           })
+          setIsDone(true)
         }
       })
       .then(() => {
@@ -70,13 +71,13 @@ function TaskCard({ data, project, refetch }: any) {
       if (i < 3) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
-            <Link to={{ pathname: '/profile', state: { profileId: item[i].id } }}>
-              <Tooltip placement="top" title={item[i].name}>
+            <Link to={{ pathname: `/profile/${item[i].user.name}`, state: { profileId: item[i] } }}>
+              <Tooltip placement="top" title={item[i].user.name}>
                 <Avatar
-                  key={item[i].id}
-                  src={item[i].image}
+                  key={item[i].user.id}
+                  src={item[i].user.image}
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
-                  alt={item[i].name}
+                  alt={item[i].user.name}
                 />
               </Tooltip>
             </Link>
@@ -94,7 +95,7 @@ function TaskCard({ data, project, refetch }: any) {
                   +{item.length - 3}
                 </div>
                 <Avatar
-                  src={item[3].image}
+                  src={item[3].user.image}
                   className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
                   style={{ filter: 'brightness(0.6)' }}
                 ></Avatar>
@@ -112,10 +113,18 @@ function TaskCard({ data, project, refetch }: any) {
     return (
       <div>
         {item.map((items: any) => (
-          <Link key={items.id} to={{ pathname: '/profile', state: { profileId: items.id } }}>
+          <Link
+            key={items.user.id}
+            to={{ pathname: `/profile/${item.user}`, state: { profileId: items.id } }}
+          >
             <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-              <Avatar key={items.id} src={items.image} className="ml-2" alt={items.name} />
-              <div className="ml-4 text-lg">{items.name}</div>
+              <Avatar
+                key={items.user.id}
+                src={items.user.image}
+                className="ml-2"
+                alt={items.user.name}
+              />
+              <div className="ml-4 text-lg">{items.user.name}</div>
             </div>
           </Link>
         ))}
@@ -186,7 +195,7 @@ function TaskCard({ data, project, refetch }: any) {
         <Col span={24}>
           <Row className="justify-between">
             <Col className=" min-h-full">
-              <Row className="justify-end items-end">{renderShowItems(data.memberIds)}</Row>
+              <Row className="justify-end items-end">{renderShowItems(data.members)}</Row>
             </Col>
 
             <div className="flex flex-row items-center justify-center">

@@ -22,12 +22,11 @@ import {
 function ProjectDetail(props: any) {
   const { Title, Text } = Typography
   const projectData = props.location.state.data
-  const { projectId } = useParams()
+  const { projectId }: any = useParams()
   const { loading, error, data, refetch } = useQuery(TASKS_BY_ID, {
-    variables: { projectId: projectId },
+    variables: { id: Number(projectId) },
     notifyOnNetworkStatusChange: true,
   })
-
   const [filteredTasks, setFilteredTasks] = useState([])
   const [filteredLog, setFilteredLog] = useState([])
   const [drawerVisible, setDrawerVisible] = useState(false)
@@ -35,7 +34,7 @@ function ProjectDetail(props: any) {
   useEffect(() => {
     if (!error && !loading) {
       let tempLog: any = data.getTaskByProjectId
-        .filter((filteredId: any) => filteredId.projectId === projectId)
+        .filter((filteredId: any) => filteredId.project.id === projectId.id)
         .filter((filteredStatus: any) => filteredStatus.isDone === true)
 
       setFilteredTasks(data.getTaskByProjectId)
@@ -54,7 +53,7 @@ function ProjectDetail(props: any) {
           <Col span={24}>
             <Row className="w-full">
               <Col span={24} lg={{ span: 4 }} className="flex justify-center items-start">
-                <Avatar size={112}>P</Avatar>
+                <Avatar size={112} src={projectData.projectImage} />
               </Col>
               <Col span={24} lg={{ span: 20 }} className="px-4">
                 <Row>
@@ -101,7 +100,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {projectData.memberIds.length}
+                      {projectData.members.length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Developer
@@ -117,7 +116,7 @@ function ProjectDetail(props: any) {
                     />
                     <Title level={3} className="text-center">
                       {filteredTasks &&
-                        filteredTasks.filter((item: any) => item.projectId === projectId).length}
+                        filteredTasks.filter((item: any) => item).length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Today's tasks
@@ -132,7 +131,8 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {filteredLog.length}
+                    {filteredTasks &&
+                        filteredTasks.filter((item: any) => item.isDone).length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Done tasks

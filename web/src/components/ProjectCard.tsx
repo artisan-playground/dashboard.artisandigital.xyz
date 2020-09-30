@@ -12,7 +12,7 @@ function ProjectCard({ data }: any) {
       if (i < 3) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
-            <Link to={{ pathname: `/profile`, state: { data: item[i].user } }}>
+            <Link to={{ pathname: `/profile/${item[i].user.name}`, state: { data: item[i].user } }}>
               <Tooltip placement="top" title={item[i].user.name}>
                 <Avatar
                   key={item[i].user.id}
