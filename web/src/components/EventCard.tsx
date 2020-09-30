@@ -3,7 +3,7 @@ import React from 'react'
 
 function EventCard({ data }: any) {
   const { Text } = Typography
-  console.log('data', data)
+
   return !data ? (
     <div>
       <Text disabled>No nearly event</Text>

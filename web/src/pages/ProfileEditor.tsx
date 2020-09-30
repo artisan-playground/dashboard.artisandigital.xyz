@@ -4,13 +4,11 @@ import { Card, Col, Row, Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import React, { useState } from 'react'
 import { LayoutDashboard, ProfileForm, ProfileSkillTags } from '../components/DashboardComponent'
-import { USER_DATA } from '../DATA'
 
 function ProfileEditor(props: any) {
   const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const data = props.location.state.data
-console.log('data',data)
 
   function getBase64(img: any, callback: any) {
     const reader = new FileReader()

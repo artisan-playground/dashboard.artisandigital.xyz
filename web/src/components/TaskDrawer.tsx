@@ -1,6 +1,18 @@
 import { CloseCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, Col, DatePicker, Drawer, Form, Input, Mentions, message, Row, Select } from 'antd'
+import {
+  Button,
+  Col,
+  DatePicker,
+  Divider,
+  Drawer,
+  Form,
+  Input,
+  Mentions,
+  message,
+  Row,
+  Select,
+} from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import Text from 'antd/lib/typography/Text'
 import React, { useEffect, useState } from 'react'
@@ -21,17 +33,18 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
 
   const [taskName, setTaskName] = useState('')
   const [taskDetail, setTaskDetail] = useState('')
-  const [memberIds, setMemberIds] = useState([])
+  const [members, setMembers] = useState([])
   const [startTime, setStartTime] = useState(new Date())
   const [endTime, setEndTime] = useState(new Date())
+  const [isDone, setIsDone] = useState(false)
 
   useEffect(() => {
     setVisible(visibillity)
     if (!loading && data) {
-      setUserList(data.getUsers)
+      setUserList(data.users)
     }
     if (project) {
-      setMemberList(project.memberIds)
+      setMemberList(project.members)
     }
   }, [visibillity, data, project, loading])
 
@@ -51,23 +64,26 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
   }
 
   function handleCreateTask() {
-    if (taskName !== '' && taskDetail !== '' && memberIds.length !== 0) {
-      const temp = {
-        projectId: project.id,
-        taskName,
-        taskDetail,
-        startTime: new Date(startTime),
-        endTime: new Date(endTime),
-        memberIds,
-      }
-      createTask({ variables: { input: temp } })
+    if (taskName !== '' && taskDetail !== '' && members.length !== 0) {
+      createTask({
+        variables: {
+          id: data.id,
+          projectId: project.id,
+          taskName: taskName,
+          taskDetail: taskDetail,
+          startTime: new Date(startTime),
+          endTime: new Date(endTime),
+          isDone: isDone,
+          members: members,
+        },
+      })
         .then((res) => {
-          console.log('res', res)
-          setTaskName('')
-          setTaskDetail('')
-          setMemberIds([])
-          setStartTime(new Date())
-          setEndTime(new Date())
+          setTaskName(taskName)
+          setTaskDetail(taskDetail)
+          setStartTime(new Date(startTime))
+          setEndTime(new Date(endTime))
+          setMembers(members)
+          setIsDone(false)
           onClose()
         })
         .catch((err) => {
@@ -87,16 +103,10 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
   }
 
   function handleMention(value: any) {
-    //find id by name
     let ids = memberList
-      .filter((item: any) => value.slice(0, -1).split('@').includes(item.name))
-      .map((val: any) => val.id)
-    let tempList: any = memberIds
-    if (value !== '') {
-      tempList.push(ids[0])
-    }
-    //set and remove `undefined && ""`
-    setMemberIds(tempList.filter((x: any) => x))
+      .filter((item: any) => value.slice(0, -1).split('@').includes(item.user.name))
+      .map((val: any) => val.user.id)
+    setMembers(ids[0])
   }
 
   return (
@@ -122,9 +132,9 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
           </div>
         }
       >
-        <Form layout="vertical" hideRequiredMark>
+        <Form layout="vertical">
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={24}>
               <Form.Item
                 name="taskName"
                 label="Task name"
@@ -134,20 +144,6 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
                   placeholder="Please enter task name"
                   value={taskName}
                   onChange={(e) => setTaskName(e.target.value)}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name="url"
-                label="Url"
-                rules={[{ required: true, message: 'Please enter url' }]}
-              >
-                <Input
-                  style={{ width: '100%' }}
-                  addonBefore="http://"
-                  addonAfter=".com"
-                  placeholder="Please enter url"
                 />
               </Form.Item>
             </Col>
@@ -167,13 +163,18 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
                 >
                   {(memberList || []).map((value: any) => (
                     <MentionOption
-                      key={value.id}
-                      value={value.name}
+                      key={value.user.id}
+                      value={value.user.name}
                       className="hover:bg-primary hover:text-white py-2 px-4"
                     >
-                      <Avatar shape="circle" size="default" src={value.image} className="mr-2" />
-                      {value.name}
-                      <Text className="text-gray-400 text-md ml-2">{value.email}</Text>
+                      <Avatar
+                        shape="circle"
+                        size="default"
+                        src={value.user.image}
+                        className="mr-2"
+                      />
+                      {value.user.name}
+                      <Text className="text-gray-400 text-md ml-2">{value.user.email}</Text>
                     </MentionOption>
                   ))}
                 </Mentions>
