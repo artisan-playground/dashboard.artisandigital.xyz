@@ -166,9 +166,12 @@ export const TASKS_BY_TASKID = gql`
 `
 
 export const TOGGLE_TASK_DONE = gql`
-  mutation Task($data: TaskUpdateInput!, $id: Int!) {
-    updateOneTask(where: { id: $id }, data: { isDone: $data }) {
+  mutation UpdateTask($id: Int!, $isDone: Boolean!) {
+    updateOneTask(where: { id: $id }, data: { isDone: { set: $isDone } }) {
       id
+      project {
+        id
+      }
       taskName
       startTime
       endTime
@@ -177,8 +180,6 @@ export const TOGGLE_TASK_DONE = gql`
       members {
         user {
           id
-          name
-          image
         }
       }
       files {
@@ -205,8 +206,6 @@ export const TOGGLE_TASK_DONE = gql`
           users {
             user {
               id
-              name
-              image
             }
           }
           timestamp
@@ -219,8 +218,26 @@ export const TOGGLE_TASK_DONE = gql`
 `
 
 export const ADD_TASK = gql`
-  mutation CreateTask($data: TaskCreateInput!) {
-    createOneTask(data: $data) {
+  mutation CreateTask(
+    $projectId: Int!
+    $taskName: String!
+    $taskDetail: String!
+    $startTime: DateTime!
+    $endTime: DateTime!
+    $isDone: Boolean!
+    $members: Int!
+  ) {
+    createOneTask(
+      data: {
+        project: { connect: { id: $projectId } }
+        taskName: $taskName
+        taskDetail: $taskDetail
+        startTime: $startTime
+        endTime: $endTime
+        isDone: $isDone
+        members: { create: { user: { connect: { id: $members } } } }
+      }
+    ) {
       id
       project {
         id
@@ -233,6 +250,37 @@ export const ADD_TASK = gql`
       members {
         user {
           id
+        }
+      }
+      files {
+        file {
+          id
+          url
+          name
+          status
+          task {
+            task {
+              id
+            }
+          }
+        }
+      }
+      comments {
+        comment {
+          id
+          task {
+            task {
+              id
+            }
+          }
+          users {
+            user {
+              id
+            }
+          }
+          timestamp
+          image
+          message
         }
       }
     }
