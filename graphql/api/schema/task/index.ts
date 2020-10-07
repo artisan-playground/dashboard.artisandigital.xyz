@@ -33,12 +33,3 @@ schema.objectType({
     t.model.file()
   },
 })
-
-schema.objectType({
-  name: 'CommentOnTask',
-  definition(t) {
-    t.model.cretedAt()
-    t.model.task()
-    t.model.comment()
-  },
-})
