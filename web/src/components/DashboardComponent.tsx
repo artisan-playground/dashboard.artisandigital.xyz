@@ -2,7 +2,7 @@ import EventCard from '../components/EventCard'
 import LayoutDashboard from '../components/LayoutDashboard'
 import LayoutProfile from '../components/LayoutProfile'
 import LoadingComponent from '../components/LoadingComponent'
-import LogCard from '../components/LogCard'
+import LogList from '../components/LogList'
 import NavBar from '../components/NavBar'
 import ProfileForm from '../components/ProfileForm'
 import ProfileSkillTags from '../components/ProfileSkillTags'
@@ -28,7 +28,7 @@ export {
   SideProfile,
   ProfileProjectCard,
   ProfileTaskCard,
-  LogCard,
+  LogList,
   TaskCard,
   LoadingComponent,
   TaskDrawer,
