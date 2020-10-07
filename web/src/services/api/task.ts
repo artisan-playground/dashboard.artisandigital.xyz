@@ -15,8 +15,6 @@ export const TASKS = gql`
       members {
         user {
           id
-          name
-          image
         }
       }
       files {
@@ -33,24 +31,18 @@ export const TASKS = gql`
         }
       }
       comments {
-        comment {
+        id
+        task {
           id
-          task {
-            task {
-              id
-            }
-          }
-          users {
-            user {
-              id
-              name
-              image
-            }
-          }
-          timestamp
-          image
-          message
         }
+        user {
+          id
+          name
+          image
+        }
+        timestamp
+        image
+        message
       }
     }
   }
@@ -89,24 +81,18 @@ export const TASKS_BY_ID = gql`
         }
       }
       comments {
-        comment {
+        id
+        task {
           id
-          task {
-            task {
-              id
-            }
-          }
-          users {
-            user {
-              id
-              name
-              image
-            }
-          }
-          timestamp
-          image
-          message
         }
+        user {
+          id
+          name
+          image
+        }
+        timestamp
+        image
+        message
       }
     }
   }
@@ -116,6 +102,9 @@ export const TASKS_BY_TASKID = gql`
   query Task($id: Int!) {
     task(id: $id) {
       id
+      project {
+        id
+      }
       taskName
       startTime
       endTime
@@ -142,24 +131,18 @@ export const TASKS_BY_TASKID = gql`
         }
       }
       comments {
-        comment {
+        id
+        task {
           id
-          task {
-            task {
-              id
-            }
-          }
-          users {
-            user {
-              id
-              name
-              image
-            }
-          }
-          timestamp
-          image
-          message
         }
+        user {
+          id
+          name
+          image
+        }
+        timestamp
+        image
+        message
       }
     }
   }
@@ -180,6 +163,8 @@ export const TOGGLE_TASK_DONE = gql`
       members {
         user {
           id
+          name
+          image
         }
       }
       files {
@@ -196,22 +181,18 @@ export const TOGGLE_TASK_DONE = gql`
         }
       }
       comments {
-        comment {
+        id
+        task {
           id
-          task {
-            task {
-              id
-            }
-          }
-          users {
-            user {
-              id
-            }
-          }
-          timestamp
-          image
-          message
         }
+        user {
+          id
+          name
+          image
+        }
+        timestamp
+        image
+        message
       }
     }
   }
@@ -250,6 +231,8 @@ export const ADD_TASK = gql`
       members {
         user {
           id
+          name
+          image
         }
       }
       files {
@@ -266,22 +249,13 @@ export const ADD_TASK = gql`
         }
       }
       comments {
-        comment {
+        id
+        task {
           id
-          task {
-            task {
-              id
-            }
-          }
-          users {
-            user {
-              id
-            }
-          }
-          timestamp
-          image
-          message
         }
+        timestamp
+        image
+        message
       }
     }
   }

@@ -1,25 +1,23 @@
 import { gql } from '@apollo/client'
 
 export const COMMENT = gql`
-  mutation CreateComment($userId: Int!, $taskId: Int!, $timestamp: DateTime!, $message: String!) {
+  mutation CreateComment($timestamp: DateTime!, $message: String!, $taskId: Int!, $userId: Int!) {
     createOneComment(
       data: {
-        users: { create: { user: { connect: { id: $userId } } } }
-        task: { create: { task: { connect: { id: $taskId } } } }
         timestamp: $timestamp
         message: $message
+        task: { connect: { id: $taskId } }
+        user: { connect: { id: $userId } }
       }
     ) {
       id
       task {
-        task {
-          id
-        }
+        id
       }
-      users {
-        user {
-          id
-        }
+      user {
+        id
+        name
+        image
       }
       timestamp
       image
@@ -29,18 +27,19 @@ export const COMMENT = gql`
 `
 
 export const DELETE_COMMENT = gql`
-  mutation Comment($commentId: String!, $taskId: String!) {
-    deleteComment(commentId: $commentId, taskId: $taskId) {
+  mutation DeleteComment($id: Int!) {
+    deleteOneComment(where: { id: $id }) {
       id
-      users {
-        user {
-          id
-        }
-      }
+    }
+  }
+`
+
+export const UPDATE_COMMENT = gql`
+  mutation UpdateComment($id: Int!, $message: String!) {
+    updateOneComment(where: { id: $id } data: { message: { set: $message } }) {
+      id
       task {
-        task {
-          id
-        }
+        id
       }
       timestamp
       image
