@@ -13,7 +13,7 @@ function ProfileSkillTags({ data }: any) {
     updateSkills({
       variables: { id: data.id, skills: skills },
     })
-  }, [skills])
+  }, [updateSkills, skills, data])
 
   return (
     <Card>

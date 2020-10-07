@@ -14,7 +14,7 @@ import { TASKS_BY_ID } from '../services/api/task'
 import {
   LayoutDashboard,
   LoadingComponent,
-  LogCard,
+  LogList,
   TaskCard,
   TaskDrawer,
 } from '../components/DashboardComponent'
@@ -33,12 +33,12 @@ function ProjectDetail(props: any) {
 
   useEffect(() => {
     if (!error && !loading) {
-      let tempLog: any = data.getTaskByProjectId
+      data.getTaskByProjectId
         .filter((filteredId: any) => filteredId.project.id === projectId.id)
         .filter((filteredStatus: any) => filteredStatus.isDone === true)
 
       setFilteredTasks(data.getTaskByProjectId)
-      setFilteredLog(tempLog)
+      setFilteredLog(data.getTaskByProjectId)
     }
   }, [projectId, loading]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -116,7 +116,7 @@ function ProjectDetail(props: any) {
                     />
                     <Title level={3} className="text-center">
                       {filteredTasks &&
-                        filteredTasks.filter((item: any) => item).length}
+                        filteredTasks.filter((item: any) => item.isDone===false).length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Today's tasks
@@ -196,7 +196,7 @@ function ProjectDetail(props: any) {
                   <Text disabled>No recent activity</Text>
                 </div>
               ) : (
-                <LogCard data={filteredLog} />
+                <LogList data={filteredLog} />
               )}
             </div>
           </Col>

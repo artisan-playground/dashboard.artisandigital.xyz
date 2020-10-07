@@ -2,7 +2,6 @@ import { Card, Col, Row, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React from 'react'
 import { EventCard, LayoutDashboard } from '../components/DashboardComponent'
-import { EVENT_DATA as data } from '../DATA'
 
 function News() {
   const { Text } = Typography
@@ -12,7 +11,7 @@ function News() {
     <LayoutDashboard noCard>
       <div className="font-bold text-2xl mb-4">Event</div>
       <Row className="w-full  overflow-y-auto mb-4 p-4">
-        <EventCard data={data} />
+        {/* <EventCard data={data} /> */}
       </Row>
 
       <div className="font-bold text-2xl mb-4">Paragraph #2</div>
