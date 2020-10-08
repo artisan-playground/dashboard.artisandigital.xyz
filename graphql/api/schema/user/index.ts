@@ -8,6 +8,8 @@ schema.objectType({
       t.model.name()
       t.model.image()
       t.model.position()
+      t.model.department()
+      t.model.type()
       t.model.skills()
       t.model.contacts()
       t.model.projects()
