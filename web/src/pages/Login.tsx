@@ -26,55 +26,60 @@ function Login() {
     <Redirect to="/" />
   ) : (
     <div
-      className="flex items-center justify-center h-screen bg-auto bg-center bg-no-repeat"
+      className="h-screen bg-auto bg-center bg-no-repeat"
       style={{ backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur` }}
     >
-      <Col xs={18} xl={6}>
-        <Card hoverable>
-          <div className="flex justify-center mb-6">
-            <img alt="logo" src={require('../assets/images/artisan-logo.png')} className="w-48" />
-          </div>
-          <Form
-            name="normal_login"
-            className="login-form"
-            initialValues={{ remember: true }}
-            onFinish={onLogin}
-          >
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
-                },
-                {
-                  required: true,
-                  message: 'Please input your E-mail!',
-                },
-              ]}
+      <div
+        className="flex items-center justify-center h-screen h-full w-full"
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+      >
+        <Col xs={18} xl={6}>
+          <Card hoverable>
+            <div className="flex justify-center mb-6">
+              <img alt="logo" src={require('../assets/images/artisan-logo.png')} className="w-48" />
+            </div>
+            <Form
+              name="normal_login"
+              className="login-form"
+              initialValues={{ remember: true }}
+              onFinish={onLogin}
             >
-              <Input
-                prefix={<MailOutlined className="site-form-item-icon" />}
-                className="w-full"
-                placeholder="Email..."
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Item>
-            <Form.Item className="text-center">
-              <Button type="primary" htmlType="submit" className="login-form-button w-full">
-                <Text strong className="text-white">
-                  Continue
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!',
+                  },
+                  {
+                    required: true,
+                    message: 'Please input your E-mail!',
+                  },
+                ]}
+              >
+                <Input
+                  prefix={<MailOutlined className="site-form-item-icon" />}
+                  className="w-full"
+                  placeholder="Email..."
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Item>
+              <Form.Item className="text-center">
+                <Button type="primary" htmlType="submit" className="login-form-button w-full">
+                  <Text strong className="text-white">
+                    Continue
+                  </Text>
+                </Button>
+                <Divider />
+                <Text strong>
+                  Don't have an account? <Link href="/register">Register</Link>
                 </Text>
-              </Button>
-              <Divider />
-              <Text strong>
-                Don't have an account? <Link href="/register">Register</Link>
-              </Text>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Col>
+              </Form.Item>
+            </Form>
+          </Card>
+        </Col>
+      </div>
     </div>
   )
 }
