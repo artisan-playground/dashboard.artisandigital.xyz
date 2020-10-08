@@ -110,11 +110,13 @@ function Profile(props: any) {
             customLeftArrow={<CustomLeftArrow />}
           >
             {data.tasks ? (
-              data.tasks.map((items: any, index: any) => (
-                <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
-                  <ProfileTaskCard data={items} />
-                </Col>
-              ))
+              data.tasks
+                .filter((tasks: any) => tasks.task.isDone === false)
+                .map((items: any, index: any) => (
+                  <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
+                    <ProfileTaskCard data={items} />
+                  </Col>
+                ))
             ) : (
               <Col lg={{ span: 24 }}>
                 <Empty
@@ -134,11 +136,15 @@ function Profile(props: any) {
           </Row>
         </Col>
         <Col>
-          <Radio.Group defaultValue="all" size="large" onChange={handleTypeChange}>
-            <Radio.Button value="all">All</Radio.Button>
-            <Radio.Button value="undone">WIP</Radio.Button>
-            <Radio.Button value="done">Closed</Radio.Button>
-          </Radio.Group>
+          {data.projects.length !== 0 ? (
+            <Radio.Group defaultValue="all" size="large" onChange={handleTypeChange}>
+              <Radio.Button value="all">All</Radio.Button>
+              <Radio.Button value="undone">WIP</Radio.Button>
+              <Radio.Button value="done">Closed</Radio.Button>
+            </Radio.Group>
+          ) : (
+            ''
+          )}
         </Col>
       </Row>
 

@@ -2,15 +2,18 @@ import { CloseCircleOutlined } from '@ant-design/icons'
 import { Card, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import {  useStoreState } from '../store'
 
-function WelcomeCard({ name, task, project }: any) {
+function WelcomeCard({ task, project }: any) {
   const { Text } = Typography
   const [disable, setDisable] = useState(false)
+  const user = useStoreState((s) => s.userState.user)
 
   function onCloseClick(event: any) {
     event.stopPropagation()
     setDisable(true)
   }
+
   return disable ? (
     <div />
   ) : (
@@ -28,7 +31,7 @@ function WelcomeCard({ name, task, project }: any) {
         <div className="ml-24 relative z-50">
           <div>
             <Text className="text-white text-xl font-bold z-30">
-              {!name ? `Hi!` : `Hi ${name} !`}
+              {!user?.name ? `Hi!` : `Hi ${user?.name} !`}
             </Text>
           </div>
           <div>

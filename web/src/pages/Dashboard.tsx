@@ -13,17 +13,22 @@ import {
   WelcomeCard,
 } from '../components/DashboardComponent'
 import '../styles/main.css'
+import { useStoreState } from '../store'
 
 function Dashboard() {
   const { Title, Text } = Typography
   const { loading, data: projectData } = useQuery(PROJECT)
   const { data: taskData } = useQuery(TASKS)
   const { data: userData } = useQuery(GET_USERS)
+  const user = useStoreState((s) => s.userState.user)
 
   function calProjects() {
     let num =
       !loading && projectData !== undefined
-        ? projectData.projects.filter((item: any) => item.status === 'undone').length
+        ? projectData.projects.filter(
+            (project: any) =>
+              project.members.filter((member: any) => member.user.id === user?.id).length
+          ).length
         : 0
     return num
   }
@@ -35,9 +40,16 @@ function Dashboard() {
           <Row gutter={[8, 24]}>
             <Col md={{ span: 24 }}>
               <WelcomeCard
-                name="John Doe"
                 project={calProjects()}
-                task={taskData ? taskData.tasks.length : 0}
+                task={
+                  taskData
+                    ? taskData.tasks.filter(
+                        (task: any) =>
+                          task.isDone === false &&
+                          task.members.filter((member: any) => member.user.id === user?.id).length
+                      ).length
+                    : 0
+                }
               />
             </Col>
           </Row>
@@ -49,7 +61,15 @@ function Dashboard() {
                     <FundProjectionScreenOutlined
                       style={{ color: '#105EFC', fontSize: '40px', marginBottom: 8 }}
                     />
-                    <Title level={2}>{projectData ? projectData.projects.length : 0}</Title>
+                    <Title level={2}>
+                      {projectData
+                        ? projectData.projects.filter(
+                            (project: any) =>
+                              project.members.filter((member: any) => member.user.id === user?.id)
+                                .length
+                          ).length
+                        : 0}
+                    </Title>
                     <Text disabled className="text-lg -mt-4">
                       Projects
                     </Text>
@@ -77,7 +97,16 @@ function Dashboard() {
                     <ProfileOutlined
                       style={{ color: '#105EFC', fontSize: '40px', marginBottom: 8 }}
                     />
-                    <Title level={2}>{taskData ? taskData.tasks.length : 0}</Title>
+                    <Title level={2}>
+                      {taskData
+                        ? taskData.tasks.filter(
+                            (task: any) =>
+                              task.isDone === false &&
+                              task.members.filter((member: any) => member.user.id === user?.id)
+                                .length
+                          ).length
+                        : 0}
+                    </Title>
                     <Text disabled className="text-lg -mt-4">
                       Today's tasks
                     </Text>
@@ -92,10 +121,13 @@ function Dashboard() {
             ) : (
               projectData.projects &&
               projectData.projects
-                .filter((filtered: any) => filtered.status === 'undone')
+                .filter(
+                  (filtered: any) =>
+                    filtered.members.filter((member: any) => member.user.id === user?.id).length
+                )
                 .map((items: any, index: any) => {
                   return (
-                    <Col lg={{ span: 24 }} key={index}>
+                    <Col md={{ span: 24 }} key={index}>
                       <ProjectCard data={items} />
                     </Col>
                   )

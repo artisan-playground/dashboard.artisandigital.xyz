@@ -1,5 +1,5 @@
 import { BellOutlined, DownOutlined } from '@ant-design/icons'
-import { Avatar, Badge, Button, Dropdown, Layout, Menu, Row, Typography } from 'antd'
+import { Avatar, Badge, Col, Dropdown, Layout, Menu, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useStoreActions, useStoreState } from '../store'
@@ -28,8 +28,8 @@ function NavBar() {
     <Menu className="p-2">
       {filteredData
         .filter((task: any) => task.members.filter((member: any) => member.id === user?.id))
-        .map((mapItem: any) => (
-          <Menu.Item key={mapItem.projectId}>
+        .map((mapItem: any, index: any) => (
+          <Menu.Item key={index}>
             <RouterLink
               to={{
                 pathname: `/projects/${mapItem.projectId}`,
@@ -84,29 +84,29 @@ function NavBar() {
           </RouterLink>
         </div>
 
-        <Menu theme="light" mode="horizontal" selectable={false} className="w-auto h-16">
-          <Menu.Item key="1" className="font-bold">
+        <Row>
+          <Col>
             <Dropdown overlay={userDropDown} placement="bottomCenter" arrow>
-              <Row className="justify-center items-center">
+              <Row className="justify-center items-center cursor-pointer">
                 <div className="block hover:hidden">
                   <Avatar src={user?.image} className="border-2 mr-2 " alt="user" size="large" />
-                  {user?.name}
+                  <Text className='font-bold'>{user?.name}</Text>
                 </div>
                 <div className="hover:block hidden">
                   <DownOutlined style={{ fontSize: 20 }} />
                 </div>
               </Row>
             </Dropdown>
-          </Menu.Item>
+          </Col>
 
-          <Menu.Item key="2">
+          <Col className='ml-4 mr-4'>
             <Dropdown
               className="px-2 py-0 w-full"
               overlay={notifications}
               placement="bottomLeft"
               arrow
             >
-              <div>
+              <div className='cursor-pointer'>
                 <BellOutlined style={{ fontSize: 24 }} />
                 <Badge
                   count={
@@ -118,8 +118,8 @@ function NavBar() {
                 ></Badge>
               </div>
             </Dropdown>
-          </Menu.Item>
-        </Menu>
+          </Col>
+        </Row>
       </div>
     </Header>
   )
