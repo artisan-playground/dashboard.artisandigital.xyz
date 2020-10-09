@@ -63,10 +63,8 @@ function Dashboard() {
                     />
                     <Title level={2}>
                       {projectData
-                        ? projectData.projects.filter(
-                            (project: any) =>
-                              project.members.filter((member: any) => member.user.id === user?.id)
-                                .length
+                        ? projectData.projects.filter((project: any) =>
+                            project.members.filter((member: any) => member.user.id === user?.id)
                           ).length
                         : 0}
                     </Title>

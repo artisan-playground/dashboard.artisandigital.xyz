@@ -38,6 +38,20 @@ export const GET_USER = gql`
       tasks {
         task {
           id
+          project {
+            id
+            projectName
+            projectType
+            projectDetail
+            projectImage
+            status
+            dueDate
+            members {
+              user {
+                id
+              }
+            }
+          }
           taskName
           startTime
           endTime
@@ -46,6 +60,8 @@ export const GET_USER = gql`
           members {
             user {
               id
+              name
+              image
             }
           }
         }
@@ -92,6 +108,20 @@ export const GET_USERS = gql`
       tasks {
         task {
           id
+          project {
+            id
+            projectName
+            projectType
+            projectDetail
+            projectImage
+            status
+            dueDate
+            members {
+              user {
+                id
+              }
+            }
+          }
           taskName
           startTime
           endTime
@@ -100,6 +130,8 @@ export const GET_USERS = gql`
           members {
             user {
               id
+              name
+              image
             }
           }
         }
