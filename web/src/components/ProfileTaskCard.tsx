@@ -5,12 +5,13 @@ import { Link } from 'react-router-dom'
 
 function ProfileTaskCard({ data }: any) {
   const { Text } = Typography
+
   return (
     <Link
       to={{
-        pathname: `/projects/${data.projectId}`,
+        pathname: `/projects/${data.task.project.id}`,
         state: {
-          data: data,
+          data: data.task.project,
         },
       }}
     >

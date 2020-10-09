@@ -61,7 +61,12 @@ function ProfileProjectCard({ data }: any) {
               to={{ pathname: `/profile/${items.user.name}`, state: { data: items.user } }}
             >
               <div className="flex mx-1 my-1 p-1 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                <Avatar key={items.user.id} src={items.user.image} className="ml-2" alt={items.user.name} />
+                <Avatar
+                  key={items.user.id}
+                  src={items.user.image}
+                  className="ml-2"
+                  alt={items.user.name}
+                />
                 <div className="ml-4">{items.user.name}</div>
               </div>
             </Link>
@@ -76,7 +81,7 @@ function ProfileProjectCard({ data }: any) {
       to={{
         pathname: `/projects/${data.project.id}`,
         state: {
-          data: data,
+          data: data.project,
         },
       }}
     >

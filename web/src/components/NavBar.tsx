@@ -27,7 +27,9 @@ function NavBar() {
   const notifications = (
     <Menu className="p-2">
       {filteredData
-        .filter((task: any) => task.members.filter((member: any) => member.id === user?.id))
+        .filter(
+          (task: any) => task.members.filter((member: any) => member.user.id === user?.id).length
+        )
         .map((mapItem: any, index: any) => (
           <Menu.Item key={index}>
             <RouterLink
@@ -90,7 +92,7 @@ function NavBar() {
               <Row className="justify-center items-center cursor-pointer">
                 <div className="block hover:hidden">
                   <Avatar src={user?.image} className="border-2 mr-2 " alt="user" size="large" />
-                  <Text className='font-bold'>{user?.name}</Text>
+                  <Text className="font-bold">{user?.name}</Text>
                 </div>
                 <div className="hover:block hidden">
                   <DownOutlined style={{ fontSize: 20 }} />
@@ -99,19 +101,20 @@ function NavBar() {
             </Dropdown>
           </Col>
 
-          <Col className='ml-4 mr-4'>
+          <Col className="ml-4 mr-8">
             <Dropdown
               className="px-2 py-0 w-full"
               overlay={notifications}
               placement="bottomLeft"
               arrow
             >
-              <div className='cursor-pointer'>
+              <div className="cursor-pointer">
                 <BellOutlined style={{ fontSize: 24 }} />
                 <Badge
                   count={
-                    filteredData.filter((task: any) =>
-                      task.members.filter((member: any) => member.id === user?.id)
+                    filteredData.filter(
+                      (task: any) =>
+                        task.members.filter((member: any) => member.user.id === user?.id).length
                     ).length
                   }
                   className="-ml-4 -mt-4"

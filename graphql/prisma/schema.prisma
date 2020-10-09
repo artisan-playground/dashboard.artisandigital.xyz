@@ -111,24 +111,6 @@ model Comment {
   reply     Comment? @relation("ReplyComment", fields: [replyId], references: [id])
 }
 
-// model CommentOnUser {
-//   user      User     @relation(fields: [userId], references: [id])
-//   userId    Int
-//   comment   Comment  @relation(fields: [commentId], references: [id])
-//   commentId Int
-//   cretedAt  DateTime @default(now())
-//   @@id([userId, commentId])
-// }
-
-// model CommentOnTask {
-//   task      Task     @relation(fields: [taskId], references: [id])
-//   taskId    Int
-//   comment   Comment  @relation(fields: [commentId], references: [id])
-//   commentId Int
-//   cretedAt  DateTime @default(now())
-//   @@id([taskId, commentId])
-// }
-
 enum Role {
   ADMIN
   USER

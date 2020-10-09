@@ -185,7 +185,6 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   }
 
   function handleSave(item: any) {
-    console.log(item)
     if (message !== '') {
       if (taskData) {
         updateComment({

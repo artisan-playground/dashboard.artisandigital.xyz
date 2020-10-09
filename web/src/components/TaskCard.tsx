@@ -34,7 +34,7 @@ function TaskCard({ data, project, refetch }: any) {
   function openModal() {
     setModalVisible(true)
   }
-  console.log(taskData)
+
   function onDoneClick(event: any) {
     message.loading({
       content: 'Loading...',
