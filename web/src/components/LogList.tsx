@@ -36,8 +36,8 @@ function LogList({ data }: any) {
               <Text className="text-lg"> {`Create Task ,`}</Text>
               <Text className="mx-2 text-lg">by</Text>
               {item.members.map((member: any) => (
-                <Text key={member.user.id} className="font-bold text-lg mr-2">
-                  {member.user.name}
+                <Text key={member.id} className="font-bold text-lg mr-2">
+                  {member.name}
                 </Text>
               ))}
             </Row>

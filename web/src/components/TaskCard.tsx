@@ -25,7 +25,7 @@ function TaskCard({ data, project, refetch }: any) {
   useEffect(() => {
     setTaskData(data)
   }, [data])
-
+  
   function toggleModal() {
     refetch()
     setModalVisible(false)
@@ -68,13 +68,13 @@ function TaskCard({ data, project, refetch }: any) {
       if (i < 3) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
-            <Link to={{ pathname: `/profile/${item[i].user.name}`, state: { profileId: item[i] } }}>
-              <Tooltip placement="top" title={item[i].user.name}>
+            <Link to={{ pathname: `/profile/${item[i].id}` }}>
+              <Tooltip placement="top" title={item[i].name}>
                 <Avatar
-                  key={item[i].user.id}
-                  src={item[i].user.image}
+                  key={item[i].id}
+                  src={item[i].image}
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
-                  alt={item[i].user.name}
+                  alt={item[i].name}
                 />
               </Tooltip>
             </Link>
@@ -92,7 +92,7 @@ function TaskCard({ data, project, refetch }: any) {
                   +{item.length - 3}
                 </div>
                 <Avatar
-                  src={item[3].user.image}
+                  src={item[3].image}
                   className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
                   style={{ filter: 'brightness(0.6)' }}
                 ></Avatar>
@@ -111,17 +111,17 @@ function TaskCard({ data, project, refetch }: any) {
       <div>
         {item.map((items: any) => (
           <Link
-            key={items.user.id}
-            to={{ pathname: `/profile/${item.user}`, state: { profileId: items.id } }}
+            key={items.id}
+            to={{ pathname: `/profile/${item.id}` }}
           >
             <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
               <Avatar
-                key={items.user.id}
-                src={items.user.image}
+                key={items.id}
+                src={items.image}
                 className="ml-2"
-                alt={items.user.name}
+                alt={items.name}
               />
-              <div className="ml-4 text-lg">{items.user.name}</div>
+              <div className="ml-4 text-lg">{items.name}</div>
             </div>
           </Link>
         ))}

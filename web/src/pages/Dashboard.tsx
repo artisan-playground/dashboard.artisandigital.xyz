@@ -27,7 +27,7 @@ function Dashboard() {
       !loading && projectData !== undefined
         ? projectData.projects.filter(
             (project: any) =>
-              project.members.filter((member: any) => member.user.id === user?.id).length
+              project.members.filter((member: any) => member.id === user?.id).length
           ).length
         : 0
     return num
@@ -46,7 +46,7 @@ function Dashboard() {
                     ? taskData.tasks.filter(
                         (task: any) =>
                           task.isDone === false &&
-                          task.members.filter((member: any) => member.user.id === user?.id).length
+                          task.members.filter((member: any) => member.id === user?.id).length
                       ).length
                     : 0
                 }
@@ -64,7 +64,7 @@ function Dashboard() {
                     <Title level={2}>
                       {projectData
                         ? projectData.projects.filter((project: any) =>
-                            project.members.filter((member: any) => member.user.id === user?.id)
+                            project.members.filter((member: any) => member.id === user?.id)
                           ).length
                         : 0}
                     </Title>
@@ -100,7 +100,7 @@ function Dashboard() {
                         ? taskData.tasks.filter(
                             (task: any) =>
                               task.isDone === false &&
-                              task.members.filter((member: any) => member.user.id === user?.id)
+                              task.members.filter((member: any) => member.id === user?.id)
                                 .length
                           ).length
                         : 0}
@@ -117,11 +117,11 @@ function Dashboard() {
             {loading ? (
               <LoadingComponent projects />
             ) : (
-              projectData.projects &&
+              projectData &&
               projectData.projects
                 .filter(
                   (filtered: any) =>
-                    filtered.members.filter((member: any) => member.user.id === user?.id).length
+                    filtered.members.filter((member: any) => member.id === user?.id).length
                 )
                 .map((items: any, index: any) => {
                   return (

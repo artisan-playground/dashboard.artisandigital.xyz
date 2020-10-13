@@ -13,13 +13,13 @@ function ProfileProjectCard({ data }: any) {
       if (i < 4) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
-            <Link to={{ pathname: `/profile/${item[i].user.name}`, state: { data: data } }}>
-              <Tooltip placement="top" title={item[i].user.name}>
+            <Link to={{ pathname: `/profile/${item[i].id}` }}>
+              <Tooltip placement="top" title={item[i].name}>
                 <Avatar
-                  key={item[i].user.id}
-                  src={item[i].user.image}
+                  key={item[i].id}
+                  src={item[i].image}
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
-                  alt={item[i].user.name}
+                  alt={item[i].name}
                 />
               </Tooltip>
             </Link>
@@ -37,7 +37,7 @@ function ProfileProjectCard({ data }: any) {
                   +{item.length - 4}
                 </div>
                 <Avatar
-                  src={item[4].user.image}
+                  src={item[4].image}
                   className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
                   style={{ filter: 'brightness(0.6)' }}
                 ></Avatar>
@@ -57,17 +57,17 @@ function ProfileProjectCard({ data }: any) {
         {item.map((items: any) => {
           return (
             <Link
-              key={items.user.id}
-              to={{ pathname: `/profile/${items.user.name}`, state: { data: items.user } }}
+              key={items.id}
+              to={{ pathname: `/profile/${items.id}` }}
             >
               <div className="flex mx-1 my-1 p-1 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
                 <Avatar
-                  key={items.user.id}
-                  src={items.user.image}
+                  key={items.id}
+                  src={items.image}
                   className="ml-2"
-                  alt={items.user.name}
+                  alt={items.name}
                 />
-                <div className="ml-4">{items.user.name}</div>
+                <div className="ml-4">{items.name}</div>
               </div>
             </Link>
           )
@@ -79,23 +79,23 @@ function ProfileProjectCard({ data }: any) {
   return (
     <Link
       to={{
-        pathname: `/projects/${data.project.id}`,
+        pathname: `/projects/${data.id}`,
         state: {
-          data: data.project,
+          data: data,
         },
       }}
     >
       <Card hoverable bordered={false}>
         <Meta
-          avatar={<Avatar size={60} src={data.project.projectImage} />}
-          title={data.project.projectName}
-          description={`${data.project.projectType} | ...Tasks`}
+          avatar={<Avatar size={60} src={data.projectImage} />}
+          title={data.projectName}
+          description={`${data.projectType} | ...Tasks`}
         />
         <Text className="font-bold">Member(s)</Text>
-        <Row className="pl-16 mt-2">{renderShowItems(data.project.members)}</Row>
+        <Row className="pl-16 mt-2">{renderShowItems(data.members)}</Row>
         <Row className="flex items-end justify-end mt-6">
           <Col>
-            {data.project.status === 'done' ? (
+            {data.status === 'done' ? (
               <Tag
                 className="rounded-full py-1 px-2 bg-successop border-0 flex items-center"
                 icon={<CheckCircleOutlined />}

@@ -9,24 +9,22 @@ function ProfileTaskCard({ data }: any) {
   return (
     <Link
       to={{
-        pathname: `/projects/${data.task.project.id}`,
-        state: {
-          data: data.task.project,
-        },
+        pathname: `/projects/${data.project.id}`,
+        state:{data:data.project}
       }}
     >
       <Card
         hoverable
-        title={data.task.taskName}
+        title={data.taskName}
         headStyle={{ fontWeight: 'bold' }}
         bordered={false}
       >
         <Col className="flex flex-col">
-          <Text>{data.task.taskDetail.substr(0, 50) + '...'}</Text>
+          <Text>{data.taskDetail.substr(0, 50) + '...'}</Text>
         </Col>
         <Row className="flex items-end justify-end mt-6">
           <Col>
-            {data.task.isDone === true ? (
+            {data.isDone === true ? (
               <Tag
                 className="rounded-full py-1 px-2 bg-successop border-0 flex items-center"
                 icon={<CheckCircleOutlined />}
