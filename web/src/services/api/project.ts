@@ -11,23 +11,25 @@ export const PROJECT = gql`
       status
       dueDate
       members {
-        user {
-          id
-          name
-          image
-        }
+        id
+        name
+        image
+        email
       }
       tasks {
         id
+        project {
+          id
+        }
         taskName
         startTime
         endTime
         taskDetail
         isDone
         members {
-          user {
-            id
-          }
+          id
+          name
+          image
         }
       }
     }
