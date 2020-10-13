@@ -14,12 +14,3 @@ schema.objectType({
     t.model.tasks()
   },
 })
-
-schema.objectType({
-  name: 'ProjectOnUser',
-  definition(t) {
-    t.model.createdAt()
-    t.model.user()
-    t.model.project()
-  },
-})

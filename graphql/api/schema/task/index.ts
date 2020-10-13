@@ -15,21 +15,3 @@ schema.objectType({
     t.model.files()
   },
 })
-
-schema.objectType({
-  name: 'TaskOnUser',
-  definition(t) {
-    t.model.cretedAt()
-    t.model.user()
-    t.model.task()
-  },
-})
-
-schema.objectType({
-  name: 'FileOnTask',
-  definition(t) {
-    t.model.cretedAt()
-    t.model.task()
-    t.model.file()
-  },
-})
