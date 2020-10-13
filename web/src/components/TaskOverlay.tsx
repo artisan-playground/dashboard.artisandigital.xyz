@@ -237,7 +237,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
               icon={<DeleteOutlined />}
               className="flex flex-row px-4 items-center text-red-400 hover:bg-red-400 hover:text-white"
               onClick={() => {
-                window.confirm('Are you sure to delete this comment') && handleDelete(item.id)
+                window.confirm('Are you sure to delete this comment') && handleDelete(item.user.id)
               }}
             >
               Delete
@@ -309,7 +309,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                           lg={{ span: 2 }}
                           className="flex justify-center items-center mr-2"
                         >
-                          <Link to={{ pathname: '/profile', state: { profileId: item.id } }}>
+                          <Link to={{ pathname: `/profile/${item.user.id}` }}>
                             <Avatar size="large" src={item.user.image} />
                           </Link>
                         </Col>
@@ -317,7 +317,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                           <div className="w-full py-2 pl-4 mx-0 bg-white shadow-lg rounded-lg">
                             <div className="flex flex-row justify-between">
                               <div>
-                                <Link to={{ pathname: '/profile', state: { profileId: item.id } }}>
+                                <Link to={{ pathname: `/profile/${item.user.id}` }}>
                                   <Text className="font-bold text-lg mr-2">{item.user.name}</Text>
                                 </Link>
                                 <Text disabled>
@@ -440,11 +440,11 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                     <Link
                       className="w-full"
                       key={index}
-                      to={{ pathname: '/profile', state: { profileId: items.id } }}
+                      to={{ pathname: `/profile/${items.id}`, state: { profileId: items.id } }}
                     >
                       <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                        <Avatar key={items.user.id} src={items.user.image} alt={items.user.name} />
-                        <div className="ml-4 text-lg">{items.user.name}</div>
+                        <Avatar key={items.id} src={items.image} alt={items.name} />
+                        <div className="ml-4 text-lg">{items.name}</div>
                       </div>
                     </Link>
                   ))

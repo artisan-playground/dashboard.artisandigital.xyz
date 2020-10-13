@@ -103,8 +103,8 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
 
   function handleMention(value: any) {
     let ids = memberList
-      .filter((item: any) => value.slice(0, -1).split('@').includes(item.user.name))
-      .map((val: any) => val.user.id)
+      .filter((item: any) => value.slice(0, -1).split('@').includes(item.name))
+      .map((val: any) => val.id)
     setMembers(ids[0])
   }
 
@@ -162,18 +162,18 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
                 >
                   {(memberList || []).map((value: any) => (
                     <MentionOption
-                      key={value.user.id}
-                      value={value.user.name}
+                      key={value.id}
+                      value={value.name}
                       className="hover:bg-primary hover:text-white py-2 px-4"
                     >
                       <Avatar
                         shape="circle"
                         size="default"
-                        src={value.user.image}
+                        src={value.image}
                         className="mr-2"
                       />
-                      {value.user.name}
-                      <Text className="text-gray-400 text-md ml-2">{value.user.email}</Text>
+                      {value.name}
+                      <Text className="text-gray-400 text-md ml-2">{value.email}</Text>
                     </MentionOption>
                   ))}
                 </Mentions>

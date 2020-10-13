@@ -28,7 +28,7 @@ function App() {
             <AuthorizedRoute path="/" exact component={Dashboard} />
             <AuthorizedRoute exact path="/projects" component={ProjectList} />
             <AuthorizedRoute path="/projects/:projectId" component={ProjectDetail} />
-            <AuthorizedRoute path="/profile/:name" exact component={Profile} />
+            <AuthorizedRoute path="/profile/:id" exact component={Profile} />
             <AuthorizedRoute path="/profile-edit" exact component={ProfileEditor} />
             <AuthorizedRoute path="/news" component={News} />
             <AuthorizedRoute path="/member" component={Member} />

@@ -28,7 +28,7 @@ function NavBar() {
     <Menu className="p-2">
       {filteredData
         .filter(
-          (task: any) => task.members.filter((member: any) => member.user.id === user?.id).length
+          (task: any) => task.members.filter((member: any) => member.id === user?.id).length
         )
         .map((mapItem: any, index: any) => (
           <Menu.Item key={index}>
@@ -114,7 +114,7 @@ function NavBar() {
                   count={
                     filteredData.filter(
                       (task: any) =>
-                        task.members.filter((member: any) => member.user.id === user?.id).length
+                        task.members.filter((member: any) => member.id === user?.id).length
                     ).length
                   }
                   className="-ml-4 -mt-4"

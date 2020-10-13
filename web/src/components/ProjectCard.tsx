@@ -12,13 +12,13 @@ function ProjectCard({ data }: any) {
       if (i < 3) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
-            <Link to={{ pathname: `/profile/${item[i].user.name}`, state: { data: item[i].user } }}>
-              <Tooltip placement="top" title={item[i].user.name}>
+            <Link to={{ pathname: `/profile/${item[i].id}` }}>
+              <Tooltip placement="top" title={item[i].name}>
                 <Avatar
-                  key={item[i].user.id}
-                  src={item[i].user.image}
+                  key={item[i].id}
+                  src={item[i].image}
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
-                  alt={item[i].user.name}
+                  alt={item[i].name}
                 />
               </Tooltip>
             </Link>
@@ -55,17 +55,17 @@ function ProjectCard({ data }: any) {
       <div>
         {item.map((items: any) => (
           <Link
-            key={items.user.id}
-            to={{ pathname: '/profile', state: { profileId: items.user.id } }}
+            key={items.id}
+            to={{ pathname: `/profile/${item.id}` }}
           >
             <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
               <Avatar
-                key={items.user.id}
-                src={items.user.image}
+                key={items.id}
+                src={items.image}
                 className="ml-2"
-                alt={items.user.name}
+                alt={items.name}
               />
-              <div className="ml-4 text-base">{items.user.name}</div>
+              <div className="ml-4 text-base">{items.name}</div>
             </div>
           </Link>
         ))}
