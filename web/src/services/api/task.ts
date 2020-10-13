@@ -6,6 +6,15 @@ export const TASKS = gql`
       id
       project {
         id
+        projectName
+        projectType
+        projectDetail
+        projectImage
+        status
+        dueDate
+        members {
+          id
+        }
       }
       taskName
       startTime
@@ -13,21 +22,17 @@ export const TASKS = gql`
       taskDetail
       isDone
       members {
-        user {
-          id
-        }
+        id
+        name
+        image
       }
       files {
-        file {
+        id
+        url
+        name
+        status
+        task {
           id
-          url
-          name
-          status
-          task {
-            task {
-              id
-            }
-          }
         }
       }
       comments {
@@ -54,6 +59,15 @@ export const TASKS_BY_ID = gql`
       id
       project {
         id
+        projectName
+        projectType
+        projectDetail
+        projectImage
+        status
+        dueDate
+        members {
+          id
+        }
       }
       taskName
       startTime
@@ -61,23 +75,17 @@ export const TASKS_BY_ID = gql`
       taskDetail
       isDone
       members {
-        user {
-          id
-          name
-          image
-        }
+        id
+        name
+        image
       }
       files {
-        file {
+        id
+        url
+        name
+        status
+        task {
           id
-          url
-          name
-          status
-          task {
-            task {
-              id
-            }
-          }
         }
       }
       comments {
@@ -104,6 +112,15 @@ export const TASKS_BY_TASKID = gql`
       id
       project {
         id
+        projectName
+        projectType
+        projectDetail
+        projectImage
+        status
+        dueDate
+        members {
+          id
+        }
       }
       taskName
       startTime
@@ -111,23 +128,17 @@ export const TASKS_BY_TASKID = gql`
       taskDetail
       isDone
       members {
-        user {
-          id
-          name
-          image
-        }
+        id
+        name
+        image
       }
       files {
-        file {
+        id
+        url
+        name
+        status
+        task {
           id
-          url
-          name
-          status
-          task {
-            task {
-              id
-            }
-          }
         }
       }
       comments {
@@ -154,6 +165,15 @@ export const TOGGLE_TASK_DONE = gql`
       id
       project {
         id
+        projectName
+        projectType
+        projectDetail
+        projectImage
+        status
+        dueDate
+        members {
+          id
+        }
       }
       taskName
       startTime
@@ -161,23 +181,17 @@ export const TOGGLE_TASK_DONE = gql`
       taskDetail
       isDone
       members {
-        user {
-          id
-          name
-          image
-        }
+        id
+        name
+        image
       }
       files {
-        file {
+        id
+        url
+        name
+        status
+        task {
           id
-          url
-          name
-          status
-          task {
-            task {
-              id
-            }
-          }
         }
       }
       comments {
@@ -216,12 +230,21 @@ export const ADD_TASK = gql`
         startTime: $startTime
         endTime: $endTime
         isDone: $isDone
-        members: { create: { user: { connect: { id: $members } } } }
+        members: { connect: [{id:$members}] }
       }
     ) {
       id
       project {
         id
+        projectName
+        projectType
+        projectDetail
+        projectImage
+        status
+        dueDate
+        members {
+          id
+        }
       }
       taskName
       startTime
@@ -229,29 +252,28 @@ export const ADD_TASK = gql`
       taskDetail
       isDone
       members {
-        user {
-          id
-          name
-          image
-        }
+        id
+        name
+        image
       }
       files {
-        file {
+        id
+        url
+        name
+        status
+        task {
           id
-          url
-          name
-          status
-          task {
-            task {
-              id
-            }
-          }
         }
       }
       comments {
         id
         task {
           id
+        }
+        user {
+          id
+          name
+          image
         }
         timestamp
         image

@@ -18,52 +18,130 @@ export const GET_USER = gql`
         github
       }
       projects {
-        project {
+        id
+        projectName
+        projectType
+        projectDetail
+        projectImage
+        status
+        dueDate
+        members {
           id
-          projectName
-          projectType
-          projectDetail
-          projectImage
-          status
-          dueDate
-          members {
-            user {
-              id
-              name
-              image
-            }
-          }
+          name
+          image
         }
       }
       tasks {
-        task {
+        id
+        project {
           id
-          project {
+        }
+        taskName
+        startTime
+        endTime
+        taskDetail
+        isDone
+        members {
+          id
+          name
+          image
+        }
+        files {
+          id
+          url
+          name
+          status
+          task {
             id
-            projectName
-            projectType
-            projectDetail
-            projectImage
-            status
-            dueDate
-            members {
-              user {
-                id
-              }
-            }
           }
-          taskName
-          startTime
-          endTime
-          taskDetail
-          isDone
-          members {
-            user {
-              id
-              name
-              image
-            }
+        }
+        comments {
+          id
+          task {
+            id
           }
+          user {
+            id
+            name
+            image
+          }
+          timestamp
+          image
+          message
+        }
+      }
+    }
+  }
+`
+
+export const GET_USER_BY_ID = gql`
+  query getUserById($id: Int!) {
+    user(where: { id: $id }) {
+      id
+      email
+      name
+      image
+      position
+      skills
+      contacts {
+        id
+        facebook
+        twitter
+        instagram
+        gitlab
+        github
+      }
+      projects {
+        id
+        projectName
+        projectType
+        projectDetail
+        projectImage
+        status
+        dueDate
+        members {
+          id
+          name
+          image
+        }
+      }
+      tasks {
+        id
+        project {
+          id
+        }
+        taskName
+        startTime
+        endTime
+        taskDetail
+        isDone
+        members {
+          id
+          name
+          image
+        }
+        files {
+          id
+          url
+          name
+          status
+          task {
+            id
+          }
+        }
+        comments {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image
+          }
+          timestamp
+          image
+          message
         }
       }
     }
@@ -88,52 +166,57 @@ export const GET_USERS = gql`
         github
       }
       projects {
-        project {
+        id
+        projectName
+        projectType
+        projectDetail
+        projectImage
+        status
+        dueDate
+        members {
           id
-          projectName
-          projectType
-          projectDetail
-          projectImage
-          status
-          dueDate
-          members {
-            user {
-              id
-              name
-              image
-            }
-          }
+          name
+          image
         }
       }
       tasks {
-        task {
+        id
+        project {
           id
-          project {
+        }
+        taskName
+        startTime
+        endTime
+        taskDetail
+        isDone
+        members {
+          id
+          name
+          image
+          email
+        }
+        files {
+          id
+          url
+          name
+          status
+          task {
             id
-            projectName
-            projectType
-            projectDetail
-            projectImage
-            status
-            dueDate
-            members {
-              user {
-                id
-              }
-            }
           }
-          taskName
-          startTime
-          endTime
-          taskDetail
-          isDone
-          members {
-            user {
-              id
-              name
-              image
-            }
+        }
+        comments {
+          id
+          task {
+            id
           }
+          user {
+            id
+            name
+            image
+          }
+          timestamp
+          image
+          message
         }
       }
     }
