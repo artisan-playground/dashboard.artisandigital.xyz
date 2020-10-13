@@ -9,7 +9,7 @@ import { Col, Layout, Row, Tag, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React from 'react'
 
-function SideProfile({ data }: any) {
+function SideProfile({ data,project,contact }: any) {
   const { Text, Link } = Typography
   const { Sider } = Layout
 
@@ -44,47 +44,47 @@ function SideProfile({ data }: any) {
         <Col className="mb-8">
           <Row className="flex items-center justify-between">
             <Text className="text-lg font-bold">All Project(s)</Text>
-            <Text className="text-lg font-bold text-blue-500">{data.projects.length}</Text>
+            <Text className="text-lg font-bold text-blue-500">{project.length}</Text>
           </Row>
           <Row className="flex items-center justify-between">
             <Text className="text-lg font-bold">Closed Project(s)</Text>
             <Text className="text-lg font-bold text-blue-500">
-              {data.projects.filter((item: any) => item.project.status === 'done').length}
+              {project.filter((item: any) => item.status === 'done').length}
             </Text>
           </Row>
         </Col>
 
         <Col className="flex">
           <Col>
-            <Text className="text-lg font-bold">{data.contacts ? 'Contact(s)' : ''}</Text>
+            <Text className="text-lg font-bold">{contact ? 'Contact(s)' : ''}</Text>
             <Row className="mb-1 mt-2">
-              {data.contacts.facebook ? <FacebookOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.facebook} target="_blank">
-                {data.contacts.facebook ? 'Facebook' : ''}
+              {contact.facebook ? <FacebookOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={contact.facebook} target="_blank">
+                {contact.facebook ? 'Facebook' : ''}
               </Link>
             </Row>
             <Row className="mb-1">
-              {data.contacts.twitter ? <TwitterOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.twitter} target="_blank">
-                {data.contacts.twitter ? 'Twitter' : ''}
+              {contact.twitter ? <TwitterOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={contact.twitter} target="_blank">
+                {contact.twitter ? 'Twitter' : ''}
               </Link>
             </Row>
             <Row className="mb-1">
-              {data.contacts.instagram ? <InstagramOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.instagram} target="_blank">
-                {data.contacts.instagram ? 'Instagram' : ''}
+              {contact.instagram ? <InstagramOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={contact.instagram} target="_blank">
+                {contact.instagram ? 'Instagram' : ''}
               </Link>
             </Row>
             <Row className="mb-1">
-              {data.contacts.gitlab ? <GitlabOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.gitlab} target="_blank">
-                {data.contacts.gitlab ? 'Gitlab' : ''}
+              {contact.gitlab ? <GitlabOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={contact.gitlab} target="_blank">
+                {contact.gitlab ? 'Gitlab' : ''}
               </Link>
             </Row>
             <Row className="mb-1">
-              {data.contacts.github ? <GithubOutlined className="text-2xl mr-2" /> : ''}
-              <Link href={data.contacts.github} target="_blank">
-                {data.contacts.github ? 'Github' : ''}
+              {contact.github ? <GithubOutlined className="text-2xl mr-2" /> : ''}
+              <Link href={contact.github} target="_blank">
+                {contact.github ? 'Github' : ''}
               </Link>
             </Row>
           </Col>

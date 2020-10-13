@@ -9,31 +9,50 @@ import {
   ProfileTaskCard,
 } from '../components/DashboardComponent'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { useParams } from 'react-router-dom'
+import { useQuery } from '@apollo/client'
+import { GET_USER_BY_ID } from '../services/api/user'
 
-function Profile(props: any) {
+function Profile() {
   const { Title, Text } = Typography
   const [filteredData, setFilteredData] = useState<any[]>([])
+  const [filteredTaskData, setFilteredTaskData] = useState<any[]>([])
+  const [userData, setUserData] = useState<any[]>([])
+  const [userContactData, setUserContactData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
-  const data = props.location.state.data
+  const { id }: any = useParams()
+  const { loading, error, data } = useQuery(GET_USER_BY_ID, { variables: { id: Number(id) } })
 
   useEffect(() => {
     switch (types) {
       case 'undone':
-        let wip: any[] = data.projects.filter((item: any) => item.project.status === 'undone')
+        let wip: any[] = data.user.projects.filter((item: any) => item.status === 'undone')
         setFilteredData(wip)
         break
       case 'done':
-        let closed: any[] = data.projects.filter((item: any) => item.project.status === 'done')
+        let closed: any[] = data.user.projects.filter((item: any) => item.status === 'done')
         setFilteredData(closed)
         break
       case 'all':
-        setFilteredData(data.projects)
+        if (!error && !loading) {
+          setFilteredData(data.user.projects)
+        }
         break
       default:
-        setFilteredData(data.projects)
+        if (!error && !loading) {
+          setFilteredData(data.user.projects)
+        }
         break
     }
-  }, [types, data])
+  }, [types, data,error,loading]) 
+
+  useEffect(() => {
+    if (!error && !loading) {
+      setFilteredTaskData(data.user.tasks)
+      setUserData(data.user)
+      setUserContactData(data.user.contacts)
+    }
+  }, [data,error,loading])
 
   function handleTypeChange(e: any) {
     setTypes(e.target.value)
@@ -71,7 +90,7 @@ function Profile(props: any) {
   )
 
   return (
-    <LayoutProfile data={data}>
+    <LayoutProfile data={userData} project={filteredData} contact={userContactData}>
       <Title level={3}>Today's Tasks</Title>
       <div className="relative mr-auto ml-auto max-w-screen-md">
         <div className="w-full">
@@ -109,12 +128,12 @@ function Profile(props: any) {
             customRightArrow={<CustomRightArrow />}
             customLeftArrow={<CustomLeftArrow />}
           >
-            {data.tasks ? (
-              data.tasks
-                .filter((tasks: any) => tasks.task.isDone === false)
+            {filteredTaskData ? (
+              filteredTaskData
+                .filter((tasks: any) => tasks.isDone === false)
                 .map((items: any, index: any) => (
                   <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
-                    <ProfileTaskCard data={items} />
+                    <ProfileTaskCard data={items} project={filteredData} />
                   </Col>
                 ))
             ) : (
@@ -136,15 +155,11 @@ function Profile(props: any) {
           </Row>
         </Col>
         <Col>
-          {data.projects.length !== 0 ? (
             <Radio.Group defaultValue="all" size="large" onChange={handleTypeChange}>
               <Radio.Button value="all">All</Radio.Button>
               <Radio.Button value="undone">WIP</Radio.Button>
               <Radio.Button value="done">Closed</Radio.Button>
             </Radio.Group>
-          ) : (
-            ''
-          )}
         </Col>
       </Row>
 

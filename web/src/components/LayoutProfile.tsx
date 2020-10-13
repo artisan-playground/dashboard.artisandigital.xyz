@@ -3,7 +3,7 @@ import React from 'react'
 import { NavBar, SideNav } from './DashboardComponent'
 import SideProfile from './SideProfile'
 
-function LayoutProfile({ className, children, data }: any) {
+function LayoutProfile({ className, children, data,project,contact }: any) {
   const { Content } = Layout
 
   return (
@@ -12,7 +12,7 @@ function LayoutProfile({ className, children, data }: any) {
       <SideNav>
         <Layout className="p-0 w-full">
           <Content className="pt-8 pb-24 px-8 w-full">{children}</Content>
-          <SideProfile data={data} />
+          <SideProfile data={data} project={project} contact={contact} />
         </Layout>
       </SideNav>
     </>
