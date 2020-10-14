@@ -60,9 +60,7 @@ function SideNav({ children }: any) {
               <NavLink to="/member">Members</NavLink>
             </Menu.Item>
             <Menu.Item key={`/profile/${user?.id}`} icon={<UserOutlined />}>
-              <NavLink to={{ pathname: `/profile/${user?.id}` }}>
-                Profile
-              </NavLink>
+              <NavLink to={{ pathname: `/profile/${user?.id}` }}>Profile</NavLink>
             </Menu.Item>
           </Menu>
         </Sider>

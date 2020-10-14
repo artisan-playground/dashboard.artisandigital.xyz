@@ -2,7 +2,7 @@ import { CloseCircleOutlined } from '@ant-design/icons'
 import { Card, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import {  useStoreState } from '../store'
+import { useStoreState } from '../store'
 
 function WelcomeCard({ task, project }: any) {
   const { Text } = Typography
@@ -17,11 +17,7 @@ function WelcomeCard({ task, project }: any) {
   return disable ? (
     <div />
   ) : (
-    <Card
-      hoverable
-      className="w-full rounded-lg h-36 pl-12"
-      style={{ backgroundColor: '#518AFF' }}
-    >
+    <Card hoverable className="w-full rounded-lg h-36 pl-12" style={{ backgroundColor: '#518AFF' }}>
       <CloseCircleOutlined
         className="absolute top-0 right-0 mt-4 mr-4 z-50"
         onClick={(e) => onCloseClick(e)}

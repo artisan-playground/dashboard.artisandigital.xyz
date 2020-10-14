@@ -1,17 +1,6 @@
 import { CloseCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
-import {
-  Button,
-  Col,
-  DatePicker,
-  Drawer,
-  Form,
-  Input,
-  Mentions,
-  message,
-  Row,
-  Select,
-} from 'antd'
+import { Button, Col, DatePicker, Drawer, Form, Input, Mentions, message, Row, Select } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import Text from 'antd/lib/typography/Text'
 import React, { useEffect, useState } from 'react'
@@ -166,12 +155,7 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
                       value={value.name}
                       className="hover:bg-primary hover:text-white py-2 px-4"
                     >
-                      <Avatar
-                        shape="circle"
-                        size="default"
-                        src={value.image}
-                        className="mr-2"
-                      />
+                      <Avatar shape="circle" size="default" src={value.image} className="mr-2" />
                       {value.name}
                       <Text className="text-gray-400 text-md ml-2">{value.email}</Text>
                     </MentionOption>

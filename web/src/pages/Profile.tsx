@@ -44,7 +44,7 @@ function Profile() {
         }
         break
     }
-  }, [types, data,error,loading]) 
+  }, [types, data, error, loading])
 
   useEffect(() => {
     if (!error && !loading) {
@@ -52,7 +52,7 @@ function Profile() {
       setUserData(data.user)
       setUserContactData(data.user.contacts)
     }
-  }, [data,error,loading])
+  }, [data, error, loading])
 
   function handleTypeChange(e: any) {
     setTypes(e.target.value)
@@ -155,11 +155,11 @@ function Profile() {
           </Row>
         </Col>
         <Col>
-            <Radio.Group defaultValue="all" size="large" onChange={handleTypeChange}>
-              <Radio.Button value="all">All</Radio.Button>
-              <Radio.Button value="undone">WIP</Radio.Button>
-              <Radio.Button value="done">Closed</Radio.Button>
-            </Radio.Group>
+          <Radio.Group defaultValue="all" size="large" onChange={handleTypeChange}>
+            <Radio.Button value="all">All</Radio.Button>
+            <Radio.Button value="undone">WIP</Radio.Button>
+            <Radio.Button value="done">Closed</Radio.Button>
+          </Radio.Group>
         </Col>
       </Row>
 

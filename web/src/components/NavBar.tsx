@@ -27,17 +27,12 @@ function NavBar() {
   const notifications = (
     <Menu className="p-2">
       {filteredData
-        .filter(
-          (task: any) => task.members.filter((member: any) => member.id === user?.id).length
-        )
+        .filter((task: any) => task.members.filter((member: any) => member.id === user?.id).length)
         .map((mapItem: any, index: any) => (
           <Menu.Item key={index}>
             <RouterLink
               to={{
-                pathname: `/projects/${mapItem.projectId}`,
-                state: {
-                  data: data[mapItem.projectId],
-                },
+                pathname: `/projects/${mapItem.project.id}`,
               }}
             >
               <Text>{mapItem.taskName}</Text>

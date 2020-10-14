@@ -56,17 +56,9 @@ function ProfileProjectCard({ data }: any) {
       <div>
         {item.map((items: any) => {
           return (
-            <Link
-              key={items.id}
-              to={{ pathname: `/profile/${items.id}` }}
-            >
+            <Link key={items.id} to={{ pathname: `/profile/${items.id}` }}>
               <div className="flex mx-1 my-1 p-1 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                <Avatar
-                  key={items.id}
-                  src={items.image}
-                  className="ml-2"
-                  alt={items.name}
-                />
+                <Avatar key={items.id} src={items.image} className="ml-2" alt={items.name} />
                 <div className="ml-4">{items.name}</div>
               </div>
             </Link>
@@ -77,14 +69,7 @@ function ProfileProjectCard({ data }: any) {
   }
 
   return (
-    <Link
-      to={{
-        pathname: `/projects/${data.id}`,
-        state: {
-          data: data,
-        },
-      }}
-    >
+    <Link to={{ pathname: `/projects/${data.id}` }}>
       <Card hoverable bordered={false}>
         <Meta
           avatar={<Avatar size={60} src={data.projectImage} />}

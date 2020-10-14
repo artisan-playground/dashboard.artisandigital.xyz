@@ -32,7 +32,7 @@ function ProjectList() {
           break
       }
     }
-  }, [types, loading]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [types, loading, error, data])
 
   function handleKeywordChange(e: any) {
     setLoading(true)

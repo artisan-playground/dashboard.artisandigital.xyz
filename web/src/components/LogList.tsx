@@ -10,7 +10,7 @@ function LogList({ data }: any) {
       {data.map((item: any) => (
         <Row key={item.id} className="p-2 text-black justify-between w-full">
           <Col span={24} className="w-full mr-2">
-          <Text className="text-lg font-bold">{`Task ${item.taskName}`}</Text>
+            <Text className="text-lg font-bold">{`Task ${item.taskName}`}</Text>
             <Divider />
           </Col>
           <Col span={24} md={{ span: 12 }} className="w-full mr-2">

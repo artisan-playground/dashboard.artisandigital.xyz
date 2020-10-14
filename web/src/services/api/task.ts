@@ -230,7 +230,7 @@ export const ADD_TASK = gql`
         startTime: $startTime
         endTime: $endTime
         isDone: $isDone
-        members: { connect: [{id:$members}] }
+        members: { connect: [{ id: $members }] }
       }
     ) {
       id

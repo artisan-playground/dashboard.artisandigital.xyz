@@ -10,15 +10,9 @@ function ProfileTaskCard({ data }: any) {
     <Link
       to={{
         pathname: `/projects/${data.project.id}`,
-        state:{data:data.project}
       }}
     >
-      <Card
-        hoverable
-        title={data.taskName}
-        headStyle={{ fontWeight: 'bold' }}
-        bordered={false}
-      >
+      <Card hoverable title={data.taskName} headStyle={{ fontWeight: 'bold' }} bordered={false}>
         <Col className="flex flex-col">
           <Text>{data.taskDetail.substr(0, 50) + '...'}</Text>
         </Col>
