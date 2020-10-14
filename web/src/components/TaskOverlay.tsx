@@ -1,6 +1,5 @@
 import {
   BorderOutlined,
-  CheckCircleOutlined,
   CheckSquareOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
@@ -42,11 +41,11 @@ import LoadingComponent from './LoadingComponent'
 function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   const { Text } = Typography
 
-  const [toggleIsDone, { loading: loadingMutation, error }] = useMutation(TOGGLE_TASK_DONE)
+  const [toggleIsDone, { loading: loadingMutation }] = useMutation(TOGGLE_TASK_DONE)
   const [createComment] = useMutation(COMMENT)
   const [deleteComment] = useMutation(DELETE_COMMENT)
   const [updateComment] = useMutation(UPDATE_COMMENT)
-  const [isDone, setIsDone] = useState(false)
+  const [isDone] = useState(false)
   const [editing, setEditing] = useState(false)
 
   const user = useStoreState((s) => s.userState.user)
@@ -66,32 +65,14 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
     setModalVisible(visible)
   }, [visible])
 
-  function onDoneClick(event: any) {
-    event.stopPropagation()
-    Message.loading({
-      content: 'Loading...',
-      duration: 2,
-      icon: <LoadingOutlined style={{ fontSize: 20, top: -2 }} spin />,
-    })
+  function onUnDoneClick() {
     toggleIsDone({ variables: { id: data.id, isDone: isDone } })
-      .then((res) => {
-        if (res && !loading && !error) {
-          Message.success({
-            content: 'Successfully updated',
-            duration: 2,
-            icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
-          })
-        }
-        setIsDone(true)
-        setTaskData({ ...data, isDone: !data.isDone })
-      })
-      .catch((err) => {
-        Message.error({
-          content: `Error : ${err}`,
-          duration: 2,
-          icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
-        })
-      })
+    setModalVisible(true)
+  }
+
+  function onDoneClick() {
+    toggleIsDone({ variables: { id: data.id, isDone: !isDone } })
+    setModalVisible(true)
   }
 
   function onCancelClick(event: any) {
@@ -237,7 +218,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
               icon={<DeleteOutlined />}
               className="flex flex-row px-4 items-center text-red-400 hover:bg-red-400 hover:text-white"
               onClick={() => {
-                window.confirm('Are you sure to delete this comment') && handleDelete(item.user.id)
+                window.confirm('Are you sure to delete this comment') && handleDelete(item.id)
               }}
             >
               Delete
@@ -437,7 +418,11 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
               <Row className="ml-2 mb-4 overflow-y-auto">
                 {taskData.members ? (
                   taskData.members.map((items: any) => (
-                    <Link className="w-full" key={items.id} to={{ pathname: `/profile/${items.id}` }}>
+                    <Link
+                      className="w-full"
+                      key={items.id}
+                      to={{ pathname: `/profile/${items.id}` }}
+                    >
                       <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
                         <Avatar key={items.id} src={items.image} alt={items.name} />
                         <div className="ml-4 text-lg">{items.name}</div>
@@ -461,7 +446,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                       )
                     }
                     shape="round"
-                    onClick={onDoneClick}
+                    onClick={onUnDoneClick}
                   >
                     Mark as Undone
                   </Button>
