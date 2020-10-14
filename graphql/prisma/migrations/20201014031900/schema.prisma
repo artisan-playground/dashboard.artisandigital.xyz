@@ -4,7 +4,7 @@ generator prisma_client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model User {
@@ -52,7 +52,7 @@ model Task {
   projectId  Int
   taskName   String?
   startTime  DateTime     @default(now())
-  endTime    DateTime
+  endTime    DateTime     @default(now())
   taskDetail String?
   isDone     Boolean
   members    User[]
@@ -84,7 +84,7 @@ model Comment {
 model Event{
   id        Int       @id @default(autoincrement())
   eventDate DateTime  @default(now())
-  endDate   DateTime
+  endDate   DateTime  @default(now())
   eventName String?
   note      String?
   tag       String?
