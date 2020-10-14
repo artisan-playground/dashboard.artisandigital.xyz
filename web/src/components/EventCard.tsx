@@ -9,7 +9,7 @@ function EventCard({ data }: any) {
       <Text disabled>No nearly event</Text>
     </div>
   ) : (
-    data.map((item: any) => (
+    data.events.map((item: any) => (
       <Card hoverable className="w-full rounded-lg shadow-lg mb-4">
         <Row className="md: justify-around">
           <div className="flex flex-col justify-center items-center border-r-2 pr-8 pl-4">
