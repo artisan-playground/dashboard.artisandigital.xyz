@@ -1,13 +1,11 @@
 import {
   CheckCircleOutlined,
-  CloseCircleOutlined,
   CommentOutlined,
   ExclamationCircleOutlined,
-  LoadingOutlined,
   PaperClipOutlined,
 } from '@ant-design/icons'
 import { useMutation } from '@apollo/client'
-import { Avatar, Button, Card, Col, message, Popover, Row, Tooltip, Typography } from 'antd'
+import { Avatar, Button, Card, Col, Popover, Row, Tooltip, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { TOGGLE_TASK_DONE } from '../services/api/task'
@@ -19,8 +17,8 @@ function TaskCard({ data, project, refetch }: any) {
   const showItems: any[] = []
   const [modalVisible, setModalVisible] = useState(false)
   const [taskData, setTaskData]: any = useState({})
-  const [toggleIsDone, { loading, error }] = useMutation(TOGGLE_TASK_DONE)
-  const [isDone, setIsDone] = useState(false)
+  const [toggleIsDone, { loading }] = useMutation(TOGGLE_TASK_DONE)
+  const [isDone] = useState(false)
 
   useEffect(() => {
     setTaskData(data)
@@ -35,32 +33,14 @@ function TaskCard({ data, project, refetch }: any) {
     setModalVisible(true)
   }
 
-  function onDoneClick(event: any) {
-    message.loading({
-      content: 'Loading...',
-      duration: 2,
-      icon: <LoadingOutlined style={{ fontSize: 20, top: -2 }} spin />,
-    })
+  function onUnDoneClick(){
     toggleIsDone({ variables: { id: data.id, isDone: isDone } })
-      .then((res) => {
-        if (res && !loading && !error) {
-          message.success({
-            content: 'Successfully updated',
-            duration: 2,
-            icon: <CheckCircleOutlined style={{ fontSize: 20, color: 'green', top: -2 }} />,
-          })
-          setIsDone(true)
-          setTaskData({ ...data, isDone: !data.isDone })
-          refetch()
-        }
-      })
-      .catch((err) => {
-        message.error({
-          content: `Error : ${err}`,
-          duration: 2,
-          icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
-        })
-      })
+    refetch()
+  }
+
+  function onDoneClick(){
+    toggleIsDone({ variables: { id: data.id, isDone: !isDone } })
+    refetch()
   }
 
   function renderShowItems(item: any) {
@@ -194,7 +174,7 @@ function TaskCard({ data, project, refetch }: any) {
                   type="primary"
                   shape="round"
                   size="large"
-                  onClick={onDoneClick}
+                  onClick={onUnDoneClick}
                 >
                   <CheckCircleOutlined className="hover:hidden" />
                   <Text className="hover:block hidden text-white">Done</Text>
