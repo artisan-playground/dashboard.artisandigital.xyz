@@ -131,9 +131,9 @@ function Profile() {
             {filteredTaskData ? (
               filteredTaskData
                 .filter((tasks: any) => tasks.isDone === false)
-                .map((items: any, index: any) => (
-                  <Col lg={{ span: 24 }} key={index} className="mr-4 my-4">
-                    <ProfileTaskCard data={items} project={filteredData} />
+                .map((items: any) => (
+                  <Col lg={{ span: 24 }} key={items.id} className="mr-4 my-4">
+                    <ProfileTaskCard data={items} />
                   </Col>
                 ))
             ) : (
@@ -166,8 +166,8 @@ function Profile() {
       <Row>
         {filteredData ? (
           filteredData.length !== 0 ? (
-            filteredData.map((items, index) => (
-              <Col xs={24} xl={{ span: 8 }} key={index} className="w-full px-2 py-2">
+            filteredData.map((items) => (
+              <Col xs={24} xl={{ span: 8 }} key={items.id} className="w-full px-2 py-2">
                 <ProfileProjectCard data={items} />
               </Col>
             ))
