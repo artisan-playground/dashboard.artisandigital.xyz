@@ -28,8 +28,8 @@ function NavBar() {
     <Menu className="p-2">
       {filteredData
         .filter((task: any) => task.members.filter((member: any) => member.id === user?.id).length)
-        .map((mapItem: any, index: any) => (
-          <Menu.Item key={index}>
+        .map((mapItem: any) => (
+          <Menu.Item key={mapItem.id}>
             <RouterLink
               to={{
                 pathname: `/projects/${mapItem.project.id}`,
@@ -47,9 +47,7 @@ function NavBar() {
   const userDropDown = (
     <Menu>
       <Menu.Item>
-        <RouterLink to={{ pathname: `/profile/${user?.name}`, state: { data: user } }}>
-          Profile
-        </RouterLink>
+        <RouterLink to={{ pathname: `/profile/${user?.id}` }}>Profile</RouterLink>
       </Menu.Item>
       <Menu.Item>
         <RouterLink to={{ pathname: `/profile-edit`, state: { data: user } }}>

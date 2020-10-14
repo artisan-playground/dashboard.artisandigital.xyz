@@ -83,8 +83,8 @@ function ProjectList() {
           <Row gutter={[8, 24]}>
             {filteredData && !error && !loading ? (
               filteredData.length !== 0 ? (
-                filteredData.map((items, index) => (
-                  <Col span={24} key={index}>
+                filteredData.map((items) => (
+                  <Col span={24} key={items.id}>
                     <ProjectCard data={items} />
                   </Col>
                 ))

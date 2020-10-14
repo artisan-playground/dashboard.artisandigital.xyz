@@ -301,8 +301,8 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
               </Row>
               <Row className="py-2 px-2">
                 {taskData.comments ? (
-                  taskData.comments.map((item: any, index: any) => (
-                    <div className="w-full ml-1 mb-2" key={index}>
+                  taskData.comments.map((item: any) => (
+                    <div className="w-full ml-1 mb-2" key={item.id}>
                       <Row>
                         <Col
                           span={4}
@@ -436,8 +436,8 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
               </Row>
               <Row className="ml-2 mb-4 overflow-y-auto">
                 {taskData.members ? (
-                  taskData.members.map((items: any, index: any) => (
-                    <Link className="w-full" key={index} to={{ pathname: `/profile/${items.id}` }}>
+                  taskData.members.map((items: any) => (
+                    <Link className="w-full" key={items.id} to={{ pathname: `/profile/${items.id}` }}>
                       <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
                         <Avatar key={items.id} src={items.image} alt={items.name} />
                         <div className="ml-4 text-lg">{items.name}</div>

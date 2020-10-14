@@ -121,9 +121,9 @@ function Dashboard() {
                   (filtered: any) =>
                     filtered.members.filter((member: any) => member.id === user?.id).length
                 )
-                .map((items: any, index: any) => {
+                .map((items: any) => {
                   return (
-                    <Col md={{ span: 24 }} key={index}>
+                    <Col md={{ span: 24 }} key={items.id}>
                       <ProjectCard data={items} />
                     </Col>
                   )

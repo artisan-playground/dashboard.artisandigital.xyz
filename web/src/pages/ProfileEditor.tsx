@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { LayoutDashboard, ProfileForm, ProfileSkillTags } from '../components/DashboardComponent'
 
 function ProfileEditor(props: any) {
-  const [imageUrl, setImageUrl] = useState('')
+  // const [imageUrl, setImageUrl] = useState('')
   const [loading, setLoading] = useState(false)
   const data = props.location.state.data
 
@@ -35,7 +35,7 @@ function ProfileEditor(props: any) {
     }
     if (info.file.status === 'done') {
       getBase64(info.file.originFileObj, (imageUrl: any) => {
-        setImageUrl(imageUrl)
+        // setImageUrl(imageUrl)
         setLoading(false)
       })
     }
