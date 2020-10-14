@@ -437,11 +437,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
               <Row className="ml-2 mb-4 overflow-y-auto">
                 {taskData.members ? (
                   taskData.members.map((items: any, index: any) => (
-                    <Link
-                      className="w-full"
-                      key={index}
-                      to={{ pathname: `/profile/${items.id}`, state: { profileId: items.id } }}
-                    >
+                    <Link className="w-full" key={index} to={{ pathname: `/profile/${items.id}` }}>
                       <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
                         <Avatar key={items.id} src={items.image} alt={items.name} />
                         <div className="ml-4 text-lg">{items.name}</div>

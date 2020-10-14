@@ -45,7 +45,7 @@ function Member() {
           {data.users
             .filter((item: any) => item.image === image)
             .map((item: any, index: any) => (
-              <Link key={index} to={{ pathname: `/profile/${item.id}`, state: { data: item } }}>
+              <Link key={index} to={{ pathname: `/profile/${item.id}` }}>
                 <Avatar src={image} />
               </Link>
             ))}
@@ -61,7 +61,7 @@ function Member() {
           {data.users
             .filter((item: any) => item.name === name)
             .map((item: any, index: any) => (
-              <Link key={index} to={{ pathname: `/profile/${item.id}`, state: { data: item } }}>
+              <Link key={index} to={{ pathname: `/profile/${item.id}` }}>
                 <Text>{name}</Text>
               </Link>
             ))}

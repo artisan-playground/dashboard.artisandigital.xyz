@@ -4,7 +4,7 @@ import { NavBar, SideNav } from './DashboardComponent'
 
 const { Content } = Layout
 
-function LayoutDashboard({ className, children, noCard }: any) {
+function LayoutDashboard({ children, noCard }: any) {
   return (
     <>
       <NavBar />

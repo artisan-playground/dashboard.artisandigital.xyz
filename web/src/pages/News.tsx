@@ -10,9 +10,7 @@ function News() {
   return (
     <LayoutDashboard noCard>
       <div className="font-bold text-2xl mb-4">Event</div>
-      <Row className="w-full  overflow-y-auto mb-4 p-4">
-        {/* <EventCard data={data} /> */}
-      </Row>
+      <Row className="w-full  overflow-y-auto mb-4 p-4">{/* <EventCard data={data} /> */}</Row>
 
       <div className="font-bold text-2xl mb-4">Paragraph #2</div>
       <Row className="w-full  overflow-y-auto mb-4 p-4">

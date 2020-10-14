@@ -3,7 +3,7 @@ import React from 'react'
 import { NavBar, SideNav } from './DashboardComponent'
 import SideProfile from './SideProfile'
 
-function LayoutProfile({ className, children, data,project,contact }: any) {
+function LayoutProfile({ children, data, project, contact }: any) {
   const { Content } = Layout
 
   return (

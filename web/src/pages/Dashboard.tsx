@@ -26,8 +26,7 @@ function Dashboard() {
     let num =
       !loading && projectData !== undefined
         ? projectData.projects.filter(
-            (project: any) =>
-              project.members.filter((member: any) => member.id === user?.id).length
+            (project: any) => project.members.filter((member: any) => member.id === user?.id).length
           ).length
         : 0
     return num
@@ -100,8 +99,7 @@ function Dashboard() {
                         ? taskData.tasks.filter(
                             (task: any) =>
                               task.isDone === false &&
-                              task.members.filter((member: any) => member.id === user?.id)
-                                .length
+                              task.members.filter((member: any) => member.id === user?.id).length
                           ).length
                         : 0}
                     </Title>

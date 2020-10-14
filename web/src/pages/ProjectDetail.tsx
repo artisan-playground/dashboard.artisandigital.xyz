@@ -18,10 +18,10 @@ import {
   TaskCard,
   TaskDrawer,
 } from '../components/DashboardComponent'
+import { GET_PROJECT_BY_ID } from '../services/api/project'
 
-function ProjectDetail(props: any) {
+function ProjectDetail() {
   const { Title, Text } = Typography
-  const projectData = props.location.state.data
   const { projectId }: any = useParams()
   const { loading, error, data, refetch } = useQuery(TASKS_BY_ID, {
     variables: { id: Number(projectId) },
@@ -30,17 +30,24 @@ function ProjectDetail(props: any) {
   const [filteredTasks, setFilteredTasks] = useState([])
   const [filteredLog, setFilteredLog] = useState([])
   const [drawerVisible, setDrawerVisible] = useState(false)
+  const [filteredData, setFilteredData] = useState<any>()
+  const {
+    loading: projectLoading,
+    error: projectError,
+    data: projectData,
+  } = useQuery(GET_PROJECT_BY_ID, { variables: { id: Number(projectId) } })
 
   useEffect(() => {
-    if (!error && !loading) {
+    if (!error && !loading && !projectLoading && !projectError) {
       data.getTaskByProjectId
         .filter((filteredId: any) => filteredId.project.id === projectId.id)
         .filter((filteredStatus: any) => filteredStatus.isDone === true)
 
       setFilteredTasks(data.getTaskByProjectId)
       setFilteredLog(data.getTaskByProjectId)
+      setFilteredData(projectData.project)
     }
-  }, [projectId, loading]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [projectId, loading, error, projectLoading, projectError, data, projectData])
 
   function closeDawer() {
     setDrawerVisible(false)
@@ -53,19 +60,19 @@ function ProjectDetail(props: any) {
           <Col span={24}>
             <Row className="w-full">
               <Col span={24} lg={{ span: 4 }} className="flex justify-center items-start">
-                <Avatar size={112} src={projectData.projectImage} />
+                <Avatar size={112} src={filteredData ? filteredData.projectImage : ''} />
               </Col>
               <Col span={24} lg={{ span: 20 }} className="px-4">
                 <Row>
-                  <Title level={2}>{projectData.projectName}</Title>
+                  <Title level={2}>{filteredData ? filteredData.projectName : ''}</Title>
                 </Row>
                 <Row>
                   <Text disabled className="text-md -mt-4 mb-2">
-                    {projectData.projectType}
+                    {filteredData ? filteredData.projectType : ''}
                   </Text>
                 </Row>
                 <Row>
-                  <Text className="text-lg">{projectData.projectDetail}</Text>
+                  <Text className="text-lg">{filteredData ? filteredData.projectDetail : ''}</Text>
                 </Row>
               </Col>
             </Row>
@@ -81,11 +88,14 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {new Date(projectData.dueDate).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
+                      {new Date(filteredData ? filteredData.dueDate : '').toLocaleDateString(
+                        'en-GB',
+                        {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                        }
+                      )}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Release Date
@@ -100,7 +110,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                      {projectData.members.length}
+                      {filteredData ? filteredData.members.length : ''}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Developer
@@ -116,7 +126,7 @@ function ProjectDetail(props: any) {
                     />
                     <Title level={3} className="text-center">
                       {filteredTasks &&
-                        filteredTasks.filter((item: any) => item.isDone===false).length}
+                        filteredTasks.filter((item: any) => item.isDone === false).length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Today's tasks
@@ -131,8 +141,7 @@ function ProjectDetail(props: any) {
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
                     <Title level={3} className="text-center">
-                    {filteredTasks &&
-                        filteredTasks.filter((item: any) => item.isDone).length}
+                      {filteredTasks && filteredTasks.filter((item: any) => item.isDone).length}
                     </Title>
                     <Text disabled className="text-md -mt-2 text-center">
                       Done tasks
@@ -160,7 +169,7 @@ function ProjectDetail(props: any) {
                   <TaskDrawer
                     visibillity={drawerVisible}
                     onCloseDrawer={closeDawer}
-                    project={projectData}
+                    project={filteredData ? filteredData : ''}
                     refetch={() => refetch()}
                   />
                 </div>
@@ -172,7 +181,7 @@ function ProjectDetail(props: any) {
                     <TaskCard
                       key={item.id}
                       data={item}
-                      project={projectData}
+                      project={filteredData ? filteredData : ''}
                       refetch={() => refetch()}
                     />
                   ))

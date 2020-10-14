@@ -9,7 +9,7 @@ import { Col, Layout, Row, Tag, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React from 'react'
 
-function SideProfile({ data,project,contact }: any) {
+function SideProfile({ data, project, contact }: any) {
   const { Text, Link } = Typography
   const { Sider } = Layout
 

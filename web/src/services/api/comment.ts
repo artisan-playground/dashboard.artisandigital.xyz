@@ -36,7 +36,7 @@ export const DELETE_COMMENT = gql`
 
 export const UPDATE_COMMENT = gql`
   mutation UpdateComment($id: Int!, $message: String!) {
-    updateOneComment(where: { id: $id } data: { message: { set: $message } }) {
+    updateOneComment(where: { id: $id }, data: { message: { set: $message } }) {
       id
       task {
         id

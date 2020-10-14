@@ -59,41 +59,41 @@ function ProfileEditor(props: any) {
   return (
     <LayoutDashboard noCard>
       <Row>
-          <Col xs={24} xl={6} className="mr-12 mb-4">
-            <Card className="flex items-center justify-center text-center mb-4">
-              <ImgCrop rotate>
-                <Upload
-                  name="avatar"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  showUploadList={false}
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  beforeUpload={beforeUpload}
-                  onChange={handleChange}
-                  onPreview={onPreview}
-                >
-                  {data ? (
-                    <div>
-                      <img src={data.image} alt="avatar" style={{ width: '100%' }} />
-                      <div className="ant-upload-text px-3 flex items-center">
-                        {loading ? <LoadingOutlined /> : <PlusOutlined />}Upload
-                      </div>
+        <Col xs={24} xl={6} className="mr-12 mb-4">
+          <Card className="flex items-center justify-center text-center mb-4">
+            <ImgCrop rotate>
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={beforeUpload}
+                onChange={handleChange}
+                onPreview={onPreview}
+              >
+                {data ? (
+                  <div>
+                    <img src={data.image} alt="avatar" style={{ width: '100%' }} />
+                    <div className="ant-upload-text px-3 flex items-center">
+                      {loading ? <LoadingOutlined /> : <PlusOutlined />}Upload
                     </div>
-                  ) : (
-                    <div>
-                      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                      <div className="ant-upload-text">Upload</div>
-                    </div>
-                  )}
-                </Upload>
-              </ImgCrop>
-            </Card>
-            <ProfileSkillTags data={data} />
-          </Col>
+                  </div>
+                ) : (
+                  <div>
+                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                    <div className="ant-upload-text">Upload</div>
+                  </div>
+                )}
+              </Upload>
+            </ImgCrop>
+          </Card>
+          <ProfileSkillTags data={data} />
+        </Col>
 
         <Col xs={24} xl={17}>
           <Card title="Edit Profile" headStyle={{ fontWeight: 'bold' }}>
-              <ProfileForm data={data} />
+            <ProfileForm data={data} />
           </Card>
         </Col>
       </Row>
