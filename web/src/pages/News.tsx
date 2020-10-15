@@ -1,4 +1,4 @@
-import { Card, Col, Row, Typography } from 'antd'
+import { Card, Col, Row, Typography, Image } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React from 'react'
 import { EventCard, LayoutDashboard } from '../components/DashboardComponent'
@@ -13,14 +13,16 @@ function News() {
   return (
     <LayoutDashboard noCard>
       <div className="font-bold text-2xl mb-4">Event</div>
-      <Row className="w-full  overflow-y-auto mb-4 p-4"><EventCard data={data} /></Row>
+      <Row className="w-full overflow-y-auto mb-4 p-4">
+        <EventCard data={data} />
+      </Row>
 
       <div className="font-bold text-2xl mb-4">Paragraph #2</div>
       <Row className="w-full  overflow-y-auto mb-4 p-4">
         <Card hoverable className="w-full rounded-lg shadow-lg">
           <Row>
             <Col span={24} md={{ span: 10 }}>
-              <img
+              <Image
                 src="https://source.unsplash.com/600x600/?seal"
                 alt="kityy1"
                 className="rounded-lg"
@@ -53,7 +55,7 @@ function News() {
           <Card
             hoverable
             className="w-full rounded-lg shadow-lg"
-            cover={<img src="https://source.unsplash.com/600x600/?cat" alt="kityy1" />}
+            cover={<Image src="https://source.unsplash.com/600x600/?cat" alt="kityy1" />}
           >
             <Meta
               avatar={<Avatar src="https://source.unsplash.com/600x600/?user" />}
@@ -75,7 +77,7 @@ function News() {
           <Card
             hoverable
             className="w-full rounded-lg shadow-lg"
-            cover={<img src="https://source.unsplash.com/600x601/?cat" alt="kityy2" />}
+            cover={<Image src="https://source.unsplash.com/600x601/?cat" alt="kityy2" />}
           >
             <Meta
               avatar={<Avatar src="https://source.unsplash.com/600x601/?user" />}
@@ -97,7 +99,7 @@ function News() {
           <Card
             hoverable
             className="w-full rounded-lg shadow-lg"
-            cover={<img src="https://source.unsplash.com/601x600/?cat" alt="kityy1" />}
+            cover={<Image src="https://source.unsplash.com/601x600/?cat" alt="kityy1" />}
           >
             <Meta
               avatar={<Avatar src="https://source.unsplash.com/601x600/?user" />}

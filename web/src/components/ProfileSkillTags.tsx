@@ -6,12 +6,12 @@ import { useMutation } from '@apollo/client'
 
 function ProfileSkillTags({ data }: any) {
   const { Text } = Typography
-  const [skills, setSkills] = useState(data.skills ? data.skills : '')
+  const [skills, setSkills] = useState(data?.skills)
   const [updateSkills] = useMutation(UPDATE_USER_SKILLS)
 
   useEffect(() => {
     updateSkills({
-      variables: { id: data.id, skills: skills },
+      variables: { id: data?.id, skills: skills },
     })
   }, [updateSkills, skills, data])
 

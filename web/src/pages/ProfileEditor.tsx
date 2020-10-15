@@ -2,13 +2,24 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import '@pathofdev/react-tag-input/build/index.css'
 import { Card, Col, Row, Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
-import React, { useState } from 'react'
-import { LayoutDashboard, ProfileForm, ProfileSkillTags } from '../components/DashboardComponent'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useQuery } from '@apollo/client'
+import { GET_USER_BY_ID } from '../services/api/user'
+import { LayoutDashboard, ProfileForm } from '../components/DashboardComponent'
 
-function ProfileEditor(props: any) {
-  // const [imageUrl, setImageUrl] = useState('')
-  const [loading, setLoading] = useState(false)
-  const data = props.location.state.data
+function ProfileEditor() {
+  const [userData, setUserData] = useState<any>()
+  const { id }: any = useParams()
+  const { loading, error, data, refetch } = useQuery(GET_USER_BY_ID, {
+    variables: { id: Number(id) },
+  })
+
+  useEffect(() => {
+    if (!error && !loading) {
+      setUserData(data.user)
+    }
+  }, [data, error, loading])
 
   function getBase64(img: any, callback: any) {
     const reader = new FileReader()
@@ -29,14 +40,12 @@ function ProfileEditor(props: any) {
   }
 
   function handleChange(info: any) {
-    if (info.file.status === 'uploading') {
-      setLoading(true)
+    if (info.file.status === 'uploading' && loading) {
       return
     }
-    if (info.file.status === 'done') {
+    if (info.file.status === 'done' && !loading) {
       getBase64(info.file.originFileObj, (imageUrl: any) => {
         // setImageUrl(imageUrl)
-        setLoading(false)
       })
     }
   }
@@ -72,9 +81,9 @@ function ProfileEditor(props: any) {
                 onChange={handleChange}
                 onPreview={onPreview}
               >
-                {data ? (
+                {userData ? (
                   <div>
-                    <img src={data.image} alt="avatar" style={{ width: '100%' }} />
+                    <img src={userData?.image} alt="avatar" style={{ width: '100%' }} />
                     <div className="ant-upload-text px-3 flex items-center">
                       {loading ? <LoadingOutlined /> : <PlusOutlined />}Upload
                     </div>
@@ -88,13 +97,19 @@ function ProfileEditor(props: any) {
               </Upload>
             </ImgCrop>
           </Card>
-          <ProfileSkillTags data={data} />
         </Col>
 
         <Col xs={24} xl={17}>
-          <Card title="Edit Profile" headStyle={{ fontWeight: 'bold' }}>
-            <ProfileForm data={data} />
-          </Card>
+          {userData ? (
+            <ProfileForm
+              data={userData}
+              refetch={() => refetch()}
+              loading={loading}
+              error={error}
+            />
+          ) : (
+            <div>{loading ? <LoadingOutlined /> : <PlusOutlined />}</div>
+          )}
         </Col>
       </Row>
     </LayoutDashboard>

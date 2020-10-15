@@ -19,6 +19,7 @@ function Profile() {
   const [filteredTaskData, setFilteredTaskData] = useState<any[]>([])
   const [userData, setUserData] = useState<any[]>([])
   const [userContactData, setUserContactData] = useState<any[]>([])
+  const [projectData, setProjectData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
   const { id }: any = useParams()
   const { loading, error, data } = useQuery(GET_USER_BY_ID, { variables: { id: Number(id) } })
@@ -51,6 +52,7 @@ function Profile() {
       setFilteredTaskData(data.user.tasks)
       setUserData(data.user)
       setUserContactData(data.user.contacts)
+      setProjectData(data.user.projects)
     }
   }, [data, error, loading])
 
@@ -90,7 +92,7 @@ function Profile() {
   )
 
   return (
-    <LayoutProfile data={userData} project={filteredData} contact={userContactData}>
+    <LayoutProfile data={userData} project={projectData} contact={userContactData}>
       <Title level={3}>Today's Tasks</Title>
       <div className="relative mr-auto ml-auto max-w-screen-md">
         <div className="w-full">

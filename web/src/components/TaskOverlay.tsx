@@ -52,8 +52,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
 
   const [taskData, setTaskData] = useState<Task | null>(null)
   const [modalVisible, setModalVisible] = useState(false)
-  // eslint-disable-next-line
-  const [imageUrl, setImageUrl] = useState()
+  // const [imageUrl, setImageUrl] = useState()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -106,7 +105,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, (imageUrl: any) => {
-        setImageUrl(imageUrl)
+        // setImageUrl(imageUrl)
         setLoading(false)
       })
     }

@@ -1,5 +1,5 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons'
-import { Button, Card, Divider, Form, Input, Typography } from 'antd'
+import { Button, Card, Divider, Form, Input, Typography, Image } from 'antd'
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useStoreState } from '../store'
@@ -21,7 +21,7 @@ function Register() {
       style={{ backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur` }}
     >
       <Card hoverable className="z-1 p-4">
-        <img alt="logo" src={require('../assets/images/logo3.png')} className="w-32 mb-10" />
+        <Image src={require('../assets/images/logo3.png')} className="w-32 mb-10" />
         <Form name="normal_login" className="login-form" initialValues={{ remember: true }}>
           <div className="flex items-center justify-between">
             <Form.Item
