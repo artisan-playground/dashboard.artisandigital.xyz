@@ -1,5 +1,5 @@
 import { MailOutlined } from '@ant-design/icons'
-import { Button, Card, Divider, Form, Input, Typography, Col } from 'antd'
+import { Button, Card, Divider, Form, Input, Typography, Col, Image } from 'antd'
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useStoreActions, useStoreState } from '../store'
@@ -36,7 +36,11 @@ function Login() {
         <Col xs={18} xl={6}>
           <Card hoverable>
             <div className="flex justify-center mb-6">
-              <img alt="logo" src={require('../assets/images/artisan-logo.png')} className="w-48" />
+              <Image
+                alt="logo"
+                src={require('../assets/images/artisan-logo.png')}
+                className="w-48"
+              />
             </div>
             <Form
               name="normal_login"

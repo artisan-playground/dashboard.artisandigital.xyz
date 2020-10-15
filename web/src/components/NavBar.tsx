@@ -1,5 +1,5 @@
 import { BellOutlined, DownOutlined } from '@ant-design/icons'
-import { Avatar, Badge, Col, Dropdown, Layout, Menu, Row, Typography } from 'antd'
+import { Avatar, Badge, Col, Dropdown, Layout, Menu, Row, Image, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useStoreActions, useStoreState } from '../store'
@@ -50,9 +50,7 @@ function NavBar() {
         <RouterLink to={{ pathname: `/profile/${user?.id}` }}>Profile</RouterLink>
       </Menu.Item>
       <Menu.Item>
-        <RouterLink to={{ pathname: `/profile-edit`, state: { data: user } }}>
-          Edit Profile
-        </RouterLink>
+        <RouterLink to={{ pathname: `/profile-edit/${user?.id}` }}>Edit Profile</RouterLink>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item>
@@ -66,15 +64,15 @@ function NavBar() {
       <div className="flex flex-row justify-between">
         <div className="w-44 ml-4 my-2">
           <RouterLink to="/">
-            <img
-              className="w-44 h-12 hidden md:block"
+            <Image
+              className="hidden md:block"
               src={require('../assets/images/logo3.png')}
-              alt="logo"
+              width={150}
             />
-            <img
-              className="w-12 h-12 md:hidden block"
+            <Image
+              className="md:hidden block"
               src={require('../assets/images/logo5.png')}
-              alt="logo"
+              width={40}
             />
           </RouterLink>
         </div>

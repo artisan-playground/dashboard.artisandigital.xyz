@@ -31,7 +31,7 @@ function Dashboard() {
         : 0
     return num
   }
-
+console.log(user)
   return (
     <LayoutDashboard noCard>
       <div>
@@ -88,7 +88,7 @@ function Dashboard() {
               </Link>
             </Col>
             <Col lg={{ span: 8 }} className="w-full">
-              <Link to="/projects">
+              <Link to={`/profile/${user?.id}`}>
                 <Card hoverable className="min-w-full rounded-lg">
                   <div className="flex flex-col justify-center items-center">
                     <ProfileOutlined
