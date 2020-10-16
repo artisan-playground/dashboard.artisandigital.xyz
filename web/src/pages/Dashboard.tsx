@@ -1,7 +1,7 @@
 import { FundProjectionScreenOutlined, ProfileOutlined, TeamOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
 import { Card, Col, Row, Typography } from 'antd'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { PROJECT } from '../services/api/project'
 import { TASKS } from '../services/api/task'
@@ -14,6 +14,7 @@ import {
 } from '../components/DashboardComponent'
 import '../styles/main.css'
 import { useStoreState } from '../store'
+import { GET_USER_BY_ID } from '../services/api/user'
 
 function Dashboard() {
   const { Title, Text } = Typography
@@ -21,6 +22,10 @@ function Dashboard() {
   const { data: taskData } = useQuery(TASKS)
   const { data: userData } = useQuery(GET_USERS)
   const user = useStoreState((s) => s.userState.user)
+  const { loading: userLoading, error, data } = useQuery(GET_USER_BY_ID, {
+    variables: { id: Number(user?.id) },
+  })
+  const [currentUserData, setCurrentUserData] = useState<any[]>([])
 
   function calProjects() {
     let num =
@@ -31,25 +36,36 @@ function Dashboard() {
         : 0
     return num
   }
-console.log(user)
+
+  useEffect(() => {
+    if (!error && !userLoading) {
+      setCurrentUserData(data.user)
+    }
+  }, [data, error, userLoading])
+
   return (
     <LayoutDashboard noCard>
       <div>
         <div className="site-card-wrapper">
           <Row gutter={[8, 24]}>
             <Col md={{ span: 24 }}>
-              <WelcomeCard
-                project={calProjects()}
-                task={
-                  taskData
-                    ? taskData.tasks.filter(
-                        (task: any) =>
-                          task.isDone === false &&
-                          task.members.filter((member: any) => member.id === user?.id).length
-                      ).length
-                    : 0
-                }
-              />
+              {currentUserData ? (
+                <WelcomeCard
+                  data={currentUserData}
+                  project={calProjects()}
+                  task={
+                    taskData
+                      ? taskData.tasks.filter(
+                          (task: any) =>
+                            task.isDone === false &&
+                            task.members.filter((member: any) => member.id === user?.id).length
+                        ).length
+                      : 0
+                  }
+                />
+              ) : (
+                ''
+              )}
             </Col>
           </Row>
           <Row gutter={[16, 24]}>
