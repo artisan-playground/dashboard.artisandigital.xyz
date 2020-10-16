@@ -14,19 +14,19 @@ function EventCard({ data }: any) {
         <Row className="md: justify-around">
           <div className="flex flex-col justify-center items-center border-r-2 pr-8 pl-4">
             <Text disabled className="font-bold text-lg">
-              {item.eventDate.toLocaleDateString('en-US', {
+              {new Date(item.eventDate).toLocaleDateString('en-US', {
                 weekday: 'short',
               })}
               <br />
             </Text>
             <Text className="font-bold text-2xl">
-              {item.eventDate.toLocaleDateString('en-US', {
+              {new Date(item.eventDate).toLocaleDateString('en-US', {
                 day: 'numeric',
               })}
             </Text>
             <br />
             <Text disabled className="font-bold text-md -mt-4">
-              {item.eventDate.toLocaleDateString('en-US', {
+              {new Date(item.eventDate).toLocaleDateString('en-US', {
                 month: 'short',
               })}
             </Text>
