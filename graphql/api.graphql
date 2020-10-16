@@ -348,9 +348,9 @@ input EventCreateInput {
   tag: String
 }
 
-input EventCreateOneWithoutInvitedInput {
-  connect: EventWhereUniqueInput
-  create: EventCreateWithoutInvitedInput
+input EventCreateManyWithoutInvitedInput {
+  connect: [EventWhereUniqueInput!]
+  create: [EventCreateWithoutInvitedInput!]
 }
 
 input EventCreateWithoutInvitedInput {
@@ -359,6 +359,18 @@ input EventCreateWithoutInvitedInput {
   eventName: String
   note: String
   tag: String
+}
+
+input EventScalarWhereInput {
+  AND: [EventScalarWhereInput!]
+  endDate: DateTimeFilter
+  eventDate: DateTimeFilter
+  eventName: StringNullableFilter
+  id: IntFilter
+  NOT: [EventScalarWhereInput!]
+  note: StringNullableFilter
+  OR: [EventScalarWhereInput!]
+  tag: StringNullableFilter
 }
 
 input EventUpdateInput {
@@ -370,13 +382,29 @@ input EventUpdateInput {
   tag: NullableStringFieldUpdateOperationsInput
 }
 
-input EventUpdateOneWithoutInvitedInput {
-  connect: EventWhereUniqueInput
-  create: EventCreateWithoutInvitedInput
-  delete: Boolean
-  disconnect: Boolean
-  update: EventUpdateWithoutInvitedDataInput
-  upsert: EventUpsertWithoutInvitedInput
+input EventUpdateManyDataInput {
+  endDate: DateTimeFieldUpdateOperationsInput
+  eventDate: DateTimeFieldUpdateOperationsInput
+  eventName: NullableStringFieldUpdateOperationsInput
+  note: NullableStringFieldUpdateOperationsInput
+  tag: NullableStringFieldUpdateOperationsInput
+}
+
+input EventUpdateManyWithoutInvitedInput {
+  connect: [EventWhereUniqueInput!]
+  create: [EventCreateWithoutInvitedInput!]
+  delete: [EventWhereUniqueInput!]
+  deleteMany: [EventScalarWhereInput!]
+  disconnect: [EventWhereUniqueInput!]
+  set: [EventWhereUniqueInput!]
+  update: [EventUpdateWithWhereUniqueWithoutInvitedInput!]
+  updateMany: [EventUpdateManyWithWhereNestedInput!]
+  upsert: [EventUpsertWithWhereUniqueWithoutInvitedInput!]
+}
+
+input EventUpdateManyWithWhereNestedInput {
+  data: EventUpdateManyDataInput!
+  where: EventScalarWhereInput!
 }
 
 input EventUpdateWithoutInvitedDataInput {
@@ -387,9 +415,15 @@ input EventUpdateWithoutInvitedDataInput {
   tag: NullableStringFieldUpdateOperationsInput
 }
 
-input EventUpsertWithoutInvitedInput {
+input EventUpdateWithWhereUniqueWithoutInvitedInput {
+  data: EventUpdateWithoutInvitedDataInput!
+  where: EventWhereUniqueInput!
+}
+
+input EventUpsertWithWhereUniqueWithoutInvitedInput {
   create: EventCreateWithoutInvitedInput!
   update: EventUpdateWithoutInvitedDataInput!
+  where: EventWhereUniqueInput!
 }
 
 input EventWhereUniqueInput {
@@ -1078,7 +1112,7 @@ input UserCreateInput {
   contacts: ContactCreateOneWithoutUserInput!
   department: String
   email: String!
-  Event: EventCreateOneWithoutInvitedInput
+  event: EventCreateManyWithoutInvitedInput
   image: String
   name: String
   position: String
@@ -1122,7 +1156,7 @@ input UserCreateWithoutCommentsInput {
   contacts: ContactCreateOneWithoutUserInput!
   department: String
   email: String!
-  Event: EventCreateOneWithoutInvitedInput
+  event: EventCreateManyWithoutInvitedInput
   image: String
   name: String
   position: String
@@ -1137,7 +1171,7 @@ input UserCreateWithoutContactsInput {
   comments: CommentCreateManyWithoutUserInput
   department: String
   email: String!
-  Event: EventCreateOneWithoutInvitedInput
+  event: EventCreateManyWithoutInvitedInput
   image: String
   name: String
   position: String
@@ -1168,7 +1202,7 @@ input UserCreateWithoutProjectsInput {
   contacts: ContactCreateOneWithoutUserInput!
   department: String
   email: String!
-  Event: EventCreateOneWithoutInvitedInput
+  event: EventCreateManyWithoutInvitedInput
   image: String
   name: String
   position: String
@@ -1183,7 +1217,7 @@ input UserCreateWithoutTasksInput {
   contacts: ContactCreateOneWithoutUserInput!
   department: String
   email: String!
-  Event: EventCreateOneWithoutInvitedInput
+  event: EventCreateManyWithoutInvitedInput
   image: String
   name: String
   position: String
@@ -1198,7 +1232,6 @@ input UserScalarWhereInput {
   contactId: IntFilter
   department: StringNullableFilter
   email: StringFilter
-  eventId: IntNullableFilter
   id: IntFilter
   image: StringNullableFilter
   name: StringNullableFilter
@@ -1215,7 +1248,7 @@ input UserUpdateInput {
   contacts: ContactUpdateOneRequiredWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
-  Event: EventUpdateOneWithoutInvitedInput
+  event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
   position: NullableStringFieldUpdateOperationsInput
@@ -1305,7 +1338,7 @@ input UserUpdateWithoutCommentsDataInput {
   contacts: ContactUpdateOneRequiredWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
-  Event: EventUpdateOneWithoutInvitedInput
+  event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
   position: NullableStringFieldUpdateOperationsInput
@@ -1320,7 +1353,7 @@ input UserUpdateWithoutContactsDataInput {
   comments: CommentUpdateManyWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
-  Event: EventUpdateOneWithoutInvitedInput
+  event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
   position: NullableStringFieldUpdateOperationsInput
@@ -1351,7 +1384,7 @@ input UserUpdateWithoutProjectsDataInput {
   contacts: ContactUpdateOneRequiredWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
-  Event: EventUpdateOneWithoutInvitedInput
+  event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
   position: NullableStringFieldUpdateOperationsInput
@@ -1366,7 +1399,7 @@ input UserUpdateWithoutTasksDataInput {
   contacts: ContactUpdateOneRequiredWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
-  Event: EventUpdateOneWithoutInvitedInput
+  event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
   position: NullableStringFieldUpdateOperationsInput

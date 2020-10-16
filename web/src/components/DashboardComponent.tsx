@@ -13,6 +13,7 @@ import WelcomeCard from '../components/WelcomeCard'
 import ProfileProjectCard from './ProfileProjectCard'
 import ProfileTaskCard from './ProfileTaskCard'
 import TaskDrawer from './TaskDrawer'
+import ProjectDrawer from './ProjectDrawer'
 
 export {
   EventCard,
@@ -30,4 +31,5 @@ export {
   TaskCard,
   LoadingComponent,
   TaskDrawer,
+  ProjectDrawer
 }
