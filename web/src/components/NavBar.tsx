@@ -6,6 +6,7 @@ import { useStoreActions, useStoreState } from '../store'
 import '../styles/main.css'
 import { useQuery } from '@apollo/client'
 import { TASKS } from '../services/api/task'
+import { GET_USER_BY_ID } from '../services/api/user'
 
 function NavBar() {
   const { Header } = Layout
@@ -14,12 +15,17 @@ function NavBar() {
   const logout = useStoreActions((a) => a.userState.logOut)
   const { loading, error, data } = useQuery(TASKS)
   const [filteredData, setFilteredData] = useState<any[]>([])
+  const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USER_BY_ID, {
+    variables: { id: Number(user?.id) },
+  })
+  const [currentUserData, setCurrentUserData] = useState<any>([])
 
   useEffect(() => {
-    if (!error && !loading) {
+    if (!error && !loading && !userLoading && !userError) {
       setFilteredData(data.tasks)
+      setCurrentUserData(userData.user)
     }
-  }, [data, error, loading])
+  }, [data, error, loading, userLoading, userError, userData])
 
   async function onLogoutClick() {
     await logout()
@@ -81,10 +87,19 @@ function NavBar() {
           <Col>
             <Dropdown overlay={userDropDown} placement="bottomCenter" arrow>
               <Row className="justify-center items-center cursor-pointer">
-                <div className="block hover:hidden">
-                  <Avatar src={user?.image} className="border-2 mr-2 " alt="user" size="large" />
-                  <Text className="font-bold">{user?.name}</Text>
-                </div>
+                {currentUserData ? (
+                  <div className="block hover:hidden">
+                    <Avatar
+                      src={currentUserData.image}
+                      className="border-2 mr-2 "
+                      alt="user"
+                      size="large"
+                    />
+                    <Text className="font-bold">{currentUserData.name}</Text>
+                  </div>
+                ) : (
+                  ''
+                )}
                 <div className="hover:block hidden">
                   <DownOutlined style={{ fontSize: 20 }} />
                 </div>
