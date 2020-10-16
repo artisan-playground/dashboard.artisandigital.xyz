@@ -39,6 +39,7 @@ export const PROJECT = gql`
 export const GET_PROJECT_BY_ID = gql`
   query Project($id: Int!) {
     project(where: { id: $id }) {
+      id
       projectName
       projectType
       projectDetail
@@ -47,6 +48,9 @@ export const GET_PROJECT_BY_ID = gql`
       dueDate
       members {
         id
+        email
+        name
+        image
       }
       tasks {
         id
@@ -57,6 +61,9 @@ export const GET_PROJECT_BY_ID = gql`
         isDone
         members {
           id
+          email
+          name
+          image
         }
         files {
           id

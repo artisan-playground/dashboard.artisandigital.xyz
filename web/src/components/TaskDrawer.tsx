@@ -55,7 +55,6 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
     if (taskName !== '' && taskDetail !== '' && members.length !== 0) {
       createTask({
         variables: {
-          id: data.id,
           projectId: project.id,
           taskName: taskName,
           taskDetail: taskDetail,
