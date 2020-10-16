@@ -87,3 +87,36 @@ export const GET_PROJECT_BY_ID = gql`
     }
   }
 `
+
+export const CREATE_PROJECT = gql`
+  mutation CreateProject(
+    $projectName: String!
+    $projectType: String!
+    $projectDetail: String!
+    $projectImage: String!
+    $dueDate: DateTime!
+    $members: Int!
+  ) {
+    createOneProject(
+      data: {
+        projectName: $projectName
+        projectType: $projectType
+        projectDetail: $projectDetail
+        projectImage: $projectImage
+        dueDate: $dueDate
+        members: { connect: [{ id: $members }] }
+      }
+    ) {
+      id
+      projectName
+      projectType
+      projectDetail
+      projectImage
+      status
+      dueDate
+      members {
+        id
+      }
+    }
+  }
+`

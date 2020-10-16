@@ -1,17 +1,24 @@
 import { useQuery } from '@apollo/client'
-import { Col, Input, Radio, Row, Typography } from 'antd'
+import { Button, Col, Input, Radio, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { PROJECT } from '../services/api/project'
-import { LayoutDashboard, LoadingComponent, ProjectCard } from '../components/DashboardComponent'
+import {
+  LayoutDashboard,
+  LoadingComponent,
+  ProjectCard,
+  ProjectDrawer,
+} from '../components/DashboardComponent'
+import { PlusCircleOutlined } from '@ant-design/icons'
 
 function ProjectList() {
   const { Search } = Input
   const { Text } = Typography
-  const { loading, error, data } = useQuery(PROJECT)
+  const { loading, error, data, refetch } = useQuery(PROJECT)
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
   const [keyword, setKeyword] = useState('')
   const [filterloading, setLoading] = useState(false)
+  const [drawerVisible, setDrawerVisible] = useState(false)
 
   useEffect(() => {
     if (!error && !loading) {
@@ -59,21 +66,45 @@ function ProjectList() {
     setLoading(false)
   }
 
+  function closeDawer() {
+    setDrawerVisible(false)
+  }
+
   return (
     <LayoutDashboard noCard>
-      <Row className="justify-end">
-        <Row className="justify-end">
-          <Search
-            placeholder="input search loading default"
-            value={keyword}
-            onChange={handleKeywordChange}
-            loading={filterloading}
+      <Row className="justify-between">
+        <Row>
+          <Button
+            className="flex items-center justify-center bg-primaryopacity shadow-md hover:shadow-lg hover:bg-primary transition duration-200 ease-in outline-none border-0 "
+            type="primary"
+            size="large"
+            shape="round"
+            onClick={() => setDrawerVisible(true)}
+          >
+            <PlusCircleOutlined className="hover:scale-150 " />
+            <Text className="hidden hover:block text-white">Create</Text>
+          </Button>
+          <ProjectDrawer
+            visibillity={drawerVisible}
+            onCloseDrawer={closeDawer}
+            refetch={() => refetch()}
           />
-          <Radio.Group className="my-4" value={types} onChange={(e) => setTypes(e.target.value)}>
-            <Radio.Button value="all">All</Radio.Button>
-            <Radio.Button value="undone">WIP</Radio.Button>
-            <Radio.Button value="done">Closed</Radio.Button>
-          </Radio.Group>
+        </Row>
+
+        <Row>
+          <Row className="justify-end">
+            <Search
+              placeholder="input search loading default"
+              value={keyword}
+              onChange={handleKeywordChange}
+              loading={filterloading}
+            />
+            <Radio.Group className="my-4" value={types} onChange={(e) => setTypes(e.target.value)}>
+              <Radio.Button value="all">All</Radio.Button>
+              <Radio.Button value="undone">WIP</Radio.Button>
+              <Radio.Button value="done">Closed</Radio.Button>
+            </Radio.Group>
+          </Row>
         </Row>
       </Row>
       {loading || error ? (
