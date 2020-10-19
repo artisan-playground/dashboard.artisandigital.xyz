@@ -30,6 +30,9 @@ export const GET_USER = gql`
           name
           image
         }
+        tasks {
+          id
+        }
       }
       tasks {
         id
@@ -104,6 +107,9 @@ export const GET_USER_BY_ID = gql`
           name
           image
         }
+        tasks {
+          id
+        }
       }
       tasks {
         id
@@ -177,6 +183,9 @@ export const GET_USERS = gql`
           id
           name
           image
+        }
+        tasks {
+          id
         }
       }
       tasks {
