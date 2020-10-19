@@ -31,5 +31,5 @@ export {
   TaskCard,
   LoadingComponent,
   TaskDrawer,
-  ProjectDrawer
+  ProjectDrawer,
 }

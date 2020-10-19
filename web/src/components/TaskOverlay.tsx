@@ -30,23 +30,28 @@ import {
   Upload,
 } from 'antd'
 import { useStoreState } from 'easy-peasy'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
 import { COMMENT, DELETE_COMMENT, UPDATE_COMMENT } from '../services/api/comment'
-import { TOGGLE_TASK_DONE } from '../services/api/task'
+import { TOGGLE_TASK_DONE, UPDATE_TASK_NAME, UPDATE_TASK_DETAIL } from '../services/api/task'
 import { Task } from '../typings'
-import LoadingComponent from './LoadingComponent'
+import { LoadingComponent } from '../components/DashboardComponent'
 
 function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   const { Text } = Typography
-
+  const ref = useRef(document.createElement('div'))
   const [toggleIsDone, { loading: loadingMutation }] = useMutation(TOGGLE_TASK_DONE)
   const [createComment] = useMutation(COMMENT)
   const [deleteComment] = useMutation(DELETE_COMMENT)
   const [updateComment] = useMutation(UPDATE_COMMENT)
+  const [updateTaskName] = useMutation(UPDATE_TASK_NAME)
+  const [updateTaskDetail] = useMutation(UPDATE_TASK_DETAIL)
+
   const [isDone] = useState(false)
   const [editing, setEditing] = useState(false)
+  const [editTaskName, setEditTaskName] = useState(false)
+  const [editTaskDetail, setEditTaskDetail] = useState(false)
 
   const user = useStoreState((s) => s.userState.user)
 
@@ -55,10 +60,28 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   // const [imageUrl, setImageUrl] = useState()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [taskName, setTaskName] = useState('')
+  const [taskDetail, setTaskDetail] = useState('')
 
   useEffect(() => {
     setTaskData(data)
+    setTaskName(data.taskName)
+    setTaskDetail(data.taskDetail)
   }, [data, loadingMutation])
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true)
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true)
+    }
+  })
+
+  const handleClickOutside = (event: any) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setEditTaskName(false)
+      setEditTaskDetail(false)
+    }
+  }
 
   useEffect(() => {
     setModalVisible(visible)
@@ -248,11 +271,59 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
         <LoadingComponent overlay />
       ) : (
         <>
-          <Text className="font-bold text-4xl ml-2">{taskData.taskName}</Text>
+          {!editTaskName ? (
+            <Button
+              className="font-bold text-4xl ml-2"
+              type="text"
+              onClick={() => {
+                setEditTaskName(true)
+              }}
+            >
+              {taskData.taskName}
+            </Button>
+          ) : (
+            <Input
+              className="font-bold text-4xl ml-2"
+              autoFocus
+              defaultValue={taskName}
+              onChange={(e) => {
+                if (taskName) {
+                  setTaskName(e.target.value)
+                  updateTaskName({
+                    variables: { id: data.id, taskName: e.target.value },
+                  })
+                }
+              }}
+            />
+          )}
           <Row className="py-4">
             <Col span={24} lg={{ span: 18 }} className="pl-4 pr-4 pt-2 border-0 lg:border-r-2">
               <Row>
-                <Text className="text-lg pl-4 pr-4 mb-8">{taskData.taskDetail}</Text>
+                {!editTaskDetail ? (
+                  <Button
+                    className="text-lg pl-4 pr-4 mb-8"
+                    type="text"
+                    onClick={() => {
+                      setEditTaskDetail(true)
+                    }}
+                  >
+                    {taskData.taskDetail}
+                  </Button>
+                ) : (
+                  <Input
+                    className="text-lg pl-4 pr-4 mb-8"
+                    autoFocus
+                    defaultValue={taskDetail}
+                    onChange={(e) => {
+                      if (taskDetail) {
+                        setTaskDetail(e.target.value)
+                        updateTaskDetail({
+                          variables: { id: data.id, taskDetail: e.target.value },
+                        })
+                      }
+                    }}
+                  />
+                )}
               </Row>
               <Row className="items-center">
                 <PaperClipOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />

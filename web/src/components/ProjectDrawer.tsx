@@ -188,6 +188,7 @@ function ProjectDrawer({ visibillity, onCloseDrawer, refetch }: any) {
                 rules={[{ required: true, message: 'Please choose the due date' }]}
               >
                 <DatePicker
+                  className="w-full"
                   showTime={{ format: 'HH:mm' }}
                   format="YYYY-MM-DD HH:mm"
                   onChange={onChange}
