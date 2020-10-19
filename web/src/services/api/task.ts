@@ -282,3 +282,19 @@ export const ADD_TASK = gql`
     }
   }
 `
+
+export const UPDATE_TASK_NAME = gql`
+  mutation UpdateTaskName($id: Int!, $taskName: String!) {
+    updateOneTask(where: { id: $id }, data: { taskName: { set: $taskName } }) {
+      id
+    }
+  }
+`
+
+export const UPDATE_TASK_DETAIL = gql`
+  mutation UpdateTaskDetail($id: Int!, $taskDetail: String!) {
+    updateOneTask(where: { id: $id }, data: { taskDetail: { set: $taskDetail } }) {
+      id
+    }
+  }
+`
