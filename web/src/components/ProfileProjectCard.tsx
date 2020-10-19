@@ -74,7 +74,7 @@ function ProfileProjectCard({ data }: any) {
         <Meta
           avatar={<Avatar size={60} src={data.projectImage} />}
           title={data.projectName}
-          description={`${data.projectType} | ...Tasks`}
+          description={`${data.projectType} | ${data.tasks.length} Tasks`}
         />
         <Text className="font-bold">Member(s)</Text>
         <Row className="pl-16 mt-2">{renderShowItems(data.members)}</Row>
