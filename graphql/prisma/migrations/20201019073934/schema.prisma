@@ -21,6 +21,9 @@ model User {
   comments   Comment[]
   projects   Project[]
   tasks      Task[]
+  event      Event[]
+  startDate  DateTime        @default(now())
+  dueDate    DateTime
   role       Role            @default(USER)
 }
 
@@ -52,7 +55,7 @@ model Task {
   projectId  Int
   taskName   String?
   startTime  DateTime     @default(now())
-  endTime    DateTime     @default(now())
+  endTime    DateTime
   taskDetail String?
   isDone     Boolean
   members    User[]
@@ -79,6 +82,16 @@ model Comment {
   message   String?
   replyId   Int?
   reply     Comment?  @relation("ReplyComment", fields: [replyId], references: [id])
+}
+
+model Event{
+  id        Int       @id @default(autoincrement())
+  eventDate DateTime  @default(now())
+  endDate   DateTime
+  eventName String?
+  note      String?
+  tag       String?
+  invited   User[]
 }
 
 enum Role {
