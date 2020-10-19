@@ -120,3 +120,36 @@ export const CREATE_PROJECT = gql`
     }
   }
 `
+
+export const UPDATE_PROJECT_NAME = gql`
+mutation UpdateProjectName($id: Int!, $projectName: String) {
+  updateOneProject(
+    where: { id: $id }
+    data: { projectName: { set: $projectName } }
+  ) {
+    id
+  }
+}
+`
+
+export const UPDATE_PROJECT_DETAIL = gql`
+mutation UpdateProjectDetail($id: Int!, $projectDetail: String) {
+  updateOneProject(
+    where: { id: $id }
+    data: { projectDetail: { set: $projectDetail } }
+  ) {
+    id
+  }
+}
+`
+
+export const UPDATE_PROJECT_TYPE = gql`
+mutation UpdateProjectType($id: Int!, $projectType: String) {
+  updateOneProject(
+    where: { id: $id }
+    data: { projectType: { set: $projectType } }
+  ) {
+    id
+  }
+}
+`

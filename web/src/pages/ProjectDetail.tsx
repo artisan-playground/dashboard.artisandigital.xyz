@@ -5,10 +5,10 @@ import {
   ScheduleOutlined,
   SmileOutlined,
 } from '@ant-design/icons'
-import { useQuery } from '@apollo/client'
-import { Button, Card, Col, Row, Typography } from 'antd'
+import { useMutation, useQuery } from '@apollo/client'
+import { Button, Card, Col, Input, Row, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { TASKS_BY_ID } from '../services/api/task'
 import {
@@ -18,7 +18,12 @@ import {
   TaskCard,
   TaskDrawer,
 } from '../components/DashboardComponent'
-import { GET_PROJECT_BY_ID } from '../services/api/project'
+import {
+  GET_PROJECT_BY_ID,
+  UPDATE_PROJECT_NAME,
+  UPDATE_PROJECT_DETAIL,
+  UPDATE_PROJECT_TYPE,
+} from '../services/api/project'
 
 function ProjectDetail() {
   const { Title, Text } = Typography
@@ -36,6 +41,18 @@ function ProjectDetail() {
     error: projectError,
     data: projectData,
   } = useQuery(GET_PROJECT_BY_ID, { variables: { id: Number(projectId) } })
+  const [updateProjectName] = useMutation(UPDATE_PROJECT_NAME)
+  const [updateProjectDetail] = useMutation(UPDATE_PROJECT_DETAIL)
+  const [updateProjectType] = useMutation(UPDATE_PROJECT_TYPE)
+  const ref = useRef(document.createElement('div'))
+  const { TextArea } = Input
+
+  const [projectName, setProjectName] = useState<any>()
+  const [projectDetail, setProjectDetail] = useState<any>()
+  const [projectType, setProjectType] = useState<any>()
+  const [editProjectName, setEditProjectName] = useState(false)
+  const [editProjectDetail, setEditProjectDetail] = useState(false)
+  const [editProjectType, setEditProjectType] = useState(false)
 
   useEffect(() => {
     if (!error && !loading && !projectLoading && !projectError) {
@@ -46,8 +63,27 @@ function ProjectDetail() {
       setFilteredTasks(data.getTaskByProjectId)
       setFilteredLog(data.getTaskByProjectId)
       setFilteredData(projectData.project)
+      setProjectName(projectData.project.projectName)
+      setProjectDetail(projectData.project.projectDetail)
+      setProjectType(projectData.project.projectType)
     }
   }, [projectId, loading, error, projectLoading, projectError, data, projectData])
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true)
+    return () => {
+      document.removeEventListener('click', handleClickOutside, true)
+    }
+  })
+
+  const handleClickOutside = (event: any) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setEditProjectName(false)
+      setEditProjectDetail(false)
+      setEditProjectType(false)
+      refetch()
+    }
+  }
 
   function closeDawer() {
     setDrawerVisible(false)
@@ -64,16 +100,78 @@ function ProjectDetail() {
               </Col>
               <Col span={24} lg={{ span: 20 }} className="px-4">
                 <Row>
-                  <Title level={2}>{filteredData ? filteredData.projectName : ''}</Title>
+                  {!editProjectName ? (
+                    <div
+                      onClick={() => {
+                        setEditProjectName(true)
+                      }}
+                    >
+                      <Text className="font-bold text-3xl ml-2">{projectName}</Text>
+                    </div>
+                  ) : (
+                    <Input
+                      className="font-bold text-3xl ml-2"
+                      autoFocus
+                      defaultValue={projectName}
+                      onChange={(e) => {
+                        if (filteredData) {
+                          setProjectName(e.target.value)
+                          updateProjectName({
+                            variables: { id: Number(projectId), projectName: e.target.value },
+                          })
+                        }
+                      }}
+                    />
+                  )}
                 </Row>
                 <Row>
-                  <Text disabled className="text-md -mt-4 mb-2">
-                    {filteredData ? filteredData.projectType : ''}
-                  </Text>
+                  {!editProjectType ? (
+                    <div onClick={() => {
+                      setEditProjectType(true)
+                    }}>
+                      <Text className="text-md mt-4 mb-2 text-gray-500">{projectType}</Text>
+                    </div>
+                  ) : (
+                    <Input
+                      className="text-md mt-4 mb-2"
+                      autoFocus
+                      defaultValue={projectType}
+                      onChange={(e) => {
+                        if (filteredData) {
+                          setProjectType(e.target.value)
+                          updateProjectType({
+                            variables: { id: Number(projectId), projectType: e.target.value },
+                          })
+                        }
+                      }}
+                    />
+                  )}
                 </Row>
-                <Row>
-                  <Text className="text-lg">{filteredData ? filteredData.projectDetail : ''}</Text>
-                </Row>
+
+                {!editProjectDetail ? (
+                  <div
+                    onClick={() => {
+                      setEditProjectDetail(true)
+                    }}
+                  >
+                    <Text className="text-lg">{projectDetail}</Text>
+                  </div>
+                ) : (
+                  <TextArea
+                    className="text-lg w-full"
+                    autoSize
+                    autoFocus
+                    defaultValue={projectDetail}
+                    onChange={(e) => {
+                      if (filteredData) {
+                        setProjectDetail(e.target.value)
+                        updateProjectDetail({
+                          variables: { id: Number(projectId), projectDetail: e.target.value },
+                        })
+                      }
+                    }}
+                  />
+                )}
               </Col>
             </Row>
           </Col>
