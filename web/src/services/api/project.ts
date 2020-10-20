@@ -153,3 +153,14 @@ mutation UpdateProjectType($id: Int!, $projectType: String) {
   }
 }
 `
+
+export const UPDATE_PROJECT_STATUS = gql`
+mutation UpdateProjectStatus($id: Int!, $status: String) {
+  updateOneProject(
+    where: { id: $id }
+    data: { status: { set: $status } }
+  ) {
+    id
+  }
+}
+`
