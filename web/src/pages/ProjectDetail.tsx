@@ -96,15 +96,17 @@ function ProjectDetail() {
   }
 
   function onUnDoneClick() {
+    setStatus('undone')
     updateProjectStatus({
-      variables: { id: Number(projectId), status: 'undone' },
+      variables: { id: Number(projectId), status: status },
     })
     projectRefetch()
   }
 
   function onDoneClick() {
+    setStatus('done')
     updateProjectStatus({
-      variables: { id: Number(projectId), status: 'done' },
+      variables: { id: Number(projectId), status: status },
     })
     projectRefetch()
   }
