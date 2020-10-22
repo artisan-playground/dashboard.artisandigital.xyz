@@ -5,7 +5,6 @@ import {
   CloseCircleOutlined,
   CommentOutlined,
   DeleteOutlined,
-  EditOutlined,
   FundProjectionScreenOutlined,
   LoadingOutlined,
   MoreOutlined,
@@ -14,6 +13,7 @@ import {
   RollbackOutlined,
   SendOutlined,
   TeamOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons'
 import { useMutation } from '@apollo/client'
 import {
@@ -40,6 +40,7 @@ import { LoadingComponent } from '../components/DashboardComponent'
 
 function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   const { Text } = Typography
+  const { confirm } = Modal
   const ref = useRef(document.createElement('div'))
   const [toggleIsDone, { loading: loadingMutation }] = useMutation(TOGGLE_TASK_DONE)
   const [createComment] = useMutation(COMMENT)
@@ -49,7 +50,6 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   const [updateTaskDetail] = useMutation(UPDATE_TASK_DETAIL)
 
   const [isDone] = useState(false)
-  const [editing, setEditing] = useState(false)
   const [editTaskName, setEditTaskName] = useState(false)
   const [editTaskDetail, setEditTaskDetail] = useState(false)
 
@@ -89,12 +89,10 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
 
   function onUnDoneClick() {
     toggleIsDone({ variables: { id: data.id, isDone: isDone } })
-    setModalVisible(true)
   }
 
   function onDoneClick() {
     toggleIsDone({ variables: { id: data.id, isDone: !isDone } })
-    setModalVisible(true)
   }
 
   function onCancelClick(event: any) {
@@ -187,35 +185,6 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
     }
   }
 
-  function handleSave(item: any) {
-    if (message !== '') {
-      if (taskData) {
-        updateComment({
-          variables: {
-            id: item.id,
-            message: message,
-          },
-        })
-          .then((res) => {
-            if (res) {
-              const tempData: Task = taskData
-                ? { ...taskData, comments: [...taskData.comments!] }
-                : { ...data }
-              setTaskData(tempData)
-            }
-          })
-          .catch((err) => {
-            Message.error({
-              content: `Error : ${err}`,
-              duration: 2,
-              icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
-            })
-          })
-      }
-      setMessage('')
-    }
-  }
-
   function menu(item: any) {
     return (
       <Menu>
@@ -225,22 +194,19 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
         {item.user.id === user?.id && (
           <Menu>
             <Menu.Item
-              className="flex flex-row px-4 items-center"
-              icon={<EditOutlined />}
-              onClick={() => {
-                if (item !== null) {
-                  setEditing(true)
-                  handleSave(item)
-                }
-              }}
-            >
-              Edit
-            </Menu.Item>
-            <Menu.Item
               icon={<DeleteOutlined />}
               className="flex flex-row px-4 items-center text-red-400 hover:bg-red-400 hover:text-white"
               onClick={() => {
-                window.confirm('Are you sure to delete this comment') && handleDelete(item.id)
+                confirm({
+                  title: 'Are you sure to delete this comment?',
+                  icon: <ExclamationCircleOutlined />,
+                  okText: 'Yes',
+                  okType: 'danger',
+                  cancelText: 'No',
+                  onOk() {
+                    handleDelete(item.id)
+                  },
+                })
               }}
             >
               Delete
@@ -392,38 +358,25 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                             </div>
                             <div className="pr-8 pl-2">
                               <Linkify>
-                                {!editing ? (
-                                  <div>
-                                    <Text className="text-md">{item.message}</Text>
-                                  </div>
+                                {item.user.id === user?.id ? (
+                                  <Text
+                                    editable={{
+                                      onChange: (message) => {
+                                        if (taskData) {
+                                          updateComment({
+                                            variables: {
+                                              id: item.id,
+                                              message: message,
+                                            },
+                                          })
+                                        }
+                                      },
+                                    }}
+                                  >
+                                    {item.message}
+                                  </Text>
                                 ) : (
-                                  <div>
-                                    <Input.Group compact>
-                                      <Input
-                                        style={{ width: '50%' }}
-                                        autoFocus
-                                        defaultValue={item.message}
-                                        onChange={(e) => setMessage(e.target.value)}
-                                      />
-                                      <Button
-                                        icon={<EditOutlined />}
-                                        onClick={() => {
-                                          handleSave(item.id)
-                                        }}
-                                      >
-                                        Save
-                                      </Button>
-                                      <Button
-                                        icon={<CloseCircleOutlined />}
-                                        danger
-                                        onClick={() => {
-                                          setEditing(false)
-                                        }}
-                                      >
-                                        Cancel
-                                      </Button>
-                                    </Input.Group>
-                                  </div>
+                                  <Text>{item.message}</Text>
                                 )}
                               </Linkify>
                             </div>

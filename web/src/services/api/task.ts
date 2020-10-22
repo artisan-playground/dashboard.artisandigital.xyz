@@ -298,3 +298,11 @@ export const UPDATE_TASK_DETAIL = gql`
     }
   }
 `
+
+export const DELETE_TASK = gql`
+  mutation DeleteTask($id: Int!) {
+    deleteOneTask(where: { id: $id }) {
+      id
+    }
+  }
+`

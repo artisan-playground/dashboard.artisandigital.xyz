@@ -8,7 +8,7 @@ import {
   ExclamationCircleOutlined,
 } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, Card, Col, Input, Row, Typography } from 'antd'
+import { Button, Card, Col, Input, Row, Spin, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React, { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
@@ -112,7 +112,9 @@ function ProjectDetail() {
   }
 
   return projectLoading || !filteredData ? (
-    <LoadingComponent overlay />
+    <LayoutDashboard noCard>
+      <Spin size="large" className="flex justify-center" />
+    </LayoutDashboard>
   ) : (
     <LayoutDashboard noCard>
       <Row className="w-full">
@@ -231,7 +233,7 @@ function ProjectDetail() {
           <Col span={24} lg={{ span: 6 }} className="py-8 px-4">
             <div className="flex flex-col sm:flex-row lg:flex-col ">
               <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card className="min-w-full rounded-lg shadow-md min-h-full">
+                <Card hoverable className="min-w-full rounded-lg min-h-full">
                   <div className="flex flex-col justify-center items-center">
                     <ScheduleOutlined
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
@@ -250,7 +252,7 @@ function ProjectDetail() {
                 </Card>
               </Col>
               <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card className="min-w-full rounded-lg shadow-md min-h-full">
+                <Card hoverable className="min-w-full rounded-lg min-h-full">
                   <div className="flex flex-col justify-center items-center">
                     <SmileOutlined
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
@@ -265,7 +267,7 @@ function ProjectDetail() {
                 </Card>
               </Col>
               <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card className="min-w-full rounded-lg shadow-md min-h-full">
+                <Card hoverable className="min-w-full rounded-lg min-h-full">
                   <div className="flex flex-col justify-center items-center">
                     <ProfileOutlined
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
@@ -281,7 +283,7 @@ function ProjectDetail() {
                 </Card>
               </Col>
               <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card className="min-w-full rounded-lg shadow-md min-h-full">
+                <Card hoverable className="min-w-full rounded-lg min-h-full">
                   <div className="flex flex-col justify-center items-center">
                     <FileDoneOutlined
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
