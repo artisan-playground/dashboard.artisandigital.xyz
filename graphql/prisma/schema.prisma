@@ -22,6 +22,8 @@ model User {
   projects   Project[]
   tasks      Task[]
   event      Event[]
+  startDate  DateTime        @default(now())
+  dueDate    DateTime
   role       Role            @default(USER)
 }
 

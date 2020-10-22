@@ -1096,6 +1096,7 @@ input TaskWhereUniqueInput {
 type User {
   contacts: Contact!
   department: String
+  dueDate: DateTime!
   email: String!
   id: Int!
   image: String
@@ -1103,6 +1104,7 @@ type User {
   position: String
   projects(after: ProjectWhereUniqueInput, before: ProjectWhereUniqueInput, first: Int, last: Int): [Project!]!
   skills: [String!]!
+  startDate: DateTime!
   tasks(after: TaskWhereUniqueInput, before: TaskWhereUniqueInput, first: Int, last: Int): [Task!]!
   type: String
 }
@@ -1111,6 +1113,7 @@ input UserCreateInput {
   comments: CommentCreateManyWithoutUserInput
   contacts: ContactCreateOneWithoutUserInput!
   department: String
+  dueDate: DateTime!
   email: String!
   event: EventCreateManyWithoutInvitedInput
   image: String
@@ -1119,6 +1122,7 @@ input UserCreateInput {
   projects: ProjectCreateManyWithoutMembersInput
   role: Role
   skills: UserCreateskillsInput
+  startDate: DateTime
   tasks: TaskCreateManyWithoutMembersInput
   type: String
 }
@@ -1155,6 +1159,7 @@ input UserCreateskillsInput {
 input UserCreateWithoutCommentsInput {
   contacts: ContactCreateOneWithoutUserInput!
   department: String
+  dueDate: DateTime!
   email: String!
   event: EventCreateManyWithoutInvitedInput
   image: String
@@ -1163,6 +1168,7 @@ input UserCreateWithoutCommentsInput {
   projects: ProjectCreateManyWithoutMembersInput
   role: Role
   skills: UserCreateskillsInput
+  startDate: DateTime
   tasks: TaskCreateManyWithoutMembersInput
   type: String
 }
@@ -1170,6 +1176,7 @@ input UserCreateWithoutCommentsInput {
 input UserCreateWithoutContactsInput {
   comments: CommentCreateManyWithoutUserInput
   department: String
+  dueDate: DateTime!
   email: String!
   event: EventCreateManyWithoutInvitedInput
   image: String
@@ -1178,6 +1185,7 @@ input UserCreateWithoutContactsInput {
   projects: ProjectCreateManyWithoutMembersInput
   role: Role
   skills: UserCreateskillsInput
+  startDate: DateTime
   tasks: TaskCreateManyWithoutMembersInput
   type: String
 }
@@ -1186,6 +1194,7 @@ input UserCreateWithoutEventInput {
   comments: CommentCreateManyWithoutUserInput
   contacts: ContactCreateOneWithoutUserInput!
   department: String
+  dueDate: DateTime!
   email: String!
   image: String
   name: String
@@ -1193,6 +1202,7 @@ input UserCreateWithoutEventInput {
   projects: ProjectCreateManyWithoutMembersInput
   role: Role
   skills: UserCreateskillsInput
+  startDate: DateTime
   tasks: TaskCreateManyWithoutMembersInput
   type: String
 }
@@ -1201,6 +1211,7 @@ input UserCreateWithoutProjectsInput {
   comments: CommentCreateManyWithoutUserInput
   contacts: ContactCreateOneWithoutUserInput!
   department: String
+  dueDate: DateTime!
   email: String!
   event: EventCreateManyWithoutInvitedInput
   image: String
@@ -1208,6 +1219,7 @@ input UserCreateWithoutProjectsInput {
   position: String
   role: Role
   skills: UserCreateskillsInput
+  startDate: DateTime
   tasks: TaskCreateManyWithoutMembersInput
   type: String
 }
@@ -1216,6 +1228,7 @@ input UserCreateWithoutTasksInput {
   comments: CommentCreateManyWithoutUserInput
   contacts: ContactCreateOneWithoutUserInput!
   department: String
+  dueDate: DateTime!
   email: String!
   event: EventCreateManyWithoutInvitedInput
   image: String
@@ -1224,6 +1237,7 @@ input UserCreateWithoutTasksInput {
   projects: ProjectCreateManyWithoutMembersInput
   role: Role
   skills: UserCreateskillsInput
+  startDate: DateTime
   type: String
 }
 
@@ -1231,6 +1245,7 @@ input UserScalarWhereInput {
   AND: [UserScalarWhereInput!]
   contactId: IntFilter
   department: StringNullableFilter
+  dueDate: DateTimeFilter
   email: StringFilter
   id: IntFilter
   image: StringNullableFilter
@@ -1240,6 +1255,7 @@ input UserScalarWhereInput {
   position: StringNullableFilter
   role: Role
   skills: StringNullableListFilter
+  startDate: DateTimeFilter
   type: StringNullableFilter
 }
 
@@ -1247,6 +1263,7 @@ input UserUpdateInput {
   comments: CommentUpdateManyWithoutUserInput
   contacts: ContactUpdateOneRequiredWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
+  dueDate: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
@@ -1255,18 +1272,21 @@ input UserUpdateInput {
   projects: ProjectUpdateManyWithoutMembersInput
   role: Role
   skills: UserUpdateskillsInput
+  startDate: DateTimeFieldUpdateOperationsInput
   tasks: TaskUpdateManyWithoutMembersInput
   type: NullableStringFieldUpdateOperationsInput
 }
 
 input UserUpdateManyDataInput {
   department: NullableStringFieldUpdateOperationsInput
+  dueDate: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
   position: NullableStringFieldUpdateOperationsInput
   role: Role
   skills: UserUpdateskillsInput
+  startDate: DateTimeFieldUpdateOperationsInput
   type: NullableStringFieldUpdateOperationsInput
 }
 
@@ -1337,6 +1357,7 @@ input UserUpdateskillsInput {
 input UserUpdateWithoutCommentsDataInput {
   contacts: ContactUpdateOneRequiredWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
+  dueDate: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
@@ -1345,6 +1366,7 @@ input UserUpdateWithoutCommentsDataInput {
   projects: ProjectUpdateManyWithoutMembersInput
   role: Role
   skills: UserUpdateskillsInput
+  startDate: DateTimeFieldUpdateOperationsInput
   tasks: TaskUpdateManyWithoutMembersInput
   type: NullableStringFieldUpdateOperationsInput
 }
@@ -1352,6 +1374,7 @@ input UserUpdateWithoutCommentsDataInput {
 input UserUpdateWithoutContactsDataInput {
   comments: CommentUpdateManyWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
+  dueDate: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
@@ -1360,6 +1383,7 @@ input UserUpdateWithoutContactsDataInput {
   projects: ProjectUpdateManyWithoutMembersInput
   role: Role
   skills: UserUpdateskillsInput
+  startDate: DateTimeFieldUpdateOperationsInput
   tasks: TaskUpdateManyWithoutMembersInput
   type: NullableStringFieldUpdateOperationsInput
 }
@@ -1368,6 +1392,7 @@ input UserUpdateWithoutEventDataInput {
   comments: CommentUpdateManyWithoutUserInput
   contacts: ContactUpdateOneRequiredWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
+  dueDate: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   image: NullableStringFieldUpdateOperationsInput
   name: NullableStringFieldUpdateOperationsInput
@@ -1375,6 +1400,7 @@ input UserUpdateWithoutEventDataInput {
   projects: ProjectUpdateManyWithoutMembersInput
   role: Role
   skills: UserUpdateskillsInput
+  startDate: DateTimeFieldUpdateOperationsInput
   tasks: TaskUpdateManyWithoutMembersInput
   type: NullableStringFieldUpdateOperationsInput
 }
@@ -1383,6 +1409,7 @@ input UserUpdateWithoutProjectsDataInput {
   comments: CommentUpdateManyWithoutUserInput
   contacts: ContactUpdateOneRequiredWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
+  dueDate: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
@@ -1390,6 +1417,7 @@ input UserUpdateWithoutProjectsDataInput {
   position: NullableStringFieldUpdateOperationsInput
   role: Role
   skills: UserUpdateskillsInput
+  startDate: DateTimeFieldUpdateOperationsInput
   tasks: TaskUpdateManyWithoutMembersInput
   type: NullableStringFieldUpdateOperationsInput
 }
@@ -1398,6 +1426,7 @@ input UserUpdateWithoutTasksDataInput {
   comments: CommentUpdateManyWithoutUserInput
   contacts: ContactUpdateOneRequiredWithoutUserInput
   department: NullableStringFieldUpdateOperationsInput
+  dueDate: DateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
   event: EventUpdateManyWithoutInvitedInput
   image: NullableStringFieldUpdateOperationsInput
@@ -1406,6 +1435,7 @@ input UserUpdateWithoutTasksDataInput {
   projects: ProjectUpdateManyWithoutMembersInput
   role: Role
   skills: UserUpdateskillsInput
+  startDate: DateTimeFieldUpdateOperationsInput
   type: NullableStringFieldUpdateOperationsInput
 }
 

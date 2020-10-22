@@ -14,5 +14,7 @@ schema.objectType({
       t.model.contacts()
       t.model.projects()
       t.model.tasks()
+      t.model.startDate()
+      t.model.dueDate()
     },
   })
