@@ -1,7 +1,7 @@
 import { Card, Col, Row, Typography, Image } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React from 'react'
-import { EventCard, LayoutDashboard } from '../components/DashboardComponent'
+import { EventCard, LayoutDashboard, CalendarEvent } from '../components/DashboardComponent'
 import { useQuery } from '@apollo/client'
 import { EVENT } from '../services/api/event'
 
@@ -16,6 +16,8 @@ function News() {
       <Row className="w-full overflow-y-auto mb-4 p-4">
         <EventCard data={data} />
       </Row>
+
+      <CalendarEvent />
 
       <div className="font-bold text-2xl mb-4">Paragraph #2</div>
       <Row className="w-full  overflow-y-auto mb-4 p-4">
