@@ -47,3 +47,11 @@ export const UPDATE_COMMENT = gql`
     }
   }
 `
+
+export const DELETE_MANY_COMMENT = gql`
+  mutation DeleteManyComment($id: IntFilter!) {
+    deleteManyComment(where: { taskId: $id }) {
+      count
+    }
+  }
+`
