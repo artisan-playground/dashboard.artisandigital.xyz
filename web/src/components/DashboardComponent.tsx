@@ -14,6 +14,7 @@ import ProfileProjectCard from './ProfileProjectCard'
 import ProfileTaskCard from './ProfileTaskCard'
 import TaskDrawer from './TaskDrawer'
 import ProjectDrawer from './ProjectDrawer'
+import CalendarEvent from './CalendarEvent'
 
 export {
   EventCard,
@@ -32,4 +33,5 @@ export {
   LoadingComponent,
   TaskDrawer,
   ProjectDrawer,
+  CalendarEvent,
 }
