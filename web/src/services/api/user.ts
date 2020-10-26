@@ -270,10 +270,23 @@ export const CREATE_USER = gql`
 `
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($id: Int!, $email: String!, $name: String!, $position: String!) {
+  mutation UpdateUser(
+    $id: Int!
+    $email: String!
+    $name: String!
+    $position: String!
+    $department: String!
+    $type: String!
+  ) {
     updateOneUser(
       where: { id: $id }
-      data: { email: { set: $email }, name: { set: $name }, position: { set: $position } }
+      data: {
+        email: { set: $email }
+        name: { set: $name }
+        position: { set: $position }
+        department: { set: $department }
+        type: { set: $type }
+      }
     ) {
       id
       email

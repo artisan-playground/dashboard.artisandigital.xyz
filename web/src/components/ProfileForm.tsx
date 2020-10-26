@@ -1,7 +1,7 @@
 import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined } from '@ant-design/icons'
 import { useMutation } from '@apollo/client'
 import ReactTagInput from '@pathofdev/react-tag-input'
-import { Button, Divider, Form, Input, message, Select, Typography } from 'antd'
+import { Button, Divider, Form, Input, message, Radio, Select, Typography } from 'antd'
 import React, { useState } from 'react'
 import { UPDATE_USER, UPDATE_USER_CONTACT, UPDATE_USER_SKILLS } from '../services/api/user'
 
@@ -10,6 +10,8 @@ function ProfileForm({ data, refetch, loading, error }: any) {
   const [email, setEmail] = useState(data?.email)
   const [name, setName] = useState(data?.name)
   const [position, setPosition] = useState(data?.position)
+  const [department, setDepartment] = useState(data?.department)
+  const [type, setType] = useState(data?.type)
   const [facebook, setFacebook] = useState(data?.contacts?.facebook)
   const [twitter, setTwitter] = useState(data?.contacts?.twitter)
   const [instagram, setInstagram] = useState(data?.contacts?.instagram)
@@ -21,8 +23,16 @@ function ProfileForm({ data, refetch, loading, error }: any) {
   const [updateProfile] = useMutation(UPDATE_USER)
   const [updateContact] = useMutation(UPDATE_USER_CONTACT)
 
-  function handleChange(value: any) {
+  function handleChangePosition(value: any) {
     setPosition(value)
+  }
+
+  function handleChangeDepartment(value: any) {
+    setDepartment(value)
+  }
+
+  function onChangeType(e: any) {
+    setType(e.target.value)
   }
 
   function handleUpdate() {
@@ -37,6 +47,8 @@ function ProfileForm({ data, refetch, loading, error }: any) {
         email: email,
         name: name,
         position: position,
+        department: department,
+        type: type,
       },
     })
     updateContact({
@@ -97,7 +109,7 @@ function ProfileForm({ data, refetch, loading, error }: any) {
           />
         </Form.Item>
         <Form.Item label="Job Position">
-          <Select defaultValue={position} onChange={handleChange}>
+          <Select defaultValue={position} onChange={handleChangePosition}>
             <Option value="Head of Development">Head of Development</Option>
             <Option value="Assistant">Assistant</Option>
             <Option value="Product/Project Manager">Product/Project Manager</Option>
@@ -108,6 +120,19 @@ function ProfileForm({ data, refetch, loading, error }: any) {
             <Option value="Designers/Programmers">Designers/Programmers</Option>
             <Option value="Testers">Testers</Option>
           </Select>
+        </Form.Item>
+        <Form.Item label="Department">
+          <Select defaultValue={department} onChange={handleChangeDepartment}>
+            <Option value="HR/Admin">HR/Admin</Option>
+            <Option value="Development">Development</Option>
+            <Option value="Marketing">Marketing</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item>
+          <Radio.Group onChange={onChangeType} value={type}>
+            <Radio value="Full-time">Full-time</Radio>
+            <Radio value="Intern">Intern</Radio>
+          </Radio.Group>
         </Form.Item>
         <Form.Item label="Skills">
           <ReactTagInput
