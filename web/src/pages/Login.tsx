@@ -1,5 +1,5 @@
 import { MailOutlined } from '@ant-design/icons'
-import { Button, Card, Divider, Form, Input, Typography, Col, Image } from 'antd'
+import { Button, Card, Form, Input, Typography, Col, Image, notification } from 'antd'
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { useStoreActions, useStoreState } from '../store'
@@ -11,11 +11,18 @@ function Login() {
   const [email, setEmail] = useState('')
   const user = useStoreState((s) => s.userState.user)
   const login = useStoreActions((a) => a.userState.logIn)
-  const { Text, Link } = Typography
+  const { Text } = Typography
   const [getUser, { data }] = useLazyQuery<UserData>(GET_USER)
-  async function onLogin() {
+  function onLogin() {
     if (email) {
       getUser({ variables: { email } })
+    }
+    if(!data?.user){
+      notification['error']({
+        message: 'Incorrect Email',
+        description:
+          'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+      })
     }
   }
   if (data?.user) {
@@ -75,10 +82,6 @@ function Login() {
                     Continue
                   </Text>
                 </Button>
-                <Divider />
-                <Text strong>
-                  Don't have an account? <Link href="/register">Register</Link>
-                </Text>
               </Form.Item>
             </Form>
           </Card>
