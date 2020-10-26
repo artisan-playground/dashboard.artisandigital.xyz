@@ -9,6 +9,10 @@ export const GET_USER = gql`
       image
       position
       skills
+      department
+      type
+      startDate
+      dueDate
       contacts {
         id
         facebook
@@ -86,6 +90,10 @@ export const GET_USER_BY_ID = gql`
       image
       position
       skills
+      department
+      type
+      startDate
+      dueDate
       contacts {
         id
         facebook
@@ -163,6 +171,10 @@ export const GET_USERS = gql`
       image
       position
       skills
+      department
+      type
+      startDate
+      dueDate
       contacts {
         id
         facebook
@@ -241,6 +253,10 @@ export const CREATE_USER = gql`
       image
       position
       skills
+      department
+      type
+      startDate
+      dueDate
       contacts {
         id
         facebook
@@ -265,6 +281,10 @@ export const UPDATE_USER = gql`
       image
       position
       skills
+      department
+      type
+      startDate
+      dueDate
       contacts {
         id
         facebook

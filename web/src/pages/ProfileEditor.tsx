@@ -1,6 +1,6 @@
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
 import '@pathofdev/react-tag-input/build/index.css'
-import { Card, Col, Row, Upload } from 'antd'
+import { Button, Card, Col, Row, Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -67,51 +67,45 @@ function ProfileEditor() {
 
   return (
     <LayoutDashboard noCard>
-      <Row>
-        <Col xs={24} xl={6} className="mr-12 mb-4">
-          <Card className="flex items-center justify-center text-center mb-4">
-            <ImgCrop rotate>
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-                onPreview={onPreview}
-              >
-                {userData ? (
-                  <div>
-                    <img src={userData?.image} alt="avatar" style={{ width: '100%' }} />
-                    <div className="ant-upload-text px-3 flex items-center">
-                      {loading ? <LoadingOutlined /> : <PlusOutlined />}Upload
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                    <div className="ant-upload-text">Upload</div>
-                  </div>
-                )}
-              </Upload>
-            </ImgCrop>
-          </Card>
-        </Col>
+      <Card>
+        <Row>
+          <Col span={14}>
+            {userData ? (
+              <ProfileForm
+                data={userData}
+                refetch={() => refetch()}
+                loading={loading}
+                error={error}
+              />
+            ) : (
+              <div>{loading ? <LoadingOutlined /> : <PlusOutlined />}</div>
+            )}
+          </Col>
 
-        <Col xs={24} xl={17}>
-          {userData ? (
-            <ProfileForm
-              data={userData}
-              refetch={() => refetch()}
-              loading={loading}
-              error={error}
-            />
-          ) : (
-            <div>{loading ? <LoadingOutlined /> : <PlusOutlined />}</div>
-          )}
-        </Col>
-      </Row>
+          <Col span={10}>
+            <Col className="flex flex-col justify-center items-center">
+              {userData ? (
+                <img src={userData?.image} alt="avatar" className="w-40 rounded-full" />
+              ) : (
+                <div>{loading ? <LoadingOutlined /> : <PlusOutlined />}</div>
+              )}
+              <ImgCrop rotate>
+                <Upload
+                  showUploadList={false}
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  beforeUpload={beforeUpload}
+                  onChange={handleChange}
+                  onPreview={onPreview}
+                >
+                  <Button icon={<UploadOutlined />} className="flex flex-row items-center mt-4">
+                    Change Image
+                  </Button>
+                </Upload>
+              </ImgCrop>
+            </Col>
+          </Col>
+        </Row>
+      </Card>
     </LayoutDashboard>
   )
 }
