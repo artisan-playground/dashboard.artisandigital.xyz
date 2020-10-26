@@ -1,24 +1,31 @@
-import { Col, Empty, Radio, Row, Typography, Button } from 'antd'
+import { Col, Empty, Radio, Row, Typography, Card, Tag, Tabs, Divider } from 'antd'
 import React, { useEffect, useState } from 'react'
-// @ts-ignore
-import Carousel from 'react-multi-carousel'
-import 'react-multi-carousel/lib/styles.css'
 import {
-  LayoutProfile,
+  LayoutDashboard,
   ProfileProjectCard,
   ProfileTaskCard,
 } from '../components/DashboardComponent'
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import {
+  FacebookOutlined,
+  TwitterOutlined,
+  InstagramOutlined,
+  GitlabOutlined,
+  GithubOutlined,
+  ClusterOutlined,
+  IdcardOutlined,
+} from '@ant-design/icons'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { GET_USER_BY_ID } from '../services/api/user'
+import Avatar from 'antd/lib/avatar/avatar'
 
 function Profile() {
-  const { Title, Text } = Typography
+  const { Text, Link } = Typography
+  const { TabPane } = Tabs
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [filteredTaskData, setFilteredTaskData] = useState<any[]>([])
-  const [userData, setUserData] = useState<any[]>([])
-  const [userContactData, setUserContactData] = useState<any[]>([])
+  const [userData, setUserData] = useState<any>()
+  const [userContactData, setUserContactData] = useState<any>()
   const [projectData, setProjectData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
   const { id }: any = useParams()
@@ -60,131 +67,166 @@ function Profile() {
     setTypes(e.target.value)
   }
 
-  const CustomDot = ({ onClick, active }: any) => {
-    return (
-      <Button
-        style={{ backgroundColor: active ? '#105EFC' : '#AAAAAA' }}
-        className="rounded-full h-1 w-1"
-        onClick={() => onClick()}
-      >
-        &nbsp;
-      </Button>
-    )
-  }
-
-  const CustomLeftArrow = ({ onClick }: any) => (
-    <Button
-      type="primary"
-      className="absolute left-0 rounded-full flex items-center w-12 h-12"
-      onClick={() => onClick()}
-    >
-      <LeftOutlined className="text-lg" />
-    </Button>
-  )
-  const CustomRightArrow = ({ onClick }: any) => (
-    <Button
-      type="primary"
-      className="absolute right-0 rounded-full flex items-center w-12 h-12"
-      onClick={() => onClick()}
-    >
-      <RightOutlined className="text-lg" />
-    </Button>
-  )
-
   return (
-    <LayoutProfile data={userData} project={projectData} contact={userContactData}>
-      <Title level={3}>Today's Tasks</Title>
-      <div className="relative mr-auto ml-auto max-w-screen-md">
-        <div className="w-full">
-          <Carousel
-            additionalTransfrom={0}
-            arrows
-            autoPlaySpeed={3000}
-            centerMode
-            className=""
-            containerClass="container"
-            dotListClass=""
-            draggable
-            focusOnSelect={false}
-            infinite={false}
-            itemClass=""
-            keyBoardControl
-            minimumTouchDrag={80}
-            renderButtonGroupOutside={true}
-            renderDotsOutside={true}
-            responsive={{
-              desktop: {
-                breakpoint: {
-                  max: 2000,
-                  min: 1024,
-                },
-                items: 2,
-                partialVisibilityGutter: 40,
-              },
-            }}
-            showDots={true}
-            sliderClass=""
-            slidesToSlide={3}
-            swipeable
-            customDot={<CustomDot />}
-            customRightArrow={<CustomRightArrow />}
-            customLeftArrow={<CustomLeftArrow />}
-          >
-            {filteredTaskData ? (
-              filteredTaskData
-                .filter((tasks: any) => tasks.isDone === false)
-                .map((items: any) => (
-                  <Col lg={{ span: 24 }} key={items.id} className="mr-4 my-4">
-                    <ProfileTaskCard data={items} />
-                  </Col>
-                ))
-            ) : (
-              <Col lg={{ span: 24 }}>
-                <Empty
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                  className="flex items-center justify-center text-center"
-                />
-              </Col>
-            )}
-          </Carousel>
-        </div>
-      </div>
-
-      <Row className="mb-2">
-        <Col flex={1}>
-          <Row>
-            <Title level={3}>Projects</Title>
-          </Row>
-        </Col>
-        <Col>
-          <Radio.Group defaultValue="all" size="large" onChange={handleTypeChange}>
-            <Radio.Button value="all">All</Radio.Button>
-            <Radio.Button value="undone">WIP</Radio.Button>
-            <Radio.Button value="done">Closed</Radio.Button>
-          </Radio.Group>
-        </Col>
-      </Row>
-
-      <Row>
-        {filteredData ? (
-          filteredData.length !== 0 ? (
-            filteredData.map((items) => (
-              <Col xs={24} xl={{ span: 8 }} key={items.id} className="w-full px-2 py-2">
-                <ProfileProjectCard data={items} />
-              </Col>
-            ))
-          ) : (
-            <Col xs={24} className="flex items-center justify-center text-center">
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+    <LayoutDashboard noCard>
+      <Row justify="space-between">
+        <Col xs={24} xl={6} lg={6} md={6}>
+          <Card>
+            <Col className="text-center mb-8">
+              <Row className="justify-center">
+                <Avatar src={userData ? userData.image : null} alt="user" size={125} />
+              </Row>
+              <Row className="justify-center">
+                <Text className="text-xl font-bold">{userData ? userData.name : null}</Text>
+              </Row>
+              <Text className="text-base font-bold" type="secondary">
+                {userData ? userData.position : null}
+              </Text>
             </Col>
-          )
-        ) : (
-          <div className="flex w-full justify-center my-8">
-            <Text disabled>Error</Text>
-          </div>
-        )}
+
+            <Text className="flex items-center">
+              <ClusterOutlined className="mr-2" />
+              {userData ? userData.department : null}
+            </Text>
+            <Text className="flex items-center">
+              <IdcardOutlined className="mr-2" />
+              {userData ? userData.type : null}
+            </Text>
+
+            <Divider />
+
+            <Col className="mb-8">
+              <Text>Skills</Text>
+              <Row className="mt-2">
+                {userData
+                  ? userData.skills.map((value: any, index: any) => (
+                      <Tag key={index} color="blue" className="mb-1">
+                        {value}
+                      </Tag>
+                    ))
+                  : null}
+              </Row>
+            </Col>
+
+            {userContactData ? <Divider /> : null}
+
+            <Col className="flex">
+              <Col>
+                <Text>{userContactData ? 'Contacts' : null}</Text>
+                <Row className="mb-1 mt-2">
+                  {userContactData ? (
+                    userContactData.facebook ? (
+                      <FacebookOutlined className="text-2xl mr-2" />
+                    ) : null
+                  ) : null}
+                  <Link href={userContactData ? userContactData.facebook : null} target="_blank">
+                    {userContactData ? (userContactData.facebook ? 'Facebook' : null) : null}
+                  </Link>
+                </Row>
+                <Row className="mb-1">
+                  {userContactData ? (
+                    userContactData.twitter ? (
+                      <TwitterOutlined className="text-2xl mr-2" />
+                    ) : null
+                  ) : null}
+                  <Link href={userContactData ? userContactData.twitter : null} target="_blank">
+                    {userContactData ? (userContactData.twitter ? 'Twitter' : null) : null}
+                  </Link>
+                </Row>
+                <Row className="mb-1">
+                  {userContactData ? (
+                    userContactData.instagram ? (
+                      <InstagramOutlined className="text-2xl mr-2" />
+                    ) : null
+                  ) : null}
+                  <Link href={userContactData ? userContactData.instagram : null} target="_blank">
+                    {userContactData ? (userContactData.instagram ? 'Instagram' : null) : null}
+                  </Link>
+                </Row>
+                <Row className="mb-1">
+                  {userContactData ? (
+                    userContactData.gitlab ? (
+                      <GitlabOutlined className="text-2xl mr-2" />
+                    ) : null
+                  ) : null}
+                  <Link href={userContactData ? userContactData.gitlab : null} target="_blank">
+                    {userContactData ? (userContactData.gitlab ? 'Gitlab' : null) : null}
+                  </Link>
+                </Row>
+                <Row className="mb-1">
+                  {userContactData ? (
+                    userContactData.github ? (
+                      <GithubOutlined className="text-2xl mr-2" />
+                    ) : null
+                  ) : null}
+                  <Link href={userContactData ? userContactData.github : null} target="_blank">
+                    {userContactData ? (userContactData.github ? 'Github' : null) : null}
+                  </Link>
+                </Row>
+              </Col>
+            </Col>
+          </Card>
+        </Col>
+
+        <Col xs={24} xl={17} lg={17} md={17}>
+          <Card>
+            <Tabs defaultActiveKey="1">
+              <TabPane
+                tab={`Today's Task (${
+                  filteredTaskData.filter((tasks: any) => tasks.isDone === false).length
+                })`}
+                key="1"
+              >
+                {filteredTaskData ? (
+                  filteredTaskData
+                    .filter((tasks: any) => tasks.isDone === false)
+                    .map((items: any) => (
+                      <Col xs={24} xl={{ span: 8 }} key={items.id} className="w-full px-2 py-2">
+                        <ProfileTaskCard data={items} />
+                      </Col>
+                    ))
+                ) : (
+                  <Col xs={24} className="flex items-center justify-center text-center">
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  </Col>
+                )}
+              </TabPane>
+              <TabPane tab={`Projects (${projectData.length})`} key="2">
+                <Row className="flex justify-end mb-2">
+                  <Col>
+                    <Radio.Group defaultValue="all" size="large" onChange={handleTypeChange}>
+                      <Radio.Button value="all">All</Radio.Button>
+                      <Radio.Button value="undone">WIP</Radio.Button>
+                      <Radio.Button value="done">Closed</Radio.Button>
+                    </Radio.Group>
+                  </Col>
+                </Row>
+
+                <Row>
+                  {filteredData ? (
+                    filteredData.length !== 0 ? (
+                      filteredData.map((items) => (
+                        <Col xs={24} xl={{ span: 8 }} key={items.id} className="w-full px-2 py-2">
+                          <ProfileProjectCard data={items} />
+                        </Col>
+                      ))
+                    ) : (
+                      <Col xs={24} className="flex items-center justify-center text-center">
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                      </Col>
+                    )
+                  ) : (
+                    <div className="flex w-full justify-center my-8">
+                      <Text disabled>Error</Text>
+                    </div>
+                  )}
+                </Row>
+              </TabPane>
+            </Tabs>
+          </Card>
+        </Col>
       </Row>
-    </LayoutProfile>
+    </LayoutDashboard>
   )
 }
 
