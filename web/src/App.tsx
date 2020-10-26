@@ -13,7 +13,6 @@ import Profile from './pages/Profile'
 import ProfileEditor from './pages/ProfileEditor'
 import ProjectDetail from './pages/ProjectDetail'
 import ProjectList from './pages/ProjectList'
-import Register from './pages/Register'
 import store from './store'
 import './styles/main.css'
 
@@ -24,7 +23,6 @@ function App() {
         <Router>
           <Switch>
             <Route path="/login" exact component={Login} />
-            <Route path="/register" exact component={Register} />
             <AuthorizedRoute path="/" exact component={Dashboard} />
             <AuthorizedRoute exact path="/projects" component={ProjectList} />
             <AuthorizedRoute path="/projects/:projectId" component={ProjectDetail} />
