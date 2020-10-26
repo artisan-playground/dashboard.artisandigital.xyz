@@ -70,13 +70,19 @@ function ProfileProjectCard({ data }: any) {
 
   return (
     <Link to={{ pathname: `/projects/${data.id}` }}>
-      <Card hoverable bordered={false}>
-        <Meta
-          avatar={<Avatar size={60} src={data.projectImage} />}
-          title={data.projectName}
-          description={`${data.projectType} | ${data.tasks.length} Tasks`}
-        />
-        <Text className="font-bold">Member(s)</Text>
+      <Card
+        hoverable
+        cover={<img alt="cover" src={data.projectImage} className="object-cover h-32" />}
+      >
+        <Row>
+          <Col>
+            <Meta
+              title={data.projectName}
+              description={`${data.projectType} | ${data.tasks.length} Tasks`}
+            />
+            <Text>{data.projectDetail.substr(0, 50) + '...'}</Text>
+          </Col>
+        </Row>
         <Row className="pl-16 mt-2">{renderShowItems(data.members)}</Row>
         <Row className="flex items-end justify-end mt-6">
           <Col>
