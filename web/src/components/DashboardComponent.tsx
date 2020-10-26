@@ -1,6 +1,5 @@
 import EventCard from '../components/EventCard'
 import LayoutDashboard from '../components/LayoutDashboard'
-import LayoutProfile from '../components/LayoutProfile'
 import LoadingComponent from '../components/LoadingComponent'
 import LogList from '../components/LogList'
 import NavBar from '../components/NavBar'
@@ -14,7 +13,6 @@ import ProfileProjectCard from './ProfileProjectCard'
 import ProfileTaskCard from './ProfileTaskCard'
 import TaskDrawer from './TaskDrawer'
 import ProjectDrawer from './ProjectDrawer'
-import CalendarEvent from './CalendarEvent'
 
 export {
   EventCard,
@@ -23,7 +21,6 @@ export {
   LayoutDashboard,
   WelcomeCard,
   ProjectCard,
-  LayoutProfile,
   ProfileForm,
   SideProfile,
   ProfileProjectCard,
@@ -33,5 +30,4 @@ export {
   LoadingComponent,
   TaskDrawer,
   ProjectDrawer,
-  CalendarEvent,
 }
