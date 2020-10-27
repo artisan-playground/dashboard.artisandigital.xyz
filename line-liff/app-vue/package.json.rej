@@ -1,0 +1,9 @@
+diff a/app-vue/package.json b/app-vue/package.json	(rejected hunks)
+@@ -28,6 +28,7 @@
+   "devDependencies": {
+     "@iconify/icons-clarity": "^1.0.0",
+     "@iconify/vue": "^1.0.5",
++    "@prisma/cli": "^2.8.0",
+     "@vue/cli-plugin-babel": "~4.5.0",
+     "@vue/cli-plugin-eslint": "~4.5.0",
+     "@vue/cli-plugin-router": "~4.5.0",
