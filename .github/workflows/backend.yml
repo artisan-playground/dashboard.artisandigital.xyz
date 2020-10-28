@@ -44,6 +44,7 @@ jobs:
       - run: |
           gcloud run deploy $BRANCH_NAME-$REPO_NAME-backend \
           --quiet \
+          --memory 1Gi \
           --region $RUN_REGION \
           --image gcr.io/$PROJECT_ID/$REPO_NAME:$GITHUB_RUN_NUMBER \
           --platform managed \
