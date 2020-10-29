@@ -1,32 +1,33 @@
 import { MailOutlined } from '@ant-design/icons'
-import { Button, Card, Form, Input, Typography, Col, Image, notification } from 'antd'
+import { useLazyQuery } from '@apollo/client'
+import { Button, Card, Col, Form, Image, Input, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import { useStoreActions, useStoreState } from '../store'
 import { GET_USER } from '../services/api/user'
+import { useStoreActions, useStoreState } from '../store'
 import { User, UserData } from '../typings'
-import { useLazyQuery } from '@apollo/client'
 
 function Login() {
   const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
   const user = useStoreState((s) => s.userState.user)
   const login = useStoreActions((a) => a.userState.logIn)
   const { Text } = Typography
   const [getUser, { data }] = useLazyQuery<UserData>(GET_USER)
-  function onLogin() {
+  async function onLogin() {
     if (email) {
       getUser({ variables: { email } })
-    }
-    if(!data?.user){
-      notification['error']({
-        message: 'Incorrect Email',
-        description:
-          'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-      })
     }
   }
   if (data?.user) {
     login(data.user as User)
+  }
+
+  function enterLoading() {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
   }
 
   return user ? (
@@ -77,7 +78,13 @@ function Login() {
                 />
               </Form.Item>
               <Form.Item className="text-center">
-                <Button type="primary" htmlType="submit" className="login-form-button w-full">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={loading}
+                  onClick={enterLoading}
+                  className="login-form-button w-full"
+                >
                   <Text strong className="text-white">
                     Continue
                   </Text>
