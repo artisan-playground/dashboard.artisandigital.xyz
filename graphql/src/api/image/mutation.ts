@@ -6,6 +6,9 @@ import { ReadStream } from "fs-capacitor";
 import { FileUpload } from "graphql-upload";
 import path from "path";
 import shortid from "shortid";
+
+require("dotenv").config();
+
 export type UploadRoot = FileUpload;
 scalarType({
   ...GraphQLUpload!,

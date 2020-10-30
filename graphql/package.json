@@ -16,7 +16,7 @@
     "apollo-server": "2.18.2",
     "aws-sdk": "2.766.0",
     "date-fns": "2.16.1",
-    "dotenv": "8.2.0",
+    "dotenv": "^8.2.0",
     "graphql": "15.3.0",
     "graphql-scalars": "1.3.0",
     "jsonwebtoken": "8.5.1",
