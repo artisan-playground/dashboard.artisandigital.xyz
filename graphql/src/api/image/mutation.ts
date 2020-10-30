@@ -54,7 +54,7 @@ const uploadFileMutation = extendType({
           path: `upload/${generateFile}`,
           extension: mimetype,
         };
-        return await ctx.db.file.create({
+        return await ctx.prisma.file.create({
           data: Object.assign(data),
         });
       },
@@ -92,7 +92,7 @@ const uploadImageMutation = extendType({
           extension: mimetype,
           endpoint: `${process.env.FILE_ENDPOINT}`,
         };
-        return await ctx.db.image.create({
+        return await ctx.prisma.image.create({
           data: data,
         });
       },
