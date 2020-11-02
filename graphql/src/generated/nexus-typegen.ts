@@ -1571,22 +1571,23 @@ export interface NexusGenFieldTypes {
     tasks: NexusGenRootTypes['Task'][]; // [Task!]!
   }
   Query: { // field return type
-    comment: NexusGenRootTypes['Comment'] | null; // Comment
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
-    contact: NexusGenRootTypes['Contact'] | null; // Contact
     contacts: NexusGenRootTypes['Contact'][]; // [Contact!]!
-    event: NexusGenRootTypes['Event'] | null; // Event
     events: NexusGenRootTypes['Event'][]; // [Event!]!
-    file: NexusGenRootTypes['File'] | null; // File
     files: NexusGenRootTypes['File'][]; // [File!]!
+    getCommentById: NexusGenRootTypes['Comment'] | null; // Comment
+    getContactById: NexusGenRootTypes['Contact'] | null; // Contact
+    getEventById: NexusGenRootTypes['Event'] | null; // Event
+    getFileById: NexusGenRootTypes['File'] | null; // File
+    getImageById: NexusGenRootTypes['Image'] | null; // Image
+    getProjectById: NexusGenRootTypes['Project'] | null; // Project
+    getTaskById: NexusGenRootTypes['Task'] | null; // Task
     getTaskByProjectId: Array<NexusGenRootTypes['Task'] | null> | null; // [Task]
-    image: NexusGenRootTypes['Image'] | null; // Image
+    getUserByEmail: NexusGenRootTypes['User'] | null; // User
+    getUserById: NexusGenRootTypes['User'] | null; // User
     images: NexusGenRootTypes['Image'][]; // [Image!]!
-    project: NexusGenRootTypes['Project'] | null; // Project
     projects: NexusGenRootTypes['Project'][]; // [Project!]!
-    task: NexusGenRootTypes['Task'] | null; // Task
     tasks: NexusGenRootTypes['Task'][]; // [Task!]!
-    user: NexusGenRootTypes['User'] | null; // User
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   Task: { // field return type
@@ -1696,22 +1697,23 @@ export interface NexusGenFieldTypeNames {
     tasks: 'Task'
   }
   Query: { // field return type name
-    comment: 'Comment'
     comments: 'Comment'
-    contact: 'Contact'
     contacts: 'Contact'
-    event: 'Event'
     events: 'Event'
-    file: 'File'
     files: 'File'
+    getCommentById: 'Comment'
+    getContactById: 'Contact'
+    getEventById: 'Event'
+    getFileById: 'File'
+    getImageById: 'Image'
+    getProjectById: 'Project'
+    getTaskById: 'Task'
     getTaskByProjectId: 'Task'
-    image: 'Image'
+    getUserByEmail: 'User'
+    getUserById: 'User'
     images: 'Image'
-    project: 'Project'
     projects: 'Project'
-    task: 'Task'
     tasks: 'Task'
-    user: 'User'
     users: 'User'
   }
   Task: { // field return type name
@@ -1845,17 +1847,11 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
-    comment: { // args
-      where: NexusGenInputs['CommentWhereUniqueInput']; // CommentWhereUniqueInput!
-    }
     comments: { // args
       after?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
       before?: NexusGenInputs['CommentWhereUniqueInput'] | null; // CommentWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
-    }
-    contact: { // args
-      where: NexusGenInputs['ContactWhereUniqueInput']; // ContactWhereUniqueInput!
     }
     contacts: { // args
       after?: NexusGenInputs['ContactWhereUniqueInput'] | null; // ContactWhereUniqueInput
@@ -1863,17 +1859,11 @@ export interface NexusGenArgTypes {
       first?: number | null; // Int
       last?: number | null; // Int
     }
-    event: { // args
-      where: NexusGenInputs['EventWhereUniqueInput']; // EventWhereUniqueInput!
-    }
     events: { // args
       after?: NexusGenInputs['EventWhereUniqueInput'] | null; // EventWhereUniqueInput
       before?: NexusGenInputs['EventWhereUniqueInput'] | null; // EventWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
-    }
-    file: { // args
-      where: NexusGenInputs['FileWhereUniqueInput']; // FileWhereUniqueInput!
     }
     files: { // args
       after?: NexusGenInputs['FileWhereUniqueInput'] | null; // FileWhereUniqueInput
@@ -1881,8 +1871,35 @@ export interface NexusGenArgTypes {
       first?: number | null; // Int
       last?: number | null; // Int
     }
-    image: { // args
-      where: NexusGenInputs['ImageWhereUniqueInput']; // ImageWhereUniqueInput!
+    getCommentById: { // args
+      id: number; // Int!
+    }
+    getContactById: { // args
+      id: number; // Int!
+    }
+    getEventById: { // args
+      id: number; // Int!
+    }
+    getFileById: { // args
+      id: number; // Int!
+    }
+    getImageById: { // args
+      id: number; // Int!
+    }
+    getProjectById: { // args
+      id: number; // Int!
+    }
+    getTaskById: { // args
+      id: number; // Int!
+    }
+    getTaskByProjectId: { // args
+      id: number; // Int!
+    }
+    getUserByEmail: { // args
+      email: string; // String!
+    }
+    getUserById: { // args
+      id: number; // Int!
     }
     images: { // args
       after?: NexusGenInputs['ImageWhereUniqueInput'] | null; // ImageWhereUniqueInput
@@ -1890,26 +1907,17 @@ export interface NexusGenArgTypes {
       first?: number | null; // Int
       last?: number | null; // Int
     }
-    project: { // args
-      where: NexusGenInputs['ProjectWhereUniqueInput']; // ProjectWhereUniqueInput!
-    }
     projects: { // args
       after?: NexusGenInputs['ProjectWhereUniqueInput'] | null; // ProjectWhereUniqueInput
       before?: NexusGenInputs['ProjectWhereUniqueInput'] | null; // ProjectWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
     }
-    task: { // args
-      where: NexusGenInputs['TaskWhereUniqueInput']; // TaskWhereUniqueInput!
-    }
     tasks: { // args
       after?: NexusGenInputs['TaskWhereUniqueInput'] | null; // TaskWhereUniqueInput
       before?: NexusGenInputs['TaskWhereUniqueInput'] | null; // TaskWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
-    }
-    user: { // args
-      where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
     }
     users: { // args
       after?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
