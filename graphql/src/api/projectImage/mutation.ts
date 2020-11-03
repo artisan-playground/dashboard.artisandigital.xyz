@@ -1,0 +1,123 @@
+import { arg, extendType, intArg, scalarType } from "@nexus/schema";
+import { GraphQLUpload } from "apollo-server-core";
+import AWS from "aws-sdk";
+import fs, { createWriteStream } from "fs";
+import { ReadStream } from "fs-capacitor";
+import { FileUpload } from "graphql-upload";
+import path from "path";
+import shortid from "shortid";
+
+require("dotenv").config();
+
+export type UploadProjectImageRoot = FileUpload;
+scalarType({
+  ...GraphQLUpload!,
+  rootTyping: "UploadProjectImageRoot",
+});
+const FILE_ENDPOINT = process.env.FILE_ENDPOINT!;
+const ACCESS_KEY_ID = process.env.ACCESS_KEY_ID!;
+const SECRETE_ACCESS_KEY = process.env.SECRETE_ACCESS_KEY!;
+const BUCKET = process.env.BUCKET!;
+const REGION = process.env.REGION!;
+const s3 = new AWS.S3({
+  endpoint: FILE_ENDPOINT,
+  accessKeyId: ACCESS_KEY_ID,
+  secretAccessKey: SECRETE_ACCESS_KEY,
+  region: REGION,
+});
+
+const uploadProjectImage = extendType({
+  type: "Mutation",
+  definition: (t) => {
+    t.field("uploadProjectImage", {
+      type: "ProjectImage",
+      args: {
+        image: arg({
+          type: "Upload",
+          required: true,
+        }),
+      },
+      resolve: async (_, { image }, ctx) => {
+        const { generateFile, mimetype } = await processUpload(image);
+        const params = {
+          Bucket: BUCKET,
+          Key: `upload/${generateFile}`,
+          Body: fs.createReadStream(path.resolve(`./upload/${generateFile}`)),
+          ACL: "public-read",
+        };
+        await s3.putObject(params, function (err: any, data: any) {
+          if (err) console.log(err, err.stack);
+          else console.log(data);
+        });
+        fs.unlinkSync(path.resolve(`./upload/${generateFile}`));
+        const data = {
+          fileName: generateFile,
+          path: `./upload/${generateFile}`,
+          fullPath: `${process.env.FILE_ENDPOINT}/${process.env.BUCKET}/upload/${generateFile}`,
+          extension: mimetype,
+          endpoint: `${process.env.FILE_ENDPOINT}`,
+        };
+        return await ctx.prisma.projectImage.create({
+          data: data,
+        });
+      },
+    });
+  },
+});
+
+const updateProjectImage = extendType({
+  type: "Mutation",
+  definition: (t) => {
+    t.field("updateProjectImage", {
+      type: "ProjectImage",
+      args: {
+        id: intArg({ required: true }),
+        image: arg({
+          type: "Upload",
+          required: true,
+        }),
+      },
+      resolve: async (_, { image, id }, ctx) => {
+        const { generateFile, mimetype } = await processUpload(image);
+        const params = {
+          Bucket: BUCKET,
+          Key: `upload/${generateFile}`,
+          Body: fs.createReadStream(path.resolve(`./upload/${generateFile}`)),
+          ACL: "public-read",
+        };
+        await s3.putObject(params, function (err: any, data: any) {
+          if (err) console.log(err, err.stack);
+          else console.log(data);
+        });
+        fs.unlinkSync(path.resolve(`./upload/${generateFile}`));
+        const data = {
+          fileName: generateFile,
+          path: `./upload/${generateFile}`,
+          fullPath: `${process.env.FILE_ENDPOINT}/${process.env.BUCKET}/upload/${generateFile}`,
+          extension: mimetype,
+          endpoint: `${process.env.FILE_ENDPOINT}`,
+        };
+        return await ctx.prisma.projectImage.update({
+          where: { id: id },
+          data: data,
+        });
+      },
+    });
+  },
+});
+
+const processUpload = async (upload: FileUpload): Promise<any> => {
+  const { createReadStream, filename, mimetype } = await upload;
+  const stream: ReadStream = createReadStream();
+  const id = shortid.generate();
+  const generateFile: string = `${id}-${filename}`;
+  const path = `./upload/${generateFile}`;
+  return new Promise((resolve, reject) =>
+    stream
+      .pipe(createWriteStream(path))
+      .on("finish", () => resolve({ generateFile, mimetype }))
+      .on("error", reject)
+  );
+};
+
+export { uploadProjectImage, updateProjectImage };
