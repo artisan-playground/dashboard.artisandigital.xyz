@@ -3,7 +3,7 @@ import { extendType, intArg, stringArg } from "@nexus/schema";
 const userQuery = extendType({
   type: "Query",
   definition(t) {
-    t.field("getUserById", {
+    t.field("user", {
       type: "User",
       args: { id: intArg({ required: true }) },
       resolve: (_, args, ctx) => {

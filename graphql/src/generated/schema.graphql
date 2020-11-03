@@ -434,18 +434,13 @@ input EventWhereUniqueInput {
 }
 
 type File {
+  endpoint: String!
+  extension: String!
+  fileName: String!
+  fullPath: String!
   id: Int!
-  name: String
-  status: String
+  path: String!
   task: Task!
-  url: String
-}
-
-input FileCreateInput {
-  name: String
-  status: String
-  task: TaskCreateOneWithoutFilesInput!
-  url: String
 }
 
 input FileCreateManyWithoutTaskInput {
@@ -454,33 +449,41 @@ input FileCreateManyWithoutTaskInput {
 }
 
 input FileCreateWithoutTaskInput {
-  name: String
-  status: String
-  url: String
+  endpoint: String!
+  extension: String!
+  fileName: String!
+  fullPath: String!
+  path: String!
 }
 
 input FileScalarWhereInput {
   AND: [FileScalarWhereInput!]
+  endpoint: StringFilter
+  extension: StringFilter
+  fileName: StringFilter
+  fullPath: StringFilter
   id: IntFilter
-  name: StringNullableFilter
   NOT: [FileScalarWhereInput!]
   OR: [FileScalarWhereInput!]
-  status: StringNullableFilter
+  path: StringFilter
   taskId: IntFilter
-  url: StringNullableFilter
 }
 
 input FileUpdateInput {
-  name: NullableStringFieldUpdateOperationsInput
-  status: NullableStringFieldUpdateOperationsInput
+  endpoint: StringFieldUpdateOperationsInput
+  extension: StringFieldUpdateOperationsInput
+  fileName: StringFieldUpdateOperationsInput
+  fullPath: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
   task: TaskUpdateOneRequiredWithoutFilesInput
-  url: NullableStringFieldUpdateOperationsInput
 }
 
 input FileUpdateManyDataInput {
-  name: NullableStringFieldUpdateOperationsInput
-  status: NullableStringFieldUpdateOperationsInput
-  url: NullableStringFieldUpdateOperationsInput
+  endpoint: StringFieldUpdateOperationsInput
+  extension: StringFieldUpdateOperationsInput
+  fileName: StringFieldUpdateOperationsInput
+  fullPath: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
 }
 
 input FileUpdateManyWithoutTaskInput {
@@ -501,9 +504,11 @@ input FileUpdateManyWithWhereNestedInput {
 }
 
 input FileUpdateWithoutTaskDataInput {
-  name: NullableStringFieldUpdateOperationsInput
-  status: NullableStringFieldUpdateOperationsInput
-  url: NullableStringFieldUpdateOperationsInput
+  endpoint: StringFieldUpdateOperationsInput
+  extension: StringFieldUpdateOperationsInput
+  fileName: StringFieldUpdateOperationsInput
+  fullPath: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
 }
 
 input FileUpdateWithWhereUniqueWithoutTaskInput {
@@ -605,7 +610,6 @@ type Mutation {
   createOneComment(data: CommentCreateInput!): Comment!
   createOneContact(data: ContactCreateInput!): Contact!
   createOneEvent(data: EventCreateInput!): Event!
-  createOneFile(data: FileCreateInput!): File!
   createOneProject(data: ProjectCreateInput!): Project!
   createOneTask(data: TaskCreateInput!): Task!
   createOneUser(data: UserCreateInput!): User!
@@ -616,6 +620,7 @@ type Mutation {
   deleteOneProject(where: ProjectWhereUniqueInput!): Project
   deleteOneTask(where: TaskWhereUniqueInput!): Task
   deleteOneUser(where: UserWhereUniqueInput!): User
+  updateImage(id: Int!, image: Upload!): Image
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateOneContact(data: ContactUpdateInput!, where: ContactWhereUniqueInput!): Contact
   updateOneEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
@@ -623,8 +628,10 @@ type Mutation {
   updateOneProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
   updateOneTask(data: TaskUpdateInput!, where: TaskWhereUniqueInput!): Task
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  uploadFile(image: Upload!): File
+  updateProjectImage(id: Int!, image: Upload!): ProjectImage
+  uploadFile(file: Upload!): File
   uploadImage(image: Upload!): Image
+  uploadProjectImage(image: Upload!): ProjectImage
 }
 
 input NestedBoolNullableFilter {
@@ -717,7 +724,7 @@ type Project {
   id: Int!
   members(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
   projectDetail: String
-  projectImage: String
+  projectImage: ProjectImage
   projectName: String
   projectType: String
   status: String
@@ -728,7 +735,7 @@ input ProjectCreateInput {
   dueDate: DateTime
   members: UserCreateManyWithoutProjectsInput
   projectDetail: String
-  projectImage: String
+  projectImage: ProjectImageCreateOneWithoutProjectInput
   projectName: String
   projectType: String
   status: String
@@ -748,7 +755,7 @@ input ProjectCreateOneWithoutTasksInput {
 input ProjectCreateWithoutMembersInput {
   dueDate: DateTime
   projectDetail: String
-  projectImage: String
+  projectImage: ProjectImageCreateOneWithoutProjectInput
   projectName: String
   projectType: String
   status: String
@@ -759,10 +766,58 @@ input ProjectCreateWithoutTasksInput {
   dueDate: DateTime
   members: UserCreateManyWithoutProjectsInput
   projectDetail: String
-  projectImage: String
+  projectImage: ProjectImageCreateOneWithoutProjectInput
   projectName: String
   projectType: String
   status: String
+}
+
+type ProjectImage {
+  endpoint: String!
+  extension: String!
+  fileName: String!
+  fullPath: String!
+  id: Int!
+  path: String!
+}
+
+input ProjectImageCreateOneWithoutProjectInput {
+  connect: ProjectImageWhereUniqueInput
+  create: ProjectImageCreateWithoutProjectInput
+}
+
+input ProjectImageCreateWithoutProjectInput {
+  endpoint: String!
+  extension: String!
+  fileName: String!
+  fullPath: String!
+  path: String!
+}
+
+input ProjectImageUpdateOneWithoutProjectInput {
+  connect: ProjectImageWhereUniqueInput
+  create: ProjectImageCreateWithoutProjectInput
+  delete: Boolean
+  disconnect: Boolean
+  update: ProjectImageUpdateWithoutProjectDataInput
+  upsert: ProjectImageUpsertWithoutProjectInput
+}
+
+input ProjectImageUpdateWithoutProjectDataInput {
+  endpoint: StringFieldUpdateOperationsInput
+  extension: StringFieldUpdateOperationsInput
+  fileName: StringFieldUpdateOperationsInput
+  fullPath: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
+}
+
+input ProjectImageUpsertWithoutProjectInput {
+  create: ProjectImageCreateWithoutProjectInput!
+  update: ProjectImageUpdateWithoutProjectDataInput!
+}
+
+input ProjectImageWhereUniqueInput {
+  id: Int
 }
 
 input ProjectScalarWhereInput {
@@ -772,7 +827,7 @@ input ProjectScalarWhereInput {
   NOT: [ProjectScalarWhereInput!]
   OR: [ProjectScalarWhereInput!]
   projectDetail: StringNullableFilter
-  projectImage: StringNullableFilter
+  projectImageId: IntNullableFilter
   projectName: StringNullableFilter
   projectType: StringNullableFilter
   status: StringNullableFilter
@@ -782,7 +837,7 @@ input ProjectUpdateInput {
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   members: UserUpdateManyWithoutProjectsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
-  projectImage: NullableStringFieldUpdateOperationsInput
+  projectImage: ProjectImageUpdateOneWithoutProjectInput
   projectName: NullableStringFieldUpdateOperationsInput
   projectType: NullableStringFieldUpdateOperationsInput
   status: NullableStringFieldUpdateOperationsInput
@@ -792,7 +847,6 @@ input ProjectUpdateInput {
 input ProjectUpdateManyDataInput {
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
-  projectImage: NullableStringFieldUpdateOperationsInput
   projectName: NullableStringFieldUpdateOperationsInput
   projectType: NullableStringFieldUpdateOperationsInput
   status: NullableStringFieldUpdateOperationsInput
@@ -825,7 +879,7 @@ input ProjectUpdateOneRequiredWithoutTasksInput {
 input ProjectUpdateWithoutMembersDataInput {
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
-  projectImage: NullableStringFieldUpdateOperationsInput
+  projectImage: ProjectImageUpdateOneWithoutProjectInput
   projectName: NullableStringFieldUpdateOperationsInput
   projectType: NullableStringFieldUpdateOperationsInput
   status: NullableStringFieldUpdateOperationsInput
@@ -836,7 +890,7 @@ input ProjectUpdateWithoutTasksDataInput {
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   members: UserUpdateManyWithoutProjectsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
-  projectImage: NullableStringFieldUpdateOperationsInput
+  projectImage: ProjectImageUpdateOneWithoutProjectInput
   projectName: NullableStringFieldUpdateOperationsInput
   projectType: NullableStringFieldUpdateOperationsInput
   status: NullableStringFieldUpdateOperationsInput
@@ -872,14 +926,15 @@ type Query {
   getEventById(id: Int!): Event
   getFileById(id: Int!): File
   getImageById(id: Int!): Image
-  getProjectById(id: Int!): Project
+  getProjectImageById(id: Int!): ProjectImage
   getTaskById(id: Int!): Task
   getTaskByProjectId(id: Int!): [Task]
   getUserByEmail(email: String!): User
-  getUserById(id: Int!): User
-  images(after: ImageWhereUniqueInput, before: ImageWhereUniqueInput, first: Int, last: Int): [Image!]!
+  images(after: ImageWhereUniqueInput, before: ImageWhereUniqueInput, first: Int, last: Int): [ProjectImage!]!
+  project(id: Int!): Project
   projects(after: ProjectWhereUniqueInput, before: ProjectWhereUniqueInput, first: Int, last: Int): [Project!]!
   tasks(after: TaskWhereUniqueInput, before: TaskWhereUniqueInput, first: Int, last: Int): [Task!]!
+  user(id: Int!): User
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
 }
 
@@ -969,11 +1024,6 @@ input TaskCreateManyWithoutProjectInput {
 input TaskCreateOneWithoutCommentsInput {
   connect: TaskWhereUniqueInput
   create: TaskCreateWithoutCommentsInput
-}
-
-input TaskCreateOneWithoutFilesInput {
-  connect: TaskWhereUniqueInput
-  create: TaskCreateWithoutFilesInput
 }
 
 input TaskCreateWithoutCommentsInput {

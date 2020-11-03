@@ -1,7 +1,7 @@
 import { objectType } from "@nexus/schema";
 
-const fileObjectType = objectType({
-  name: "File",
+const projectImageObjectType = objectType({
+  name: "ProjectImage",
   definition(t) {
     t.model.id();
     t.model.endpoint();
@@ -9,8 +9,7 @@ const fileObjectType = objectType({
     t.model.fullPath();
     t.model.fileName();
     t.model.extension();
-    t.model.task();
   },
 });
 
-export { fileObjectType };
+export { projectImageObjectType };

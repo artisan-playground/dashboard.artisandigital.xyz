@@ -4,7 +4,7 @@ generator prisma_client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model User {
@@ -42,7 +42,7 @@ model Project {
   projectName   String?
   projectType   String?
   projectDetail String?
-  projectImage  ProjectImage?
+  projectImage  String?
   status        String?         @default(value: "undone")
   dueDate       DateTime?
   members       User[]
@@ -97,15 +97,6 @@ model Event{
 }
 
 model Image {
-  id        Int     @id @default(autoincrement())
-  endpoint  String
-  path      String
-  fullPath  String
-  fileName  String
-  extension String
-}
-
-model ProjectImage {
   id        Int     @id @default(autoincrement())
   endpoint  String
   path      String

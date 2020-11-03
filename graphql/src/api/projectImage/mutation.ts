@@ -9,10 +9,10 @@ import shortid from "shortid";
 
 require("dotenv").config();
 
-export type UploadRoot = FileUpload;
+export type UploadProjectImageRoot = FileUpload;
 scalarType({
   ...GraphQLUpload!,
-  rootTyping: "UploadRoot",
+  rootTyping: "UploadProjectImageRoot",
 });
 const FILE_ENDPOINT = process.env.FILE_ENDPOINT!;
 const ACCESS_KEY_ID = process.env.ACCESS_KEY_ID!;
@@ -26,11 +26,11 @@ const s3 = new AWS.S3({
   region: REGION,
 });
 
-const uploadImage = extendType({
+const uploadProjectImage = extendType({
   type: "Mutation",
   definition: (t) => {
-    t.field("uploadImage", {
-      type: "Image",
+    t.field("uploadProjectImage", {
+      type: "ProjectImage",
       args: {
         image: arg({
           type: "Upload",
@@ -57,7 +57,7 @@ const uploadImage = extendType({
           extension: mimetype,
           endpoint: `${process.env.FILE_ENDPOINT}`,
         };
-        return await ctx.prisma.image.create({
+        return await ctx.prisma.projectImage.create({
           data: data,
         });
       },
@@ -65,11 +65,11 @@ const uploadImage = extendType({
   },
 });
 
-const updateImage = extendType({
+const updateProjectImage = extendType({
   type: "Mutation",
   definition: (t) => {
-    t.field("updateImage", {
-      type: "Image",
+    t.field("updateProjectImage", {
+      type: "ProjectImage",
       args: {
         id: intArg({ required: true }),
         image: arg({
@@ -97,7 +97,10 @@ const updateImage = extendType({
           extension: mimetype,
           endpoint: `${process.env.FILE_ENDPOINT}`,
         };
-        return await ctx.prisma.image.update({ where: { id: id }, data: data });
+        return await ctx.prisma.projectImage.update({
+          where: { id: id },
+          data: data,
+        });
       },
     });
   },
@@ -117,4 +120,4 @@ const processUpload = async (upload: FileUpload): Promise<any> => {
   );
 };
 
-export { uploadImage, updateImage };
+export { uploadProjectImage, updateProjectImage };
