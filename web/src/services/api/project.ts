@@ -7,14 +7,18 @@ export const PROJECT = gql`
       projectName
       projectType
       projectDetail
-      projectImage
+      projectImage {
+        fullPath
+      }
       status
       dueDate
       members {
         id
         name
-        image
         email
+        image {
+          fullPath
+        }
       }
       tasks {
         id
@@ -29,7 +33,9 @@ export const PROJECT = gql`
         members {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
       }
     }
@@ -37,8 +43,8 @@ export const PROJECT = gql`
 `
 
 export const GET_PROJECT_BY_ID = gql`
-  query Project($id: Int!) {
-    project(where: { id: $id }) {
+  query getProjectById($id: Int!) {
+    project(id: $id) {
       id
       projectName
       projectType
@@ -48,12 +54,17 @@ export const GET_PROJECT_BY_ID = gql`
       dueDate
       members {
         id
-        email
         name
-        image
+        email
+        image {
+          fullPath
+        }
       }
       tasks {
         id
+        project {
+          id
+        }
         taskName
         startTime
         endTime
@@ -61,27 +72,10 @@ export const GET_PROJECT_BY_ID = gql`
         isDone
         members {
           id
-          email
           name
-          image
-        }
-        files {
-          id
-          url
-          name
-          status
-          task {
-            id
+          image {
+            fullPath
           }
-        }
-        comments {
-          id
-          task {
-            id
-          }
-          timestamp
-          image
-          message
         }
       }
     }
@@ -116,51 +110,43 @@ export const CREATE_PROJECT = gql`
       dueDate
       members {
         id
+        name
+        image {
+          fullPath
+        }
       }
     }
   }
 `
 
 export const UPDATE_PROJECT_NAME = gql`
-mutation UpdateProjectName($id: Int!, $projectName: String) {
-  updateOneProject(
-    where: { id: $id }
-    data: { projectName: { set: $projectName } }
-  ) {
-    id
+  mutation UpdateProjectName($id: Int!, $projectName: String) {
+    updateOneProject(where: { id: $id }, data: { projectName: { set: $projectName } }) {
+      id
+    }
   }
-}
 `
 
 export const UPDATE_PROJECT_DETAIL = gql`
-mutation UpdateProjectDetail($id: Int!, $projectDetail: String) {
-  updateOneProject(
-    where: { id: $id }
-    data: { projectDetail: { set: $projectDetail } }
-  ) {
-    id
+  mutation UpdateProjectDetail($id: Int!, $projectDetail: String) {
+    updateOneProject(where: { id: $id }, data: { projectDetail: { set: $projectDetail } }) {
+      id
+    }
   }
-}
 `
 
 export const UPDATE_PROJECT_TYPE = gql`
-mutation UpdateProjectType($id: Int!, $projectType: String) {
-  updateOneProject(
-    where: { id: $id }
-    data: { projectType: { set: $projectType } }
-  ) {
-    id
+  mutation UpdateProjectType($id: Int!, $projectType: String) {
+    updateOneProject(where: { id: $id }, data: { projectType: { set: $projectType } }) {
+      id
+    }
   }
-}
 `
 
 export const UPDATE_PROJECT_STATUS = gql`
-mutation UpdateProjectStatus($id: Int!, $status: String) {
-  updateOneProject(
-    where: { id: $id }
-    data: { status: { set: $status } }
-  ) {
-    id
+  mutation UpdateProjectStatus($id: Int!, $status: String) {
+    updateOneProject(where: { id: $id }, data: { status: { set: $status } }) {
+      id
+    }
   }
-}
 `

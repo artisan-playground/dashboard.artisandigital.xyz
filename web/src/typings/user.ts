@@ -2,11 +2,11 @@ export interface User {
   id: string
   email: string
   name: string
-  image: string
+  image: any[]
   position: string
   skills: string[]
 }
 
 export interface UserData {
-  user: User
+  getUserByEmail: User
 }

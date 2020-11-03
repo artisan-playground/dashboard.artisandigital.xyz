@@ -3,18 +3,17 @@ import { useQuery } from '@apollo/client'
 import { Card, Col, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { PROJECT } from '../services/api/project'
-import { TASKS } from '../services/api/task'
-import { GET_USERS } from '../services/api/user'
 import {
   LayoutDashboard,
   LoadingComponent,
   ProjectCard,
   WelcomeCard,
 } from '../components/DashboardComponent'
-import '../styles/main.css'
+import { PROJECT } from '../services/api/project'
+import { TASKS } from '../services/api/task'
+import { GET_USERS, GET_USER_BY_ID } from '../services/api/user'
 import { useStoreState } from '../store'
-import { GET_USER_BY_ID } from '../services/api/user'
+import '../styles/main.css'
 
 function Dashboard() {
   const { Title, Text } = Typography

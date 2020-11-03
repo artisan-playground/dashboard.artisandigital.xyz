@@ -1,12 +1,12 @@
-import { BellOutlined, DownOutlined } from '@ant-design/icons'
-import { Avatar, Badge, Col, Dropdown, Layout, Menu, Row, Image, Typography } from 'antd'
+import { BellOutlined, DownOutlined, UserOutlined } from '@ant-design/icons'
+import { useQuery } from '@apollo/client'
+import { Avatar, Badge, Col, Dropdown, Image, Layout, Menu, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { useStoreActions, useStoreState } from '../store'
-import '../styles/main.css'
-import { useQuery } from '@apollo/client'
 import { TASKS } from '../services/api/task'
 import { GET_USER_BY_ID } from '../services/api/user'
+import { useStoreActions, useStoreState } from '../store'
+import '../styles/main.css'
 
 function NavBar() {
   const { Header } = Layout
@@ -23,7 +23,7 @@ function NavBar() {
   useEffect(() => {
     if (!error && !loading && !userLoading && !userError) {
       setFilteredData(data.tasks)
-      setCurrentUserData(userData.user)
+      setCurrentUserData(userData?.user)
     }
   }, [data, error, loading, userLoading, userError, userData])
 
@@ -82,15 +82,14 @@ function NavBar() {
             />
           </RouterLink>
         </div>
-
         <Row>
           <Col>
             <Dropdown overlay={userDropDown} placement="bottomCenter" arrow>
               <Row className="justify-center items-center cursor-pointer">
-                {currentUserData ? (
+                {currentUserData.image ? (
                   <div className="block hover:hidden">
                     <Avatar
-                      src={currentUserData.image}
+                      src={currentUserData.image.fullPath}
                       className="border-2 mr-2 "
                       alt="user"
                       size="large"
@@ -98,7 +97,15 @@ function NavBar() {
                     <Text className="font-bold">{currentUserData.name}</Text>
                   </div>
                 ) : (
-                  ''
+                  <div className="block hover:hidden flex items-center justify-center">
+                    <Avatar
+                      icon={<UserOutlined />}
+                      className="border-2 mr-2 bg-primary flex items-center justify-center"
+                      alt="user"
+                      size="large"
+                    />
+                    <Text className="font-bold">{currentUserData.name}</Text>
+                  </div>
                 )}
                 <div className="hover:block hidden">
                   <DownOutlined style={{ fontSize: 20 }} />

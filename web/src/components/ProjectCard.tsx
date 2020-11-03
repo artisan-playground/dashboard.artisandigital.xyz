@@ -1,4 +1,4 @@
-import { CheckCircleOutlined, SyncOutlined } from '@ant-design/icons'
+import { CheckCircleOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Card, Col, Popover, Row, Tag, Tooltip, Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -14,12 +14,21 @@ function ProjectCard({ data }: any) {
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
             <Link to={{ pathname: `/profile/${item[i].id}` }}>
               <Tooltip placement="top" title={item[i].name}>
-                <Avatar
-                  key={item[i].id}
-                  src={item[i].image}
-                  className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
-                  alt={item[i].name}
-                />
+                {item[i].image ? (
+                  <Avatar
+                    key={item[i].id}
+                    src={item[i].image ? item[i].image.fullPath : null}
+                    className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
+                    alt={item[i].name}
+                  />
+                ) : (
+                  <Avatar
+                    key={item[i].id}
+                    icon={<UserOutlined />}
+                    className="ml-2 cursor-pointer bg-gray-300 shadow-lg bg-primary flex items-center justify-center"
+                    alt={item[i].name}
+                  />
+                )}
               </Tooltip>
             </Link>
           </Col>
@@ -35,11 +44,17 @@ function ProjectCard({ data }: any) {
                 >
                   +{item.length - 3}
                 </div>
-                <Avatar
-                  src={item[3].image}
-                  className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
-                  style={{ filter: 'brightness(0.6)' }}
-                ></Avatar>
+                {item[3].image ? (
+                  <Avatar
+                    src={item[3].image ? item[3].image.fullPath : null}
+                    className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
+                  />
+                ) : (
+                  <Avatar
+                    icon={<UserOutlined />}
+                    className="ml-2 cursor-pointer bg-gray-300 shadow-lg bg-primary flex items-center justify-center"
+                  />
+                )}
               </div>
             </Popover>
           </Col>

@@ -1,14 +1,14 @@
+import { PlusCircleOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
-import { Button, Col, Input, Radio, Row, Typography } from 'antd'
+import { Button, Col, Empty, Input, Radio, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { PROJECT } from '../services/api/project'
 import {
   LayoutDashboard,
   LoadingComponent,
   ProjectCard,
   ProjectDrawer,
 } from '../components/DashboardComponent'
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { PROJECT } from '../services/api/project'
 
 function ProjectList() {
   const { Search } = Input
@@ -121,7 +121,10 @@ function ProjectList() {
                 ))
               ) : (
                 <div className="flex w-full justify-center my-8">
-                  <Text disabled>No Projects Found</Text>
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description={<Text disabled>No Projects Found</Text>}
+                  />
                 </div>
               )
             ) : (

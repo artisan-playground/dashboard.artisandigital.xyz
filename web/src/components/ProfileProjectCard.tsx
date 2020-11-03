@@ -17,7 +17,7 @@ function ProfileProjectCard({ data }: any) {
               <Tooltip placement="top" title={item[i].name}>
                 <Avatar
                   key={item[i].id}
-                  src={item[i].image}
+                  src={item[i].image.fullPath}
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
                   alt={item[i].name}
                 />
@@ -37,7 +37,7 @@ function ProfileProjectCard({ data }: any) {
                   +{item.length - 4}
                 </div>
                 <Avatar
-                  src={item[4].image}
+                  src={item[4].image.fullPath}
                   className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
                   style={{ filter: 'brightness(0.6)' }}
                 ></Avatar>
@@ -58,7 +58,12 @@ function ProfileProjectCard({ data }: any) {
           return (
             <Link key={items.id} to={{ pathname: `/profile/${items.id}` }}>
               <div className="flex mx-1 my-1 p-1 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                <Avatar key={items.id} src={items.image} className="ml-2" alt={items.name} />
+                <Avatar
+                  key={items.id}
+                  src={items.image.fullPath}
+                  className="ml-2"
+                  alt={items.name}
+                />
                 <div className="ml-4">{items.name}</div>
               </div>
             </Link>

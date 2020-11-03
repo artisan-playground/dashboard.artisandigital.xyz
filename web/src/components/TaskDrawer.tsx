@@ -154,7 +154,12 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
                       value={value.name}
                       className="hover:bg-primary hover:text-white py-2 px-4"
                     >
-                      <Avatar shape="circle" size="default" src={value.image} className="mr-2" />
+                      <Avatar
+                        shape="circle"
+                        size="default"
+                        src={value.image.fullPath}
+                        className="mr-2"
+                      />
                       {value.name}
                       <Text className="text-gray-400 text-md ml-2">{value.email}</Text>
                     </MentionOption>
@@ -193,7 +198,12 @@ function TaskDrawer({ visibillity, onCloseDrawer, project, refetch }: any) {
                       value={value.name}
                       className="hover:bg-primary hover:text-white py-2 px-4"
                     >
-                      <Avatar shape="circle" size="default" src={value.image} className="mr-2" />
+                      <Avatar
+                        shape="circle"
+                        size="default"
+                        src={value.image.fullPath}
+                        className="mr-2"
+                      />
                       {value.name}
                     </MentionOption>
                   ))}

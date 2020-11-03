@@ -1637,7 +1637,6 @@ export interface NexusGenFieldTypes {
     project: NexusGenRootTypes['Project'] | null; // Project
     projects: NexusGenRootTypes['Project'][]; // [Project!]!
     tasks: NexusGenRootTypes['Task'][]; // [Task!]!
-    user: NexusGenRootTypes['User'] | null; // User
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   Task: { // field return type
@@ -1776,7 +1775,6 @@ export interface NexusGenFieldTypeNames {
     project: 'Project'
     projects: 'Project'
     tasks: 'Task'
-    user: 'User'
     users: 'User'
   }
   Task: { // field return type name

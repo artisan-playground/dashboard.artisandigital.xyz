@@ -27,6 +27,7 @@
     "apollo-server": "^2.18.2",
     "apollo-upload-client": "^14.1.2",
     "autoprefixer": "^9.7.0",
+    "aws-sdk": "^2.781.0",
     "axios": "^0.20.0",
     "cssnano": "^4.1.10",
     "easy-peasy": "^3.3.1",

@@ -1,23 +1,24 @@
-import { Col, Empty, Radio, Row, Typography, Card, Tag, Tabs, Divider } from 'antd'
+import {
+  ClusterOutlined,
+  FacebookOutlined,
+  GithubOutlined,
+  GitlabOutlined,
+  IdcardOutlined,
+  InstagramOutlined,
+  TwitterOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
+import { useQuery } from '@apollo/client'
+import { Card, Col, Divider, Empty, Radio, Row, Tabs, Tag, Typography } from 'antd'
+import Avatar from 'antd/lib/avatar/avatar'
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import {
   LayoutDashboard,
   ProfileProjectCard,
   ProfileTaskCard,
 } from '../components/DashboardComponent'
-import {
-  FacebookOutlined,
-  TwitterOutlined,
-  InstagramOutlined,
-  GitlabOutlined,
-  GithubOutlined,
-  ClusterOutlined,
-  IdcardOutlined,
-} from '@ant-design/icons'
-import { useParams } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
 import { GET_USER_BY_ID } from '../services/api/user'
-import Avatar from 'antd/lib/avatar/avatar'
 
 function Profile() {
   const { Text, Link } = Typography
@@ -74,7 +75,16 @@ function Profile() {
           <Card>
             <Col className="text-center mb-8">
               <Row className="justify-center">
-                <Avatar src={userData ? userData.image : null} alt="user" size={125} />
+                {userData ? (
+                  <Avatar src={userData.image.fullPath} alt="user" size={125} />
+                ) : (
+                  <Avatar
+                    icon={<UserOutlined />}
+                    className="bg-primary flex items-center justify-center"
+                    alt="user"
+                    size={125}
+                  />
+                )}
               </Row>
               <Row className="justify-center">
                 <Text className="text-xl font-bold">{userData ? userData.name : null}</Text>
@@ -85,12 +95,25 @@ function Profile() {
             </Col>
 
             <Text className="flex items-center">
-              <ClusterOutlined className="mr-2" />
-              {userData ? userData.department : null}
+              {userData ? (
+                userData.department ? (
+                  <>
+                    <ClusterOutlined className="mr-2" />
+                    {userData.department !== null ? userData.department : null}
+                  </>
+                ) : null
+              ) : null}
             </Text>
             <Text className="flex items-center">
               <IdcardOutlined className="mr-2" />
-              {userData ? userData.type : null}
+              {userData ? (
+                userData.type ? (
+                  <>
+                    <ClusterOutlined className="mr-2" />
+                    {userData.type !== null ? userData.type : null}
+                  </>
+                ) : null
+              ) : null}
             </Text>
 
             <Divider />
@@ -99,11 +122,13 @@ function Profile() {
               <Text>Skills</Text>
               <Row className="mt-2">
                 {userData
-                  ? userData.skills.map((value: any, index: any) => (
-                      <Tag key={index} color="blue" className="mb-1">
-                        {value}
-                      </Tag>
-                    ))
+                  ? userData.skills
+                    ? userData.skills.map((value: any, index: any) => (
+                        <Tag key={index} color="blue" className="mb-1">
+                          {value}
+                        </Tag>
+                      ))
+                    : null
                   : null}
               </Row>
             </Col>
@@ -177,19 +202,30 @@ function Profile() {
                 })`}
                 key="1"
               >
-                {filteredTaskData ? (
-                  filteredTaskData
-                    .filter((tasks: any) => tasks.isDone === false)
-                    .map((items: any) => (
-                      <Col xs={24} xl={{ span: 8 }} key={items.id} className="w-full px-2 py-2">
-                        <ProfileTaskCard data={items} />
+                <Row>
+                  {filteredTaskData ? (
+                    filteredTaskData.length !== 0 ? (
+                      filteredTaskData
+                        .filter((tasks: any) => tasks.isDone === false)
+                        .map((items: any) => (
+                          <Col xs={24} xl={{ span: 8 }} key={items.id} className="w-full px-2 py-2">
+                            <ProfileTaskCard data={items} />
+                          </Col>
+                        ))
+                    ) : (
+                      <Col xs={24} className="flex items-center justify-center text-center">
+                        <Empty
+                          image={Empty.PRESENTED_IMAGE_SIMPLE}
+                          description={<Text disabled>No Tasks Found</Text>}
+                        />
                       </Col>
-                    ))
-                ) : (
-                  <Col xs={24} className="flex items-center justify-center text-center">
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                  </Col>
-                )}
+                    )
+                  ) : (
+                    <div className="flex w-full justify-center my-8">
+                      <Text disabled>Error</Text>
+                    </div>
+                  )}
+                </Row>
               </TabPane>
               <TabPane tab={`Projects (${projectData.length})`} key="2">
                 <Row className="flex justify-end mb-2">
@@ -212,7 +248,10 @@ function Profile() {
                       ))
                     ) : (
                       <Col xs={24} className="flex items-center justify-center text-center">
-                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                        <Empty
+                          image={Empty.PRESENTED_IMAGE_SIMPLE}
+                          description={<Text disabled>No Projects Found</Text>}
+                        />
                       </Col>
                     )
                   ) : (

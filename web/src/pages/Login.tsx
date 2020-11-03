@@ -19,8 +19,8 @@ function Login() {
       getUser({ variables: { email } })
     }
   }
-  if (data?.user) {
-    login(data.user as User)
+  if (data?.getUserByEmail) {
+    login(data.getUserByEmail as User)
   }
 
   function enterLoading() {
