@@ -14,7 +14,9 @@ export const ALL_EVENT = gql`
         id
         email
         name
-        image
+        image {
+          fileName
+        }
       }
     }
   }
@@ -25,7 +27,10 @@ export const ALL_MEMBER_QUERY = gql`
     users {
       id
       name
-      image
+      image {
+        id
+        fullPath
+      }
       email
       department
       position
@@ -43,14 +48,18 @@ export const ALL_PROJECT_QUERY = gql`
       id
       projectName
       projectType
-      projectImage
+      projectImageId
       projectDetail
       status
       dueDate
       members {
         id
         name
-        image
+        email
+        image {
+          id
+          fullPath
+        }
       }
     }
   }
@@ -61,7 +70,10 @@ export const MEMBER_QUERY = gql`
     user(where: { id: $memberId }) {
       id
       name
-      image
+      image {
+        id
+        fullPath
+      }
       email
       department
       position
@@ -69,6 +81,27 @@ export const MEMBER_QUERY = gql`
       skills
       startDate
       dueDate
+      projects {
+        id
+        projectName
+        projectType
+        projectImage
+        status
+        projectDetail
+        members {
+          id
+          name
+          image {
+            id
+            fullPath
+          }
+        }
+      }
+      tasks {
+        id
+        taskName
+        taskDetail
+      }
     }
   }
 `
@@ -92,13 +125,18 @@ export const PROJECT_QUERY = gql`
         isDone
         members {
           id
-          image
+          image {
+            id
+            fullPath
+          }
         }
       }
       members {
         id
         name
-        image
+        image {
+          fileName
+        }
       }
     }
   }
@@ -117,13 +155,17 @@ export const TASK_QUERY = gql`
         dueDate
         members {
           id
-          image
+          image {
+            fileName
+          }
         }
       }
       members {
         id
         name
-        image
+        image {
+          fileName
+        }
       }
     }
   }
