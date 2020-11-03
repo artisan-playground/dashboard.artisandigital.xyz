@@ -1,69 +1,78 @@
 <template>
   <div>
     <div class="listProject">
-      <v-card
+      <a-card
         id="card"
-        style="text-decoration:none; color:black"
+        bodyStyle="padding:15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
         v-for="project in projects"
         :key="project.id"
-        :to="{ name: 'project', params: { id: project.id } }"
       >
-        <v-row>
-          <v-col cols="8" align="left" style="padding-bottom: 0px;">
-            <div class="md-title">
-              <b style="line-height: 0px;">{{ project.name }}</b>
-            </div>
-            <div id="position">{{ project.position }}</div>
-          </v-col>
-          <v-col cols="4" id="status" align="right" style="padding-bottom: 0px;">
-            <a-tag color="red"
-              class="md-accent"
-              md-clickable
-              v-if="project.status == 'WIP'"
-            >
-              <span
-                id="iconStatus"
-                class="iconify"
-                data-inline="false"
-                data-icon="carbon:warning"
-              ></span>
-              {{ project.status }}
-            </a-tag>
-            <a-tag color="green"
-              v-if="project.status == 'Done'"
-            >
-              <span
-                id="iconStatus"
-                class="iconify"
-                data-inline="false"
-                data-icon="octicon:check-circle-24"
-              ></span>
-              {{ project.status }}
-            </a-tag>
-          </v-col>
-        </v-row>
-        <v-row style="padding-top: 0px;">
-          <v-col>
-            <div align="left">{{ project.description }}</div>
-          </v-col>
-        </v-row>
+        <router-link
+          style="text-decoration: none; color:black"
+          :to="{ name: 'project', params: { id: project.id } }"
+        >
+          <a-row type="flex" justify="space-between">
+            <a-col :span="18" align="left">
+              <div class="md-title">
+                <b style="line-height: 0px;">{{ project.projectName }}</b>
+              </div>
+              <div id="position">{{ project.projectType }}</div>
+            </a-col>
+            <a-col :span="4" id="status">
+              <a-tag
+                style="float:right; margin-right:0px;"
+                color="red"
+                class="md-accent"
+                md-clickable
+                v-if="project.status == 'undone'"
+              >
+                <span
+                  id="iconStatus"
+                  class="iconify"
+                  data-inline="false"
+                  data-icon="carbon:warning"
+                ></span>
+                WIP
+              </a-tag>
+              <a-tag
+                color="green"
+                v-if="project.status == 'done'"
+                style="float:right; margin-right:0px;"
+              >
+                <span
+                  id="iconStatus"
+                  class="iconify"
+                  data-inline="false"
+                  data-icon="octicon:check-circle-24"
+                  style="font-size: 14px;"
+                ></span>
+                Done
+              </a-tag>
+            </a-col>
+          </a-row>
+          <a-row>
+            <a-col>
+              <div align="left">{{ project.projectDetail }}</div>
+            </a-col>
+          </a-row>
 
-        <v-row>
-          <v-col style="padding-top: 0px;">
-            <div style="float:right">
-              <vs-avatar-group float max="4">
-                <vs-avatar
-                  v-for="member in members"
-                  :key="member.id"
-                  style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
-                >
-                  <img v-bind:src="member.image" />
-                </vs-avatar>
-              </vs-avatar-group>
-            </div>
-          </v-col>
-        </v-row>
-      </v-card>
+          <a-row>
+            <a-col>
+              <div style="float:right">
+                <vs-avatar-group float max="4">
+                  <vs-avatar
+                    v-for="member in project.members"
+                    :key="member.id"
+                    style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
+                  >
+                    <img v-bind:src="member.image.fullPath" />
+                  </vs-avatar>
+                </vs-avatar-group>
+              </div>
+            </a-col>
+          </a-row>
+        </router-link>
+      </a-card>
     </div>
 
     <div style="padding-bottom:60px">
@@ -74,13 +83,25 @@
 
 <script>
 import store from '../store/index.js'
+import * as gqlQuery from '../constants/graphql'
+
 export default {
   name: 'ListProject',
   data() {
     return {
-      projects: store.state.projects,
-      members: store.state.members,
+      // projects: store.state.projects,
+      projects: [],
+      members: store.state.users,
     }
+  },
+  apollo: {
+    projects: {
+      query: gqlQuery.ALL_PROJECT_QUERY,
+      result({ data }) {
+        this.dataProject = data.projects
+        console.log(this.dataProject)
+      },
+    },
   },
   methods: {},
 }
@@ -106,7 +127,10 @@ export default {
 }
 #status {
   font-size: 10.5px;
-  width: 25%;
+  /* width: 25%; */
+  padding-right: 0px;
+  /* float: right;
+  justify-content: flex-end; */
 }
 #iconStatus {
   font-size: 10px;
@@ -114,21 +138,14 @@ export default {
 }
 #card {
   margin: 3px 15px 24px 15px; /* ระยะห่างรอบๆ card */
-  padding-bottom: 10px;
-  border-radius: 5px;
+  padding-bottom: 0px;
+  /* border-radius: 5px; */
+  padding-left: 0px;
+  padding-right: 0px;
 }
 .md-title {
   font-size: 16px;
   margin-bottom: -1px; /* ระยะห่างระหว่างชื่อโปรเจคกับตำแหน่งงาน */
   line-height: 20px; /* ระยะห่างระหว่างบรรทัดของชื่อโปรเจค เวลาขึ้นบรรทัดใหม่ */
-}
-
-.row {
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
-.col {
-  padding-bottom: 5px;
 }
 </style>

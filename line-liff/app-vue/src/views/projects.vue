@@ -1,14 +1,13 @@
 <template>
   <div class="project">
     <!-- <h1>This is an about page</h1> -->
-    <Toolbar msg="Project"/>
+    <Toolbar msg="Project" />
 
     <md-content>
       <br />
-      <br />
-      <br />
-      <br />
-      <ListProjectAll />
+      <div style="margin :60px 0px 0 0px">
+        <ListProjectAll />
+      </div>
     </md-content>
     <BarRouter />
   </div>

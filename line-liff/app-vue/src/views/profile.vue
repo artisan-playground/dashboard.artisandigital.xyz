@@ -5,7 +5,7 @@
     <div style="margin-top:60px">
       <Profile />
       <div>
-        <a-tabs default-active-key="1" @change="callback">
+        <a-tabs default-active-key="1">
           <a-tab-pane key="1" tab="Project">
             <div style="width:100%; margin-bottom:10px">
               <div style="margin-left:18px">

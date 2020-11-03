@@ -3,17 +3,20 @@
     <md-toolbar class="toolbar" md-elevation="1">
       <div style="border:none; width:100% ">
         <v-row>
-          <v-col align="left">
-            <v-btn @click="$router.go(-1)" style="background-color:#262626; max-width:5%; height: 36px; min-width: 0px; padding-left:10px; box-shadow: none;">
+          <v-col align="left" cols="3">
+            <v-btn
+              @click="$router.go(-1)"
+              style="background-color:#262626; max-width:5%; height: 36px; min-width: 0px; padding-left:10px; box-shadow: none;"
+            >
               <a-icon type="left" style="margin-top:10px; margin-left:20px; color:white;" />
             </v-btn>
           </v-col>
 
-          <v-col>
-            <!-- <div class="title">{{ msg }}</div> -->
+          <v-col cols="6">
+            <div class="title">{{ msg }}</div>
           </v-col>
 
-          <v-col align="right">
+          <v-col align="right" cols="3">
             <div class="profile">
               <img
                 id="pictureUrl"
@@ -37,6 +40,9 @@
 import { mapState } from 'vuex'
 export default {
   name: 'ToolbarBack',
+  props: {
+    msg: String,
+  },
   computed: {
     ...mapState({
       profileStore: store => store.profile,
@@ -87,6 +93,12 @@ p {
   color: white;
   margin-top: 1em;
   margin-bottom: 0.5em;
+}
+.title {
+  color:white; 
+  margin-top:17px; 
+  font-weight:380;
+  font-size: 18px;
 }
 #pictureUrl {
   /* display: block; */

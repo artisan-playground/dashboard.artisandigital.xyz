@@ -1,15 +1,28 @@
 <template>
-  <div>
+  <div style="margin-left:15px;; margin-right:15px">
+    <a-row>
+      <router-link to="/createProject">
+        <a-button
+          block
+          type="primary"
+          style="float:right; text-transform: capitalize; background-color: #105EFB; color:white;"
+        >
+          Create Project
+        </a-button>
+      </router-link>
+    </a-row>
     <div>
-      <v-row style="width:100%; margin-bottom:10px">
-        <v-col align="right" style="padding-right: 0px; padding-left: 0px;">
+      <a-row style="margin-top:10px;  margin-bottom:10px">
+        <a-col :span="18" style="width:80%">
           <a-input-search
+            style="width:100%"
             v-model="search"
             type="search"
             placeholder="input search text"
-            style="width: 73%"
           />
-          <a-select v-model="currentFilter" style="width: 20%; margin-right:18px;">
+        </a-col>
+        <a-col :span="6" style="width:20%">
+          <a-select style="width:100%" v-model="currentFilter">
             <a-select-option value="">
               <span style="font-size:10px">All</span>
             </a-select-option>
@@ -20,74 +33,80 @@
               <span style="font-size:10px">Done</span>
             </a-select-option>
           </a-select>
-        </v-col>
-      </v-row>
+        </a-col>
+      </a-row>
     </div>
     <div class="listProject">
-      <v-card
+      <a-card
         id="card"
-        style="text-decoration:none; color:black"
+        bodyStyle="padding:15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
         v-for="project in searchFilter"
         :key="project.id"
-        :to="{ name: 'project', params: { id: project.id } }"
       >
-        <v-row>
-          <v-col cols="8" align="left" style="padding-bottom: 0px;">
-            <div class="md-title">
-              <b style="line-height: 0px;">{{ project.projectName }}</b>
-            </div>
-            <div id="position">{{ project.projectType }}</div>
-          </v-col>
-          <v-col cols="4" id="status" align="right" style="padding-bottom: 0px;">
-            <a-tag color="red"
-              style="margin-right: 0px;"
-              md-clickable
-              v-if="project.status == 'undone'"
-            >
-              <span
-                id="iconStatus"
-                class="iconify"
-                data-inline="false"
-                data-icon="carbon:warning"
-              ></span>
-              WIP
-            </a-tag>
-            <a-tag color="green"
-              v-if="project.status == 'done'"
-              style="margin-right: 0px;"
-            >
-              <span
-                id="iconStatus"
-                class="iconify"
-                data-inline="false"
-                data-icon="octicon:check-circle-24"
-              ></span>
-              Done
-            </a-tag>
-          </v-col>
-        </v-row>
-        <v-row style="padding-top: 0px;">
-          <v-col>
-            <div align="left">{{ project.projectDetail }}</div>
-          </v-col>
-        </v-row>
+        <router-link
+          style="text-decoration: none; color:black"
+          :to="{ name: 'project', params: { id: project.id } }"
+        >
+          <a-row type="flex" justify="space-between">
+            <a-col :span="18" align="left">
+              <div class="md-title">
+                <b style="line-height: 0px;">{{ project.projectName }}</b>
+              </div>
+              <div id="position">{{ project.projectType }}</div>
+            </a-col>
+            <a-col :span="4" id="status">
+              <a-tag
+                style="float:right; margin-right:0px;"
+                color="red"
+                md-clickable
+                v-if="project.status == 'undone'"
+              >
+                <span
+                  id="iconStatus"
+                  class="iconify"
+                  data-inline="false"
+                  data-icon="carbon:warning"
+                ></span>
+                WIP
+              </a-tag>
+              <a-tag
+                color="green"
+                v-if="project.status == 'done'"
+                style="float:right; margin-right:0px;"
+              >
+                <span
+                  id="iconStatus"
+                  class="iconify"
+                  data-inline="false"
+                  data-icon="octicon:check-circle-24"
+                ></span>
+                Done
+              </a-tag>
+            </a-col>
+          </a-row>
+          <a-row style="padding-top: 0px;">
+            <a-col>
+              <div align="left">{{ project.projectDetail }}</div>
+            </a-col>
+          </a-row>
 
-        <v-row>
-          <v-col style="padding-top: 0px;">
-            <div style="float:right">
-              <vs-avatar-group float max="4">
-                <vs-avatar
-                  v-for="member in project.members"
-                  :key="member.id"
-                  style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
-                >
-                  <img v-bind:src="member.image" />
-                </vs-avatar>
-              </vs-avatar-group>
-            </div>
-          </v-col>
-        </v-row>
-      </v-card>
+          <a-row>
+            <a-col>
+              <div style="float:right">
+                <vs-avatar-group float max="4">
+                  <vs-avatar
+                    v-for="member in project.members"
+                    :key="member.id"
+                    style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
+                  >
+                    <img v-bind:src="member.image.fullPath" />
+                  </vs-avatar>
+                </vs-avatar-group>
+              </div>
+            </a-col>
+          </a-row>
+        </router-link>
+      </a-card>
     </div>
 
     <div style="padding-bottom:60px">
@@ -98,7 +117,7 @@
 
 <script>
 import store from '../store/index.js'
-import * as gqlQuery  from '../constants/graphql'
+import * as gqlQuery from '../constants/graphql'
 // import gql from 'graphql-tag'
 
 export default {
@@ -111,21 +130,20 @@ export default {
       members: store.state.members,
       currentFilter: '',
       dataMember: null,
-      dataProject: null
+      dataProject: null,
     }
   },
   apollo: {
     projects: {
-      query: gqlQuery.ALL_PROJECT_QUERY
-      ,
+      query: gqlQuery.ALL_PROJECT_QUERY,
       result({ data }) {
         this.dataProject = data.projects
         // this.dataProject.forEach(element => {
         // });
-        console.log(this.dataProject);
+        console.log(this.dataProject)
         // this.dataMember = data.projects.members.user
-      }
-    }
+      },
+    },
   },
   computed: {
     searchFilter() {
@@ -162,7 +180,7 @@ export default {
 }
 #status {
   font-size: 10.5px;
-  width: 25%;
+  padding-right: 0px;
 }
 
 #iconStatus {
@@ -171,9 +189,11 @@ export default {
 }
 
 #card {
-  margin: 3px 15px 24px 15px; /* ระยะห่างรอบๆ card */
-  padding-bottom: 10px;
-  border-radius: 2px;
+  margin: 3px 0px 24px 0px; /* ระยะห่างรอบๆ card */
+  padding-bottom: 0px;
+  /* border-radius: 2px; */
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .md-title {

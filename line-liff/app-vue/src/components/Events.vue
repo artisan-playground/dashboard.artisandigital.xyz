@@ -5,83 +5,62 @@
     </div>
 
     <div class="news">
-      <v-card id="card" align="left" v-for="event in events" :key="event.id">
-        <div>
-          <v-row style="margin:auto; padding:auto; margin-left:0px;">
-            <!-- Date -->
-            <v-col cols="2" id="date" style="margin-bottom:auto; margin-top:auto;">
-              <div style="color:#8F8F8F; margin-left:0px; margin-right:0px;">
-                <span>{{ $dayjs(event.eventDate).format('ddd') }}</span>
-              </div>
-              <div style="margin-left:0px; margin-right:0px;">
-                <div>
-                  <b>{{ $dayjs(event.eventDate).format('D') }}</b>
-                </div>
-              </div>
-              <div style="color:#8F8F8F; margin-left:0px; margin-right:0px;">
+      <!-- <router-link> -->
+      <a-card
+        bodyStyle="padding: 15px 15px 15px 0px;"
+        class="card"
+        v-for="event in events"
+        :key="event.id"
+        :bordered="false"
+      >
+        <a-row>
+          <a-col :span="3" sty>
+            <a-row class="flex-container">
+              <div>
+                <div>{{ $dayjs(event.eventDate).format('ddd') }}</div>
+                <div style="font-weight:550">{{ $dayjs(event.eventDate).format('D') }}</div>
                 <div>{{ $dayjs(event.eventDate).format('MMM') }}</div>
               </div>
-            </v-col>
-            <!-- End Date -->
+            </a-row>
+          </a-col>
+          <a-col :span="1">
+            <a-divider type="vertical" style="height:120px" />
+          </a-col>
+          <a-col :span="20" style="text-align:left; padding-left:10px;">
+            <a-row>
+              <a-col :span="16">
+                <b style="font-size:16px">{{ event.eventName }}</b>
+              </a-col>
+              <a-col :span="8"
+                ><a-tag
+                  style="float:right; margin-right:0px;"
+                  v-if="event.tag == 'Important'"
+                  color="orange"
+                >
+                  <span
+                    id="iconStatus"
+                    class="iconify"
+                    data-inline="false"
+                    data-icon="bi:bookmark"
+                    style="font-size: 14px;"
+                  ></span>
 
-            <!-- vertical line -->
-            <v-col cols="1" class="vl"></v-col>
-
-            <!-- Description -->
-            <v-col cols="9" style="padding-left:0px; padding-top:0px; padding-bottom:0px;">
-              <v-row>
-                <!-- Description Event -->
-                <v-col cols="7" style="padding-left:0px; padding-bottom:0px;">
-                  <div>
-                    <b>{{ event.eventName }}</b>
-                  </div>
-                  <!-- <v-row>
-                  {{
-                    data.description
-                  }}
-                </v-row> -->
-                </v-col>
-
-                <!-- Important Icon -->
-                <v-col cols="5" style="padding-bottom:0px;">
-                  <a-tag style="float:right;" v-if="event.tag == 'Important'" color="orange">
-                    <span
-                      id="iconStatus"
-                      class="iconify"
-                      data-inline="false"
-                      data-icon="bi:bookmark"
-                      style="font-size: 14px;"
-                    ></span>
-
-                    {{ event.tag }}
-                  </a-tag>
-                </v-col>
-              </v-row>
-
-              <!-- Description Event -->
-
-              <v-row>
-                {{ event.note }}
-              </v-row>
-
-              <!-- Member -->
-              <v-row style="float:right; padding-left:10px;">
-                <v-col style="padding-left:0px; padding-top:0px; padding-bottom:0px;">
-                  <vs-avatar-group
-                    float
-                    max="4"
-                    style="margin-top:5px; margin-bottom:14px; margin-right: 5px;"
-                  >
-                    <vs-avatar v-for="member in members" :key="member.id" id="profileImg">
-                      <img v-bind:src="member.image" />
-                    </vs-avatar>
-                  </vs-avatar-group>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-        </div>
-      </v-card>
+                  {{ event.tag }}
+                </a-tag></a-col
+              >
+            </a-row>
+            <a-row class="content">{{ event.note }}</a-row>
+            <a-row>
+              <vs-avatar-group float max="4" style="float:right; margin-top:5px;">
+                <vs-avatar v-for="member in members" :key="member.id" id="profileImg">
+                  <img v-bind:src="member.image" />
+                </vs-avatar>
+              </vs-avatar-group>
+            </a-row>
+          </a-col>
+        </a-row>
+      </a-card>
+      <!-- </router-link> -->
     </div>
   </div>
 </template>
@@ -94,14 +73,14 @@ export default {
   data() {
     return {
       news: store.state.news,
-      members: store.state.members,
+      members: store.state.users,
       events: [],
     }
   },
   apollo: {
     events: {
       query: gqlQuery.ALL_EVENT,
-    }
+    },
   },
 }
 </script>
@@ -113,9 +92,37 @@ div {
 .news {
   padding-bottom: 5px;
 }
-#card {
-  margin: 3px 15px 24px 15px; /* ระยะห่างรอบๆ card */
-  border-radius: 2px;
+.content {
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card {
+  margin-left: 15px;
+  margin-right: 15px;
+  transition: 0.3s;
+  text-align: left;
+  color: black;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.bodyStyle {
+  padding: 15px 15px 15px 0px;
+}
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  align-content: center;
+  border: none;
+  height: 100%;
+  margin-top: 25px;
 }
 #profileImg {
   border-radius: 100%;
@@ -126,10 +133,6 @@ div {
 #iconStatus {
   font-size: 10px;
   vertical-align: -9%;
-}
-#date {
-  /* vertical-align: middle; */
-  text-align:center;
 }
 .vl {
   border-left: 0.5px solid rgb(184, 184, 184);

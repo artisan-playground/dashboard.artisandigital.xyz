@@ -1,8 +1,8 @@
 <template>
   <div>
-    <ToolbarBack />
+    <ToolbarBack msg="Create Task"  />
     <br />
-    <div style="margin: 60px 18px 0px 18px">
+    <div style="margin: 60px 18px 0px 18px" v-if="dataProject">
       <a-form layout="vertical" hide-required-mark>
         <a-row>
           <a-form-item label="Task name">
@@ -23,30 +23,36 @@
             <a-mentions
               style="text-align: initial;"
               placeholder="input @ to mention people"
-              v-model="members"
+              v-model="member"
             >
-              <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
-                <v-img v-bind:src="user.image" id="imgProfile" />
-                <span style="display-inline">{{ user.name }}</span>
+              <a-mentions-option
+                v-for="user in dataProject.members"
+                :key="user.id"
+                :value="user.name"
+              >
+                <v-img style="float:left;" v-bind:src="user.image" id="imgProfile" />
+                <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-mentions-option>
             </a-mentions>
           </a-form-item>
+
+        <!-- <select name="" id="" v-model="member">
+          <option v-for="user in dataProject.members" :key="user.id" :value="user.id">
+            {{ user.name }}
+          </option>
+        </select> -->
+          
         </a-row>
         <a-row>
           <a-form-item label="Approver">
             <a-mentions
               style="text-align: initial;"
-              placeholder="input @ to mention people, # to mention tag"
-              :prefix="['@', '#']"
-              @search="onSearch"
+              placeholder="input @ to mention people"
+              v-model="reviewer"
             >
-              <a-mentions-option
-                v-for="value in MOCK_DATA[prefix] || []"
-                :key="value"
-                :value="value"
-                :v-model="members"
-              >
-                {{ value }}
+              <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
+                <v-img style="float:left;" v-bind:src="user.image" id="imgProfile" />
+                <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-mentions-option>
             </a-mentions>
           </a-form-item>
@@ -54,13 +60,13 @@
         <a-row>
           <a-form-item label="Date" style="margin-bottom:0;">
             <a-form-item :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }">
-              <a-date-picker style="width: 100%" v-model="startDate" />
+              <a-date-picker style="width: 100%" v-model="startTime" />
             </a-form-item>
             <span :style="{ display: 'inline-block', width: '24px', textAlign: 'center' }">
               -
             </span>
             <a-form-item :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }">
-              <a-date-picker style="width: 100%" v-model="endDate" />
+              <a-date-picker style="width: 100%" v-model="endTime" />
             </a-form-item>
           </a-form-item>
         </a-row>
@@ -101,10 +107,6 @@ import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/graphql'
 
-const MOCK_DATA = {
-  '@': ['Chalobon', 'NaN', 'pupaeng.’'],
-  '#': ['1.0', '2.0', '3.0'],
-}
 export default {
   name: 'createTask',
   components: {
@@ -122,6 +124,7 @@ export default {
       update(data) {
         this.dataProject = data.project
         this.dataTask = data.project.tasks
+
       },
     },
 
@@ -129,16 +132,17 @@ export default {
   },
   data() {
     return {
-      prefix: '@',
-      MOCK_DATA,
       startValue: null,
       endValue: null,
       endOpen: false,
+      reviewer: '',
       taskName: '',
-      members: '',
+      member: '',
+      memberId: '',
       taskDetail: '',
-      startDate: '',
-      endDate: '',
+      startTime: '',
+      endTime: '',
+      dataProject: null,
       users: [],
     }
   },
@@ -154,10 +158,11 @@ export default {
     async createTask() {
       console.log(parseInt(this.$route.params.id))
       console.log(this.taskName)
-      console.log(this.members)
+      console.log(this.member)
       console.log(this.taskDetail)
-      console.log(this.startDate)
-      console.log(this.endDate)
+      console.log(this.startTime)
+      console.log(this.endTime)
+      console.log(this.memberId)
 
       // const result = await this.$apollo.mutate({
       //   mutation: gqlQuery.ADD_TASK,
@@ -167,8 +172,8 @@ export default {
       //     taskDetail: this.taskDetail,
       //     startTime: this.startTime,
       //     endTime: this.endTime,
-      //     isDone: this.isDone,
-      //     members: this.members
+      //     isDone: false,
+      //     members: 8
       //   },
       // })
     },
