@@ -52,7 +52,6 @@ function ProfileEditor() {
   }
 
   function handleChange(info: any) {
-    console.log(info)
     if (info.file.status === 'uploading' && loading) {
       return
     }

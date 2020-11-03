@@ -19,8 +19,6 @@ function Login() {
       getUser({ variables: { email } })
     }
   }
-  console.log(data?.getUserByEmail)
-
   if (data?.getUserByEmail) {
     login(data.getUserByEmail as User)
   }
