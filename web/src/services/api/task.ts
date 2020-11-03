@@ -14,6 +14,10 @@ export const TASKS = gql`
         dueDate
         members {
           id
+          name
+          image {
+            fullPath
+          }
         }
       }
       taskName
@@ -24,7 +28,9 @@ export const TASKS = gql`
       members {
         id
         name
-        image
+        image {
+          fullPath
+        }
       }
       files {
         id
@@ -43,7 +49,9 @@ export const TASKS = gql`
         user {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         timestamp
         image
@@ -67,6 +75,10 @@ export const TASKS_BY_ID = gql`
         dueDate
         members {
           id
+          name
+          image {
+            fullPath
+          }
         }
       }
       taskName
@@ -77,7 +89,9 @@ export const TASKS_BY_ID = gql`
       members {
         id
         name
-        image
+        image {
+          fullPath
+        }
       }
       files {
         id
@@ -96,7 +110,9 @@ export const TASKS_BY_ID = gql`
         user {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         timestamp
         image
@@ -120,6 +136,10 @@ export const TASKS_BY_TASKID = gql`
         dueDate
         members {
           id
+          name
+          image {
+            fullPath
+          }
         }
       }
       taskName
@@ -130,7 +150,9 @@ export const TASKS_BY_TASKID = gql`
       members {
         id
         name
-        image
+        image {
+          fullPath
+        }
       }
       files {
         id
@@ -149,7 +171,9 @@ export const TASKS_BY_TASKID = gql`
         user {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         timestamp
         image
@@ -173,6 +197,10 @@ export const TOGGLE_TASK_DONE = gql`
         dueDate
         members {
           id
+          name
+          image {
+            fullPath
+          }
         }
       }
       taskName
@@ -183,7 +211,9 @@ export const TOGGLE_TASK_DONE = gql`
       members {
         id
         name
-        image
+        image {
+          fullPath
+        }
       }
       files {
         id
@@ -202,7 +232,9 @@ export const TOGGLE_TASK_DONE = gql`
         user {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         timestamp
         image
@@ -244,6 +276,10 @@ export const ADD_TASK = gql`
         dueDate
         members {
           id
+          name
+          image {
+            fullPath
+          }
         }
       }
       taskName
@@ -254,7 +290,9 @@ export const ADD_TASK = gql`
       members {
         id
         name
-        image
+        image {
+          fullPath
+        }
       }
       files {
         id
@@ -273,7 +311,9 @@ export const ADD_TASK = gql`
         user {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         timestamp
         image

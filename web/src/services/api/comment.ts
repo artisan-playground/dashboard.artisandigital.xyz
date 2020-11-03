@@ -17,7 +17,9 @@ export const COMMENT = gql`
       user {
         id
         name
-        image
+        image {
+          fullPath
+        }
       }
       timestamp
       image

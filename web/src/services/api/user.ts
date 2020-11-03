@@ -1,12 +1,14 @@
 import { gql } from '@apollo/client'
 
 export const GET_USER = gql`
-  query User($email: String) {
-    user(where: { email: $email }) {
+  query getUserByEmail($email: String!) {
+    getUserByEmail(email: $email) {
       id
       email
       name
-      image
+      image {
+        fullPath
+      }
       position
       skills
       department
@@ -32,7 +34,9 @@ export const GET_USER = gql`
         members {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         tasks {
           id
@@ -51,7 +55,9 @@ export const GET_USER = gql`
         members {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         files {
           id
@@ -70,7 +76,9 @@ export const GET_USER = gql`
           user {
             id
             name
-            image
+            image {
+              fullPath
+            }
           }
           timestamp
           image
@@ -83,11 +91,13 @@ export const GET_USER = gql`
 
 export const GET_USER_BY_ID = gql`
   query getUserById($id: Int!) {
-    user(where: { id: $id }) {
+    user(id: $id) {
       id
       email
       name
-      image
+      image {
+        fullPath
+      }
       position
       skills
       department
@@ -113,7 +123,9 @@ export const GET_USER_BY_ID = gql`
         members {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         tasks {
           id
@@ -132,7 +144,9 @@ export const GET_USER_BY_ID = gql`
         members {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         files {
           id
@@ -151,7 +165,9 @@ export const GET_USER_BY_ID = gql`
           user {
             id
             name
-            image
+            image {
+              fullPath
+            }
           }
           timestamp
           image
@@ -168,7 +184,9 @@ export const GET_USERS = gql`
       id
       email
       name
-      image
+      image {
+        fullPath
+      }
       position
       skills
       department
@@ -194,7 +212,9 @@ export const GET_USERS = gql`
         members {
           id
           name
-          image
+          image {
+            fullPath
+          }
         }
         tasks {
           id
@@ -213,8 +233,9 @@ export const GET_USERS = gql`
         members {
           id
           name
-          image
-          email
+          image {
+            fullPath
+          }
         }
         files {
           id
@@ -233,7 +254,9 @@ export const GET_USERS = gql`
           user {
             id
             name
-            image
+            image {
+              fullPath
+            }
           }
           timestamp
           image
@@ -245,12 +268,14 @@ export const GET_USERS = gql`
 `
 
 export const CREATE_USER = gql`
-  mutation CreateUser($data: CreateUserInput!) {
-    createUser(data: $data) {
+  mutation CreateUser($data: UserCreateInput!) {
+    createOneUser(data: $data) {
       id
       email
       name
-      image
+      image {
+        fullPath
+      }
       position
       skills
       department
@@ -291,7 +316,9 @@ export const UPDATE_USER = gql`
       id
       email
       name
-      image
+      image {
+        fullPath
+      }
       position
       skills
       department
@@ -351,9 +378,15 @@ export const UPDATE_USER_SKILLS = gql`
       id
       email
       name
-      image
+      image {
+        fullPath
+      }
       position
       skills
+      department
+      type
+      startDate
+      dueDate
       contacts {
         id
         facebook
