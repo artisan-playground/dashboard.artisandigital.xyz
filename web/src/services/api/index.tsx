@@ -2,9 +2,9 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000',
+  uri: 'https://develop-artisan-dashboard-backend-utkbnolsxq-as.a.run.app/graphql',
 })
-// https://develop-artisan-dashboard-backend-utkbnolsxq-as.a.run.app/graphql
+
 const authLink = setContext((_, { headers }) => {
   const token = ''
   return {
