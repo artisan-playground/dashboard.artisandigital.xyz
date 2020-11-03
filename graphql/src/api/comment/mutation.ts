@@ -6,9 +6,9 @@ const commentMutation = extendType({
     t.crud.createOneComment();
     t.crud.deleteOneComment({
       type: "Comment",
-      resolve: async (_, args, cdx) => {
+      resolve: async (_, args, ctx) => {
         const id = args!.where!.id!;
-        return await cdx.db.comment.delete({ where: { id: id } });
+        return await ctx.prisma.comment.delete({ where: { id: id } });
       },
     });
     t.crud.updateOneComment();
