@@ -12,13 +12,13 @@ export default new Vuex.Store({
       displayName: '',
       pictureUrl: '',
       statusMessage: '',
+      email: '',
     },
-    members: [
+    users: [
       {
         id: 1,
         image: 'https://ca.slack-edge.com/T03EKL88Y-U03EKL89A-61874a193769-512',
-        name: 'Cholathit Khueankaew',
-        displayName: 'Cholathit',
+        name: 'Cholathit',
         department: 'HR/Admin',
         position: 'Managing Director/CEO',
         skill: '',
@@ -28,8 +28,7 @@ export default new Vuex.Store({
       {
         id: 2,
         image: 'https://ca.slack-edge.com/T03EKL88Y-U9HRS33LH-aaf90ffd0fca-512',
-        name: 'Apichaya Hongsapak',
-        displayName: 'pim',
+        name: 'Apichaya',
         department: 'HR/Admin',
         position: 'HR/Admin',
         skill: '',
@@ -39,8 +38,7 @@ export default new Vuex.Store({
       {
         id: 3,
         image: 'https://ca.slack-edge.com/T03EKL88Y-UJHQAR5GB-13cee788d1c2-512',
-        name: 'Wisan Nakagawa',
-        displayName: 'arm wisan',
+        name: 'arm wisan',
         department: 'HR/Admin',
         position: 'Community Manager',
         skill: '',
@@ -51,8 +49,7 @@ export default new Vuex.Store({
       {
         id: 4,
         image: 'https://ca.slack-edge.com/T03EKL88Y-UPX5YQEDU-3f1c55434773-512',
-        name: 'Thanwimol Manopen',
-        displayName: 'Mint Thanwimol',
+        name: 'Mint Thanwimol',
         department: 'Development',
         position: 'Senior Project Manager',
         skill: '',
@@ -63,8 +60,7 @@ export default new Vuex.Store({
       {
         id: 5,
         image: 'https://ca.slack-edge.com/T03EKL88Y-U016R3WAQ4U-0e8e2de8e11e-512',
-        name: 'Surakarn Samkaew',
-        displayName: 'Tonkla',
+        name: 'Tonkla',
         department: 'Development',
         position: 'Developer',
         skill: '',
@@ -75,7 +71,6 @@ export default new Vuex.Store({
         id: 6,
         image: 'https://ca.slack-edge.com/T03EKL88Y-UNGSE8TPH-g4cf4f9cc0af-512',
         name: 'Nat W',
-        displayName: 'Nat W',
         department: 'Development',
         position: 'Developer',
         skill: '',
@@ -86,7 +81,6 @@ export default new Vuex.Store({
         id: 7,
         image: 'https://ca.slack-edge.com/T03EKL88Y-UN1SYFAAW-9d0ac330ef89-512',
         name: 'ampere',
-        displayName: 'ampere',
         department: 'Development',
         position: 'Developer',
         skill: '',
@@ -97,7 +91,6 @@ export default new Vuex.Store({
         id: 8,
         image: 'https://ca.slack-edge.com/T03EKL88Y-U0115EHAW73-5b10f51251f9-512',
         name: 'duke',
-        displayName: 'duke',
         department: 'Development',
         position: 'Developer',
         skill: '',
@@ -107,8 +100,7 @@ export default new Vuex.Store({
       {
         id: 9,
         image: 'https://ca.slack-edge.com/T03EKL88Y-UR7G91LAH-5f30317a29ec-512',
-        name: 'Kittayanee Khuankaew',
-        displayName: 'Angie',
+        name: 'Angie',
         department: 'Development',
         position: 'Business Analysis',
         skill: '',
@@ -119,7 +111,6 @@ export default new Vuex.Store({
         id: 10,
         image: 'https://ca.slack-edge.com/T03EKL88Y-U5VNS1XE1-d67dc521b341-512',
         name: 'J A N G',
-        displayName: 'J A N G',
         department: 'Design',
         position: 'UX/UI Designer',
         skill: '',
@@ -130,7 +121,6 @@ export default new Vuex.Store({
         id: 11,
         image: 'https://ca.slack-edge.com/T03EKL88Y-UB1TJHGFR-c242e7741d3d-512',
         name: 'Phitshayapa Wiangwat',
-        displayName: 'Patti is Happy',
         department: 'Design',
         position: 'UX/UI Designer',
         skill: '',
@@ -141,7 +131,6 @@ export default new Vuex.Store({
         id: 12,
         image: 'https://ca.slack-edge.com/T03EKL88Y-UDRN3RWAJ-b8a538630c17-512',
         name: 'Pawiness Boonyothayan',
-        displayName: 'Gin',
         department: 'Marketing',
         position: 'Marketing Strategic Planner',
         skill: '',
@@ -150,14 +139,15 @@ export default new Vuex.Store({
       },
       {
         id: 13,
-        image: 'https://ca.slack-edge.com/T03EKL88Y-US202147N-17595e2b2c00-512',
-        name: 'Khomsun Chaiwong',
-        displayName: 'Mooyai',
+        image: 'https://ca.slack-edge.com/T03EKL88Y-U016J08FAUC-eab33b9cc74f-512',
+        name: 'pupaeng.’',
         department: 'Design',
         position: 'Designer',
         skill: '',
         projects: null,
-        type: 'Full-time',
+        type: 'intern',
+        startDate: '2020-07-01 10:15:30',
+        dueDate: '2021-03-20 10:15:30',
       },
     ],
     projects: [
@@ -166,7 +156,7 @@ export default new Vuex.Store({
         name: 'Project #1',
         position: 'Web Design',
         description: 'Commodo adipiscing ornare sit lorem sit tempus urna, vestibulum, neque.',
-        status: 'WIP',
+        status: 'undone',
         urlProject: 'https://i.pinimg.com/564x/d3/7c/33/d37c33b2921a5df2fc85040e32b28f6c.jpg',
         date: [
           {
@@ -183,7 +173,7 @@ export default new Vuex.Store({
             taskTime: '10.00 AM',
             descriptonTask:
               'If you use this site regularly and would like to help keep the site on the Internet, please consider donating a small sum to help pay for the hosting and bandwidth bill..',
-            status: 'WIP',
+            status: 'undone',
           },
           {
             tasksId: 2,
@@ -191,7 +181,7 @@ export default new Vuex.Store({
             taskTime: '10.00 AM',
             descriptonTask:
               'If you use this site regularly and would like to help keep the site on the Internet, please consider donating a small sum to help pay for the hosting and bandwidth bill..',
-            status: 'Done',
+            status: 'done',
           },
         ],
       },
@@ -200,7 +190,7 @@ export default new Vuex.Store({
         name: 'Artisan’ Dashboard Project',
         position: 'Mobile App',
         description: 'The Dashboard that show the flow of work in the project.',
-        status: 'WIP',
+        status: 'undone',
         urlProject: 'https://prongbang.github.io/assets/images/react/2.png',
         date: [
           {
@@ -217,7 +207,7 @@ export default new Vuex.Store({
             taskTime: '11.00 AM',
             descriptonTask:
               'If you use this site regularly and would like to help keep the site on the Internet, please consider donating a small sum to help pay for the hosting and bandwidth bill..',
-            status: 'WIP',
+            status: 'undone',
           },
           {
             tasksId: 2,
@@ -225,7 +215,7 @@ export default new Vuex.Store({
             taskTime: '13.00 AM',
             descriptonTask:
               'If you use this site regularly and would like to help keep the site on the Internet, please consider donating a small sum to help pay for the hosting and bandwidth bill..',
-            status: 'Done',
+            status: 'done',
           },
         ],
       },
@@ -234,7 +224,7 @@ export default new Vuex.Store({
         name: 'Project #2',
         position: 'Marketing',
         description: 'Contrary to popular belief, Lorem Ipsum is not simply random text.',
-        status: 'Done',
+        status: 'done',
         urlProject: 'https://prongbang.github.io/assets/images/react/2.png',
         date: [
           {
@@ -251,7 +241,7 @@ export default new Vuex.Store({
             taskTime: '10.00 AM',
             descriptonTask:
               'If you use this site regularly and would like to help keep the site on the Internet, please consider donating a small sum to help pay for the hosting and bandwidth bill..',
-            status: 'WIP',
+            status: 'undone',
           },
           {
             tasksId: 2,
@@ -259,7 +249,7 @@ export default new Vuex.Store({
             taskTime: '10.00 AM',
             descriptonTask:
               'If you use this site regularly and would like to help keep the site on the Internet, please consider donating a small sum to help pay for the hosting and bandwidth bill..',
-            status: 'Done',
+            status: 'done',
           },
         ],
       },
@@ -268,7 +258,7 @@ export default new Vuex.Store({
         name: 'Project #3',
         position: 'Mobile App',
         description: 'Consequat tempus nisi, orci, ligula duis.',
-        status: 'Done',
+        status: 'done',
         urlProject: 'https://prongbang.github.io/assets/images/react/2.png',
         date: [
           {
@@ -285,7 +275,7 @@ export default new Vuex.Store({
             taskTime: '10.00 AM',
             descriptonTask:
               'If you use this site regularly and would like to help keep the site on the Internet, please consider donating a small sum to help pay for the hosting and bandwidth bill..',
-            status: 'WIP',
+            status: 'undone',
           },
           {
             tasksId: 2,
@@ -293,7 +283,7 @@ export default new Vuex.Store({
             taskTime: '10.00 AM',
             descriptonTask:
               'If you use this site regularly and would like to help keep the site on the Internet, please consider donating a small sum to help pay for the hosting and bandwidth bill..',
-            status: 'Done',
+            status: 'done',
           },
         ],
       },
@@ -387,6 +377,9 @@ export default new Vuex.Store({
     },
     setStatusMessage(state, value) {
       state.profile.statusMessage = value
+    },
+    setEmail(state, value) {
+      state.profile.email = value
     },
   },
   getters: {
