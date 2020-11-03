@@ -377,41 +377,43 @@ export interface NexusGenInputs {
   EventWhereUniqueInput: { // input type
     id?: number | null; // Int
   }
-  FileCreateInput: { // input type
-    name?: string | null; // String
-    status?: string | null; // String
-    task: NexusGenInputs['TaskCreateOneWithoutFilesInput']; // TaskCreateOneWithoutFilesInput!
-    url?: string | null; // String
-  }
   FileCreateManyWithoutTaskInput: { // input type
     connect?: NexusGenInputs['FileWhereUniqueInput'][] | null; // [FileWhereUniqueInput!]
     create?: NexusGenInputs['FileCreateWithoutTaskInput'][] | null; // [FileCreateWithoutTaskInput!]
   }
   FileCreateWithoutTaskInput: { // input type
-    name?: string | null; // String
-    status?: string | null; // String
-    url?: string | null; // String
+    endpoint: string; // String!
+    extension: string; // String!
+    fileName: string; // String!
+    fullPath: string; // String!
+    path: string; // String!
   }
   FileScalarWhereInput: { // input type
     AND?: NexusGenInputs['FileScalarWhereInput'][] | null; // [FileScalarWhereInput!]
+    endpoint?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    extension?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    fileName?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    fullPath?: NexusGenInputs['StringFilter'] | null; // StringFilter
     id?: NexusGenInputs['IntFilter'] | null; // IntFilter
-    name?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     NOT?: NexusGenInputs['FileScalarWhereInput'][] | null; // [FileScalarWhereInput!]
     OR?: NexusGenInputs['FileScalarWhereInput'][] | null; // [FileScalarWhereInput!]
-    status?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
+    path?: NexusGenInputs['StringFilter'] | null; // StringFilter
     taskId?: NexusGenInputs['IntFilter'] | null; // IntFilter
-    url?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
   }
   FileUpdateInput: { // input type
-    name?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
-    status?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
+    endpoint?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    extension?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fileName?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fullPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    path?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     task?: NexusGenInputs['TaskUpdateOneRequiredWithoutFilesInput'] | null; // TaskUpdateOneRequiredWithoutFilesInput
-    url?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
   }
   FileUpdateManyDataInput: { // input type
-    name?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
-    status?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
-    url?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
+    endpoint?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    extension?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fileName?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fullPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    path?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   FileUpdateManyWithWhereNestedInput: { // input type
     data: NexusGenInputs['FileUpdateManyDataInput']; // FileUpdateManyDataInput!
@@ -433,9 +435,11 @@ export interface NexusGenInputs {
     where: NexusGenInputs['FileWhereUniqueInput']; // FileWhereUniqueInput!
   }
   FileUpdateWithoutTaskDataInput: { // input type
-    name?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
-    status?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
-    url?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
+    endpoint?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    extension?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fileName?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fullPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    path?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   FileUpsertWithWhereUniqueWithoutTaskInput: { // input type
     create: NexusGenInputs['FileCreateWithoutTaskInput']; // FileCreateWithoutTaskInput!
@@ -577,7 +581,7 @@ export interface NexusGenInputs {
     dueDate?: NexusGenScalars['DateTime'] | null; // DateTime
     members?: NexusGenInputs['UserCreateManyWithoutProjectsInput'] | null; // UserCreateManyWithoutProjectsInput
     projectDetail?: string | null; // String
-    projectImage?: string | null; // String
+    projectImage?: NexusGenInputs['ProjectImageCreateOneWithoutProjectInput'] | null; // ProjectImageCreateOneWithoutProjectInput
     projectName?: string | null; // String
     projectType?: string | null; // String
     status?: string | null; // String
@@ -594,7 +598,7 @@ export interface NexusGenInputs {
   ProjectCreateWithoutMembersInput: { // input type
     dueDate?: NexusGenScalars['DateTime'] | null; // DateTime
     projectDetail?: string | null; // String
-    projectImage?: string | null; // String
+    projectImage?: NexusGenInputs['ProjectImageCreateOneWithoutProjectInput'] | null; // ProjectImageCreateOneWithoutProjectInput
     projectName?: string | null; // String
     projectType?: string | null; // String
     status?: string | null; // String
@@ -604,10 +608,43 @@ export interface NexusGenInputs {
     dueDate?: NexusGenScalars['DateTime'] | null; // DateTime
     members?: NexusGenInputs['UserCreateManyWithoutProjectsInput'] | null; // UserCreateManyWithoutProjectsInput
     projectDetail?: string | null; // String
-    projectImage?: string | null; // String
+    projectImage?: NexusGenInputs['ProjectImageCreateOneWithoutProjectInput'] | null; // ProjectImageCreateOneWithoutProjectInput
     projectName?: string | null; // String
     projectType?: string | null; // String
     status?: string | null; // String
+  }
+  ProjectImageCreateOneWithoutProjectInput: { // input type
+    connect?: NexusGenInputs['ProjectImageWhereUniqueInput'] | null; // ProjectImageWhereUniqueInput
+    create?: NexusGenInputs['ProjectImageCreateWithoutProjectInput'] | null; // ProjectImageCreateWithoutProjectInput
+  }
+  ProjectImageCreateWithoutProjectInput: { // input type
+    endpoint: string; // String!
+    extension: string; // String!
+    fileName: string; // String!
+    fullPath: string; // String!
+    path: string; // String!
+  }
+  ProjectImageUpdateOneWithoutProjectInput: { // input type
+    connect?: NexusGenInputs['ProjectImageWhereUniqueInput'] | null; // ProjectImageWhereUniqueInput
+    create?: NexusGenInputs['ProjectImageCreateWithoutProjectInput'] | null; // ProjectImageCreateWithoutProjectInput
+    delete?: boolean | null; // Boolean
+    disconnect?: boolean | null; // Boolean
+    update?: NexusGenInputs['ProjectImageUpdateWithoutProjectDataInput'] | null; // ProjectImageUpdateWithoutProjectDataInput
+    upsert?: NexusGenInputs['ProjectImageUpsertWithoutProjectInput'] | null; // ProjectImageUpsertWithoutProjectInput
+  }
+  ProjectImageUpdateWithoutProjectDataInput: { // input type
+    endpoint?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    extension?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fileName?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fullPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    path?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+  }
+  ProjectImageUpsertWithoutProjectInput: { // input type
+    create: NexusGenInputs['ProjectImageCreateWithoutProjectInput']; // ProjectImageCreateWithoutProjectInput!
+    update: NexusGenInputs['ProjectImageUpdateWithoutProjectDataInput']; // ProjectImageUpdateWithoutProjectDataInput!
+  }
+  ProjectImageWhereUniqueInput: { // input type
+    id?: number | null; // Int
   }
   ProjectScalarWhereInput: { // input type
     AND?: NexusGenInputs['ProjectScalarWhereInput'][] | null; // [ProjectScalarWhereInput!]
@@ -616,7 +653,7 @@ export interface NexusGenInputs {
     NOT?: NexusGenInputs['ProjectScalarWhereInput'][] | null; // [ProjectScalarWhereInput!]
     OR?: NexusGenInputs['ProjectScalarWhereInput'][] | null; // [ProjectScalarWhereInput!]
     projectDetail?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
-    projectImage?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
+    projectImageId?: NexusGenInputs['IntNullableFilter'] | null; // IntNullableFilter
     projectName?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     projectType?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
     status?: NexusGenInputs['StringNullableFilter'] | null; // StringNullableFilter
@@ -625,7 +662,7 @@ export interface NexusGenInputs {
     dueDate?: NexusGenInputs['NullableDateTimeFieldUpdateOperationsInput'] | null; // NullableDateTimeFieldUpdateOperationsInput
     members?: NexusGenInputs['UserUpdateManyWithoutProjectsInput'] | null; // UserUpdateManyWithoutProjectsInput
     projectDetail?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
-    projectImage?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
+    projectImage?: NexusGenInputs['ProjectImageUpdateOneWithoutProjectInput'] | null; // ProjectImageUpdateOneWithoutProjectInput
     projectName?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     projectType?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     status?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
@@ -634,7 +671,6 @@ export interface NexusGenInputs {
   ProjectUpdateManyDataInput: { // input type
     dueDate?: NexusGenInputs['NullableDateTimeFieldUpdateOperationsInput'] | null; // NullableDateTimeFieldUpdateOperationsInput
     projectDetail?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
-    projectImage?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     projectName?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     projectType?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     status?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
@@ -667,7 +703,7 @@ export interface NexusGenInputs {
   ProjectUpdateWithoutMembersDataInput: { // input type
     dueDate?: NexusGenInputs['NullableDateTimeFieldUpdateOperationsInput'] | null; // NullableDateTimeFieldUpdateOperationsInput
     projectDetail?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
-    projectImage?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
+    projectImage?: NexusGenInputs['ProjectImageUpdateOneWithoutProjectInput'] | null; // ProjectImageUpdateOneWithoutProjectInput
     projectName?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     projectType?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     status?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
@@ -677,7 +713,7 @@ export interface NexusGenInputs {
     dueDate?: NexusGenInputs['NullableDateTimeFieldUpdateOperationsInput'] | null; // NullableDateTimeFieldUpdateOperationsInput
     members?: NexusGenInputs['UserUpdateManyWithoutProjectsInput'] | null; // UserUpdateManyWithoutProjectsInput
     projectDetail?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
-    projectImage?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
+    projectImage?: NexusGenInputs['ProjectImageUpdateOneWithoutProjectInput'] | null; // ProjectImageUpdateOneWithoutProjectInput
     projectName?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     projectType?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
     status?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
@@ -750,10 +786,6 @@ export interface NexusGenInputs {
   TaskCreateOneWithoutCommentsInput: { // input type
     connect?: NexusGenInputs['TaskWhereUniqueInput'] | null; // TaskWhereUniqueInput
     create?: NexusGenInputs['TaskCreateWithoutCommentsInput'] | null; // TaskCreateWithoutCommentsInput
-  }
-  TaskCreateOneWithoutFilesInput: { // input type
-    connect?: NexusGenInputs['TaskWhereUniqueInput'] | null; // TaskWhereUniqueInput
-    create?: NexusGenInputs['TaskCreateWithoutFilesInput'] | null; // TaskCreateWithoutFilesInput
   }
   TaskCreateWithoutCommentsInput: { // input type
     endTime?: NexusGenScalars['DateTime'] | null; // DateTime
@@ -1305,6 +1337,7 @@ export interface NexusGenRootTypes {
   Image: prisma.Image;
   Mutation: {};
   Project: prisma.Project;
+  ProjectImage: prisma.ProjectImage;
   Query: {};
   Task: prisma.Task;
   User: prisma.User;
@@ -1364,7 +1397,6 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   EventUpdateWithoutInvitedDataInput: NexusGenInputs['EventUpdateWithoutInvitedDataInput'];
   EventUpsertWithWhereUniqueWithoutInvitedInput: NexusGenInputs['EventUpsertWithWhereUniqueWithoutInvitedInput'];
   EventWhereUniqueInput: NexusGenInputs['EventWhereUniqueInput'];
-  FileCreateInput: NexusGenInputs['FileCreateInput'];
   FileCreateManyWithoutTaskInput: NexusGenInputs['FileCreateManyWithoutTaskInput'];
   FileCreateWithoutTaskInput: NexusGenInputs['FileCreateWithoutTaskInput'];
   FileScalarWhereInput: NexusGenInputs['FileScalarWhereInput'];
@@ -1399,6 +1431,12 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   ProjectCreateOneWithoutTasksInput: NexusGenInputs['ProjectCreateOneWithoutTasksInput'];
   ProjectCreateWithoutMembersInput: NexusGenInputs['ProjectCreateWithoutMembersInput'];
   ProjectCreateWithoutTasksInput: NexusGenInputs['ProjectCreateWithoutTasksInput'];
+  ProjectImageCreateOneWithoutProjectInput: NexusGenInputs['ProjectImageCreateOneWithoutProjectInput'];
+  ProjectImageCreateWithoutProjectInput: NexusGenInputs['ProjectImageCreateWithoutProjectInput'];
+  ProjectImageUpdateOneWithoutProjectInput: NexusGenInputs['ProjectImageUpdateOneWithoutProjectInput'];
+  ProjectImageUpdateWithoutProjectDataInput: NexusGenInputs['ProjectImageUpdateWithoutProjectDataInput'];
+  ProjectImageUpsertWithoutProjectInput: NexusGenInputs['ProjectImageUpsertWithoutProjectInput'];
+  ProjectImageWhereUniqueInput: NexusGenInputs['ProjectImageWhereUniqueInput'];
   ProjectScalarWhereInput: NexusGenInputs['ProjectScalarWhereInput'];
   ProjectUpdateInput: NexusGenInputs['ProjectUpdateInput'];
   ProjectUpdateManyDataInput: NexusGenInputs['ProjectUpdateManyDataInput'];
@@ -1419,7 +1457,6 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   TaskCreateManyWithoutMembersInput: NexusGenInputs['TaskCreateManyWithoutMembersInput'];
   TaskCreateManyWithoutProjectInput: NexusGenInputs['TaskCreateManyWithoutProjectInput'];
   TaskCreateOneWithoutCommentsInput: NexusGenInputs['TaskCreateOneWithoutCommentsInput'];
-  TaskCreateOneWithoutFilesInput: NexusGenInputs['TaskCreateOneWithoutFilesInput'];
   TaskCreateWithoutCommentsInput: NexusGenInputs['TaskCreateWithoutCommentsInput'];
   TaskCreateWithoutFilesInput: NexusGenInputs['TaskCreateWithoutFilesInput'];
   TaskCreateWithoutMembersInput: NexusGenInputs['TaskCreateWithoutMembersInput'];
@@ -1520,11 +1557,13 @@ export interface NexusGenFieldTypes {
     tag: string | null; // String
   }
   File: { // field return type
+    endpoint: string; // String!
+    extension: string; // String!
+    fileName: string; // String!
+    fullPath: string; // String!
     id: number; // Int!
-    name: string | null; // String
-    status: string | null; // String
+    path: string; // String!
     task: NexusGenRootTypes['Task']; // Task!
-    url: string | null; // String
   }
   Image: { // field return type
     endpoint: string; // String!
@@ -1538,7 +1577,6 @@ export interface NexusGenFieldTypes {
     createOneComment: NexusGenRootTypes['Comment']; // Comment!
     createOneContact: NexusGenRootTypes['Contact']; // Contact!
     createOneEvent: NexusGenRootTypes['Event']; // Event!
-    createOneFile: NexusGenRootTypes['File']; // File!
     createOneProject: NexusGenRootTypes['Project']; // Project!
     createOneTask: NexusGenRootTypes['Task']; // Task!
     createOneUser: NexusGenRootTypes['User']; // User!
@@ -1549,6 +1587,7 @@ export interface NexusGenFieldTypes {
     deleteOneProject: NexusGenRootTypes['Project'] | null; // Project
     deleteOneTask: NexusGenRootTypes['Task'] | null; // Task
     deleteOneUser: NexusGenRootTypes['User'] | null; // User
+    updateImage: NexusGenRootTypes['Image'] | null; // Image
     updateOneComment: NexusGenRootTypes['Comment'] | null; // Comment
     updateOneContact: NexusGenRootTypes['Contact'] | null; // Contact
     updateOneEvent: NexusGenRootTypes['Event'] | null; // Event
@@ -1556,19 +1595,29 @@ export interface NexusGenFieldTypes {
     updateOneProject: NexusGenRootTypes['Project'] | null; // Project
     updateOneTask: NexusGenRootTypes['Task'] | null; // Task
     updateOneUser: NexusGenRootTypes['User'] | null; // User
+    updateProjectImage: NexusGenRootTypes['ProjectImage'] | null; // ProjectImage
     uploadFile: NexusGenRootTypes['File'] | null; // File
     uploadImage: NexusGenRootTypes['Image'] | null; // Image
+    uploadProjectImage: NexusGenRootTypes['ProjectImage'] | null; // ProjectImage
   }
   Project: { // field return type
     dueDate: NexusGenScalars['DateTime'] | null; // DateTime
     id: number; // Int!
     members: NexusGenRootTypes['User'][]; // [User!]!
     projectDetail: string | null; // String
-    projectImage: string | null; // String
+    projectImage: NexusGenRootTypes['ProjectImage'] | null; // ProjectImage
     projectName: string | null; // String
     projectType: string | null; // String
     status: string | null; // String
     tasks: NexusGenRootTypes['Task'][]; // [Task!]!
+  }
+  ProjectImage: { // field return type
+    endpoint: string; // String!
+    extension: string; // String!
+    fileName: string; // String!
+    fullPath: string; // String!
+    id: number; // Int!
+    path: string; // String!
   }
   Query: { // field return type
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
@@ -1580,14 +1629,15 @@ export interface NexusGenFieldTypes {
     getEventById: NexusGenRootTypes['Event'] | null; // Event
     getFileById: NexusGenRootTypes['File'] | null; // File
     getImageById: NexusGenRootTypes['Image'] | null; // Image
-    getProjectById: NexusGenRootTypes['Project'] | null; // Project
+    getProjectImageById: NexusGenRootTypes['ProjectImage'] | null; // ProjectImage
     getTaskById: NexusGenRootTypes['Task'] | null; // Task
     getTaskByProjectId: Array<NexusGenRootTypes['Task'] | null> | null; // [Task]
     getUserByEmail: NexusGenRootTypes['User'] | null; // User
-    getUserById: NexusGenRootTypes['User'] | null; // User
-    images: NexusGenRootTypes['Image'][]; // [Image!]!
+    images: NexusGenRootTypes['ProjectImage'][]; // [ProjectImage!]!
+    project: NexusGenRootTypes['Project'] | null; // Project
     projects: NexusGenRootTypes['Project'][]; // [Project!]!
     tasks: NexusGenRootTypes['Task'][]; // [Task!]!
+    user: NexusGenRootTypes['User'] | null; // User
     users: NexusGenRootTypes['User'][]; // [User!]!
   }
   Task: { // field return type
@@ -1646,11 +1696,13 @@ export interface NexusGenFieldTypeNames {
     tag: 'String'
   }
   File: { // field return type name
+    endpoint: 'String'
+    extension: 'String'
+    fileName: 'String'
+    fullPath: 'String'
     id: 'Int'
-    name: 'String'
-    status: 'String'
+    path: 'String'
     task: 'Task'
-    url: 'String'
   }
   Image: { // field return type name
     endpoint: 'String'
@@ -1664,7 +1716,6 @@ export interface NexusGenFieldTypeNames {
     createOneComment: 'Comment'
     createOneContact: 'Contact'
     createOneEvent: 'Event'
-    createOneFile: 'File'
     createOneProject: 'Project'
     createOneTask: 'Task'
     createOneUser: 'User'
@@ -1675,6 +1726,7 @@ export interface NexusGenFieldTypeNames {
     deleteOneProject: 'Project'
     deleteOneTask: 'Task'
     deleteOneUser: 'User'
+    updateImage: 'Image'
     updateOneComment: 'Comment'
     updateOneContact: 'Contact'
     updateOneEvent: 'Event'
@@ -1682,19 +1734,29 @@ export interface NexusGenFieldTypeNames {
     updateOneProject: 'Project'
     updateOneTask: 'Task'
     updateOneUser: 'User'
+    updateProjectImage: 'ProjectImage'
     uploadFile: 'File'
     uploadImage: 'Image'
+    uploadProjectImage: 'ProjectImage'
   }
   Project: { // field return type name
     dueDate: 'DateTime'
     id: 'Int'
     members: 'User'
     projectDetail: 'String'
-    projectImage: 'String'
+    projectImage: 'ProjectImage'
     projectName: 'String'
     projectType: 'String'
     status: 'String'
     tasks: 'Task'
+  }
+  ProjectImage: { // field return type name
+    endpoint: 'String'
+    extension: 'String'
+    fileName: 'String'
+    fullPath: 'String'
+    id: 'Int'
+    path: 'String'
   }
   Query: { // field return type name
     comments: 'Comment'
@@ -1706,14 +1768,15 @@ export interface NexusGenFieldTypeNames {
     getEventById: 'Event'
     getFileById: 'File'
     getImageById: 'Image'
-    getProjectById: 'Project'
+    getProjectImageById: 'ProjectImage'
     getTaskById: 'Task'
     getTaskByProjectId: 'Task'
     getUserByEmail: 'User'
-    getUserById: 'User'
-    images: 'Image'
+    images: 'ProjectImage'
+    project: 'Project'
     projects: 'Project'
     tasks: 'Task'
+    user: 'User'
     users: 'User'
   }
   Task: { // field return type name
@@ -1764,9 +1827,6 @@ export interface NexusGenArgTypes {
     createOneEvent: { // args
       data: NexusGenInputs['EventCreateInput']; // EventCreateInput!
     }
-    createOneFile: { // args
-      data: NexusGenInputs['FileCreateInput']; // FileCreateInput!
-    }
     createOneProject: { // args
       data: NexusGenInputs['ProjectCreateInput']; // ProjectCreateInput!
     }
@@ -1797,6 +1857,10 @@ export interface NexusGenArgTypes {
     deleteOneUser: { // args
       where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
     }
+    updateImage: { // args
+      id: number; // Int!
+      image: NexusGenScalars['Upload']; // Upload!
+    }
     updateOneComment: { // args
       data: NexusGenInputs['CommentUpdateInput']; // CommentUpdateInput!
       where: NexusGenInputs['CommentWhereUniqueInput']; // CommentWhereUniqueInput!
@@ -1825,10 +1889,17 @@ export interface NexusGenArgTypes {
       data: NexusGenInputs['UserUpdateInput']; // UserUpdateInput!
       where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
     }
-    uploadFile: { // args
+    updateProjectImage: { // args
+      id: number; // Int!
       image: NexusGenScalars['Upload']; // Upload!
     }
+    uploadFile: { // args
+      file: NexusGenScalars['Upload']; // Upload!
+    }
     uploadImage: { // args
+      image: NexusGenScalars['Upload']; // Upload!
+    }
+    uploadProjectImage: { // args
       image: NexusGenScalars['Upload']; // Upload!
     }
   }
@@ -1886,7 +1957,7 @@ export interface NexusGenArgTypes {
     getImageById: { // args
       id: number; // Int!
     }
-    getProjectById: { // args
+    getProjectImageById: { // args
       id: number; // Int!
     }
     getTaskById: { // args
@@ -1898,14 +1969,14 @@ export interface NexusGenArgTypes {
     getUserByEmail: { // args
       email: string; // String!
     }
-    getUserById: { // args
-      id: number; // Int!
-    }
     images: { // args
       after?: NexusGenInputs['ImageWhereUniqueInput'] | null; // ImageWhereUniqueInput
       before?: NexusGenInputs['ImageWhereUniqueInput'] | null; // ImageWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
+    }
+    project: { // args
+      id: number; // Int!
     }
     projects: { // args
       after?: NexusGenInputs['ProjectWhereUniqueInput'] | null; // ProjectWhereUniqueInput
@@ -1918,6 +1989,9 @@ export interface NexusGenArgTypes {
       before?: NexusGenInputs['TaskWhereUniqueInput'] | null; // TaskWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
+    }
+    user: { // args
+      id: number; // Int!
     }
     users: { // args
       after?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
@@ -1967,9 +2041,9 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Comment" | "Contact" | "Event" | "File" | "Image" | "Mutation" | "Project" | "Query" | "Task" | "User";
+export type NexusGenObjectNames = "Comment" | "Contact" | "Event" | "File" | "Image" | "Mutation" | "Project" | "ProjectImage" | "Query" | "Task" | "User";
 
-export type NexusGenInputNames = "BoolNullableFilter" | "CommentCreateInput" | "CommentCreateManyWithoutReplyInput" | "CommentCreateManyWithoutTaskInput" | "CommentCreateManyWithoutUserInput" | "CommentCreateOneWithoutCommentInput" | "CommentCreateWithoutCommentInput" | "CommentCreateWithoutReplyInput" | "CommentCreateWithoutTaskInput" | "CommentCreateWithoutUserInput" | "CommentScalarWhereInput" | "CommentUpdateInput" | "CommentUpdateManyDataInput" | "CommentUpdateManyWithWhereNestedInput" | "CommentUpdateManyWithoutReplyInput" | "CommentUpdateManyWithoutTaskInput" | "CommentUpdateManyWithoutUserInput" | "CommentUpdateOneWithoutCommentInput" | "CommentUpdateWithWhereUniqueWithoutReplyInput" | "CommentUpdateWithWhereUniqueWithoutTaskInput" | "CommentUpdateWithWhereUniqueWithoutUserInput" | "CommentUpdateWithoutCommentDataInput" | "CommentUpdateWithoutReplyDataInput" | "CommentUpdateWithoutTaskDataInput" | "CommentUpdateWithoutUserDataInput" | "CommentUpsertWithWhereUniqueWithoutReplyInput" | "CommentUpsertWithWhereUniqueWithoutTaskInput" | "CommentUpsertWithWhereUniqueWithoutUserInput" | "CommentUpsertWithoutCommentInput" | "CommentWhereUniqueInput" | "ContactCreateInput" | "ContactCreateOneWithoutUserInput" | "ContactCreateWithoutUserInput" | "ContactUpdateInput" | "ContactUpdateOneWithoutUserInput" | "ContactUpdateWithoutUserDataInput" | "ContactUpsertWithoutUserInput" | "ContactWhereUniqueInput" | "DateTimeNullableFilter" | "EnumRoleFieldUpdateOperationsInput" | "EnumRoleFilter" | "EventCreateInput" | "EventCreateManyWithoutInvitedInput" | "EventCreateWithoutInvitedInput" | "EventScalarWhereInput" | "EventUpdateInput" | "EventUpdateManyDataInput" | "EventUpdateManyWithWhereNestedInput" | "EventUpdateManyWithoutInvitedInput" | "EventUpdateWithWhereUniqueWithoutInvitedInput" | "EventUpdateWithoutInvitedDataInput" | "EventUpsertWithWhereUniqueWithoutInvitedInput" | "EventWhereUniqueInput" | "FileCreateInput" | "FileCreateManyWithoutTaskInput" | "FileCreateWithoutTaskInput" | "FileScalarWhereInput" | "FileUpdateInput" | "FileUpdateManyDataInput" | "FileUpdateManyWithWhereNestedInput" | "FileUpdateManyWithoutTaskInput" | "FileUpdateWithWhereUniqueWithoutTaskInput" | "FileUpdateWithoutTaskDataInput" | "FileUpsertWithWhereUniqueWithoutTaskInput" | "FileWhereUniqueInput" | "ImageCreateOneWithoutUserInput" | "ImageCreateWithoutUserInput" | "ImageUpdateOneWithoutUserInput" | "ImageUpdateWithoutUserDataInput" | "ImageUpsertWithoutUserInput" | "ImageWhereUniqueInput" | "IntFilter" | "IntNullableFilter" | "NestedBoolNullableFilter" | "NestedDateTimeNullableFilter" | "NestedEnumRoleFilter" | "NestedIntFilter" | "NestedIntNullableFilter" | "NestedStringFilter" | "NestedStringNullableFilter" | "NullableBoolFieldUpdateOperationsInput" | "NullableDateTimeFieldUpdateOperationsInput" | "NullableStringFieldUpdateOperationsInput" | "ProjectCreateInput" | "ProjectCreateManyWithoutMembersInput" | "ProjectCreateOneWithoutTasksInput" | "ProjectCreateWithoutMembersInput" | "ProjectCreateWithoutTasksInput" | "ProjectScalarWhereInput" | "ProjectUpdateInput" | "ProjectUpdateManyDataInput" | "ProjectUpdateManyWithWhereNestedInput" | "ProjectUpdateManyWithoutMembersInput" | "ProjectUpdateOneRequiredWithoutTasksInput" | "ProjectUpdateWithWhereUniqueWithoutMembersInput" | "ProjectUpdateWithoutMembersDataInput" | "ProjectUpdateWithoutTasksDataInput" | "ProjectUpsertWithWhereUniqueWithoutMembersInput" | "ProjectUpsertWithoutTasksInput" | "ProjectWhereUniqueInput" | "StringFieldUpdateOperationsInput" | "StringFilter" | "StringNullableFilter" | "StringNullableListFilter" | "TaskCreateInput" | "TaskCreateManyWithoutMembersInput" | "TaskCreateManyWithoutProjectInput" | "TaskCreateOneWithoutCommentsInput" | "TaskCreateOneWithoutFilesInput" | "TaskCreateWithoutCommentsInput" | "TaskCreateWithoutFilesInput" | "TaskCreateWithoutMembersInput" | "TaskCreateWithoutProjectInput" | "TaskScalarWhereInput" | "TaskUpdateInput" | "TaskUpdateManyDataInput" | "TaskUpdateManyWithWhereNestedInput" | "TaskUpdateManyWithoutMembersInput" | "TaskUpdateManyWithoutProjectInput" | "TaskUpdateOneRequiredWithoutCommentsInput" | "TaskUpdateOneRequiredWithoutFilesInput" | "TaskUpdateWithWhereUniqueWithoutMembersInput" | "TaskUpdateWithWhereUniqueWithoutProjectInput" | "TaskUpdateWithoutCommentsDataInput" | "TaskUpdateWithoutFilesDataInput" | "TaskUpdateWithoutMembersDataInput" | "TaskUpdateWithoutProjectDataInput" | "TaskUpsertWithWhereUniqueWithoutMembersInput" | "TaskUpsertWithWhereUniqueWithoutProjectInput" | "TaskUpsertWithoutCommentsInput" | "TaskUpsertWithoutFilesInput" | "TaskWhereUniqueInput" | "UserCreateInput" | "UserCreateManyWithoutContactsInput" | "UserCreateManyWithoutEventInput" | "UserCreateManyWithoutProjectsInput" | "UserCreateManyWithoutTasksInput" | "UserCreateOneWithoutCommentsInput" | "UserCreateWithoutCommentsInput" | "UserCreateWithoutContactsInput" | "UserCreateWithoutEventInput" | "UserCreateWithoutProjectsInput" | "UserCreateWithoutTasksInput" | "UserCreateskillsInput" | "UserScalarWhereInput" | "UserUpdateInput" | "UserUpdateManyDataInput" | "UserUpdateManyWithWhereNestedInput" | "UserUpdateManyWithoutContactsInput" | "UserUpdateManyWithoutEventInput" | "UserUpdateManyWithoutProjectsInput" | "UserUpdateManyWithoutTasksInput" | "UserUpdateOneRequiredWithoutCommentsInput" | "UserUpdateWithWhereUniqueWithoutContactsInput" | "UserUpdateWithWhereUniqueWithoutEventInput" | "UserUpdateWithWhereUniqueWithoutProjectsInput" | "UserUpdateWithWhereUniqueWithoutTasksInput" | "UserUpdateWithoutCommentsDataInput" | "UserUpdateWithoutContactsDataInput" | "UserUpdateWithoutEventDataInput" | "UserUpdateWithoutProjectsDataInput" | "UserUpdateWithoutTasksDataInput" | "UserUpdateskillsInput" | "UserUpsertWithWhereUniqueWithoutContactsInput" | "UserUpsertWithWhereUniqueWithoutEventInput" | "UserUpsertWithWhereUniqueWithoutProjectsInput" | "UserUpsertWithWhereUniqueWithoutTasksInput" | "UserUpsertWithoutCommentsInput" | "UserWhereUniqueInput";
+export type NexusGenInputNames = "BoolNullableFilter" | "CommentCreateInput" | "CommentCreateManyWithoutReplyInput" | "CommentCreateManyWithoutTaskInput" | "CommentCreateManyWithoutUserInput" | "CommentCreateOneWithoutCommentInput" | "CommentCreateWithoutCommentInput" | "CommentCreateWithoutReplyInput" | "CommentCreateWithoutTaskInput" | "CommentCreateWithoutUserInput" | "CommentScalarWhereInput" | "CommentUpdateInput" | "CommentUpdateManyDataInput" | "CommentUpdateManyWithWhereNestedInput" | "CommentUpdateManyWithoutReplyInput" | "CommentUpdateManyWithoutTaskInput" | "CommentUpdateManyWithoutUserInput" | "CommentUpdateOneWithoutCommentInput" | "CommentUpdateWithWhereUniqueWithoutReplyInput" | "CommentUpdateWithWhereUniqueWithoutTaskInput" | "CommentUpdateWithWhereUniqueWithoutUserInput" | "CommentUpdateWithoutCommentDataInput" | "CommentUpdateWithoutReplyDataInput" | "CommentUpdateWithoutTaskDataInput" | "CommentUpdateWithoutUserDataInput" | "CommentUpsertWithWhereUniqueWithoutReplyInput" | "CommentUpsertWithWhereUniqueWithoutTaskInput" | "CommentUpsertWithWhereUniqueWithoutUserInput" | "CommentUpsertWithoutCommentInput" | "CommentWhereUniqueInput" | "ContactCreateInput" | "ContactCreateOneWithoutUserInput" | "ContactCreateWithoutUserInput" | "ContactUpdateInput" | "ContactUpdateOneWithoutUserInput" | "ContactUpdateWithoutUserDataInput" | "ContactUpsertWithoutUserInput" | "ContactWhereUniqueInput" | "DateTimeNullableFilter" | "EnumRoleFieldUpdateOperationsInput" | "EnumRoleFilter" | "EventCreateInput" | "EventCreateManyWithoutInvitedInput" | "EventCreateWithoutInvitedInput" | "EventScalarWhereInput" | "EventUpdateInput" | "EventUpdateManyDataInput" | "EventUpdateManyWithWhereNestedInput" | "EventUpdateManyWithoutInvitedInput" | "EventUpdateWithWhereUniqueWithoutInvitedInput" | "EventUpdateWithoutInvitedDataInput" | "EventUpsertWithWhereUniqueWithoutInvitedInput" | "EventWhereUniqueInput" | "FileCreateManyWithoutTaskInput" | "FileCreateWithoutTaskInput" | "FileScalarWhereInput" | "FileUpdateInput" | "FileUpdateManyDataInput" | "FileUpdateManyWithWhereNestedInput" | "FileUpdateManyWithoutTaskInput" | "FileUpdateWithWhereUniqueWithoutTaskInput" | "FileUpdateWithoutTaskDataInput" | "FileUpsertWithWhereUniqueWithoutTaskInput" | "FileWhereUniqueInput" | "ImageCreateOneWithoutUserInput" | "ImageCreateWithoutUserInput" | "ImageUpdateOneWithoutUserInput" | "ImageUpdateWithoutUserDataInput" | "ImageUpsertWithoutUserInput" | "ImageWhereUniqueInput" | "IntFilter" | "IntNullableFilter" | "NestedBoolNullableFilter" | "NestedDateTimeNullableFilter" | "NestedEnumRoleFilter" | "NestedIntFilter" | "NestedIntNullableFilter" | "NestedStringFilter" | "NestedStringNullableFilter" | "NullableBoolFieldUpdateOperationsInput" | "NullableDateTimeFieldUpdateOperationsInput" | "NullableStringFieldUpdateOperationsInput" | "ProjectCreateInput" | "ProjectCreateManyWithoutMembersInput" | "ProjectCreateOneWithoutTasksInput" | "ProjectCreateWithoutMembersInput" | "ProjectCreateWithoutTasksInput" | "ProjectImageCreateOneWithoutProjectInput" | "ProjectImageCreateWithoutProjectInput" | "ProjectImageUpdateOneWithoutProjectInput" | "ProjectImageUpdateWithoutProjectDataInput" | "ProjectImageUpsertWithoutProjectInput" | "ProjectImageWhereUniqueInput" | "ProjectScalarWhereInput" | "ProjectUpdateInput" | "ProjectUpdateManyDataInput" | "ProjectUpdateManyWithWhereNestedInput" | "ProjectUpdateManyWithoutMembersInput" | "ProjectUpdateOneRequiredWithoutTasksInput" | "ProjectUpdateWithWhereUniqueWithoutMembersInput" | "ProjectUpdateWithoutMembersDataInput" | "ProjectUpdateWithoutTasksDataInput" | "ProjectUpsertWithWhereUniqueWithoutMembersInput" | "ProjectUpsertWithoutTasksInput" | "ProjectWhereUniqueInput" | "StringFieldUpdateOperationsInput" | "StringFilter" | "StringNullableFilter" | "StringNullableListFilter" | "TaskCreateInput" | "TaskCreateManyWithoutMembersInput" | "TaskCreateManyWithoutProjectInput" | "TaskCreateOneWithoutCommentsInput" | "TaskCreateWithoutCommentsInput" | "TaskCreateWithoutFilesInput" | "TaskCreateWithoutMembersInput" | "TaskCreateWithoutProjectInput" | "TaskScalarWhereInput" | "TaskUpdateInput" | "TaskUpdateManyDataInput" | "TaskUpdateManyWithWhereNestedInput" | "TaskUpdateManyWithoutMembersInput" | "TaskUpdateManyWithoutProjectInput" | "TaskUpdateOneRequiredWithoutCommentsInput" | "TaskUpdateOneRequiredWithoutFilesInput" | "TaskUpdateWithWhereUniqueWithoutMembersInput" | "TaskUpdateWithWhereUniqueWithoutProjectInput" | "TaskUpdateWithoutCommentsDataInput" | "TaskUpdateWithoutFilesDataInput" | "TaskUpdateWithoutMembersDataInput" | "TaskUpdateWithoutProjectDataInput" | "TaskUpsertWithWhereUniqueWithoutMembersInput" | "TaskUpsertWithWhereUniqueWithoutProjectInput" | "TaskUpsertWithoutCommentsInput" | "TaskUpsertWithoutFilesInput" | "TaskWhereUniqueInput" | "UserCreateInput" | "UserCreateManyWithoutContactsInput" | "UserCreateManyWithoutEventInput" | "UserCreateManyWithoutProjectsInput" | "UserCreateManyWithoutTasksInput" | "UserCreateOneWithoutCommentsInput" | "UserCreateWithoutCommentsInput" | "UserCreateWithoutContactsInput" | "UserCreateWithoutEventInput" | "UserCreateWithoutProjectsInput" | "UserCreateWithoutTasksInput" | "UserCreateskillsInput" | "UserScalarWhereInput" | "UserUpdateInput" | "UserUpdateManyDataInput" | "UserUpdateManyWithWhereNestedInput" | "UserUpdateManyWithoutContactsInput" | "UserUpdateManyWithoutEventInput" | "UserUpdateManyWithoutProjectsInput" | "UserUpdateManyWithoutTasksInput" | "UserUpdateOneRequiredWithoutCommentsInput" | "UserUpdateWithWhereUniqueWithoutContactsInput" | "UserUpdateWithWhereUniqueWithoutEventInput" | "UserUpdateWithWhereUniqueWithoutProjectsInput" | "UserUpdateWithWhereUniqueWithoutTasksInput" | "UserUpdateWithoutCommentsDataInput" | "UserUpdateWithoutContactsDataInput" | "UserUpdateWithoutEventDataInput" | "UserUpdateWithoutProjectsDataInput" | "UserUpdateWithoutTasksDataInput" | "UserUpdateskillsInput" | "UserUpsertWithWhereUniqueWithoutContactsInput" | "UserUpsertWithWhereUniqueWithoutEventInput" | "UserUpsertWithWhereUniqueWithoutProjectsInput" | "UserUpsertWithWhereUniqueWithoutTasksInput" | "UserUpsertWithoutCommentsInput" | "UserWhereUniqueInput";
 
 export type NexusGenEnumNames = "QueryMode" | "Role";
 

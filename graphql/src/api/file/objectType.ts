@@ -4,9 +4,11 @@ const fileObjectType = objectType({
   name: "File",
   definition(t) {
     t.model.id();
-    t.model.url();
-    t.model.name();
-    t.model.status();
+    t.model.endpoint();
+    t.model.path();
+    t.model.fullPath();
+    t.model.fileName();
+    t.model.extension();
     t.model.task();
   },
 });

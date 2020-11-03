@@ -4,5 +4,6 @@ export * from "./event";
 export * from "./file";
 export * from "./image";
 export * from "./project";
+export * from "./projectImage";
 export * from "./task";
 export * from "./user";
