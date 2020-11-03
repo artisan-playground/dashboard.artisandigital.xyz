@@ -1,6 +1,6 @@
 <template>
   <div v-if="dataTask">
-    <ToolbarBack />
+    <ToolbarBack/>
     <br />
     <div style="margin :60px 18px 0 18px">
       <!-- Done button -->
@@ -207,7 +207,7 @@
           src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
           alt="Han Solo"
         />
-        <p slot="content">
+        <p slot="content" align="left">
           We supply a series of design principles, practical patterns and high quality design
           resources (Sketch and Axure), to help people create their product prototypes beautifully
           and efficiently.
@@ -350,14 +350,15 @@ export default {
     },
   },
   methods: {
-    toggleDone: function(data) {
+    toggleDone() {
       console.log(parseInt(this.$route.params.id))
       console.log(gqlQuery.TOGGLE_STATUS);
+
       this.$apollo.mutate({
         mutation: gqlQuery.TOGGLE_STATUS,
         variables: {
           id: parseInt(this.$route.params.id),
-          data: !data.isDone,
+          data: true,
         },
         update: (store, { data: { updateOneTask } }) => {
           if (updateOneTask.isDone) {
@@ -483,5 +484,9 @@ div {
 .ant-upload-select-picture-card .ant-upload-text {
   margin-top: 8px;
   color: #666;
+}
+
+.ant-comment-actions {
+  float: left;
 }
 </style>

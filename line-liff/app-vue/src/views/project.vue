@@ -25,7 +25,7 @@
           <div style="padding-top:10px">
             <a-icon type="carry-out" style="color:#105EFB" />
           </div>
-            <b>{{ tasksDone }}</b>
+          <b>{{ tasksDone }}</b>
           <div id="position" style="padding-bottom:10px">Done Task</div>
         </v-card>
       </v-col>
@@ -43,7 +43,9 @@
       <v-col>
         <v-card elevation="6" id="card">
           <div style="padding-top:10px"><a-icon type="profile" style="color:#105EFB" /></div>
-          <div><b>{{ tasksUndone }}</b></div>
+          <div>
+            <b>{{ tasksUndone }}</b>
+          </div>
           <div id="position" style="padding-bottom:10px">Today's Task</div>
         </v-card>
       </v-col>
@@ -70,8 +72,7 @@
         <v-col><span style="float:left; font-size:20px; font-weight:550">Task</span></v-col>
         <v-col>
           <v-btn
-            color="primary"
-            style="float:right; text-transform: capitalize; background-color: #105EFB;"
+            style="float:right; text-transform: capitalize; background-color: #105EFB; color:white;"
             :to="{ name: 'createTask', params: { id: dataProject.id } }"
             ><a-icon type="plus-circle" style="margin-right:2.5px" />Create</v-btn
           >
@@ -177,7 +178,7 @@ export default {
           projectId: parseInt(this.$route.params.id),
         }
       },
-      update( data ) {
+      update(data) {
         this.dataProject = data.project
         this.dataTask = data.project.tasks
       },
@@ -206,11 +207,11 @@ export default {
       return this.$store.getters.tasks
     },
     tasksDone() {
-      return this.dataTask.filter(item => item.isDone==true).length
+      return this.dataTask.filter(item => item.isDone == true).length
     },
     tasksUndone() {
-      return this.dataTask.filter(item => item.isDone==false).length
-    }
+      return this.dataTask.filter(item => item.isDone == false).length
+    },
   },
 }
 </script>
@@ -220,7 +221,7 @@ div {
   font-family: 'Roboto';
 }
 #card {
-  border-radius: 2px
+  border-radius: 2px;
 }
 #imgProject {
   margin-top: 2px;

@@ -8,8 +8,6 @@
     <md-content>
       <Events />
       <br />
-      <Calendar />
-      <br />
       <Content />
     </md-content>
     <BarRouter />
@@ -22,7 +20,6 @@ import Toolbar from '@/components/Toolbar.vue'
 import BarRouter from '@/components/BarRouter.vue'
 import Events from '@/components/Events.vue'
 import Content from '@/components/Content.vue'
-import Calendar from '@/components/Calendar.vue'
 
 export default {
   name: 'news',
@@ -31,7 +28,6 @@ export default {
     BarRouter,
     Events,
     Content,
-    Calendar,
   },
 }
 </script>

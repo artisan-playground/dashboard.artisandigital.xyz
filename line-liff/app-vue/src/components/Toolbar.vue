@@ -3,17 +3,17 @@
     <md-toolbar class="toolbar" md-elevation="1">
       <div style="border:none; width:100% ">
         <v-row>
-          <v-col align="left">
+          <v-col align="left" cols="3">
             <!-- style="width:30%" -->
             <img class="logo" src="../assets/1_1.svg" />
             <!-- style="width:18%;" -->
           </v-col>
 
-          <v-col>
+          <v-col cols="6">
             <div class="title">{{ msg }}</div>
           </v-col>
 
-          <v-col align="right">
+          <v-col align="right" cols="3">
             <div class="profile">
               <img
                 id="pictureUrl"
@@ -38,7 +38,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'Toolbar',
   props: {
-    msg: String
+    msg: String,
   },
   computed: {
     ...mapState({
@@ -52,8 +52,8 @@ export default {
   //     this.getEnvironment()
   //     this.getUserProfile()
   //   }
-  // liff.login({ redirectUri: 'https://localhost:8080' })
-  // await liff.init({ liffId: '1654900324-lDYAE146' })
+  // liff.login({ redirectUri: 'https://localhost:8080' }) // ไม่เอา
+  //   await liff.init({ liffId: '1654900324-lDYAE146' })
   // },
   methods: {
     // async getUserProfile() {
@@ -89,9 +89,9 @@ div {
   font-family: 'Roboto';
 }
 .title {
-  color:white; 
-  margin-top:17px; 
-  font-weight:380;
+  color: white;
+  margin-top: 17px;
+  font-weight: 380;
   font-size: 18px;
 }
 #displayName {

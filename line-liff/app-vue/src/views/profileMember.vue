@@ -17,7 +17,7 @@
                 class="profile"
                 id="pictureUrl"
                 :src="
-                  user.image ||
+                  user.image.fullPath ||
                     'https://www.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png'
                 "
               />
@@ -42,31 +42,106 @@
 
           <!-- Name, Position , Status -->
           <a-row style="float:left; margin-bottom: 40px;">
-            <a-row style="font-size:20px; color:#0036C7; font-weight:500">
+            <a-row style="text-align:left; font-size:20px; color:#0036C7; font-weight:500">
               {{ user.name }}
             </a-row>
-            <a-row>
-              Position
+            <a-row style="text-align:left;">
+              {{ user.position }}
             </a-row>
-            <a-row>
-              Status
+            <a-row style="text-align:left;">
+              Status In LINE
             </a-row>
           </a-row>
 
-          <!-- edit button -->
-          <a-row style="margin-bottom:20px">
-            <a-col>
-              <v-btn
-                block
-                color="primary"
-                elevation="2"
-                to="/editprofile"
-                style="text-transform: capitalize; background-color: #105EFB;"
-                >Edit profile</v-btn
-              >
-            </a-col>
+          <a-row>
+            <a-divider style="margin-top:5px; margin-bottom:5px;" />
+            <div>
+              <a-tabs default-active-key="1">
+                <a-tab-pane key="1" tab="Project">
+                  <div class="listProject">
+                    <a-card
+                      bodyStyle="padding:15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+                      v-for="project in user.projects"
+                      :key="project.id"
+                    >
+                      <router-link
+                        style="text-decoration: none; color:black"
+                        :to="{ name: 'project', params: { id: project.id } }"
+                      >
+                        <a-row type="flex" justify="space-between">
+                          <a-col :span="18" align="left">
+                            <div class="md-title">
+                              <b style="line-height: 0px;">{{ project.projectName }}</b>
+                            </div>
+                            <div id="position">{{ project.projectType }}</div>
+                          </a-col>
+                          <a-col :span="4" id="status">
+                            <a-tag
+                              color="red"
+                              style="margin-right: 0px; margin-right:0px;"
+                              md-clickable
+                              v-if="project.status == 'undone'"
+                            >
+                              <span
+                                id="iconStatus"
+                                class="iconify"
+                                data-inline="false"
+                                data-icon="carbon:warning"
+                              ></span>
+                              WIP
+                            </a-tag>
+                            <a-tag
+                              color="green"
+                              v-if="project.status == 'done'"
+                              style="float:right; margin-right: 0px;"
+                            >
+                              <span
+                                id="iconStatus"
+                                class="iconify"
+                                data-inline="false"
+                                data-icon="octicon:check-circle-24"
+                              ></span>
+                              Done
+                            </a-tag>
+                          </a-col>
+                        </a-row>
+                        <a-row style="padding-top: 0px;">
+                          <a-col>
+                            <div align="left">{{ project.projectDetail }}</div>
+                          </a-col>
+                        </a-row>
+
+                        <a-row>
+                          <a-col>
+                            <div style="float:right">
+                              <vs-avatar-group float max="4">
+                                <vs-avatar
+                                  v-for="member in project.members"
+                                  :key="member.id"
+                                  style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
+                                >
+                                  <img v-bind:src="member.image.fullPath" />
+                                </vs-avatar>
+                              </vs-avatar-group>
+                            </div>
+                          </a-col>
+                        </a-row>
+                      </router-link>
+                    </a-card>
+                  </div>
+                </a-tab-pane>
+                <a-tab-pane key="2" tab="Tasks" force-render>
+                  <a-card
+                    style="text-decoration:none; color:black"
+                    v-for="task in user.tasks"
+                    :key="task.id"
+                  >
+                    {{ task.taskName }}
+                  </a-card>
+                </a-tab-pane>
+              </a-tabs>
+            </div>
           </a-row>
-          <hr style="color:#a3a3a3; weight:550; margin-bottom:20px" />
         </div>
       </div>
     </div>
@@ -95,15 +170,17 @@ export default {
           memberId: parseInt(this.$route.params.id),
         }
       },
-      update( data ) {
+      update(data) {
         this.user = data.user
         console.log('We got some result!', data)
+        this.dataProject = data.user.projects
       },
     },
   },
   data() {
     return {
       user: null,
+      dataProject: [],
     }
   },
   mounted() {
@@ -113,11 +190,34 @@ export default {
 </script>
 
 <style>
+.listProject {
+  font-family: 'Roboto';
+}
 #pictureUrl {
   width: 80px;
   -moz-border-radius: 100px;
   -webkit-border-radius: 100px;
   border-radius: 100px;
   /* margin-left: 40%; */
+}
+.md-title {
+  font-size: 16px;
+  margin-bottom: -1px; /* ระยะห่างระหว่างชื่อโปรเจคกับตำแหน่งงาน */
+  line-height: 20px; /* ระยะห่างระหว่างบรรทัดของชื่อโปรเจค เวลาขึ้นบรรทัดใหม่ */
+}
+#status {
+  font-size: 10.5px;
+  padding-right: 0px;
+}
+#iconStatus {
+  font-size: 10px;
+  vertical-align: -4.57%;
+}
+#card {
+  margin: 3px 0px 24px 0px; /* ระยะห่างรอบๆ card */
+  padding-bottom: 10px;
+  border-radius: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 </style>

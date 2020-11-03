@@ -20,30 +20,23 @@
     </div>
 
     <div class="news">
-      <md-card id="card" v-for="content in contents" :key="content.id">
-        <md-card-media>
-          <img
-            v-bind:src="content.imageUrl"
-            v-bind:alt="content.imageAlt"
-            style="box-shadow: 1.5px 1.5px 10px #b1b1b1;   height:153.47px; object-fit:cover;"
-          />
-        </md-card-media>
-
-        <md-card-header align="left">
-          <div class="md-title" style="font-size:16px">{{ content.imageAlt }}</div>
-          <div class="md-subhead" style="font-size:14px; color:black">{{ content.data }}</div>
-        </md-card-header>
-
-        <md-card-expand>
-          <md-card-actions md-alignment="space-between">
-            <div></div>
-
-            <md-card-expand-trigger>
-              <md-button style="color:#0036C7">Read more</md-button>
-            </md-card-expand-trigger>
-          </md-card-actions>
-        </md-card-expand>
-      </md-card>
+      <div v-for="content in contents" :key="content.id">
+        <router-link to="/">
+          <div class="card">
+            <img
+              v-bind:src="content.imageUrl"
+              alt=""
+              style="width:100%; height:200px; object-fit:cover;"
+            />
+            <div class="container">
+              <h3 style="font-size:15px">
+                <b>{{ content.imageAlt }}</b>
+              </h3>
+              <p>{{ content.data }}</p>
+            </div>
+          </div>
+        </router-link>
+      </div>
     </div>
     <div style="padding-bottom:80px">
       <!-- ระยะห่าง manu ข้างล่างกับ content -->
@@ -99,17 +92,26 @@ template {
 .news {
   /* margin: 0px 12px 0px 12px; */
   /* background-color: #e9f0ff; */
-  padding-top: 15px;
   /* padding-left: 15px;
   padding-right: 15px; */
   padding-bottom: 0.5px;
 }
-#card {
+.card {
   /* padding: 15px 15px 0 15px; */
   /* เงากรอบขาว ระยะเงาด้านขวากับกรอบ ระยะเงาด้านล่างกับกรอบ ความฟุ่งของเงา สีของเงา*/
-  box-shadow: 1.5px 1.5px 5px #b1b1b1;
+  /* box-shadow: 1.5px 1.5px 5px #b1b1b1;
   margin-bottom: 24px;
-  border-radius: 2px;
+  border-radius: 2px; */
+  margin: 0px 15px 20px 15px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  /* width: 95%; */
+  text-align: left;
+  color: black;
+}
+.container {
+  margin-top: 7px;
+  padding: 2px 16px;
 }
 #iconStatus {
   font-size: 10px;
