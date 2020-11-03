@@ -19,8 +19,10 @@ function Login() {
       getUser({ variables: { email } })
     }
   }
-  if (data?.user) {
-    login(data.user as User)
+  console.log(data?.getUserByEmail)
+
+  if (data?.getUserByEmail) {
+    login(data.getUserByEmail as User)
   }
 
   function enterLoading() {

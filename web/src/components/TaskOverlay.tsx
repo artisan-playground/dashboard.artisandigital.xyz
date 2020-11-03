@@ -5,6 +5,7 @@ import {
   CloseCircleOutlined,
   CommentOutlined,
   DeleteOutlined,
+  ExclamationCircleOutlined,
   FundProjectionScreenOutlined,
   LoadingOutlined,
   MoreOutlined,
@@ -13,7 +14,6 @@ import {
   RollbackOutlined,
   SendOutlined,
   TeamOutlined,
-  ExclamationCircleOutlined,
 } from '@ant-design/icons'
 import { useMutation } from '@apollo/client'
 import {
@@ -33,10 +33,10 @@ import { useStoreState } from 'easy-peasy'
 import React, { useEffect, useRef, useState } from 'react'
 import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
-import { COMMENT, DELETE_COMMENT, UPDATE_COMMENT } from '../services/api/comment'
-import { TOGGLE_TASK_DONE, UPDATE_TASK_NAME, UPDATE_TASK_DETAIL } from '../services/api/task'
-import { Task } from '../typings'
 import { LoadingComponent } from '../components/DashboardComponent'
+import { COMMENT, DELETE_COMMENT, UPDATE_COMMENT } from '../services/api/comment'
+import { TOGGLE_TASK_DONE, UPDATE_TASK_DETAIL, UPDATE_TASK_NAME } from '../services/api/task'
+import { Task } from '../typings'
 
 function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   const { Text } = Typography
@@ -327,7 +327,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                           className="flex justify-center items-center mr-2"
                         >
                           <Link to={{ pathname: `/profile/${item.user.id}` }}>
-                            <Avatar size="large" src={item.user.image} />
+                            <Avatar size="large" src={item.user.image.fullPath} />
                           </Link>
                         </Col>
                         <Col span={18} lg={{ span: 20 }}>
@@ -394,7 +394,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                   <Avatar
                     className="flex justify-center items-center mr-4 mt-2"
                     size="large"
-                    src={user?.image}
+                    src={user?.image.fullPath}
                   />
                   <Input
                     className="rounded-lg mt-4"
@@ -447,7 +447,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                       to={{ pathname: `/profile/${items.id}` }}
                     >
                       <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                        <Avatar key={items.id} src={items.image} alt={items.name} />
+                        <Avatar key={items.id} src={items.image.fullPath} alt={items.name} />
                         <div className="ml-4 text-lg">{items.name}</div>
                       </div>
                     </Link>

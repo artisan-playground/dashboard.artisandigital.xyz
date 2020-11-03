@@ -4,15 +4,12 @@ import {
   ProfileOutlined,
   ScheduleOutlined,
   SmileOutlined,
-  CheckCircleOutlined,
-  ExclamationCircleOutlined,
 } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, Card, Col, Input, Row, Spin, Typography } from 'antd'
+import { Button, Card, Col, Input, Radio, Row, Spin, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { TASKS_BY_ID } from '../services/api/task'
 import {
   LayoutDashboard,
   LoadingComponent,
@@ -22,11 +19,12 @@ import {
 } from '../components/DashboardComponent'
 import {
   GET_PROJECT_BY_ID,
-  UPDATE_PROJECT_NAME,
   UPDATE_PROJECT_DETAIL,
-  UPDATE_PROJECT_TYPE,
+  UPDATE_PROJECT_NAME,
   UPDATE_PROJECT_STATUS,
+  UPDATE_PROJECT_TYPE,
 } from '../services/api/project'
+import { TASKS_BY_ID } from '../services/api/task'
 
 function ProjectDetail() {
   const { Title, Text } = Typography
@@ -95,18 +93,9 @@ function ProjectDetail() {
     setDrawerVisible(false)
   }
 
-  function onUnDoneClick() {
-    setStatus('undone')
+  function handleStatus(e: any) {
     updateProjectStatus({
-      variables: { id: Number(projectId), status: status },
-    })
-    projectRefetch()
-  }
-
-  function onDoneClick() {
-    setStatus('done')
-    updateProjectStatus({
-      variables: { id: Number(projectId), status: status },
+      variables: { id: Number(projectId), status: e.target.value },
     })
     projectRefetch()
   }
@@ -151,29 +140,15 @@ function ProjectDetail() {
                       />
                     )}
                   </div>
-                  {filteredData.status === 'done' ? (
-                    <Button
-                      className="flex items-center justify-center shadow-md hover:shadow-lg bg-green-400 focus:bg-green-600 hover:bg-red-600 transition duration-800 ease-in border-0 w-24"
-                      type="primary"
-                      shape="round"
-                      size="large"
-                      onClick={onUnDoneClick}
-                    >
-                      <CheckCircleOutlined className="hover:hidden" />
-                      <Text className="hover:block hidden text-white">Done</Text>
-                    </Button>
-                  ) : (
-                    <Button
-                      className="flex items-center justify-center shadow-md hover:shadow-lg bg-red-400 focus:bg-red-600 hover:bg-green-600 transition duration-800 ease-in border-0 w-24"
-                      type="primary"
-                      shape="round"
-                      size="large"
-                      onClick={onDoneClick}
-                    >
-                      <ExclamationCircleOutlined />
-                      <Text className="hover:hidden text-white">WIP</Text>
-                    </Button>
-                  )}
+                  <Radio.Group
+                    defaultValue={status}
+                    size="small"
+                    buttonStyle="solid"
+                    onChange={handleStatus}
+                  >
+                    <Radio.Button value="done">Done</Radio.Button>
+                    <Radio.Button value="undone">Undone</Radio.Button>
+                  </Radio.Group>
                 </Row>
                 <Row>
                   {!editProjectType ? (

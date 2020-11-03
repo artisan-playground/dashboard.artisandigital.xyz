@@ -1,10 +1,11 @@
-import { Table, Tag, Col, Row, Typography, Input } from 'antd'
-import Avatar from 'antd/lib/avatar/avatar'
-import React, { useState, useEffect } from 'react'
-import { LayoutDashboard } from '../components/DashboardComponent'
-import { Link } from 'react-router-dom'
-import { GET_USERS } from '../services/api/user'
+import { UserOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
+import { Col, Input, Row, Table, Tag, Typography } from 'antd'
+import Avatar from 'antd/lib/avatar/avatar'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { LayoutDashboard } from '../components/DashboardComponent'
+import { GET_USERS } from '../services/api/user'
 
 function Member() {
   const { Text } = Typography
@@ -46,7 +47,14 @@ function Member() {
             .filter((item: any) => item.image === image)
             .map((item: any) => (
               <Link key={item.id} to={{ pathname: `/profile/${item.id}` }}>
-                <Avatar src={image} />
+                {image ? (
+                  <Avatar src={image.fullPath} />
+                ) : (
+                  <Avatar
+                    icon={<UserOutlined />}
+                    className="bg-primary flex items-center justify-center"
+                  />
+                )}
               </Link>
             ))}
         </>
@@ -70,15 +78,25 @@ function Member() {
       sorter: (a: any, b: any) => a.name.length - b.name.length,
     },
     {
+      title: 'Department',
+      dataIndex: 'department',
+      width: '15%',
+      sorter: (a: any, b: any) => a.department.length - b.department.length,
+    },
+    {
       title: 'Job Position',
       dataIndex: 'position',
-      width: '30%',
+      width: '20%',
       sorter: (a: any, b: any) => a.position.length - b.position.length,
     },
     {
-      title: 'Skill(s)',
+      dataIndex: 'type',
+      width: '10%',
+    },
+    {
+      title: 'Skills',
       dataIndex: 'skills',
-      width: '25%',
+      width: '35%',
       render: (skills: any) => (
         <>
           {skills.map((skill: any, index: any) => (
@@ -91,9 +109,9 @@ function Member() {
       sorter: (a: any, b: any) => a.skills.length - b.skills.length,
     },
     {
-      title: 'Project(s)',
+      title: 'Projects',
       dataIndex: 'projects',
-      width: '20%',
+      width: '10%',
       render: (projects: any) => <>{projects.filter((item: any) => item).length}</>,
       sorter: (a: any, b: any) => a.projects.length - b.projects.length,
     },

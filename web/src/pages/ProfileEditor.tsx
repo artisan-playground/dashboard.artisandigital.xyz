@@ -1,19 +1,31 @@
 import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
+import { useMutation, useQuery } from '@apollo/client'
 import '@pathofdev/react-tag-input/build/index.css'
 import { Button, Card, Col, Row, Upload } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
-import { GET_USER_BY_ID } from '../services/api/user'
 import { LayoutDashboard, ProfileForm } from '../components/DashboardComponent'
+import { UPLOAD_IMAGE } from '../services/api/image'
+import { GET_USER_BY_ID } from '../services/api/user'
 
 function ProfileEditor() {
   const [userData, setUserData] = useState<any>()
+  const [image, setImageUrl] = useState<any>()
+  const [generateFile, mimetype] = useState<any>(image)
   const { id }: any = useParams()
+  const [uploadImage] = useMutation(UPLOAD_IMAGE)
   const { loading, error, data, refetch } = useQuery(GET_USER_BY_ID, {
     variables: { id: Number(id) },
   })
+
+  const dataImage = {
+    fileName: generateFile,
+    path: `./upload/${generateFile}`,
+    fullPath: `${process.env.FILE_ENDPOINT}/${process.env.BUCKET}/upload/${generateFile}`,
+    extension: mimetype,
+    endpoint: `${process.env.FILE_ENDPOINT}`,
+  }
 
   useEffect(() => {
     if (!error && !loading) {
@@ -40,12 +52,13 @@ function ProfileEditor() {
   }
 
   function handleChange(info: any) {
+    console.log(info)
     if (info.file.status === 'uploading' && loading) {
       return
     }
     if (info.file.status === 'done' && !loading) {
       getBase64(info.file.originFileObj, (imageUrl: any) => {
-        // setImageUrl(imageUrl)
+        setImageUrl(imageUrl)
       })
     }
   }
@@ -85,7 +98,7 @@ function ProfileEditor() {
           <Col span={10}>
             <Col className="flex flex-col justify-center items-center">
               {userData ? (
-                <img src={userData?.image} alt="avatar" className="w-40 rounded-full" />
+                <img src={userData?.image.fullPath} alt="avatar" className="w-40 rounded-full" />
               ) : (
                 <div>{loading ? <LoadingOutlined /> : <PlusOutlined />}</div>
               )}
