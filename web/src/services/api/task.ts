@@ -9,7 +9,9 @@ export const TASKS = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -34,9 +36,11 @@ export const TASKS = gql`
       }
       files {
         id
-        url
-        name
-        status
+        endpoint
+        path
+        fullPath
+        fileName
+        extension
         task {
           id
         }
@@ -70,7 +74,9 @@ export const TASKS_BY_ID = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -95,9 +101,11 @@ export const TASKS_BY_ID = gql`
       }
       files {
         id
-        url
-        name
-        status
+        endpoint
+        path
+        fullPath
+        fileName
+        extension
         task {
           id
         }
@@ -131,7 +139,9 @@ export const TASKS_BY_TASKID = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -156,9 +166,11 @@ export const TASKS_BY_TASKID = gql`
       }
       files {
         id
-        url
-        name
-        status
+        endpoint
+        path
+        fullPath
+        fileName
+        extension
         task {
           id
         }
@@ -192,7 +204,9 @@ export const TOGGLE_TASK_DONE = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -217,9 +231,11 @@ export const TOGGLE_TASK_DONE = gql`
       }
       files {
         id
-        url
-        name
-        status
+        endpoint
+        path
+        fullPath
+        fileName
+        extension
         task {
           id
         }
@@ -271,7 +287,9 @@ export const ADD_TASK = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -296,9 +314,11 @@ export const ADD_TASK = gql`
       }
       files {
         id
-        url
-        name
-        status
+        endpoint
+        path
+        fullPath
+        fileName
+        extension
         task {
           id
         }
