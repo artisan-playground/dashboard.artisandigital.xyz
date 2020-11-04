@@ -6,7 +6,7 @@ import {
   SmileOutlined,
 } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, Card, Col, Input, Radio, Row, Spin, Typography } from 'antd'
+import { Button, Card, Col, Empty, Input, Radio, Row, Spin, Typography } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -111,7 +111,7 @@ function ProjectDetail() {
           <Col span={24}>
             <Row className="w-full">
               <Col span={24} lg={{ span: 4 }} className="flex justify-center items-start">
-                <Avatar size={112} src={filteredData.projectImage} />
+                <Avatar size={112} src={filteredData.projectImage.fullPath} />
               </Col>
               <Col span={24} lg={{ span: 20 }} className="px-4">
                 <Row justify="space-between">
@@ -310,7 +310,10 @@ function ProjectDetail() {
                   ))
                 ) : (
                   <div className="flex justify-center items-center p-8">
-                    <Text disabled>No task</Text>
+                    <Empty
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                      description={<Text disabled>No Tasks</Text>}
+                    />
                   </div>
                 )
               ) : (
