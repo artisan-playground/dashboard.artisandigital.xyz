@@ -28,7 +28,9 @@ export const GET_USER = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -61,9 +63,11 @@ export const GET_USER = gql`
         }
         files {
           id
-          url
-          name
-          status
+          endpoint
+          path
+          fullPath
+          fileName
+          extension
           task {
             id
           }
@@ -117,7 +121,9 @@ export const GET_USER_BY_ID = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -150,9 +156,11 @@ export const GET_USER_BY_ID = gql`
         }
         files {
           id
-          url
-          name
-          status
+          endpoint
+          path
+          fullPath
+          fileName
+          extension
           task {
             id
           }
@@ -206,7 +214,9 @@ export const GET_USERS = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -239,9 +249,11 @@ export const GET_USERS = gql`
         }
         files {
           id
-          url
-          name
-          status
+          endpoint
+          path
+          fullPath
+          fileName
+          extension
           task {
             id
           }
@@ -373,7 +385,7 @@ export const UPDATE_USER_CONTACT = gql`
 `
 
 export const UPDATE_USER_SKILLS = gql`
-  mutation updateSkills($id: Int!, $skills: [String!]) {
+  mutation updateSkills($id: Int!, $skills: [String!]!) {
     updateOneUser(where: { id: $id }, data: { skills: { set: $skills } }) {
       id
       email
