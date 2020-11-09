@@ -3,17 +3,13 @@
     <ToolbarBack />
     <br />
     <div style="margin-top:60px">
-      <div style="border:none; width:100%">
-        <div style="margin:0px 18px 0px 18px">
+      <div style="border:none;">
+        <div style="margin:0px 15px 0px 15px">
           <!-- ระยะห่างด้านข้าง margin:0px 18px 0px 18px -->
-          <a-row
-            type="flex"
-            justify="space-around"
-            align="middle"
-            style="font-size:12.5px; margin-bottom: 10px;"
-          >
+          <a-row type="flex" style="font-size:12.5px; margin-bottom: 10px;">
             <a-col :span="6">
               <img
+                style="justify-content: flex-start;"
                 class="profile"
                 id="pictureUrl"
                 :src="
@@ -26,16 +22,12 @@
 
             <!-- ใส่ข้อมูล Project Participants Today’s task-->
             <a-col :span="6">
-              <a-row>1</a-row>
+              <a-row>{{ projectNum }}</a-row>
               <a-row>Project</a-row>
             </a-col>
 
             <a-col :span="6">
-              <a-row>2</a-row>
-              <a-row>Participants</a-row>
-            </a-col>
-            <a-col :span="6">
-              <a-row>2</a-row>
+              <a-row>{{ tasksUndone }}</a-row>
               <a-row>Today’s task</a-row>
             </a-col>
           </a-row>
@@ -58,10 +50,11 @@
             <div>
               <a-tabs default-active-key="1">
                 <a-tab-pane key="1" tab="Project">
-                  <div class="listProject">
+                  <div>
                     <a-card
-                      bodyStyle="padding:15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+                      bodyStyle="padding:15px;"
                       v-for="project in user.projects"
+                      style="color: black; margin-bottom: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
                       :key="project.id"
                     >
                       <router-link
@@ -107,7 +100,7 @@
                         </a-row>
                         <a-row style="padding-top: 0px;">
                           <a-col>
-                            <div align="left">{{ project.projectDetail }}</div>
+                            <div align="left" class="content">{{ project.projectDetail }}</div>
                           </a-col>
                         </a-row>
 
@@ -131,13 +124,78 @@
                   </div>
                 </a-tab-pane>
                 <a-tab-pane key="2" tab="Tasks" force-render>
-                  <a-card
-                    style="text-decoration:none; color:black"
+                  <div
                     v-for="task in user.tasks"
                     :key="task.id"
+                    style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
                   >
-                    {{ task.taskName }}
-                  </a-card>
+                    <a-card v-if="!task.isDone" bodyStyle="padding:15px;" id="card" align="left">
+                      <router-link :to="{ name: 'taskDetail', params: { id: task.id } }">
+                        <div>
+                          <a-row type="flex" justify="space-between">
+                            <a-col :span="18" align="left">
+                              <a-row>
+                                <b style="color:black;">
+                                  {{ task.taskName }}
+                                </b>
+                              </a-row>
+                              <a-row id="position">
+                                {{ $dayjs(task.startTime).format('DD MMM YY ') }}
+                              </a-row>
+                            </a-col>
+                            <a-col :span="4" id="status">
+                              <a-tag
+                                color="red"
+                                style="float:right; margin-right:0px;"
+                                v-if="task.isDone == false"
+                              >
+                                <span
+                                  id="iconStatus"
+                                  class="iconify"
+                                  data-inline="false"
+                                  data-icon="carbon:warning"
+                                ></span>
+                                WIP
+                              </a-tag>
+                              <a-tag
+                                color="green"
+                                style="margin-right: 0px;"
+                                v-if="task.isDone == true"
+                              >
+                                <span
+                                  id="iconStatus"
+                                  class="iconify"
+                                  data-inline="false"
+                                  data-icon="octicon:check-circle-24"
+                                ></span>
+                                Done
+                              </a-tag>
+                            </a-col>
+                          </a-row>
+                          <a-row>
+                            <div style="color:black;" class="content">{{ task.taskDetail }}</div>
+                          </a-row>
+
+                          <!-- list members -->
+                          <a-row>
+                            <a-col>
+                              <div style="float:right">
+                                <vs-avatar-group float max="4">
+                                  <vs-avatar
+                                    v-for="member in task.members"
+                                    :key="member.id"
+                                    style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
+                                  >
+                                    <img style="z-index:1;" v-bind:src="member.image.fullPath" />
+                                  </vs-avatar>
+                                </vs-avatar-group>
+                              </div>
+                            </a-col>
+                          </a-row>
+                        </div>
+                      </router-link>
+                    </a-card>
+                  </div>
                 </a-tab-pane>
               </a-tabs>
             </div>
@@ -167,20 +225,30 @@ export default {
       query: gqlQuery.MEMBER_QUERY,
       variables() {
         return {
-          memberId: parseInt(this.$route.params.id),
+          userId: parseInt(this.$route.params.id),
         }
       },
       update(data) {
         this.user = data.user
         console.log('We got some result!', data)
         this.dataProject = data.user.projects
+        this.dataTask = data.user.tasks
       },
+    },
+  },
+  computed: {
+    projectNum() {
+      return this.dataProject.filter(item => item.id).length
+    },
+    tasksUndone() {
+      return this.dataTask.filter(item => item.isDone == false).length
     },
   },
   data() {
     return {
       user: null,
       dataProject: [],
+      dataTask: [],
     }
   },
   mounted() {
@@ -190,7 +258,7 @@ export default {
 </script>
 
 <style>
-.listProject {
+div {
   font-family: 'Roboto';
 }
 #pictureUrl {
@@ -214,10 +282,25 @@ export default {
   vertical-align: -4.57%;
 }
 #card {
-  margin: 3px 0px 24px 0px; /* ระยะห่างรอบๆ card */
+  margin: 3px 0px 15px 0px; /* ระยะห่างรอบๆ card */
   padding-bottom: 10px;
   border-radius: 2px;
-  padding-left: 20px;
-  padding-right: 20px;
+  /* padding-left: 20px;
+  padding-right: 20px; */
+}
+#position {
+  color: #8f8f8f;
+  font-size: 12px;
+  margin-top: 0px;
+  padding-bottom: 0px;
+}
+.content {
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

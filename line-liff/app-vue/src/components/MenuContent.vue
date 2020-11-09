@@ -11,7 +11,7 @@
       <v-col>
         <v-card class="card">
           <div><a-icon type="usergroup-add" style="color: #0036c7; font-size: 22px;" /></div>
-          <div class="number">{{ numPaticipants }}</div>
+          <div class="number">{{ dataMember.length }}</div>
           <div class="title">Participants</div>
         </v-card>
       </v-col>
@@ -29,15 +29,28 @@
 </template>
 
 <script>
+import * as gqlQuery from '../constants/graphql'
 export default {
   name: 'MenuContent',
   data() {
     return {
       numProject: 6,
-      numPaticipants: 16,
+      // numPaticipants: 16,
       numTaskToday: 13,
+      dataMember: null,
+      numMember: null,
     }
   },
+  apollo: {
+    getUser: {
+      query: gqlQuery.ALL_MEMBER_QUERY,
+      update(data) {
+        this.dataMember = data.users
+        console.log(data.users.length)
+      },
+    },
+  },
+  computed: {},
 }
 </script>
 
@@ -56,7 +69,7 @@ div {
   padding-bottom: 20px;
   /* margin-right: none; */
   /* width: 150px; */
-  border-radius: 5px;
+  border-radius: 2px;
   font-family: 'Roboto';
 }
 

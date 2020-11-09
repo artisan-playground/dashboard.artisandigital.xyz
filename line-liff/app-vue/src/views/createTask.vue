@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ToolbarBack msg="Create Task"  />
+    <ToolbarBack msg="Create Task" />
     <br />
     <div style="margin: 60px 18px 0px 18px" v-if="dataProject">
       <a-form layout="vertical" hide-required-mark>
@@ -30,18 +30,20 @@
                 :key="user.id"
                 :value="user.name"
               >
-                <v-img style="float:left;" v-bind:src="user.image" id="imgProfile" />
+                <a-col v-model="memberId">
+                  <div :value="user.id">{{ user.id }}</div>
+                </a-col>
+                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgProfile" />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-mentions-option>
             </a-mentions>
           </a-form-item>
 
-        <!-- <select name="" id="" v-model="member">
-          <option v-for="user in dataProject.members" :key="user.id" :value="user.id">
-            {{ user.name }}
-          </option>
-        </select> -->
-          
+          <!-- <select name="" id="" v-model="member">
+            <option v-for="user in dataProject.members" :key="user.id" :value="user.id">
+              {{ user.name }}
+            </option>
+          </select> -->
         </a-row>
         <a-row>
           <a-form-item label="Approver">
@@ -51,7 +53,7 @@
               v-model="reviewer"
             >
               <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
-                <v-img style="float:left;" v-bind:src="user.image" id="imgProfile" />
+                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgProfile" />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-mentions-option>
             </a-mentions>
@@ -86,19 +88,20 @@
           </a-form-item>
         </a-row>
         <a-row>
-          <v-btn
-            @click="createTask"
+          <a-button
             block
-            color="primary"
-            elevation="2"
-            to=""
-            style="text-transform: capitalize; background-color: #105EFB;"
-            >Submit</v-btn
-          >
+            html-type="submit"
+            @click="createTask()"
+            style="text-transform: capitalize; background-color: #105EFB; color:white;"
+            >Submit
+          </a-button>
         </a-row>
       </a-form>
     </div>
     <BarRouter />
+    <div style="padding-bottom:60px">
+      <!-- ระยะห่าง manu ข้างล่างกับ content -->
+    </div>
   </div>
 </template>
 
@@ -124,7 +127,6 @@ export default {
       update(data) {
         this.dataProject = data.project
         this.dataTask = data.project.tasks
-
       },
     },
 
@@ -155,10 +157,13 @@ export default {
     },
   },
   methods: {
-    async createTask() {
+    createTask() {
+      for (var user in this.users) {
+        console.log(user)
+      }
       console.log(parseInt(this.$route.params.id))
       console.log(this.taskName)
-      console.log(this.member)
+      console.log(this.users.indexOf(this.member))
       console.log(this.taskDetail)
       console.log(this.startTime)
       console.log(this.endTime)
@@ -176,6 +181,14 @@ export default {
       //     members: 8
       //   },
       // })
+    },
+    handleSubmit(e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+      })
     },
 
     onSearch(_, prefix) {
