@@ -63,9 +63,7 @@ export const GET_USER = gql`
         }
         files {
           id
-          endpoint
           path
-          fullPath
           fileName
           extension
           task {
@@ -156,9 +154,7 @@ export const GET_USER_BY_ID = gql`
         }
         files {
           id
-          endpoint
           path
-          fullPath
           fileName
           extension
           task {
@@ -249,9 +245,7 @@ export const GET_USERS = gql`
         }
         files {
           id
-          endpoint
           path
-          fullPath
           fileName
           extension
           task {
