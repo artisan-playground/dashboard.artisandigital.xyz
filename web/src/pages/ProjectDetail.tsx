@@ -6,11 +6,24 @@ import {
   SmileOutlined,
 } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, Card, Col, Empty, Input, Radio, Row, Spin, Typography } from 'antd'
-import Avatar from 'antd/lib/avatar/avatar'
-import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Empty,
+  Input,
+  List,
+  Modal,
+  Radio,
+  Row,
+  Spin,
+  Typography,
+} from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import {
+  ComponentVisible,
   LayoutDashboard,
   LoadingComponent,
   LogList,
@@ -47,16 +60,28 @@ function ProjectDetail() {
   const [updateProjectDetail] = useMutation(UPDATE_PROJECT_DETAIL)
   const [updateProjectType] = useMutation(UPDATE_PROJECT_TYPE)
   const [updateProjectStatus] = useMutation(UPDATE_PROJECT_STATUS)
-  const ref = useRef(document.createElement('div'))
   const { TextArea } = Input
 
   const [projectName, setProjectName] = useState<any>()
   const [projectDetail, setProjectDetail] = useState<any>()
   const [projectType, setProjectType] = useState<any>()
   const [status, setStatus] = useState<any>()
-  const [editProjectName, setEditProjectName] = useState(false)
-  const [editProjectDetail, setEditProjectDetail] = useState(false)
-  const [editProjectType, setEditProjectType] = useState(false)
+
+  const [developerVisible, setDeveloperVisible] = useState(false)
+  const [todayTaskVisible, setTodayTaskVisible] = useState(false)
+  const [doneTaskVisible, setDoneTaskVisible] = useState(false)
+
+  const {
+    projectNameRef,
+    projectDetailRef,
+    projectTypeRef,
+    editProjectName,
+    setEditProjectName,
+    editProjectDetail,
+    setEditProjectDetail,
+    editProjectType,
+    setEditProjectType,
+  } = ComponentVisible(false)
 
   useEffect(() => {
     if (!error && !loading && !projectLoading && !projectError) {
@@ -72,22 +97,18 @@ function ProjectDetail() {
       setProjectType(projectData.project.projectType)
       setStatus(projectData.project.status)
     }
-  }, [projectId, loading, error, projectLoading, projectError, data, projectData])
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true)
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true)
-    }
-  })
-
-  const handleClickOutside = (event: any) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      setEditProjectName(false)
-      setEditProjectDetail(false)
-      setEditProjectType(false)
-    }
-  }
+  }, [
+    projectId,
+    loading,
+    error,
+    projectLoading,
+    projectError,
+    data,
+    projectData,
+    updateProjectType,
+    updateProjectDetail,
+    updateProjectStatus,
+  ])
 
   function closeDawer() {
     setDrawerVisible(false)
@@ -98,6 +119,24 @@ function ProjectDetail() {
       variables: { id: Number(projectId), status: e.target.value },
     })
     projectRefetch()
+  }
+
+  function showModalDeveloper() {
+    setDeveloperVisible(true)
+  }
+
+  function showModalTodayTask() {
+    setTodayTaskVisible(true)
+  }
+
+  function showModalDoneTask() {
+    setDoneTaskVisible(true)
+  }
+
+  function handleCancel() {
+    setDeveloperVisible(false)
+    setTodayTaskVisible(false)
+    setDoneTaskVisible(false)
   }
 
   return projectLoading || !filteredData ? (
@@ -115,13 +154,9 @@ function ProjectDetail() {
               </Col>
               <Col span={24} lg={{ span: 20 }} className="px-4">
                 <Row justify="space-between">
-                  <div>
+                  <div ref={projectNameRef}>
                     {!editProjectName ? (
-                      <div
-                        onClick={() => {
-                          setEditProjectName(true)
-                        }}
-                      >
+                      <div onClick={() => setEditProjectName(true)}>
                         <Text className="font-bold text-3xl ml-2">{projectName}</Text>
                       </div>
                     ) : (
@@ -151,63 +186,67 @@ function ProjectDetail() {
                   </Radio.Group>
                 </Row>
                 <Row>
-                  {!editProjectType ? (
+                  <div ref={projectTypeRef}>
+                    {!editProjectType ? (
+                      <div
+                        onClick={() => {
+                          setEditProjectType(true)
+                        }}
+                      >
+                        <Text className="text-md mt-4 mb-2 text-gray-500">{projectType}</Text>
+                      </div>
+                    ) : (
+                      <Input
+                        className="text-md mt-4 mb-2"
+                        autoFocus
+                        defaultValue={projectType}
+                        onChange={(e) => {
+                          if (filteredData) {
+                            setProjectType(e.target.value)
+                            updateProjectType({
+                              variables: { id: Number(projectId), projectType: e.target.value },
+                            })
+                          }
+                        }}
+                      />
+                    )}
+                  </div>
+                </Row>
+
+                <div ref={projectDetailRef}>
+                  {!editProjectDetail ? (
                     <div
                       onClick={() => {
-                        setEditProjectType(true)
+                        setEditProjectDetail(true)
                       }}
                     >
-                      <Text className="text-md mt-4 mb-2 text-gray-500">{projectType}</Text>
+                      <Text className="text-lg">{projectDetail}</Text>
                     </div>
                   ) : (
-                    <Input
-                      className="text-md mt-4 mb-2"
+                    <TextArea
+                      className="text-lg"
+                      autoSize
                       autoFocus
-                      defaultValue={projectType}
+                      defaultValue={projectDetail}
                       onChange={(e) => {
                         if (filteredData) {
-                          setProjectType(e.target.value)
-                          updateProjectType({
-                            variables: { id: Number(projectId), projectType: e.target.value },
+                          setProjectDetail(e.target.value)
+                          updateProjectDetail({
+                            variables: { id: Number(projectId), projectDetail: e.target.value },
                           })
                         }
                       }}
                     />
                   )}
-                </Row>
-
-                {!editProjectDetail ? (
-                  <div
-                    onClick={() => {
-                      setEditProjectDetail(true)
-                    }}
-                  >
-                    <Text className="text-lg">{projectDetail}</Text>
-                  </div>
-                ) : (
-                  <TextArea
-                    className="text-lg w-full"
-                    autoSize
-                    autoFocus
-                    defaultValue={projectDetail}
-                    onChange={(e) => {
-                      if (filteredData) {
-                        setProjectDetail(e.target.value)
-                        updateProjectDetail({
-                          variables: { id: Number(projectId), projectDetail: e.target.value },
-                        })
-                      }
-                    }}
-                  />
-                )}
+                </div>
               </Col>
             </Row>
           </Col>
         </Row>
         <Row className="w-full">
-          <Col span={24} lg={{ span: 6 }} className="py-8 px-4">
+          <Col xl={6} lg={6} md={12} className="py-8 px-4">
             <div className="flex flex-col sm:flex-row lg:flex-col ">
-              <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
+              <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
                 <Card hoverable className="min-w-full rounded-lg min-h-full">
                   <div className="flex flex-col justify-center items-center">
                     <ScheduleOutlined
@@ -226,9 +265,12 @@ function ProjectDetail() {
                   </div>
                 </Card>
               </Col>
-              <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
+              <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
                 <Card hoverable className="min-w-full rounded-lg min-h-full">
-                  <div className="flex flex-col justify-center items-center">
+                  <div
+                    className="flex flex-col justify-center items-center"
+                    onClick={showModalDeveloper}
+                  >
                     <SmileOutlined
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
@@ -239,11 +281,30 @@ function ProjectDetail() {
                       Developer
                     </Text>
                   </div>
+                  <Modal visible={developerVisible} onCancel={handleCancel} footer={null}>
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={filteredData.members}
+                      renderItem={(item: any) => (
+                        <Link to={`/profile/${item.id}`}>
+                          <List.Item>
+                            <List.Item.Meta
+                              avatar={<Avatar src={item.image.fullPath} />}
+                              title={<Text>{item.name}</Text>}
+                            />
+                          </List.Item>
+                        </Link>
+                      )}
+                    />
+                  </Modal>
                 </Card>
               </Col>
-              <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
+              <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
                 <Card hoverable className="min-w-full rounded-lg min-h-full">
-                  <div className="flex flex-col justify-center items-center">
+                  <div
+                    className="flex flex-col justify-center items-center"
+                    onClick={showModalTodayTask}
+                  >
                     <ProfileOutlined
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
@@ -255,11 +316,25 @@ function ProjectDetail() {
                       Today's tasks
                     </Text>
                   </div>
+                  <Modal visible={todayTaskVisible} onCancel={handleCancel} footer={null}>
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={filteredTasks.filter((item: any) => item.isDone === false)}
+                      renderItem={(item: any) => (
+                        <List.Item>
+                          <List.Item.Meta title={<Text>{item.taskName}</Text>} />
+                        </List.Item>
+                      )}
+                    />
+                  </Modal>
                 </Card>
               </Col>
-              <Col lg={{ span: 24 }} className="w-full mb-4 sm:mr-4 lg:mb-4">
+              <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
                 <Card hoverable className="min-w-full rounded-lg min-h-full">
-                  <div className="flex flex-col justify-center items-center">
+                  <div
+                    className="flex flex-col justify-center items-center"
+                    onClick={showModalDoneTask}
+                  >
                     <FileDoneOutlined
                       style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
                     />
@@ -270,11 +345,22 @@ function ProjectDetail() {
                       Done tasks
                     </Text>
                   </div>
+                  <Modal visible={doneTaskVisible} onCancel={handleCancel} footer={null}>
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={filteredTasks.filter((item: any) => item.isDone === true)}
+                      renderItem={(item: any) => (
+                        <List.Item>
+                          <List.Item.Meta title={<Text>{item.taskName}</Text>} />
+                        </List.Item>
+                      )}
+                    />
+                  </Modal>
                 </Card>
               </Col>
             </div>
           </Col>
-          <Col span={24} lg={{ span: 18 }}>
+          <Col xl={18} lg={18} md={24}>
             <div className="py-8 px-4">
               <Row justify="space-between">
                 <div className="font-bold text-2xl mb-4">Tasks</div>

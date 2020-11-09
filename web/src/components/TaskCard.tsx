@@ -151,7 +151,7 @@ function TaskCard({ data, project, refetch }: any) {
     >
       <TaskOverlay
         onCloseModal={toggleModal}
-        visible={modalVisible}
+        visibleTask={modalVisible}
         data={taskData}
         project={project}
         refetch={refetch}
