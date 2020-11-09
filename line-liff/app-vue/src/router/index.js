@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import VueMaterial from 'vue-material'
-import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
+import Vue from 'vue'
+import VueMaterial from 'vue-material'
+import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
+import 'vue-material/dist/theme/default.css'
+import 'vue-material/dist/vue-material.min.css'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 Vue.use(VueMaterial)
@@ -40,6 +40,26 @@ const routes = [
     path: '/projects/:id',
     name: 'project',
     component: () => import(/* webpackChunkName: "about" */ '../views/project.vue'),
+  },
+  {
+    path: '/projects/:id/members',
+    name: 'memberInProject',
+    component: () => import(/* webpackChunkName: "about" */ '../views/memberInProject.vue'),
+  },
+  {
+    path: '/projects/:id/members/addmember',
+    name: 'addMemberToProject',
+    component: () => import(/* webpackChunkName: "about" */ '../views/addMemberToProject.vue'),
+  },
+  {
+    path: '/projects/:id/doneTask',
+    name: 'doneTask',
+    component: () => import(/* webpackChunkName: "about" */ '../views/doneTask.vue'),
+  },
+  {
+    path: '/projects/:id/todayTask',
+    name: 'todayTask',
+    component: () => import(/* webpackChunkName: "about" */ '../views/todayTask.vue'),
   },
   {
     path: '/createProject',

@@ -71,16 +71,15 @@ export default {
 }
 #status {
   font-size: 10.5px;
-  padding-right: 16px;
-  width: 25%;
+  /* padding-right: 16px; */
 }
 #iconStatus {
   font-size: 10px;
   vertical-align: -4.57%;
 }
 #card {
-  margin: 3px 15px 24px 15px; /* ระยะห่างรอบๆ card */
-  border-radius: 5px;
+  /* margin: 3px 15px 24px 15px;  */
+  border-radius: 2px;
 }
 .md-title {
   font-size: 16px;

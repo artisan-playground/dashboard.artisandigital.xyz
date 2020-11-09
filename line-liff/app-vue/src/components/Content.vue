@@ -97,11 +97,6 @@ template {
   padding-bottom: 0.5px;
 }
 .card {
-  /* padding: 15px 15px 0 15px; */
-  /* เงากรอบขาว ระยะเงาด้านขวากับกรอบ ระยะเงาด้านล่างกับกรอบ ความฟุ่งของเงา สีของเงา*/
-  /* box-shadow: 1.5px 1.5px 5px #b1b1b1;
-  margin-bottom: 24px;
-  border-radius: 2px; */
   margin: 0px 15px 20px 15px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;

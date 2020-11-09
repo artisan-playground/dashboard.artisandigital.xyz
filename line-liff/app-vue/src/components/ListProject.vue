@@ -3,6 +3,7 @@
     <div class="listProject">
       <a-card
         id="card"
+        style="margin: 3px 15px 24px 15px;"
         bodyStyle="padding:15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
         v-for="project in projects"
         :key="project.id"
@@ -137,9 +138,8 @@ export default {
   vertical-align: -4.57%;
 }
 #card {
-  margin: 3px 15px 24px 15px; /* ระยะห่างรอบๆ card */
+  /* margin: 3px 15px 24px 15px;  */
   padding-bottom: 0px;
-  /* border-radius: 5px; */
   padding-left: 0px;
   padding-right: 0px;
 }

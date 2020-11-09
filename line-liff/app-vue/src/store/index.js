@@ -379,7 +379,7 @@ export default new Vuex.Store({
       state.profile.statusMessage = value
     },
     setEmail(state, value) {
-      state.profile.email = value
+      state.getDecodedIDToken.email = value
     },
   },
   getters: {

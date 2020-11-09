@@ -110,9 +110,6 @@ div {
   margin-bottom: 15px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.bodyStyle {
-  padding: 15px 15px 15px 0px;
-}
 .flex-container {
   display: flex;
   flex-direction: column;

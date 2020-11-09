@@ -39,7 +39,7 @@
     <div class="listProject">
       <a-card
         id="card"
-        bodyStyle="padding:15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+        body-style="padding:15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
         v-for="project in searchFilter"
         :key="project.id"
       >

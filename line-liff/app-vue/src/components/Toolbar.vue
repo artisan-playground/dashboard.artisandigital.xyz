@@ -53,7 +53,7 @@ export default {
   //     this.getUserProfile()
   //   }
   // liff.login({ redirectUri: 'https://localhost:8080' }) // ไม่เอา
-  //   await liff.init({ liffId: '1654900324-lDYAE146' })
+  // await liff.init({ liffId: '1654900324-lDYAE146' })
   // },
   methods: {
     // async getUserProfile() {
@@ -63,6 +63,7 @@ export default {
     //   this.$store.commit('setPicProfile', profile.pictureUrl)
     //   this.$store.commit('setDisplayName', profile.displayName)
     //   this.$store.commit('setStatusMessage', profile.statusMessage)
+    //   this.$store.commit('setEmail', getDecodedIDToken.email)
     // },
     getEnvironment() {
       document.getElementById('os').append(liff.getOS()) // liff.getOS() ทำให้เราทราบว่า liff ที่เราเปิดตอนนี้เปิดด้วย device อะไรอยู่ ex. แอนดรอย ios web

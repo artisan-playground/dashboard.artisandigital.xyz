@@ -1,139 +1,113 @@
 <template>
   <div v-if="dataTask">
-    <ToolbarBack/>
+    <ToolbarBack />
     <br />
-    <div style="margin :60px 18px 0 18px">
+    <div style="margin :60px 15px 15px 15px">
       <!-- Done button -->
-      <v-btn
+      <a-button
+        v-if="dataTask.isDone == false"
+        block
         v-model="isDone"
-        id="buttonStatus"
-        v-if="taskFunc.status == false"
-        style="width:100%; text-transform: capitalize; color: #000000;"
-        elevation="6"
-        color="#F77B72"
-        v-on:click="changeStatus()"
+        style="background-color:#FF4D4F; color:white; border: none; border-radius:2px;"
+        v-on:click="toggleDone()"
+        :loading="loading"
+        @click="handleOk"
       >
-        <svg
-          style="margin-right:3px"
-          width="1em"
-          height="1em"
-          viewBox="0 0 16 16"
-          class="bi bi-circle"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-          />
-        </svg>
         Make as Done
-      </v-btn>
+      </a-button>
 
       <!-- WIP button -->
-      <v-btn
+      <a-button
+        v-if="dataTask.isDone == true"
+        block
         v-model="isDone"
-        id="buttonStatus"
-        v-if="taskFunc.status == true"
-        style="width:100%; text-transform: capitalize; color: #000000;"
-        elevation="6"
-        color="#4DD987"
-        v-on:click="changeStatus()"
+        style="background-color:#73D13D; color:white; border: none; border-radius:2px;"
+        v-on:click="toggleUndone()"
+        :loading="loading"
+        @click="handleOk"
       >
-        <svg
-          style="margin-right:3px"
-          width="1em"
-          height="1em"
-          viewBox="0 0 16 16"
-          class="bi bi-check-circle"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-          />
-          <path
-            fill-rule="evenodd"
-            d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"
-          />
-        </svg>
-        Make as Undone
-      </v-btn>
+        Make as Done
+      </a-button>
     </div>
 
     <!-- Dashboard -->
     <div>
       <div>
-        <v-row style="margin-left:6px; margin-right:6px;">
-          <v-col>
-            <v-card elevation="6" id="card">
+        <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
+          <a-col :span="12" :xs="12">
+            <a-card
+              bodyStyle="padding:5px; margin:0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+              :bordered="false"
+            >
               <div style="padding-top:10px">
-                <span
-                  class="iconify"
-                  data-inline="false"
-                  data-icon="ant-design:fund-projection-screen-outlined"
-                  style="color: #0036c7; font-size: 22px;"
-                ></span>
+                <a-icon type="fund" style="color:#0036c7; font-size: 22px;" />
               </div>
               <div>
                 <b>{{ dataProject.projectName }}</b>
               </div>
-              <div id="position" style="padding-bottom:10px">Project name</div>
-            </v-card>
-          </v-col>
-          <v-col>
-            <v-card elevation="6" id="card">
+              <div id="position">Project name</div>
+            </a-card>
+          </a-col>
+
+          <a-col :span="12" :xs="12">
+            <a-card
+              bodyStyle="padding:5px; margin:0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+              :bordered="false"
+            >
               <div style="padding-top:10px">
                 <a-icon type="clock-circle" style="color:#0036c7; font-size: 22px;" />
               </div>
               <div>
                 <b>{{ $dayjs(dataProject.dueDate).format('DD MMM YYYY') }}</b>
               </div>
-              <div id="position" style="padding-bottom:10px">Due date</div>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row style="margin-left:6px; margin-right:6px;">
-          <v-col>
-            <v-card id="card">
-              <div style="padding-top:10px">
-                <span
-                  class="iconify"
-                  data-inline="false"
-                  data-icon="clarity:users-line"
-                  style="color: #0036c7; font-size: 22px;"
-                ></span>
-              </div>
-              <div class="center con-avatars">
-                <vs-avatar-group>
-                  <vs-avatar circle v-for="member in dataTask.members" :key="member.id">
-                    <img v-bind:src="member.image" />
-                  </vs-avatar>
-                </vs-avatar-group>
-              </div>
-              <div id="position" style="padding-bottom:10px">Team</div>
-            </v-card>
-          </v-col>
-        </v-row>
+              <div id="position">Due date</div>
+            </a-card>
+          </a-col>
+        </a-row>
       </div>
+
+      <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
+        <a-col>
+          <a-card
+            bodyStyle="padding:5px; margin:0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+            :bordered="false"
+          >
+            <div style="padding-top:10px">
+              <span
+                class="iconify"
+                data-inline="false"
+                data-icon="clarity:users-line"
+                style="color: #0036c7; font-size: 22px;"
+              ></span>
+            </div>
+            <div class="center con-avatars">
+              <vs-avatar-group>
+                <vs-avatar circle v-for="member in dataTask.members" :key="member.id">
+                  <img v-bind:src="member.image.fullPath" />
+                </vs-avatar>
+              </vs-avatar-group>
+            </div>
+            <div id="position" style="padding-bottom:10px">Team</div>
+          </a-card>
+        </a-col>
+      </a-row>
     </div>
 
     <!-- Detail of Task -->
-    <v-row style="margin-left:6px; margin-right:6px;">
-      <v-col
+    <a-row style="margin-left:15px; margin-right:15px;">
+      <a-col
         ><span style="float:left; font-size:20px; font-weight:550">{{
           dataTask.taskName
-        }}</span></v-col
+        }}</span></a-col
       >
-    </v-row>
+    </a-row>
     <div class="detailTask">
       {{ dataTask.taskDetail }}
     </div>
 
     <!-- Clipboard -->
-    <v-row style="margin-left:6px; margin-right:6px; margin-top:12px">
-      <v-col style="padding-bottom: 0px;">
+    <a-row style="margin-left:6px; margin-right:6px; margin-top:12px">
+      <a-col style="padding-bottom: 0px;">
         <span
           class="iconify"
           data-inline="false"
@@ -141,12 +115,12 @@
           style="float: left; color: #105efb; font-size: 22px;"
         ></span>
         <b style="float: left; font-size:16px">Clipboard</b>
-      </v-col>
-    </v-row>
+      </a-col>
+    </a-row>
 
     <!-- upload file -->
     <div class="clearfix">
-      <v-row style="margin-left:18px; margin-right:18px; margin-top:12px;">
+      <a-row style="margin-left:18px; margin-right:18px; margin-top:12px;">
         <a-upload
           action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           list-type="picture-card"
@@ -164,16 +138,16 @@
         <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
           <img alt="example" style="width: 100%" :src="previewImage" />
         </a-modal>
-      </v-row>
+      </a-row>
     </div>
 
     <!-- Comment -->
-    <v-row style="margin-left:18px; margin-right:18px; margin-top:12px">
-      <v-row style="margin-left:6px">
+    <a-row style="margin-left:18px; margin-right:18px; margin-top:12px">
+      <a-row style="display:flex;">
         <a-icon type="message" style="color:rgb(16, 94, 251); font-size: 22px;" />
         <span>Comment</span>
-      </v-row>
-      <a-comment>
+      </a-row>
+      <a-comment v-for="comment in dataComment" :key="comment.id">
         <template slot="actions">
           <span key="comment-basic-like">
             <a-tooltip title="Like">
@@ -201,47 +175,39 @@
           </span>
           <span key="comment-basic-reply-to">Reply to</span>
         </template>
-        <a slot="author">Han Solo</a>
-        <a-avatar
-          slot="avatar"
-          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-          alt="Han Solo"
-        />
+        <a slot="author">{{ comment.user.name }}</a>
+        <a-avatar slot="avatar" v-bind:src="comment.user.image.fullPath" alt="Han Solo" />
         <p slot="content" align="left">
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully
-          and efficiently.
+          {{ comment.message }}
         </p>
         <a-tooltip slot="datetime" :title="moment().format('YYYY-MM-DD HH:mm:ss')">
           <span>{{ moment().fromNow() }}</span>
         </a-tooltip>
       </a-comment>
-    </v-row>
+    </a-row>
 
     <!-- input comment -->
-    <div style="background-color:#E9F0FF">
-      <v-row>
-        <v-col cols="2">
-          <span
-            class="iconify"
-            data-inline="false"
-            data-icon="carbon:user-avatar-filled-alt"
-            style="color: #8f8f8f; font-size: 30px;"
-          ></span>
-        </v-col>
-        <v-col cols="8">
-          <a-input placeholder="Say something" v-model="newComment" />
-        </v-col>
-        <v-col cols="2" @click="addComment()">
-          <span
-            class="iconify"
-            data-inline="false"
-            data-icon="cil:send"
-            style="color: #0036c7; font-size: 20px;"
-          ></span>
-        </v-col>
-      </v-row>
-    </div>
+    <a-row style="background-color:#E9F0FF">
+      <a-col :span="5">
+        <span
+          class="iconify"
+          data-inline="false"
+          data-icon="carbon:user-avatar-filled-alt"
+          style="color: #8f8f8f; font-size: 30px;"
+        ></span>
+      </a-col>
+      <a-col :span="14">
+        <a-input placeholder="Say something" v-model="newComment" />
+      </a-col>
+      <a-col :span="5" @click="addComment()">
+        <span
+          class="iconify"
+          data-inline="false"
+          data-icon="cil:send"
+          style="color: #0036c7; font-size: 20px;"
+        ></span>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
@@ -257,7 +223,7 @@ function getBase64(file) {
 }
 
 import ToolbarBack from '@/components/ToolbarBack.vue'
-import store from '../store/index.js'
+// import store from '../store/index.js'
 import moment from 'moment'
 import * as gqlQuery from '../constants/graphql'
 
@@ -274,10 +240,11 @@ export default {
           taskId: parseInt(this.$route.params.id),
         }
       },
-      update( data ) {
-        this.dataTask = data.task
-        this.dataProject = data.task.project
-        this.dataMember = data.task.member
+      update(data) {
+        console.log(data)
+        this.dataTask = data.getTaskById
+        this.dataProject = data.getTaskById.project
+        this.dataComment = data.getTaskById.comments
       },
     },
   },
@@ -286,14 +253,15 @@ export default {
     return {
       dataTask: null,
       dataProject: null,
-      dataMember: null,
+      dataComment: null,
+      loading: false,
       isDone: false,
       likes: 0,
       dislikes: 0,
       action: null,
       moment,
-      project: store.state.projects,
-      task: store.state.tasks,
+      // project: store.state.projects,
+      // task: store.state.tasks,
 
       // upload file
       previewVisible: false,
@@ -350,15 +318,23 @@ export default {
     },
   },
   methods: {
+    handleOk() {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 1000)
+    },
     toggleDone() {
       console.log(parseInt(this.$route.params.id))
-      console.log(gqlQuery.TOGGLE_STATUS);
+      console.log(gqlQuery.TOGGLE_STATUS)
 
       this.$apollo.mutate({
         mutation: gqlQuery.TOGGLE_STATUS,
         variables: {
           id: parseInt(this.$route.params.id),
-          data: true,
+          data: {
+            isDone: { set: true },
+          },
         },
         update: (store, { data: { updateOneTask } }) => {
           if (updateOneTask.isDone) {
@@ -368,13 +344,17 @@ export default {
         },
       })
     },
-    toggleUndone: function(data) {
+    toggleUndone() {
       console.log(parseInt(this.$route.params.id))
+      console.log(gqlQuery.TOGGLE_STATUS)
+
       this.$apollo.mutate({
         mutation: gqlQuery.TOGGLE_STATUS,
         variables: {
           id: parseInt(this.$route.params.id),
-          data: data.isDone,
+          data: {
+            isDone: { set: false },
+          },
         },
         update: (store, { data: { updateOneTask } }) => {
           if (updateOneTask.isDone) {
@@ -393,17 +373,6 @@ export default {
       this.likes = 0
       this.dislikes = 1
       this.action = 'disliked'
-    },
-
-    changeStatus() {
-      console.log('ค่าเริ่มต้น ' + this.taskFunc.status)
-      if (this.taskFunc.status == false) {
-        this.taskFunc.status = true
-        console.log(this.taskFunc.status)
-      } else {
-        this.taskFunc.status = false
-        console.log(this.taskFunc.status)
-      }
     },
 
     // Upload file
@@ -461,6 +430,7 @@ export default {
 div {
   font-family: 'Roboto';
 }
+
 #card {
   border-radius: 2px;
 }

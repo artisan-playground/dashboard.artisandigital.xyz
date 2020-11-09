@@ -48,7 +48,10 @@ export const ALL_PROJECT_QUERY = gql`
       id
       projectName
       projectType
-      projectImageId
+      projectImage {
+        id
+        fullPath
+      }
       projectDetail
       status
       dueDate
@@ -65,9 +68,32 @@ export const ALL_PROJECT_QUERY = gql`
   }
 `
 
+export const ALL_COMMENT_QUERY = gql`
+  query comment {
+    comments {
+      id
+      user {
+        id
+        name
+        image {
+          id
+          fullPath
+        }
+      }
+      task {
+        id
+        taskName
+      }
+      timestamp
+      image
+      message
+    }
+  }
+`
+
 export const MEMBER_QUERY = gql`
-  query User($memberId: Int!) {
-    user(where: { id: $memberId }) {
+  query User($userId: Int!) {
+    user(id: $userId) {
       id
       name
       image {
@@ -85,22 +111,25 @@ export const MEMBER_QUERY = gql`
         id
         projectName
         projectType
-        projectImage
         status
-        projectDetail
         members {
           id
-          name
           image {
             id
             fullPath
           }
         }
+        projectImage {
+          id
+          fullPath
+        }
+        projectDetail
       }
       tasks {
         id
         taskName
         taskDetail
+        isDone
       }
     }
   }
@@ -108,11 +137,14 @@ export const MEMBER_QUERY = gql`
 
 export const PROJECT_QUERY = gql`
   query($projectId: Int!) {
-    project(where: { id: $projectId }) {
+    project(id: $projectId) {
       id
       projectName
       projectType
-      projectImage
+      projectImage {
+        id
+        fullPath
+      }
       projectDetail
       status
       dueDate
@@ -135,7 +167,8 @@ export const PROJECT_QUERY = gql`
         id
         name
         image {
-          fileName
+          id
+          fullPath
         }
       }
     }
@@ -143,7 +176,7 @@ export const PROJECT_QUERY = gql`
 `
 export const TASK_QUERY = gql`
   query Task($taskId: Int!) {
-    task(where: { id: $taskId }) {
+    getTaskById(id: $taskId) {
       id
       isDone
       taskName
@@ -156,7 +189,8 @@ export const TASK_QUERY = gql`
         members {
           id
           image {
-            fileName
+            id
+            fullPath
           }
         }
       }
@@ -164,7 +198,21 @@ export const TASK_QUERY = gql`
         id
         name
         image {
-          fileName
+          id
+          fullPath
+        }
+      }
+      comments {
+        id
+        message
+        timestamp
+        user {
+          id
+          name
+          image {
+            id
+            fullPath
+          }
         }
       }
     }
