@@ -22,6 +22,28 @@ function Dashboard() {
   })
   const [currentUserData, setCurrentUserData] = useState<any>()
 
+  const overDue = currentUserData
+    ? currentUserData.projects.filter(
+        (item: any) =>
+          item.status === 'undone' &&
+          item.dueDate <
+            new Date().toLocaleDateString('en-US', {
+              day: 'numeric',
+            })
+      ).length
+    : null
+
+  const done = currentUserData
+    ? currentUserData.projects.filter((item: any) => item.status === 'done').length
+    : null
+
+  const inProgress = currentUserData
+    ? currentUserData.projects.filter((item: any) => item.status === 'undone').length
+    : null
+
+  const value = done + inProgress
+  const valueOverall = overDue + done + inProgress
+
   function calProjects() {
     let num =
       !loading && projectData !== undefined
@@ -41,38 +63,31 @@ function Dashboard() {
   const charts = [
     {
       item: 'Done',
-      count: currentUserData ? currentUserData.projects.length : '',
-      percent: currentUserData
-        ? (currentUserData.projects.filter((item: any) => item.status === 'done').length / 100) *
-          33.33
-        : '',
+      count: currentUserData ? currentUserData.projects.length : null,
+      percent: done,
     },
     {
       item: 'In Progress',
-      count: currentUserData ? currentUserData.projects.length : '',
-      percent: currentUserData
-        ? (currentUserData.projects.filter((item: any) => item.status === 'undone').length / 100) *
-          33.33
-        : '',
+      count: currentUserData ? currentUserData.projects.length : null,
+      percent: inProgress,
     },
     {
       item: 'Overdue',
-      count: currentUserData ? currentUserData.projects.length : '',
-      percent: currentUserData
-        ? (currentUserData.projects.filter(
-            (item: any) => item.status === 'undone' && item.dueDate < new Date().getTime()
-          ).length /
-            100) *
-          33.33
-        : '',
+      count: currentUserData ? currentUserData.projects.length : null,
+      percent: overDue,
     },
   ]
-  console.log(currentUserData ? currentUserData.projects.dueDate : '')
+
   const cols = {
     percent: {
       formatter: (val: any) => {
-        val = val * 100 + '%'
-        return val
+        if (overDue === 0) {
+          val = ((val / value) * 100).toFixed(2) + '%'
+          return val
+        } else {
+          val = ((val / valueOverall) * 100).toFixed(2) + '%'
+          return val
+        }
       },
     },
   }
@@ -81,7 +96,7 @@ function Dashboard() {
     <LayoutDashboard noCard>
       <div>
         <div className="site-card-wrapper">
-          <Row gutter={[8, 24]}>
+          <Row gutter={[10, 24]}>
             <Col md={{ span: 24 }}>
               {currentUserData ? (
                 <WelcomeCard
@@ -102,8 +117,8 @@ function Dashboard() {
               )}
             </Col>
           </Row>
-          <Row gutter={[16, 24]}>
-            <Col xl={16} className="w-full">
+          <Row gutter={[14, 24]}>
+            <Col xl={14} className="w-full">
               <Card className="mb-4">
                 <Link to="/projects">
                   <Card.Grid>
@@ -184,7 +199,7 @@ function Dashboard() {
               )}
             </Col>
 
-            <Col xl={8} xs={24}>
+            <Col xl={10} xs={24}>
               <Card title="Project Charts">
                 <Chart
                   height={250}
@@ -212,7 +227,13 @@ function Dashboard() {
                       'count',
                       {
                         content: (data) => {
-                          return `${data.item}: ${data.percent * 100}%`
+                          if (overDue === 0) {
+                            const val = ((data.percent / value) * 100).toFixed(2) + '%'
+                            return `${data.item}: ${val}`
+                          } else {
+                            const val = ((data.percent / valueOverall) * 100).toFixed(2) + '%'
+                            return `${data.item}: ${val}`
+                          }
                         },
                       },
                     ]}
