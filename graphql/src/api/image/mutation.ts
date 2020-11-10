@@ -6,6 +6,17 @@ import { ReadStream } from "fs-capacitor";
 import { FileUpload } from "graphql-upload";
 import path from "path";
 import shortid from "shortid";
+const { Storage } = require("@google-cloud/storage");
+
+const storage = new Storage({
+  keyFilename: path.join(__dirname, "../../../sa-key.json"),
+  projectId: "artisan-playground",
+});
+
+const imageBucket = storage.bucket("dashboard.artisandigital.tech");
+const bucketName = "dashboard.artisandigital.tech";
+
+const images = [];
 
 require("dotenv").config();
 
@@ -38,28 +49,26 @@ const uploadImage = extendType({
         }),
       },
       resolve: async (_, { image }, ctx) => {
-        const { generateFile, mimetype } = await processUpload(image);
-        const params = {
-          Bucket: BUCKET,
-          Key: `upload/${generateFile}`,
-          Body: fs.createReadStream(path.resolve(`./upload/${generateFile}`)),
-          ACL: "public-read",
-        };
-        await s3.putObject(params, function (err: any, data: any) {
-          if (err) console.log(err, err.stack);
-          else console.log(data);
-        });
-        fs.unlinkSync(path.resolve(`./upload/${generateFile}`));
+        const { createReadStream, filename, mimetype } = await image;
+
+        await new Promise((res) =>
+          createReadStream()
+            .pipe(
+              imageBucket.file(filename).createWriteStream({
+                resumable: false,
+                gzip: true,
+              })
+            )
+            .on("finish", res)
+        );
+
+        images.push(filename);
         const data = {
-          fileName: generateFile,
-          path: `./upload/${generateFile}`,
-          fullPath: `${process.env.FILE_ENDPOINT}/${process.env.BUCKET}/upload/${generateFile}`,
-          extension: mimetype,
-          endpoint: `${process.env.FILE_ENDPOINT}`,
+          filename: filename,
+          encoding: `https://storage.googleapis.com/${bucketName}/upload/${filename}`,
+          mimetype: mimetype,
         };
-        return await ctx.prisma.image.create({
-          data: data,
-        });
+        return await ctx.prisma.image.create({ data: data });
       },
     });
   },
