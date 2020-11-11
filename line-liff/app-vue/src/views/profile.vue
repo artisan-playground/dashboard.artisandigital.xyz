@@ -66,9 +66,6 @@ export default {
 </script>
 
 <style scoped>
-div {
-  font-family: 'Roboto';
-}
 #bottom-content {
   /* พื้นที่ข้างล่างของ content */
   margin: 0px 18px 10px 18px;

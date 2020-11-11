@@ -6,61 +6,57 @@
 
     <div class="news">
       <!-- <router-link> -->
-      <div>
-        <a-card
-          bodyStyle="padding: 15px 15px 15px 0px;"
-          class="card"
-          v-for="event in events"
-          :key="event.id"
-          :bordered="false"
-        >
-          <a-row v-if="new Date(event.endDate).toLocaleString() > new Date().toLocaleString()">
-            <a-col :span="3" sty>
-              <a-row class="flex-container">
-                <div>
-                  <div>{{ $dayjs(event.eventDate).format('ddd') }}</div>
-                  <div style="font-weight:550">{{ $dayjs(event.eventDate).format('D') }}</div>
-                  <div>{{ $dayjs(event.eventDate).format('MMM') }}</div>
-                </div>
-              </a-row>
-            </a-col>
-            <a-col :span="1">
-              <a-divider type="vertical" style="height:120px" />
-            </a-col>
-            <a-col :span="20" style="text-align:left; padding-left:10px;">
-              <a-row>
-                <a-col :span="16">
-                  <b style="font-size:16px">{{ event.eventName }}</b>
-                </a-col>
-                <a-col :span="8"
-                  ><a-tag
-                    style="float:right; margin-right:0px;"
-                    v-if="event.tag == 'Important'"
-                    color="orange"
-                  >
-                    <span
-                      id="iconStatus"
-                      class="iconify"
-                      data-inline="false"
-                      data-icon="bi:bookmark"
-                      style="font-size: 14px;"
-                    ></span>
+      <div v-for="event in events" :key="event.id">
+        <router-link :to="{ name: 'eventDetail', params: { id: event.id } }">
+          <a-card :bodyStyle="{ padding: '15px 15px 15px 0px' }" class="card" :bordered="false">
+            <a-row v-if="new Date(event.endDate).toLocaleString() > new Date().toLocaleString()">
+              <a-col :span="3" sty>
+                <a-row class="flex-container">
+                  <div>
+                    <div>{{ $dayjs(event.eventDate).format('ddd') }}</div>
+                    <div style="font-weight:550">{{ $dayjs(event.eventDate).format('D') }}</div>
+                    <div>{{ $dayjs(event.eventDate).format('MMM') }}</div>
+                  </div>
+                </a-row>
+              </a-col>
+              <a-col :span="1">
+                <a-divider type="vertical" style="height:120px" />
+              </a-col>
+              <a-col :span="20" style="text-align:left; padding-left:10px;">
+                <a-row>
+                  <a-col :span="16">
+                    <b style="font-size:16px">{{ event.eventName }}</b>
+                  </a-col>
+                  <a-col :span="8"
+                    ><a-tag
+                      style="float:right; margin-right:0px;"
+                      v-if="event.tag == 'Important'"
+                      color="orange"
+                    >
+                      <span
+                        id="iconStatus"
+                        class="iconify"
+                        data-inline="false"
+                        data-icon="bi:bookmark"
+                        style="font-size: 14px;"
+                      ></span>
 
-                    {{ event.tag }}
-                  </a-tag></a-col
-                >
-              </a-row>
-              <a-row class="content">{{ event.note }}</a-row>
-              <a-row>
-                <vs-avatar-group float max="4" style="float:right; margin-top:5px;">
-                  <vs-avatar v-for="member in members" :key="member.id" id="profileImg">
-                    <img v-bind:src="member.image" />
-                  </vs-avatar>
-                </vs-avatar-group>
-              </a-row>
-            </a-col>
-          </a-row>
-        </a-card>
+                      {{ event.tag }}
+                    </a-tag></a-col
+                  >
+                </a-row>
+                <a-row class="content">{{ event.note }}</a-row>
+                <a-row>
+                  <vs-avatar-group float max="4" style="float:right; margin-top:5px;">
+                    <vs-avatar v-for="member in event.invited" :key="member.id" id="profileImg">
+                      <img v-bind:src="member.image.fullPath" />
+                    </vs-avatar>
+                  </vs-avatar-group>
+                </a-row>
+              </a-col>
+            </a-row>
+          </a-card>
+        </router-link>
       </div>
 
       <!-- </router-link> -->
@@ -69,14 +65,11 @@
 </template>
 
 <script>
-import store from '../store/index.js'
 import * as gqlQuery from '../constants/graphql'
 export default {
   name: 'Events',
   data() {
     return {
-      news: store.state.news,
-      members: store.state.users,
       events: [],
     }
   },
@@ -99,9 +92,6 @@ export default {
 </script>
 
 <style scoped>
-div {
-  font-family: 'Roboto';
-}
 .news {
   padding-bottom: 5px;
 }

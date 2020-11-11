@@ -62,7 +62,7 @@
           >
         </a-col>
       </a-row>
-      <hr style="color:#a3a3a3; weight:550; margin-bottom:20px" />
+      <a-divider />
     </div>
   </div>
 </template>
@@ -100,9 +100,6 @@ export default {
 </script>
 
 <style scoped>
-div {
-  font-family: 'Roboto';
-}
 #pictureUrl {
   /* display: block; */
   /* margin: 0 auto; */
