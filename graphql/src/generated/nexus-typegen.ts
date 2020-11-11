@@ -382,30 +382,38 @@ export interface NexusGenInputs {
     create?: NexusGenInputs['FileCreateWithoutTaskInput'][] | null; // [FileCreateWithoutTaskInput!]
   }
   FileCreateWithoutTaskInput: { // input type
-    encoding: string; // String!
+    endpoint: string; // String!
+    extension: string; // String!
     filename: string; // String!
-    mimetype: string; // String!
+    fullPath: string; // String!
+    path: string; // String!
   }
   FileScalarWhereInput: { // input type
     AND?: NexusGenInputs['FileScalarWhereInput'][] | null; // [FileScalarWhereInput!]
-    encoding?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    endpoint?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    extension?: NexusGenInputs['StringFilter'] | null; // StringFilter
     filename?: NexusGenInputs['StringFilter'] | null; // StringFilter
+    fullPath?: NexusGenInputs['StringFilter'] | null; // StringFilter
     id?: NexusGenInputs['IntFilter'] | null; // IntFilter
-    mimetype?: NexusGenInputs['StringFilter'] | null; // StringFilter
     NOT?: NexusGenInputs['FileScalarWhereInput'][] | null; // [FileScalarWhereInput!]
     OR?: NexusGenInputs['FileScalarWhereInput'][] | null; // [FileScalarWhereInput!]
+    path?: NexusGenInputs['StringFilter'] | null; // StringFilter
     taskId?: NexusGenInputs['IntFilter'] | null; // IntFilter
   }
   FileUpdateInput: { // input type
-    encoding?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    endpoint?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    extension?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     filename?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    mimetype?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fullPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    path?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     task?: NexusGenInputs['TaskUpdateOneRequiredWithoutFilesInput'] | null; // TaskUpdateOneRequiredWithoutFilesInput
   }
   FileUpdateManyDataInput: { // input type
-    encoding?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    endpoint?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    extension?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     filename?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    mimetype?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fullPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    path?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   FileUpdateManyWithWhereNestedInput: { // input type
     data: NexusGenInputs['FileUpdateManyDataInput']; // FileUpdateManyDataInput!
@@ -427,9 +435,11 @@ export interface NexusGenInputs {
     where: NexusGenInputs['FileWhereUniqueInput']; // FileWhereUniqueInput!
   }
   FileUpdateWithoutTaskDataInput: { // input type
-    encoding?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    endpoint?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    extension?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     filename?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    mimetype?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fullPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    path?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   FileUpsertWithWhereUniqueWithoutTaskInput: { // input type
     create: NexusGenInputs['FileCreateWithoutTaskInput']; // FileCreateWithoutTaskInput!
@@ -444,9 +454,11 @@ export interface NexusGenInputs {
     create?: NexusGenInputs['ImageCreateWithoutUserInput'] | null; // ImageCreateWithoutUserInput
   }
   ImageCreateWithoutUserInput: { // input type
-    encoding: string; // String!
+    endpoint: string; // String!
+    extension: string; // String!
     filename: string; // String!
-    mimetype: string; // String!
+    fullPath: string; // String!
+    path: string; // String!
   }
   ImageUpdateOneWithoutUserInput: { // input type
     connect?: NexusGenInputs['ImageWhereUniqueInput'] | null; // ImageWhereUniqueInput
@@ -457,9 +469,11 @@ export interface NexusGenInputs {
     upsert?: NexusGenInputs['ImageUpsertWithoutUserInput'] | null; // ImageUpsertWithoutUserInput
   }
   ImageUpdateWithoutUserDataInput: { // input type
-    encoding?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    endpoint?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    extension?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     filename?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    mimetype?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fullPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    path?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   ImageUpsertWithoutUserInput: { // input type
     create: NexusGenInputs['ImageCreateWithoutUserInput']; // ImageCreateWithoutUserInput!
@@ -604,9 +618,11 @@ export interface NexusGenInputs {
     create?: NexusGenInputs['ProjectImageCreateWithoutProjectInput'] | null; // ProjectImageCreateWithoutProjectInput
   }
   ProjectImageCreateWithoutProjectInput: { // input type
-    encoding: string; // String!
+    endpoint: string; // String!
+    extension: string; // String!
     filename: string; // String!
-    mimetype: string; // String!
+    fullPath: string; // String!
+    path: string; // String!
   }
   ProjectImageUpdateOneWithoutProjectInput: { // input type
     connect?: NexusGenInputs['ProjectImageWhereUniqueInput'] | null; // ProjectImageWhereUniqueInput
@@ -617,9 +633,11 @@ export interface NexusGenInputs {
     upsert?: NexusGenInputs['ProjectImageUpsertWithoutProjectInput'] | null; // ProjectImageUpsertWithoutProjectInput
   }
   ProjectImageUpdateWithoutProjectDataInput: { // input type
-    encoding?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    endpoint?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    extension?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     filename?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    mimetype?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    fullPath?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    path?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   ProjectImageUpsertWithoutProjectInput: { // input type
     create: NexusGenInputs['ProjectImageCreateWithoutProjectInput']; // ProjectImageCreateWithoutProjectInput!
@@ -1539,17 +1557,21 @@ export interface NexusGenFieldTypes {
     tag: string | null; // String
   }
   File: { // field return type
-    encoding: string; // String!
+    endpoint: string; // String!
+    extension: string; // String!
     filename: string; // String!
+    fullPath: string; // String!
     id: number; // Int!
-    mimetype: string; // String!
+    path: string; // String!
     task: NexusGenRootTypes['Task']; // Task!
   }
   Image: { // field return type
-    encoding: string; // String!
+    endpoint: string; // String!
+    extension: string; // String!
     filename: string; // String!
+    fullPath: string; // String!
     id: number; // Int!
-    mimetype: string; // String!
+    path: string; // String!
   }
   Mutation: { // field return type
     createOneComment: NexusGenRootTypes['Comment']; // Comment!
@@ -1590,10 +1612,12 @@ export interface NexusGenFieldTypes {
     tasks: NexusGenRootTypes['Task'][]; // [Task!]!
   }
   ProjectImage: { // field return type
-    encoding: string; // String!
+    endpoint: string; // String!
+    extension: string; // String!
     filename: string; // String!
+    fullPath: string; // String!
     id: number; // Int!
-    mimetype: string; // String!
+    path: string; // String!
   }
   Query: { // field return type
     comments: NexusGenRootTypes['Comment'][]; // [Comment!]!
@@ -1672,17 +1696,21 @@ export interface NexusGenFieldTypeNames {
     tag: 'String'
   }
   File: { // field return type name
-    encoding: 'String'
+    endpoint: 'String'
+    extension: 'String'
     filename: 'String'
+    fullPath: 'String'
     id: 'Int'
-    mimetype: 'String'
+    path: 'String'
     task: 'Task'
   }
   Image: { // field return type name
-    encoding: 'String'
+    endpoint: 'String'
+    extension: 'String'
     filename: 'String'
+    fullPath: 'String'
     id: 'Int'
-    mimetype: 'String'
+    path: 'String'
   }
   Mutation: { // field return type name
     createOneComment: 'Comment'
@@ -1723,10 +1751,12 @@ export interface NexusGenFieldTypeNames {
     tasks: 'Task'
   }
   ProjectImage: { // field return type name
-    encoding: 'String'
+    endpoint: 'String'
+    extension: 'String'
     filename: 'String'
+    fullPath: 'String'
     id: 'Int'
-    mimetype: 'String'
+    path: 'String'
   }
   Query: { // field return type name
     comments: 'Comment'
