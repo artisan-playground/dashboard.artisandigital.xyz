@@ -434,10 +434,12 @@ input EventWhereUniqueInput {
 }
 
 type File {
-  encoding: String!
+  endpoint: String!
+  extension: String!
   filename: String!
+  fullPath: String!
   id: Int!
-  mimetype: String!
+  path: String!
   task: Task!
 }
 
@@ -447,33 +449,41 @@ input FileCreateManyWithoutTaskInput {
 }
 
 input FileCreateWithoutTaskInput {
-  encoding: String!
+  endpoint: String!
+  extension: String!
   filename: String!
-  mimetype: String!
+  fullPath: String!
+  path: String!
 }
 
 input FileScalarWhereInput {
   AND: [FileScalarWhereInput!]
-  encoding: StringFilter
+  endpoint: StringFilter
+  extension: StringFilter
   filename: StringFilter
+  fullPath: StringFilter
   id: IntFilter
-  mimetype: StringFilter
   NOT: [FileScalarWhereInput!]
   OR: [FileScalarWhereInput!]
+  path: StringFilter
   taskId: IntFilter
 }
 
 input FileUpdateInput {
-  encoding: StringFieldUpdateOperationsInput
+  endpoint: StringFieldUpdateOperationsInput
+  extension: StringFieldUpdateOperationsInput
   filename: StringFieldUpdateOperationsInput
-  mimetype: StringFieldUpdateOperationsInput
+  fullPath: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
   task: TaskUpdateOneRequiredWithoutFilesInput
 }
 
 input FileUpdateManyDataInput {
-  encoding: StringFieldUpdateOperationsInput
+  endpoint: StringFieldUpdateOperationsInput
+  extension: StringFieldUpdateOperationsInput
   filename: StringFieldUpdateOperationsInput
-  mimetype: StringFieldUpdateOperationsInput
+  fullPath: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
 }
 
 input FileUpdateManyWithoutTaskInput {
@@ -494,9 +504,11 @@ input FileUpdateManyWithWhereNestedInput {
 }
 
 input FileUpdateWithoutTaskDataInput {
-  encoding: StringFieldUpdateOperationsInput
+  endpoint: StringFieldUpdateOperationsInput
+  extension: StringFieldUpdateOperationsInput
   filename: StringFieldUpdateOperationsInput
-  mimetype: StringFieldUpdateOperationsInput
+  fullPath: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
 }
 
 input FileUpdateWithWhereUniqueWithoutTaskInput {
@@ -515,10 +527,12 @@ input FileWhereUniqueInput {
 }
 
 type Image {
-  encoding: String!
+  endpoint: String!
+  extension: String!
   filename: String!
+  fullPath: String!
   id: Int!
-  mimetype: String!
+  path: String!
 }
 
 input ImageCreateOneWithoutUserInput {
@@ -527,9 +541,11 @@ input ImageCreateOneWithoutUserInput {
 }
 
 input ImageCreateWithoutUserInput {
-  encoding: String!
+  endpoint: String!
+  extension: String!
   filename: String!
-  mimetype: String!
+  fullPath: String!
+  path: String!
 }
 
 input ImageUpdateOneWithoutUserInput {
@@ -542,9 +558,11 @@ input ImageUpdateOneWithoutUserInput {
 }
 
 input ImageUpdateWithoutUserDataInput {
-  encoding: StringFieldUpdateOperationsInput
+  endpoint: StringFieldUpdateOperationsInput
+  extension: StringFieldUpdateOperationsInput
   filename: StringFieldUpdateOperationsInput
-  mimetype: StringFieldUpdateOperationsInput
+  fullPath: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
 }
 
 input ImageUpsertWithoutUserInput {
@@ -755,10 +773,12 @@ input ProjectCreateWithoutTasksInput {
 }
 
 type ProjectImage {
-  encoding: String!
+  endpoint: String!
+  extension: String!
   filename: String!
+  fullPath: String!
   id: Int!
-  mimetype: String!
+  path: String!
 }
 
 input ProjectImageCreateOneWithoutProjectInput {
@@ -767,9 +787,11 @@ input ProjectImageCreateOneWithoutProjectInput {
 }
 
 input ProjectImageCreateWithoutProjectInput {
-  encoding: String!
+  endpoint: String!
+  extension: String!
   filename: String!
-  mimetype: String!
+  fullPath: String!
+  path: String!
 }
 
 input ProjectImageUpdateOneWithoutProjectInput {
@@ -782,9 +804,11 @@ input ProjectImageUpdateOneWithoutProjectInput {
 }
 
 input ProjectImageUpdateWithoutProjectDataInput {
-  encoding: StringFieldUpdateOperationsInput
+  endpoint: StringFieldUpdateOperationsInput
+  extension: StringFieldUpdateOperationsInput
   filename: StringFieldUpdateOperationsInput
-  mimetype: StringFieldUpdateOperationsInput
+  fullPath: StringFieldUpdateOperationsInput
+  path: StringFieldUpdateOperationsInput
 }
 
 input ProjectImageUpsertWithoutProjectInput {

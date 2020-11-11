@@ -1,0 +1,119 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "File",
+      "field": "fullPath",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "File",
+      "field": "path",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "File",
+      "field": "extension",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "File",
+      "field": "endpoint",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "File",
+      "field": "mimetype"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "File",
+      "field": "encoding"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Image",
+      "field": "fullPath",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Image",
+      "field": "path",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Image",
+      "field": "extension",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Image",
+      "field": "endpoint",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Image",
+      "field": "mimetype"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "Image",
+      "field": "encoding"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProjectImage",
+      "field": "fullPath",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProjectImage",
+      "field": "path",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProjectImage",
+      "field": "extension",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "ProjectImage",
+      "field": "endpoint",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "ProjectImage",
+      "field": "mimetype"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "ProjectImage",
+      "field": "encoding"
+    }
+  ]
+}

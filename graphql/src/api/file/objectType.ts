@@ -5,8 +5,10 @@ const fileObjectType = objectType({
   definition(t) {
     t.model.id();
     t.model.filename();
-    t.model.mimetype();
-    t.model.encoding();
+    t.model.fullPath();
+    t.model.path();
+    t.model.extension();
+    t.model.endpoint();
     t.model.task();
   },
 });
