@@ -50,8 +50,12 @@
               v-model="reviewer"
             >
               <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
-                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgMember" />
-                <span style="float:left; margin-left:5px">{{ user.name }}</span>
+                <div v-for="member in dataProject.members" :key="member.id">
+                  <div v-if="member.id !== user.id">
+                    <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgMember" />
+                    <span style="float:left; margin-left:5px">{{ user.name }}</span>
+                  </div>
+                </div>
               </a-mentions-option>
             </a-mentions>
           </a-form-item>
@@ -250,9 +254,6 @@ export default {
 </script>
 
 <style>
-div {
-  font-family: 'Roboto';
-}
 .ant-calendar-picker {
   min-width: 50px;
 }

@@ -19,7 +19,7 @@
 
             <v-col align="right" cols="3">
               <div class="profile" style="margin-top:10px;">
-                <span v-if="checkb == true" style="color:white;" @click="addmember">
+                <span v-if="checkAll" @change="onCheck" style="color:white;" @click="addmember">
                   Invite
                 </span>
                 <span v-else style="color:#8C8C8C">
@@ -31,7 +31,7 @@
         </div>
       </md-toolbar>
     </div>
-    <!-- <ToolbarClose msg="Choose friends" />> -->
+
     <br />
     <div style="margin:60px 15px 15px 15px;">
       <a-input-search
@@ -41,20 +41,48 @@
         style="margin-bottom:35px;"
       />
     </div>
-    <div v-for="user in userFilter" :key="user.id">
-      <div style="margin:0px 15px 10px 15px; float:left">
-        <a-checkbox>
-          <img v-bind:src="user.image.fullPath" class="picUser" />
-          {{ user.name }}
-        </a-checkbox>
-      </div>
+    <!-- <a-form>
+      <div v-for="user in userFilter" :key="user.id">
+        <div style="margin:0px 15px 10px 15px; float:left">
+          <a-checkbox-group @change="onChange">
+            <a-row>
+              <a-col>
+                <a-checkbox v-model="member" :value="user.id" :checked="checked">
+                  <img v-bind:src="user.image.fullPath" class="picUser" />
+                  {{ user.name }}
+                </a-checkbox>
+              </a-col>
+            </a-row>
+          </a-checkbox-group>
+        </div>
 
-      <a-divider />
+        <a-divider />
+      </div>
+    </a-form> -->
+
+    <div>
+      <!-- <div :style="{ borderBottom: '1px solid #E9E9E9' }">
+        <a-checkbox :checked="checkAll" @change="onCheck">
+          Check all
+        </a-checkbox>
+      </div> -->
+      <br />
+      <!-- <div v-for="user in userFilter" :key="user.id"> -->
+      <a-checkbox-group v-model="checkedList" :options="plainOptions" @change="onChange" />
+      <!-- </div> -->
     </div>
   </div>
 </template>
 
 <script>
+const plainOptions = ['Nan', 'Chalobon', 'Wisan']
+const defaultCheckedList = []
+const users = []
+const defaultUsername = () => {
+  return users.forEach(person => {
+    defaultUsername.push(person.name)
+  })
+}
 // import ToolbarClose from '@/components/ToolbarClose.vue'
 import * as gqlQuery from '../constants/graphql'
 export default {
@@ -66,19 +94,65 @@ export default {
     addmember() {
       console.log('addmember')
     },
-    onChange(checkedValues) {
+    onChange1(checkedValues) {
       console.log('checked = ', checkedValues)
+      this.test.push(...checkedValues)
+      console.log(this.test)
+
+      // this.check.push(this.checked)
+      // console.log(this.check)
+      // this.checked = !this.checked
+      // เก็บ array - check กับ uncheck ถ้า array uncheck length == array ของ member จะให้ allUncheck เป็น true
+      if (this.test.length >= 1) {
+        this.checked = true
+
+        console.log('boolean :', this.checked)
+      } else {
+        this.checked = false
+
+        console.log('boolean :', this.checked)
+      }
+    },
+
+    onChange(checkedList) {
+      this.checkAll = checkedList.length >= 1
+      this.users.map(({ id, name }) => `${id} ${name}`)
+      console.log(checkedList)
+      console.log(this.users)
+      console.log(this.username)
+      console.log(defaultUsername())
+    },
+    onCheck(e) {
+      Object.assign(this, {
+        checkedList: e.target.checked ? plainOptions : [],
+        indeterminate: false,
+        checkAll: e.target.checked,
+      })
     },
   },
   data() {
     return {
-      users: [],
+      users,
       search: '',
+      username: defaultUsername,
+      checked: false,
       checkb: false,
+      test: [],
+
+      checkedList: defaultCheckedList,
+      indeterminate: true,
+      checkAll: false,
+      plainOptions,
     }
   },
   apollo: {
-    users: gqlQuery.ALL_MEMBER_QUERY,
+    getUser: {
+      query: gqlQuery.ALL_MEMBER_QUERY,
+      update(data) {
+        this.users = data.users
+        this.username = data.users.name
+      },
+    },
   },
   computed: {
     userFilter() {
