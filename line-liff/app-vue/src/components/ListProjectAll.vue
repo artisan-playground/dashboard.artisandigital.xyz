@@ -39,7 +39,8 @@
     <div class="listProject">
       <a-card
         id="card"
-        body-style="padding:15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+        :bodyStyle="{ padding: '15px' }"
+        style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
         v-for="project in searchFilter"
         :key="project.id"
       >
@@ -165,9 +166,6 @@ export default {
 </script>
 
 <style scoped>
-.listProject {
-  font-family: 'Roboto';
-}
 #title {
   padding-bottom: 0px;
   font-size: 16px;

@@ -3,8 +3,8 @@
     <div class="listProject">
       <a-card
         id="card"
-        style="margin: 3px 15px 24px 15px;"
-        bodyStyle="padding:15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+        style="margin: 3px 15px 24px 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+        :bodyStyle="{ padding: '15px' }"
         v-for="project in projects"
         :key="project.id"
       >
@@ -114,7 +114,6 @@ export default {
   background-color: #e9f0ff;
   padding-top: 15px;
   padding-bottom: 2px;
-  font-family: 'Roboto';
 }
 #title {
   padding-bottom: 0px;

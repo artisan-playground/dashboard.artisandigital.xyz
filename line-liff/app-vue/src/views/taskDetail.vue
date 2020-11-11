@@ -13,7 +13,7 @@
         :loading="loading"
         @click="handleOk"
       >
-        Make as Done
+        Mark as Done
       </a-button>
 
       <!-- WIP button -->
@@ -26,7 +26,7 @@
         :loading="loading"
         @click="handleOk"
       >
-        Make as Done
+        Mark as Done
       </a-button>
     </div>
 
@@ -36,7 +36,10 @@
         <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
           <a-col :span="12" :xs="12">
             <a-card
-              bodyStyle="padding:5px; margin:0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+              :bodyStyle="{
+                padding: '5px',
+                margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+              }"
               :bordered="false"
             >
               <div style="padding-top:10px">
@@ -51,7 +54,10 @@
 
           <a-col :span="12" :xs="12">
             <a-card
-              bodyStyle="padding:5px; margin:0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+              :bodyStyle="{
+                padding: '5px',
+                margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+              }"
               :bordered="false"
             >
               <div style="padding-top:10px">
@@ -69,7 +75,10 @@
       <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
         <a-col>
           <a-card
-            bodyStyle="padding:5px; margin:0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+            :bodyStyle="{
+              padding: '5px',
+              margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+            }"
             :bordered="false"
           >
             <div style="padding-top:10px">
@@ -144,7 +153,7 @@
     <!-- Comment -->
     <a-row style="margin-left:18px; margin-right:18px; margin-top:12px">
       <a-row style="display:flex;">
-        <a-icon type="message" style="color:rgb(16, 94, 251); font-size: 22px;" />
+        <a-icon type="message" style="color:rgb(16, 94, 251); font-size: 22px; margin-right:5px;" />
         <span>Comment</span>
       </a-row>
       <a-comment v-for="comment in dataComment" :key="comment.id">
@@ -181,7 +190,7 @@
           {{ comment.message }}
         </p>
         <a-tooltip slot="datetime" :title="moment().format('YYYY-MM-DD HH:mm:ss')">
-          <span>{{ moment().fromNow() }}</span>
+          <span>{{ moment(comment.timestamp).fromNow() }}</span>
         </a-tooltip>
       </a-comment>
     </a-row>
@@ -427,10 +436,6 @@ export default {
 </script>
 
 <style>
-div {
-  font-family: 'Roboto';
-}
-
 #card {
   border-radius: 2px;
 }

@@ -52,7 +52,7 @@
                 <a-tab-pane key="1" tab="Project">
                   <div>
                     <a-card
-                      bodyStyle="padding:15px;"
+                      :bodyStyle="{ padding: '15px' }"
                       v-for="project in user.projects"
                       style="color: black; margin-bottom: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
                       :key="project.id"
@@ -129,7 +129,12 @@
                     :key="task.id"
                     style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
                   >
-                    <a-card v-if="!task.isDone" bodyStyle="padding:15px;" id="card" align="left">
+                    <a-card
+                      v-if="!task.isDone"
+                      :bodyStyle="{ padding: '15px' }"
+                      id="card"
+                      align="left"
+                    >
                       <router-link :to="{ name: 'taskDetail', params: { id: task.id } }">
                         <div>
                           <a-row type="flex" justify="space-between">
@@ -203,6 +208,9 @@
         </div>
       </div>
     </div>
+    <div style="padding-bottom:90px">
+      <!-- ระยะห่าง manu ข้างล่างกับ content -->
+    </div>
     <BarRouter />
   </div>
 </template>
@@ -258,9 +266,6 @@ export default {
 </script>
 
 <style>
-div {
-  font-family: 'Roboto';
-}
 #pictureUrl {
   width: 80px;
   -moz-border-radius: 100px;
