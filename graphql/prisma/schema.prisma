@@ -68,7 +68,7 @@ model Task {
 model File {
   task      Task
   id        Int     @id @default(autoincrement())
-  filename  String
+  fileName  String
   fullPath  String
   path  String
   extension String
@@ -100,7 +100,7 @@ model Event {
 
 model Image {
   id        Int     @id @default(autoincrement())
-  filename  String
+  fileName  String
   fullPath  String
   path  String
   extension String
@@ -109,7 +109,7 @@ model Image {
 
 model ProjectImage {
   id        Int     @id @default(autoincrement())
-  filename  String
+  fileName  String
   fullPath  String
   path  String
   extension String

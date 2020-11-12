@@ -436,7 +436,7 @@ input EventWhereUniqueInput {
 type File {
   endpoint: String!
   extension: String!
-  filename: String!
+  fileName: String!
   fullPath: String!
   id: Int!
   path: String!
@@ -451,7 +451,7 @@ input FileCreateManyWithoutTaskInput {
 input FileCreateWithoutTaskInput {
   endpoint: String!
   extension: String!
-  filename: String!
+  fileName: String!
   fullPath: String!
   path: String!
 }
@@ -460,7 +460,7 @@ input FileScalarWhereInput {
   AND: [FileScalarWhereInput!]
   endpoint: StringFilter
   extension: StringFilter
-  filename: StringFilter
+  fileName: StringFilter
   fullPath: StringFilter
   id: IntFilter
   NOT: [FileScalarWhereInput!]
@@ -472,7 +472,7 @@ input FileScalarWhereInput {
 input FileUpdateInput {
   endpoint: StringFieldUpdateOperationsInput
   extension: StringFieldUpdateOperationsInput
-  filename: StringFieldUpdateOperationsInput
+  fileName: StringFieldUpdateOperationsInput
   fullPath: StringFieldUpdateOperationsInput
   path: StringFieldUpdateOperationsInput
   task: TaskUpdateOneRequiredWithoutFilesInput
@@ -481,7 +481,7 @@ input FileUpdateInput {
 input FileUpdateManyDataInput {
   endpoint: StringFieldUpdateOperationsInput
   extension: StringFieldUpdateOperationsInput
-  filename: StringFieldUpdateOperationsInput
+  fileName: StringFieldUpdateOperationsInput
   fullPath: StringFieldUpdateOperationsInput
   path: StringFieldUpdateOperationsInput
 }
@@ -506,7 +506,7 @@ input FileUpdateManyWithWhereNestedInput {
 input FileUpdateWithoutTaskDataInput {
   endpoint: StringFieldUpdateOperationsInput
   extension: StringFieldUpdateOperationsInput
-  filename: StringFieldUpdateOperationsInput
+  fileName: StringFieldUpdateOperationsInput
   fullPath: StringFieldUpdateOperationsInput
   path: StringFieldUpdateOperationsInput
 }
@@ -529,7 +529,7 @@ input FileWhereUniqueInput {
 type Image {
   endpoint: String!
   extension: String!
-  filename: String!
+  fileName: String!
   fullPath: String!
   id: Int!
   path: String!
@@ -543,7 +543,7 @@ input ImageCreateOneWithoutUserInput {
 input ImageCreateWithoutUserInput {
   endpoint: String!
   extension: String!
-  filename: String!
+  fileName: String!
   fullPath: String!
   path: String!
 }
@@ -560,7 +560,7 @@ input ImageUpdateOneWithoutUserInput {
 input ImageUpdateWithoutUserDataInput {
   endpoint: StringFieldUpdateOperationsInput
   extension: StringFieldUpdateOperationsInput
-  filename: StringFieldUpdateOperationsInput
+  fileName: StringFieldUpdateOperationsInput
   fullPath: StringFieldUpdateOperationsInput
   path: StringFieldUpdateOperationsInput
 }
@@ -775,7 +775,7 @@ input ProjectCreateWithoutTasksInput {
 type ProjectImage {
   endpoint: String!
   extension: String!
-  filename: String!
+  fileName: String!
   fullPath: String!
   id: Int!
   path: String!
@@ -789,7 +789,7 @@ input ProjectImageCreateOneWithoutProjectInput {
 input ProjectImageCreateWithoutProjectInput {
   endpoint: String!
   extension: String!
-  filename: String!
+  fileName: String!
   fullPath: String!
   path: String!
 }
@@ -806,7 +806,7 @@ input ProjectImageUpdateOneWithoutProjectInput {
 input ProjectImageUpdateWithoutProjectDataInput {
   endpoint: StringFieldUpdateOperationsInput
   extension: StringFieldUpdateOperationsInput
-  filename: StringFieldUpdateOperationsInput
+  fileName: StringFieldUpdateOperationsInput
   fullPath: StringFieldUpdateOperationsInput
   path: StringFieldUpdateOperationsInput
 }
