@@ -4,7 +4,7 @@ const imageObjectType = objectType({
   name: "Image",
   definition(t) {
     t.model.id();
-    t.model.filename();
+    t.model.fileName();
     t.model.fullPath();
     t.model.path();
     t.model.extension();

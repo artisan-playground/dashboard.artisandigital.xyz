@@ -4,7 +4,7 @@ const fileObjectType = objectType({
   name: "File",
   definition(t) {
     t.model.id();
-    t.model.filename();
+    t.model.fileName();
     t.model.fullPath();
     t.model.path();
     t.model.extension();
