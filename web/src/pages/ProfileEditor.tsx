@@ -1,19 +1,18 @@
 import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import '@pathofdev/react-tag-input/build/index.css'
-import { Card, Col, Row, Spin, Typography } from 'antd'
+import { Card, Col, Row, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { LayoutDashboard, ProfileForm } from '../components/DashboardComponent'
-import { UPLOAD_IMAGE } from '../services/api/image'
+import { UPDATE_IMAGE } from '../services/api/image'
 import { GET_USER_BY_ID } from '../services/api/user'
 
 function ProfileEditor() {
   const [userData, setUserData] = useState<any>()
-  const { Text } = Typography
 
   const { id }: any = useParams()
-  const [uploadImage] = useMutation(UPLOAD_IMAGE)
+  const [updateImage] = useMutation(UPDATE_IMAGE)
   const { loading, error, data, refetch } = useQuery(GET_USER_BY_ID, {
     variables: { id: Number(id) },
   })
@@ -30,7 +29,7 @@ function ProfileEditor() {
       files: [file],
     },
   }: any) {
-    if (validity.valid) uploadImage({ variables: { file } })
+    if (validity.valid) updateImage({ variables: { id: Number(id), file } })
   }
 
   return loading || !userData ? (
@@ -51,7 +50,7 @@ function ProfileEditor() {
               {userData ? (
                 <>
                   <img src={userData?.image.fullPath} alt="avatar" className="w-40 rounded-full" />
-                  <label className="appearance-none shadow-sm border border-gray-400 flex items-center justify-center rounded py-2 px-4 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300">
+                  <label className="appearance-none shadow-sm border border-gray-400 flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300">
                     <input type="file" className="hidden" onChange={onChange} />
                     <UploadOutlined className="mr-2" />
                     Change Image
