@@ -95,9 +95,9 @@ p {
   margin-bottom: 0.5em;
 }
 .title {
-  color:white; 
-  margin-top:17px; 
-  font-weight:380;
+  color: white;
+  margin-top: 17px;
+  font-weight: 380;
   font-size: 18px;
 }
 #pictureUrl {

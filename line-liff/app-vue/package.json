@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "copy-fonts": "cpy node_modules/framework7-icons/fonts/*.* src/fonts && cpy node_modules/material-design-icons/iconfont/*.{eot,ttf,woff,woff2} src/fonts",
+    "postinstall": "npm run copy-fonts"
   },
   "dependencies": {
     "@line/bot-sdk": "^7.0.0",
@@ -19,9 +21,13 @@
     "apollo-link-http": "^1.5.17",
     "core-js": "^3.6.5",
     "dayjs": "^1.9.3",
+    "framework7": "^3.4.3",
+    "framework7-icons": "^0.9.1",
+    "framework7-vue": "^3.4.3",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
     "graphql-type-json": "^0.2.1",
+    "material-design-icons": "^3.0.1",
     "nexus": "^0.30.1",
     "nexus-plugin-prisma": "^0.20.0",
     "vconsole": "^3.3.4",
@@ -46,6 +52,8 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
+    "cpy-cli": "^2.0.0",
+    "css-loader": "^1.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-graphql": "^2.1.1",
     "eslint-plugin-prettier": "^3.1.3",
@@ -55,6 +63,7 @@
     "sass": "^1.26.10",
     "sass-loader": "^10.0.2",
     "vue-cli-plugin-apollo": "~0.22.2",
+    "vue-cli-plugin-framework7": "~0.1.1",
     "vue-cli-plugin-vconsole": "~1.0.1",
     "vue-cli-plugin-vuetify": "~2.0.7",
     "vue-template-compiler": "^2.6.11",
