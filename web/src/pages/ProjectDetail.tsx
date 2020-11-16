@@ -10,6 +10,23 @@ import { Avatar, Button, Card, Col, Empty, List, Modal, Row, Spin, Typography } 
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Empty,
+  Input,
+  List,
+  Modal,
+  Radio,
+  Row,
+  Spin,
+  Typography,
+} from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import {
+  ComponentVisible,
   LayoutDashboard,
   LoadingComponent,
   LogList,
@@ -56,6 +73,24 @@ function ProjectDetail() {
 
   function closeDawer() {
     setDrawerVisible(false)
+  }
+
+  function showModalDeveloper() {
+    setDeveloperVisible(true)
+  }
+
+  function showModalTodayTask() {
+    setTodayTaskVisible(true)
+  }
+
+  function showModalDoneTask() {
+    setDoneTaskVisible(true)
+  }
+
+  function handleCancel() {
+    setDeveloperVisible(false)
+    setTodayTaskVisible(false)
+    setDoneTaskVisible(false)
   }
 
   function showModalDeveloper() {

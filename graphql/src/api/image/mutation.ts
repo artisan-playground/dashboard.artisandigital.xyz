@@ -1,30 +1,15 @@
-import { arg, extendType, intArg, scalarType } from "@nexus/schema";
-import { GraphQLUpload } from "apollo-server-core";
-import AWS from "aws-sdk";
-import fs, { createWriteStream } from "fs";
-import { ReadStream } from "fs-capacitor";
-import { FileUpload } from "graphql-upload";
+import { arg, extendType, intArg } from "@nexus/schema";
 import path from "path";
 import shortid from "shortid";
 
-require("dotenv").config();
+const { Storage } = require("@google-cloud/storage");
 
-export type UploadRoot = FileUpload;
-scalarType({
-  ...GraphQLUpload!,
-  rootTyping: "UploadRoot",
+const storage = new Storage({
+  keyFilename: path.join(__dirname, "../../../sa-key.json"),
+  projectId: "artisan-playground",
 });
-const FILE_ENDPOINT = process.env.FILE_ENDPOINT!;
-const ACCESS_KEY_ID = process.env.ACCESS_KEY_ID!;
-const SECRETE_ACCESS_KEY = process.env.SECRETE_ACCESS_KEY!;
-const BUCKET = process.env.BUCKET!;
-const REGION = process.env.REGION!;
-const s3 = new AWS.S3({
-  endpoint: FILE_ENDPOINT,
-  accessKeyId: ACCESS_KEY_ID,
-  secretAccessKey: SECRETE_ACCESS_KEY,
-  region: REGION,
-});
+
+const bucketName = "dashboard.artisandigital.tech";
 
 const uploadImage = extendType({
   type: "Mutation",
@@ -38,27 +23,37 @@ const uploadImage = extendType({
         }),
       },
       resolve: async (_, { image }, ctx) => {
-        const { generateFile, mimetype } = await processUpload(image);
-        const params = {
-          Bucket: BUCKET,
-          Key: `upload/${generateFile}`,
-          Body: fs.createReadStream(path.resolve(`./upload/${generateFile}`)),
-          ACL: "public-read",
-        };
-        await s3.putObject(params, function (err: any, data: any) {
-          if (err) console.log(err, err.stack);
-          else console.log(data);
-        });
-        fs.unlinkSync(path.resolve(`./upload/${generateFile}`));
-        const data = {
-          fileName: generateFile,
-          path: `./upload/${generateFile}`,
-          fullPath: `${process.env.FILE_ENDPOINT}/${process.env.BUCKET}/upload/${generateFile}`,
-          extension: mimetype,
-          endpoint: `${process.env.FILE_ENDPOINT}`,
-        };
-        return await ctx.prisma.image.create({
-          data: data,
+        const { filename, mimetype, createReadStream } = await image;
+        const id = shortid.generate();
+        const generateFile: string = `${id}-${filename}`;
+
+        await new Promise((resolve, reject) => {
+          createReadStream().pipe(
+            storage
+              .bucket(bucketName)
+              .file(generateFile)
+              .createWriteStream()
+              .on("finish", () => {
+                storage
+                  .bucket(bucketName)
+                  .file(generateFile)
+                  .makePublic()
+                  .then(() => {
+                    const data = {
+                      fileName: generateFile,
+                      fullPath: `https://storage.googleapis.com/${bucketName}/${generateFile}`,
+                      path: `./${generateFile}`,
+                      endpoint: `https://storage.googleapis.com`,
+                      extension: mimetype,
+                    };
+
+                    resolve(ctx.prisma.image.create({ data: data }));
+                  })
+                  .catch((e) => {
+                    reject((e) => console.log(`exec error : ${e}`));
+                  });
+              })
+          );
         });
       },
     });
@@ -78,43 +73,43 @@ const updateImage = extendType({
         }),
       },
       resolve: async (_, { image, id }, ctx) => {
-        const { generateFile, mimetype } = await processUpload(image);
-        const params = {
-          Bucket: BUCKET,
-          Key: `upload/${generateFile}`,
-          Body: fs.createReadStream(path.resolve(`./upload/${generateFile}`)),
-          ACL: "public-read",
-        };
-        await s3.putObject(params, function (err: any, data: any) {
-          if (err) console.log(err, err.stack);
-          else console.log(data);
+        const { filename, mimetype, createReadStream } = await image;
+        const generateId = shortid.generate();
+        const generateFile: string = `${generateId}-${filename}`;
+
+        await new Promise((resolve, reject) => {
+          createReadStream().pipe(
+            storage
+              .bucket(bucketName)
+              .file(generateFile)
+              .createWriteStream()
+              .on("finish", () => {
+                storage
+                  .bucket(bucketName)
+                  .file(generateFile)
+                  .makePublic()
+                  .then(() => {
+                    const data = {
+                      fileName: generateFile,
+                      fullPath: `https://storage.googleapis.com/${bucketName}/${generateFile}`,
+                      path: `./${generateFile}`,
+                      endpoint: `https://storage.googleapis.com`,
+                      extension: mimetype,
+                    };
+
+                    resolve(
+                      ctx.prisma.image.update({ where: { id: id }, data: data })
+                    );
+                  })
+                  .catch((e) => {
+                    reject((e) => console.log(`exec error : ${e}`));
+                  });
+              })
+          );
         });
-        fs.unlinkSync(path.resolve(`./upload/${generateFile}`));
-        const data = {
-          fileName: generateFile,
-          path: `./upload/${generateFile}`,
-          fullPath: `${process.env.FILE_ENDPOINT}/${process.env.BUCKET}/upload/${generateFile}`,
-          extension: mimetype,
-          endpoint: `${process.env.FILE_ENDPOINT}`,
-        };
-        return await ctx.prisma.image.update({ where: { id: id }, data: data });
       },
     });
   },
 });
-
-const processUpload = async (upload: FileUpload): Promise<any> => {
-  const { createReadStream, filename, mimetype } = await upload;
-  const stream: ReadStream = createReadStream();
-  const id = shortid.generate();
-  const generateFile: string = `${id}-${filename}`;
-  const path = `./upload/${generateFile}`;
-  return new Promise((resolve, reject) =>
-    stream
-      .pipe(createWriteStream(path))
-      .on("finish", () => resolve({ generateFile, mimetype }))
-      .on("error", reject)
-  );
-};
 
 export { uploadImage, updateImage };

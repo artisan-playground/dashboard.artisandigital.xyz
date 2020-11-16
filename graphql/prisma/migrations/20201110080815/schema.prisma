@@ -4,7 +4,7 @@ generator prisma_client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model User {
@@ -68,11 +68,9 @@ model Task {
 model File {
   task      Task
   id        Int     @id @default(autoincrement())
+  path      String
   fileName  String
-  fullPath  String
-  path  String
   extension String
-  endpoint String
 }
 
 model Comment {
@@ -100,20 +98,20 @@ model Event {
 
 model Image {
   id        Int     @id @default(autoincrement())
-  fileName  String
+  endpoint  String
+  path      String
   fullPath  String
-  path  String
+  fileName  String
   extension String
-  endpoint String
 }
 
 model ProjectImage {
   id        Int     @id @default(autoincrement())
-  fileName  String
+  endpoint  String
+  path      String
   fullPath  String
-  path  String
+  fileName  String
   extension String
-  endpoint String
 }
 
 enum Role {
