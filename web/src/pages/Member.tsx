@@ -18,7 +18,6 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LayoutDashboard } from '../components/DashboardComponent'
 import { CREATE_USER, DELETE_USER, GET_USERS } from '../services/api/user'
-import { User } from '../typings'
 
 function Member() {
   const { Text } = Typography
@@ -79,9 +78,8 @@ function Member() {
       })
         .then((res) => {
           if (res) {
-            const tempData: User = dataSource ? { ...dataSource } : { ...data }
-            setDataSource(tempData)
             refetch()
+            setVisible(false)
           }
         })
         .catch((err) => {
