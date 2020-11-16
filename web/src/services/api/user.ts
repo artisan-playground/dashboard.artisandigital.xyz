@@ -274,22 +274,8 @@ export const GET_USERS = gql`
 `
 
 export const CREATE_USER = gql`
-  mutation CreateUser(
-    $email: String!
-    $name: String!
-    $department: String!
-    $type: String!
-    $position: String!
-  ) {
-    createOneUser(
-      data: {
-        email: $email
-        name: $name
-        department: $department
-        type: $type
-        position: $position
-      }
-    ) {
+  mutation CreateUser($email: String!, $name: String!) {
+    createOneUser(data: { email: $email, name: $name }) {
       id
       email
       name

@@ -19,7 +19,7 @@ function ProfileForm({ data, refetch, loading, error }: any) {
   const [github, setGithub] = useState(data?.contacts?.github)
   const [skills, setSkills] = useState(data?.skills)
   const { Option } = Select
-  const [formLayout, setFormLayout] = useState('horizontal')
+  const [formLayout] = useState('horizontal')
   const [updateSkills] = useMutation(UPDATE_USER_SKILLS)
   const [updateProfile] = useMutation(UPDATE_USER)
   const [updateContact] = useMutation(UPDATE_USER_CONTACT)

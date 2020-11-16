@@ -30,10 +30,6 @@ function Member() {
   const [searchLoading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
-  const [department, setDepartment] = useState('')
-  const [position, setPosition] = useState('')
-  const [type, setType] = useState('')
-  const [skill, setSkill] = useState([])
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -71,9 +67,6 @@ function Member() {
         variables: {
           email: email,
           name: name,
-          department: department,
-          type: type,
-          position: position,
         },
       })
         .then((res) => {

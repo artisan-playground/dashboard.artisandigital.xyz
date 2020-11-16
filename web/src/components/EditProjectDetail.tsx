@@ -17,7 +17,7 @@ import {
   Typography,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { UPDATE_PROJECT, UPDATE_PROJECT_NAME, UPDATE_PROJECT_STATUS } from '../services/api/project'
+import { UPDATE_PROJECT } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE } from '../services/api/projectImage'
 
 function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
@@ -25,12 +25,10 @@ function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
   const { Option } = Select
   const { Option: MentionOption } = Mentions
   const [updateProject] = useMutation(UPDATE_PROJECT)
-  const [updateProjectName] = useMutation(UPDATE_PROJECT_NAME)
   const [userList, setUserList] = useState([])
 
   const [projectData, setProjectData] = useState<any>()
   const [visible, setVisible] = useState(false)
-  // const [imageUrl, setImageUrl] = useState()
   const [loading, setLoading] = useState(false)
   const [projectId, setProjectId] = useState('')
   const [projectName, setProjectName] = useState('')
@@ -41,7 +39,6 @@ function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
   const [projectImage, setProjectImage] = useState('')
   const [updateImage] = useMutation(UPDATE_PROJECT_IMAGE)
   const [status, setStatus] = useState<any>(data.status)
-  const [updateProjectStatus] = useMutation(UPDATE_PROJECT_STATUS)
 
   useEffect(() => {
     setVisible(visibillity)
@@ -54,7 +51,7 @@ function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
       setProjectType(data.projectType)
       setProjectImage(data.projectImage)
     }
-  }, [visibillity, data, loading])
+  }, [visibillity, data, loading, updateProject, updateImage])
 
   function onClose() {
     setVisible(false)
@@ -64,10 +61,10 @@ function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
 
   function handleStatus(e: any) {
     setStatus(e.target.value)
-    updateProjectStatus({
-      variables: { id: Number(projectId), status: e.target.value },
-    })
-    refetch()
+  }
+
+  function handleType(value: any) {
+    setProjectType(value)
   }
 
   function handleMention(value: any) {
@@ -92,10 +89,13 @@ function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
 
   function handleUpdateProject() {
     if (projectName !== '') {
-      updateProjectName({
+      updateProject({
         variables: {
           id: Number(projectId),
           projectName: projectName,
+          projectDetail: projectDetail,
+          projectType: projectType,
+          status: status,
         },
       })
         .then((res) => {
@@ -191,7 +191,11 @@ function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
               label="Type"
               rules={[{ required: true, message: 'Please choose the type' }]}
             >
-              <Select defaultValue={projectType} placeholder="Please choose the type">
+              <Select
+                defaultValue={projectType}
+                placeholder="Please choose the type"
+                onChange={handleType}
+              >
                 <Option value="Design">Design</Option>
                 <Option value="Mobile">Mobile</Option>
                 <Option value="Web">Web</Option>

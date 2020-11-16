@@ -21,7 +21,7 @@ function ProfileEditor() {
     if (!error && !loading) {
       setUserData(data.user)
     }
-  }, [data, error, loading])
+  }, [data, error, loading, updateImage])
 
   function onChange({
     target: {
