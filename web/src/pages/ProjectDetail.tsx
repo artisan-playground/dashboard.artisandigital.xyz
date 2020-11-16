@@ -5,38 +5,19 @@ import {
   ScheduleOutlined,
   SmileOutlined,
 } from '@ant-design/icons'
-import { useMutation, useQuery } from '@apollo/client'
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  Empty,
-  Input,
-  List,
-  Modal,
-  Radio,
-  Row,
-  Spin,
-  Typography,
-} from 'antd'
+import { useQuery } from '@apollo/client'
+import { Avatar, Button, Card, Col, Empty, List, Modal, Row, Spin, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
-  ComponentVisible,
   LayoutDashboard,
   LoadingComponent,
   LogList,
+  ProjectContent,
   TaskCard,
   TaskDrawer,
 } from '../components/DashboardComponent'
-import {
-  GET_PROJECT_BY_ID,
-  UPDATE_PROJECT_DETAIL,
-  UPDATE_PROJECT_NAME,
-  UPDATE_PROJECT_STATUS,
-  UPDATE_PROJECT_TYPE,
-} from '../services/api/project'
+import { GET_PROJECT_BY_ID } from '../services/api/project'
 import { TASKS_BY_ID } from '../services/api/task'
 
 function ProjectDetail() {
@@ -56,32 +37,10 @@ function ProjectDetail() {
     data: projectData,
     refetch: projectRefetch,
   } = useQuery(GET_PROJECT_BY_ID, { variables: { id: Number(projectId) } })
-  const [updateProjectName] = useMutation(UPDATE_PROJECT_NAME)
-  const [updateProjectDetail] = useMutation(UPDATE_PROJECT_DETAIL)
-  const [updateProjectType] = useMutation(UPDATE_PROJECT_TYPE)
-  const [updateProjectStatus] = useMutation(UPDATE_PROJECT_STATUS)
-  const { TextArea } = Input
-
-  const [projectName, setProjectName] = useState<any>()
-  const [projectDetail, setProjectDetail] = useState<any>()
-  const [projectType, setProjectType] = useState<any>()
-  const [status, setStatus] = useState<any>()
 
   const [developerVisible, setDeveloperVisible] = useState(false)
   const [todayTaskVisible, setTodayTaskVisible] = useState(false)
   const [doneTaskVisible, setDoneTaskVisible] = useState(false)
-
-  const {
-    projectNameRef,
-    projectDetailRef,
-    projectTypeRef,
-    editProjectName,
-    setEditProjectName,
-    editProjectDetail,
-    setEditProjectDetail,
-    editProjectType,
-    setEditProjectType,
-  } = ComponentVisible(false)
 
   useEffect(() => {
     if (!error && !loading && !projectLoading && !projectError) {
@@ -92,33 +51,11 @@ function ProjectDetail() {
       setFilteredTasks(data.getTaskByProjectId)
       setFilteredLog(data.getTaskByProjectId)
       setFilteredData(projectData.project)
-      setProjectName(projectData.project.projectName)
-      setProjectDetail(projectData.project.projectDetail)
-      setProjectType(projectData.project.projectType)
-      setStatus(projectData.project.status)
     }
-  }, [
-    projectId,
-    loading,
-    error,
-    projectLoading,
-    projectError,
-    data,
-    projectData,
-    updateProjectType,
-    updateProjectDetail,
-    updateProjectStatus,
-  ])
+  }, [projectId, loading, error, projectLoading, projectError, data, projectData])
 
   function closeDawer() {
     setDrawerVisible(false)
-  }
-
-  function handleStatus(e: any) {
-    updateProjectStatus({
-      variables: { id: Number(projectId), status: e.target.value },
-    })
-    projectRefetch()
   }
 
   function showModalDeveloper() {
@@ -148,99 +85,7 @@ function ProjectDetail() {
       <Row className="w-full">
         <Row className="w-full">
           <Col span={24}>
-            <Row className="w-full">
-              <Col span={24} lg={{ span: 4 }} className="flex justify-center items-start">
-                <Avatar size={112} src={filteredData.projectImage.fullPath} />
-              </Col>
-              <Col span={24} lg={{ span: 20 }} className="px-4">
-                <Row justify="space-between">
-                  <div ref={projectNameRef}>
-                    {!editProjectName ? (
-                      <div onClick={() => setEditProjectName(true)}>
-                        <Text className="font-bold text-3xl ml-2">{projectName}</Text>
-                      </div>
-                    ) : (
-                      <Input
-                        className="font-bold text-3xl ml-2"
-                        autoFocus
-                        defaultValue={projectName}
-                        onChange={(e) => {
-                          if (filteredData) {
-                            setProjectName(e.target.value)
-                            updateProjectName({
-                              variables: { id: Number(projectId), projectName: e.target.value },
-                            })
-                          }
-                        }}
-                      />
-                    )}
-                  </div>
-                  <Radio.Group
-                    defaultValue={status}
-                    size="small"
-                    buttonStyle="solid"
-                    onChange={handleStatus}
-                  >
-                    <Radio.Button value="done">Done</Radio.Button>
-                    <Radio.Button value="undone">Undone</Radio.Button>
-                  </Radio.Group>
-                </Row>
-                <Row>
-                  <div ref={projectTypeRef}>
-                    {!editProjectType ? (
-                      <div
-                        onClick={() => {
-                          setEditProjectType(true)
-                        }}
-                      >
-                        <Text className="text-md mt-4 mb-2 text-gray-500">{projectType}</Text>
-                      </div>
-                    ) : (
-                      <Input
-                        className="text-md mt-4 mb-2"
-                        autoFocus
-                        defaultValue={projectType}
-                        onChange={(e) => {
-                          if (filteredData) {
-                            setProjectType(e.target.value)
-                            updateProjectType({
-                              variables: { id: Number(projectId), projectType: e.target.value },
-                            })
-                          }
-                        }}
-                      />
-                    )}
-                  </div>
-                </Row>
-
-                <div ref={projectDetailRef}>
-                  {!editProjectDetail ? (
-                    <div
-                      onClick={() => {
-                        setEditProjectDetail(true)
-                      }}
-                    >
-                      <Text className="text-lg">{projectDetail}</Text>
-                    </div>
-                  ) : (
-                    <TextArea
-                      className="text-lg"
-                      autoSize
-                      autoFocus
-                      defaultValue={projectDetail}
-                      onChange={(e) => {
-                        if (filteredData) {
-                          setProjectDetail(e.target.value)
-                          updateProjectDetail({
-                            variables: { id: Number(projectId), projectDetail: e.target.value },
-                          })
-                        }
-                      }}
-                    />
-                  )}
-                </div>
-              </Col>
-            </Row>
+            <ProjectContent data={filteredData} refetch={() => projectRefetch()} />
           </Col>
         </Row>
         <Row className="w-full">

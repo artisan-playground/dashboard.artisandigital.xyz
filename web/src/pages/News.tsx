@@ -1,25 +1,34 @@
-import { Card, Col, Row, Typography, Image } from 'antd'
-import Avatar from 'antd/lib/avatar/avatar'
-import React from 'react'
-import { EventCard, LayoutDashboard } from '../components/DashboardComponent'
 import { useQuery } from '@apollo/client'
+import { Avatar, Card, Col, Image, Row, Typography } from 'antd'
+import React, { useState } from 'react'
+import { EventCard, EventDrawer, LayoutDashboard } from '../components/DashboardComponent'
 import { EVENT } from '../services/api/event'
 
 function News() {
   const { Text } = Typography
   const { Meta } = Card
-  const { data } = useQuery(EVENT)
+  const { data, refetch } = useQuery(EVENT)
+  const [drawerVisible, setDrawerVisible] = useState(false)
+
+  function closeDawer() {
+    setDrawerVisible(false)
+  }
 
   return (
     <LayoutDashboard noCard>
       <div className="font-bold text-2xl mb-4">Event</div>
+      <EventDrawer
+        visibillity={drawerVisible}
+        onCloseDrawer={closeDawer}
+        refetch={() => refetch()}
+      />
       <Row className="w-full overflow-y-auto mb-4 p-4">
         <EventCard data={data} />
       </Row>
 
       <div className="font-bold text-2xl mb-4">Paragraph #2</div>
       <Row className="w-full  overflow-y-auto mb-4 p-4">
-        <Card hoverable className="w-full rounded-lg shadow-lg">
+        <Card hoverable className="w-full rounded-lg">
           <Row>
             <Col span={24} md={{ span: 10 }}>
               <Image
@@ -54,7 +63,7 @@ function News() {
         <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
           <Card
             hoverable
-            className="w-full rounded-lg shadow-lg"
+            className="w-full rounded-lg"
             cover={<Image src="https://source.unsplash.com/600x600/?cat" alt="kityy1" />}
           >
             <Meta
@@ -76,7 +85,7 @@ function News() {
         <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
           <Card
             hoverable
-            className="w-full rounded-lg shadow-lg"
+            className="w-full rounded-lg"
             cover={<Image src="https://source.unsplash.com/600x601/?cat" alt="kityy2" />}
           >
             <Meta
@@ -98,7 +107,7 @@ function News() {
         <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
           <Card
             hoverable
-            className="w-full rounded-lg shadow-lg"
+            className="w-full rounded-lg"
             cover={<Image src="https://source.unsplash.com/601x600/?cat" alt="kityy1" />}
           >
             <Meta

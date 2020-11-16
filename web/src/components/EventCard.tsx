@@ -18,7 +18,6 @@ function EventCard({ data }: any) {
           new Date().toLocaleDateString('en-US') && (
           <Card hoverable className="w-full rounded-lg mb-4" key={item.id}>
             <Row className="md: justify-around">
-              {console.log(new Date().toLocaleDateString('en-US'))}
               <div className="flex flex-col justify-center items-center border-r-2 pr-8 pl-4">
                 <Text disabled className="font-bold text-lg">
                   {new Date(item.eventDate).toLocaleDateString('en-US', {
