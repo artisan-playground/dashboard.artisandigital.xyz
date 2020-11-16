@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context'
 import { createUploadLink } from 'apollo-upload-client'
 
 const httpLink = createUploadLink({
-  uri: 'https://develop-artisan-dashboard-backend-utkbnolsxq-as.a.run.app/graphql',
+  uri: 'https://dashboard-api.artisandigital.xyz/',
 })
 
 const authLink = setContext((_, { headers }) => {
