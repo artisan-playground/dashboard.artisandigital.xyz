@@ -90,7 +90,17 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
     if (project) {
       setMemberList(project.members)
     }
-  }, [data, loadingMutation, project])
+  }, [
+    data,
+    loadingMutation,
+    project,
+    createComment,
+    deleteComment,
+    updateComment,
+    updateTaskName,
+    updateTaskDetail,
+    updateTaskMember,
+  ])
 
   useEffect(() => {
     setModalVisible(visibleTask)

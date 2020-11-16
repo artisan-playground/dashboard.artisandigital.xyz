@@ -19,6 +19,7 @@ function ProfileForm({ data, refetch, loading, error }: any) {
   const [github, setGithub] = useState(data?.contacts?.github)
   const [skills, setSkills] = useState(data?.skills)
   const { Option } = Select
+  const [formLayout] = useState('horizontal')
   const [updateSkills] = useMutation(UPDATE_USER_SKILLS)
   const [updateProfile] = useMutation(UPDATE_USER)
   const [updateContact] = useMutation(UPDATE_USER_CONTACT)
@@ -83,9 +84,22 @@ function ProfileForm({ data, refetch, loading, error }: any) {
       })
   }
 
+  const formItemLayout =
+    formLayout === 'horizontal'
+      ? {
+          labelCol: { span: 3 },
+          wrapperCol: { span: 24 },
+        }
+      : null
+
   return (
     <div>
-      <Form name="normal_edit" className="edit-form" initialValues={{ remember: true }}>
+      <Form
+        {...formItemLayout}
+        name="normal_edit"
+        className="edit-form"
+        initialValues={{ remember: true }}
+      >
         <Form.Item label="Name">
           <Input
             placeholder="Name..."
@@ -128,7 +142,7 @@ function ProfileForm({ data, refetch, loading, error }: any) {
             <Option value="Marketing">Marketing</Option>
           </Select>
         </Form.Item>
-        <Form.Item>
+        <Form.Item className="ml-24">
           <Radio.Group onChange={onChangeType} value={type}>
             <Radio value="Full-time">Full-time</Radio>
             <Radio value="Intern">Intern</Radio>

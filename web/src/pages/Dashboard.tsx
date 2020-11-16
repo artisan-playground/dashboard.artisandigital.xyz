@@ -31,15 +31,15 @@ function Dashboard() {
               day: 'numeric',
             })
       ).length
-    : null
+    : 0
 
   const done = currentUserData
     ? currentUserData.projects.filter((item: any) => item.status === 'done').length
-    : null
+    : 0
 
   const inProgress = currentUserData
     ? currentUserData.projects.filter((item: any) => item.status === 'undone').length
-    : null
+    : 0
 
   const value = done + inProgress
   const valueOverall = overDue + done + inProgress
@@ -113,7 +113,7 @@ function Dashboard() {
                   }
                 />
               ) : (
-                ''
+                0
               )}
             </Col>
           </Row>
@@ -191,7 +191,14 @@ function Dashboard() {
                   }
                   renderItem={(items: any) => (
                     <List.Item>
-                      <Avatar src={items.projectImage.fullPath} className="mr-4" />
+                      <Avatar
+                        src={
+                          items.projectImage
+                            ? items.projectImage.fullPath
+                            : require('../assets/images/logo5.png')
+                        }
+                        className="mr-4"
+                      />
                       {items.projectName}
                     </List.Item>
                   )}

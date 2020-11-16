@@ -8,6 +8,7 @@ export const PROJECT = gql`
       projectType
       projectDetail
       projectImage {
+        fileName
         fullPath
       }
       status
@@ -119,6 +120,32 @@ export const CREATE_PROJECT = gql`
           fullPath
         }
       }
+    }
+  }
+`
+
+export const UPDATE_PROJECT = gql`
+  mutation UpdateProject(
+    $id: Int!
+    $projectName: String
+    $projectDetail: String
+    $projectType: String
+    $status: String
+  ) {
+    updateOneProject(
+      where: { id: $id }
+      data: {
+        projectName: { set: $projectName }
+        projectDetail: { set: $projectDetail }
+        projectType: { set: $projectType }
+        status: { set: $status }
+      }
+    ) {
+      id
+      projectName
+      projectDetail
+      projectType
+      status
     }
   }
 `
