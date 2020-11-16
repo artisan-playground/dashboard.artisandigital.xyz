@@ -52,6 +52,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/memberInProject.vue'),
   },
   {
+    path: '/projects/:id/editmember',
+    name: 'editmember',
+    component: () => import(/* webpackChunkName: "about" */ '../views/editmember.vue'),
+  },
+  {
     path: '/projects/:id/members/addmember',
     name: 'addMemberToProject',
     component: () => import(/* webpackChunkName: "about" */ '../views/addMemberToProject.vue'),
@@ -116,11 +121,6 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: () => import(/* webpackChunkName: "about" */ '../views/profile.vue'),
-  },
-  {
-    path: '/projectDetail',
-    name: 'projectDetail',
-    component: () => import(/* webpackChunkName: "about" */ '../views/projectDetail.vue'),
   },
   {
     path: '/editprofile',

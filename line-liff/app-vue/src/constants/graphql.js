@@ -254,6 +254,15 @@ export const TOGGLE_STATUS = gql`
   }
 `
 
+export const PROJECT_STATUS = gql`
+  mutation UpdateProject($id: Int!, $data: ProjectUpdateInput!) {
+    updateOneProject(where: { id: $id }, data: $data) {
+      id
+      status
+    }
+  }
+`
+
 export const ADD_TASK = gql`
   mutation CreateTask(
     $projectId: Int!

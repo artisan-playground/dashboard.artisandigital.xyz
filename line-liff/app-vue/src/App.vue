@@ -9,6 +9,8 @@
   </div>
 </template>
 
+<style src="vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css" />
+
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 

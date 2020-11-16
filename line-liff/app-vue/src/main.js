@@ -16,9 +16,8 @@ import { createProvider } from './vue-apollo'
 
 // Import Icons and App Custom Styles
 
-Framework7.use(Framework7Vue)
-
 Vue.component(Button.name, Button)
+Framework7.use(Framework7Vue)
 Vue.prototype.$liff = window.liff
 Vue.config.productionTip = false
 Vue.use(Vuesax, {

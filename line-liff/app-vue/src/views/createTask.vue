@@ -7,6 +7,7 @@
         <a-row>
           <a-form-item label="Task name">
             <a-input
+              style="width:100%; border: 1px solid #D7D7D7; border-radius:4px; height:32px; margin-bottom:15px;"
               v-model="taskName"
               v-decorator="[
                 'name',
@@ -14,7 +15,7 @@
                   rules: [{ required: true, message: 'Please enter Task name' }],
                 },
               ]"
-              placeholder="Task name"
+              placeholder="   Task name"
             />
           </a-form-item>
         </a-row>
@@ -199,18 +200,25 @@ export default {
       console.log('task end time: ', this.endTime)
       // console.log(this.memberId)
 
-      // this.$apollo.mutate({
-      //   mutation: gqlQuery.ADD_TASK,
-      //   variables: {
-      //     projectId: parseInt(this.$route.params.id),
-      //     taskName: this.taskName,
-      //     taskDetail: this.taskDetail,
-      //     startTime: this.startTime,
-      //     endTime: this.endTime,
-      //     isDone: false,
-      //     members: 2,
-      //   },
-      // })
+      const taskName = this.taskName
+      const taskDetail = this.taskDetail
+      const startTime = this.startTime
+      const endTime = this.endTime
+      this.$apollo.mutate({
+        mutation: gqlQuery.ADD_TASK,
+        variables: {
+          projectId: parseInt(this.$route.params.id),
+          taskName: taskName,
+          taskDetail: taskDetail,
+          startTime: startTime,
+          endTime: endTime,
+          isDone: false,
+          members: mem,
+        },
+        update: (cache, { data: { CreateTask } }) => {
+          console.log(CreateTask)
+        },
+      })
     },
     handleSubmit(e) {
       e.preventDefault()

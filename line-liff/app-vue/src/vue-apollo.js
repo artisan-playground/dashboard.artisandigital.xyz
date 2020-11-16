@@ -9,10 +9,8 @@ Vue.use(VueApollo)
 const AUTH_TOKEN = 'apollo-token'
 
 // Http endpoint
-const httpEndpoint =
-  process.env.VUE_APP_GRAPHQL_HTTP ||
-  'https://develop-artisan-dashboard-backend-utkbnolsxq-as.a.run.app/graphql'
-
+const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:4000/graphql'
+// https://develop-artisan-dashboard-backend-utkbnolsxq-as.a.run.app/graphql
 // Config
 const defaultOptions = {
   // You can use `https` for secure connection (recommended in production)

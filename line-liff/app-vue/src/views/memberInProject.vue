@@ -1,6 +1,37 @@
 <template>
   <div>
-    <ToolbarBack msg="Member in Project" />
+    <!-- toolbar -->
+    <div style="position: fixed; z-index:10; width:100%">
+      <md-toolbar class="toolbar" md-elevation="1" style="background-color: #262626;">
+        <div style="border:none; width:100% ">
+          <v-row>
+            <v-col align="left" cols="3">
+              <v-btn
+                @click="$router.go(-1)"
+                style="background-color:#262626; max-width:5%; height: 36px; min-width: 0px; padding-left:10px; box-shadow: none;"
+              >
+                <a-icon type="left" style="margin-left:20px; color:white;" />
+              </v-btn>
+            </v-col>
+
+            <v-col cols="6">
+              <div class="title">Member in Project</div>
+            </v-col>
+
+            <v-col align="right" cols="3">
+              <div class="profile" style="margin-top:10px;">
+                <router-link :to="{ name: 'editmember', params: { id: dataProject.id } }">
+                  <span style="color:white;">
+                    Edit
+                  </span>
+                </router-link>
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+      </md-toolbar>
+    </div>
+    <!-- end toolbar -->
     <br />
     <div style="margin-top:60px"></div>
     <div style="margin: 0px 15px 20px 15px;">
@@ -50,18 +81,114 @@
         </div>
       </router-link>
     </div>
+
+    <!-- test UI framework -->
+    <!-- <f7-app>
+      <f7-block-title>On both sides with overswipes</f7-block-title>
+      <f7-list media-list>
+        <f7-list-item
+          swipeout
+          title="Facebook"
+          after="17:14"
+          subtitle="New messages from John Doe"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+        >
+          <f7-swipeout-actions left>
+            <f7-swipeout-button overswipe color="green" @click="reply">Reply</f7-swipeout-button>
+            <f7-swipeout-button color="blue" @click="forward">Forward</f7-swipeout-button>
+          </f7-swipeout-actions>
+          <f7-swipeout-actions right>
+            <f7-swipeout-button @click="more">More</f7-swipeout-button>
+            <f7-swipeout-button color="orange" @click="mark">Mark</f7-swipeout-button>
+            <f7-swipeout-button
+              delete
+              overswipe
+              confirm-text="Are you sure you want to delete this item?"
+              >Delete</f7-swipeout-button
+            >
+          </f7-swipeout-actions>
+        </f7-list-item>
+        <f7-list-item
+          swipeout
+          title="John Doe (via Twitter)"
+          after="17:11"
+          subtitle="John Doe (@_johndoe) mentioned you on Twitter!"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+        >
+          <f7-swipeout-actions left>
+            <f7-swipeout-button overswipe color="green" @click="reply">Reply</f7-swipeout-button>
+            <f7-swipeout-button color="blue" @click="forward">Forward</f7-swipeout-button>
+          </f7-swipeout-actions>
+          <f7-swipeout-actions right>
+            <f7-swipeout-button @click="more">More</f7-swipeout-button>
+            <f7-swipeout-button color="orange" @click="mark">Mark</f7-swipeout-button>
+            <f7-swipeout-button
+              delete
+              overswipe
+              confirm-text="Are you sure you want to delete this item?"
+              >Delete</f7-swipeout-button
+            >
+          </f7-swipeout-actions>
+        </f7-list-item>
+        <f7-list-item
+          swipeout
+          title="Facebook"
+          after="16:48"
+          subtitle="New messages from John Doe"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+        >
+          <f7-swipeout-actions left>
+            <f7-swipeout-button overswipe color="green" @click="reply">Reply</f7-swipeout-button>
+            <f7-swipeout-button color="blue" @click="forward">Forward</f7-swipeout-button>
+          </f7-swipeout-actions>
+          <f7-swipeout-actions right>
+            <f7-swipeout-button @click="more">More</f7-swipeout-button>
+            <f7-swipeout-button color="orange" @click="mark">Mark</f7-swipeout-button>
+            <f7-swipeout-button
+              delete
+              overswipe
+              confirm-text="Are you sure you want to delete this item?"
+              >Delete</f7-swipeout-button
+            >
+          </f7-swipeout-actions>
+        </f7-list-item>
+        <f7-list-item
+          swipeout
+          title="John Doe (via Twitter)"
+          after="15:32"
+          subtitle="John Doe (@_johndoe) mentioned you on Twitter!"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus."
+        >
+          <f7-swipeout-actions left>
+            <f7-swipeout-button overswipe color="green" @click="reply">Reply</f7-swipeout-button>
+            <f7-swipeout-button color="blue" @click="forward">Forward</f7-swipeout-button>
+          </f7-swipeout-actions>
+          <f7-swipeout-actions right>
+            <f7-swipeout-button @click="more">More</f7-swipeout-button>
+            <f7-swipeout-button color="orange" @click="mark">Mark</f7-swipeout-button>
+            <f7-swipeout-button
+              delete
+              overswipe
+              confirm-text="Are you sure you want to delete this item?"
+              >Delete</f7-swipeout-button
+            >
+          </f7-swipeout-actions>
+        </f7-list-item>
+      </f7-list>
+    </f7-app> -->
+
     <BarRouter />
   </div>
 </template>
 
 <script>
-import ToolbarBack from '@/components/ToolbarBack.vue'
+// import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/graphql'
 export default {
   name: 'doneTask',
   components: {
-    ToolbarBack,
+    // ToolbarBack,
     BarRouter,
   },
   data() {
@@ -151,5 +278,11 @@ export default {
   color: #000000;
   opacity: 0.85;
   font-size: 12px;
+}
+.title {
+  color: white;
+  margin-top: 17px;
+  font-weight: 380;
+  font-size: 18px;
 }
 </style>
