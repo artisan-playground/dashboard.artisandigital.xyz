@@ -1,11 +1,12 @@
 import { CloseCircleOutlined } from '@ant-design/icons'
-import { Card, Typography } from 'antd'
+import { Avatar, Card, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function WelcomeCard({ task, project, data }: any) {
   const { Text } = Typography
   const [disable, setDisable] = useState(false)
+  const { Meta } = Card
 
   function onCloseClick(event: any) {
     event.stopPropagation()
@@ -23,21 +24,28 @@ function WelcomeCard({ task, project, data }: any) {
       />
       <Link to="/projects">
         <div className="ml-24 relative z-50">
-          <div>
-            <Text className="text-white text-xl font-bold z-30">
-              {!data.name ? `Hi!` : `Hi ${data.name} !`}
-            </Text>
-          </div>
-          <div>
-            <Text className="text-white text-lg font-light mr-2">You have</Text>
-            <Text className="text-white text-xl font-bold">{project}</Text>
-            <Text className="text-white text-lg font-light mx-2">projects and</Text>
-            <Text className="text-white text-xl font-bold">{task}</Text>
-            <Text className="text-white text-lg font-light ml-2">tasks to finish.</Text>
-          </div>
-          <div>
-            <Text className="text-white text-lg font-light">Keep going, keep growing</Text>
-          </div>
+          <Meta
+            avatar={<Avatar size={100} src={data.image ? data.image.fullPath : null} />}
+            title={
+              <Text className="text-white text-xl font-bold z-30">
+                {!data.name ? `Hi!` : `Hi ${data.name} !`}
+              </Text>
+            }
+            description={
+              <>
+                <div>
+                  <Text className="text-white text-lg font-light mr-2">You have</Text>
+                  <Text className="text-white text-xl font-bold">{project}</Text>
+                  <Text className="text-white text-lg font-light mx-2">projects and</Text>
+                  <Text className="text-white text-xl font-bold">{task}</Text>
+                  <Text className="text-white text-lg font-light ml-2">tasks to finish.</Text>
+                </div>
+                <div>
+                  <Text className="text-white text-lg font-light">Keep going, keep growing</Text>
+                </div>
+              </>
+            }
+          />
         </div>
         <div className="absolute left-0 bottom-0 overflow-hidden z-20 ml-8 -mb-1">
           <svg width={87} height={140} fill="none">

@@ -4,54 +4,10 @@ import React from 'react'
 function LoadingComponent({ projects, task, overlay }: any) {
   return projects ? (
     <>
-      <Card className="mb-4 rounded-lg shadow-md">
+      <Card className="mb-4 rounded-lg">
         <Row justify="space-between">
           <Col span={18} className="justify-end">
             <Skeleton loading={true} active paragraph={{ rows: 3 }} />
-          </Col>
-          <Col className="pt-8">
-            <div className="mb-8">
-              <Skeleton.Button active size="small" shape="round" />
-            </div>
-            <div>
-              <Skeleton.Avatar active size="default" shape="circle" />
-              <Skeleton.Avatar active size="default" shape="circle" />
-              <Skeleton.Avatar active size="default" shape="circle" />
-            </div>
-          </Col>
-        </Row>
-      </Card>
-      <Card className="mb-4">
-        <Row justify="space-between">
-          <Col span={18} className="justify-end">
-            <Skeleton loading={true} active paragraph={{ rows: 3 }} />
-          </Col>
-          <Col className="pt-8">
-            <div className="mb-8">
-              <Skeleton.Button active size="small" shape="round" />
-            </div>
-            <div>
-              <Skeleton.Avatar active size="default" shape="circle" />
-              <Skeleton.Avatar active size="default" shape="circle" />
-              <Skeleton.Avatar active size="default" shape="circle" />
-            </div>
-          </Col>
-        </Row>
-      </Card>
-      <Card>
-        <Row justify="space-between">
-          <Col span={18} className="justify-end">
-            <Skeleton loading={true} active paragraph={{ rows: 3 }} />
-          </Col>
-          <Col className="pt-8">
-            <div className="mb-8">
-              <Skeleton.Button active size="small" shape="round" />
-            </div>
-            <div>
-              <Skeleton.Avatar active size="default" shape="circle" />
-              <Skeleton.Avatar active size="default" shape="circle" />
-              <Skeleton.Avatar active size="default" shape="circle" />
-            </div>
           </Col>
         </Row>
       </Card>

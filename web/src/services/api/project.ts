@@ -49,7 +49,9 @@ export const GET_PROJECT_BY_ID = gql`
       projectName
       projectType
       projectDetail
-      projectImage
+      projectImage {
+        fullPath
+      }
       status
       dueDate
       members {
@@ -105,7 +107,9 @@ export const CREATE_PROJECT = gql`
       projectName
       projectType
       projectDetail
-      projectImage
+      projectImage {
+        fullPath
+      }
       status
       dueDate
       members {
