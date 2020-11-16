@@ -5,6 +5,7 @@ import {
   CloseCircleOutlined,
   CommentOutlined,
   DeleteOutlined,
+  EditOutlined,
   ExclamationCircleOutlined,
   FundProjectionScreenOutlined,
   LoadingOutlined,
@@ -21,7 +22,9 @@ import {
   Button,
   Col,
   Dropdown,
+  Form,
   Input,
+  Mentions,
   Menu,
   message as Message,
   Modal,
@@ -30,29 +33,32 @@ import {
   Upload,
 } from 'antd'
 import { useStoreState } from 'easy-peasy'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
-import { LoadingComponent } from '../components/DashboardComponent'
+import { ComponentVisible, LoadingComponent } from '../components/DashboardComponent'
 import { COMMENT, DELETE_COMMENT, UPDATE_COMMENT } from '../services/api/comment'
-import { TOGGLE_TASK_DONE, UPDATE_TASK_DETAIL, UPDATE_TASK_NAME } from '../services/api/task'
+import {
+  TOGGLE_TASK_DONE,
+  UPDATE_TASK_DETAIL,
+  UPDATE_TASK_MEMBER,
+  UPDATE_TASK_NAME,
+} from '../services/api/task'
 import { Task } from '../typings'
 
-function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
+function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any) {
   const { Text } = Typography
   const { confirm } = Modal
-  const ref = useRef(document.createElement('div'))
+  const { TextArea } = Input
   const [toggleIsDone, { loading: loadingMutation }] = useMutation(TOGGLE_TASK_DONE)
   const [createComment] = useMutation(COMMENT)
   const [deleteComment] = useMutation(DELETE_COMMENT)
   const [updateComment] = useMutation(UPDATE_COMMENT)
   const [updateTaskName] = useMutation(UPDATE_TASK_NAME)
   const [updateTaskDetail] = useMutation(UPDATE_TASK_DETAIL)
+  const [updateTaskMember] = useMutation(UPDATE_TASK_MEMBER)
 
   const [isDone] = useState(false)
-  const [editTaskName, setEditTaskName] = useState(false)
-  const [editTaskDetail, setEditTaskDetail] = useState(false)
-
   const user = useStoreState((s) => s.userState.user)
 
   const [taskData, setTaskData] = useState<Task | null>(null)
@@ -62,30 +68,43 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
   const [message, setMessage] = useState('')
   const [taskName, setTaskName] = useState('')
   const [taskDetail, setTaskDetail] = useState('')
+  const [isHovering, setIsHovering]: any = useState(false)
+  const [visibleMember, setVisibleMember] = useState(false)
+  const [memberList, setMemberList] = useState([])
+  const [members, setMembers] = useState([])
+  const { Option: MentionOption } = Mentions
+
+  const {
+    taskNameRef,
+    taskDetailRef,
+    editTaskName,
+    setEditTaskName,
+    editTaskDetail,
+    setEditTaskDetail,
+  } = ComponentVisible(false)
 
   useEffect(() => {
     setTaskData(data)
     setTaskName(data.taskName)
     setTaskDetail(data.taskDetail)
-  }, [data, loadingMutation])
+    if (project) {
+      setMemberList(project.members)
+    }
+  }, [
+    data,
+    loadingMutation,
+    project,
+    createComment,
+    deleteComment,
+    updateComment,
+    updateTaskName,
+    updateTaskDetail,
+    updateTaskMember,
+  ])
 
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true)
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true)
-    }
-  })
-
-  const handleClickOutside = (event: any) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      setEditTaskName(false)
-      setEditTaskDetail(false)
-    }
-  }
-
-  useEffect(() => {
-    setModalVisible(visible)
-  }, [visible])
+    setModalVisible(visibleTask)
+  }, [visibleTask])
 
   function onUnDoneClick() {
     toggleIsDone({ variables: { id: data.id, isDone: isDone } })
@@ -217,6 +236,34 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
     )
   }
 
+  function showModal() {
+    setVisibleMember(true)
+  }
+
+  function handleCancel() {
+    setVisibleMember(false)
+  }
+
+  function handleMention(value: any) {
+    let ids = memberList
+      .filter((item: any) => value.slice(0, -1).split('@').includes(item.name))
+      .map((val: any) => val.id)
+    setMembers(ids[0])
+  }
+
+  function handleUpdateMember() {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000)
+    updateTaskMember({
+      variables: {
+        id: data.id,
+        members: members,
+      },
+    })
+  }
+
   return (
     <Modal
       visible={modalVisible}
@@ -237,47 +284,48 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
         <LoadingComponent overlay />
       ) : (
         <>
-          {!editTaskName ? (
-            <Button
-              className="font-bold text-4xl ml-2"
-              type="text"
-              onClick={() => {
-                setEditTaskName(true)
-              }}
-            >
-              {taskData.taskName}
-            </Button>
-          ) : (
-            <Input
-              className="font-bold text-4xl ml-2"
-              autoFocus
-              defaultValue={taskName}
-              onChange={(e) => {
-                if (taskName) {
-                  setTaskName(e.target.value)
-                  updateTaskName({
-                    variables: { id: data.id, taskName: e.target.value },
-                  })
-                }
-              }}
-            />
-          )}
+          <div ref={taskNameRef}>
+            {!editTaskName ? (
+              <div
+                onClick={() => {
+                  setEditTaskName(true)
+                }}
+              >
+                <Text className="font-bold text-4xl ml-2">{taskData.taskName}</Text>
+              </div>
+            ) : (
+              <Input
+                className="font-bold text-4xl ml-2"
+                autoFocus
+                defaultValue={taskName}
+                onChange={(e) => {
+                  if (taskName) {
+                    setTaskName(e.target.value)
+                    updateTaskName({
+                      variables: { id: data.id, taskName: e.target.value },
+                    })
+                  }
+                }}
+              />
+            )}
+          </div>
+
           <Row className="py-4">
             <Col span={24} lg={{ span: 18 }} className="pl-4 pr-4 pt-2 border-0 lg:border-r-2">
-              <Row>
+              <div ref={taskDetailRef}>
                 {!editTaskDetail ? (
-                  <Button
-                    className="text-lg pl-4 pr-4 mb-8"
-                    type="text"
+                  <div
                     onClick={() => {
                       setEditTaskDetail(true)
                     }}
+                    className="mb-8"
                   >
-                    {taskData.taskDetail}
-                  </Button>
+                    <Text className="text-lg pl-4 pr-4">{taskData.taskDetail}</Text>
+                  </div>
                 ) : (
-                  <Input
-                    className="text-lg pl-4 pr-4 mb-8"
+                  <TextArea
+                    className="text-lg pl-4 pr-4 mb-8 w-full"
+                    autoSize
                     autoFocus
                     defaultValue={taskDetail}
                     onChange={(e) => {
@@ -290,7 +338,7 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                     }}
                   />
                 )}
-              </Row>
+              </div>
               <Row className="items-center">
                 <PaperClipOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
                 <Text className="text-lg font-bold">Clipboard</Text>
@@ -434,10 +482,89 @@ function TaskOverlay({ project, visible, onCloseModal, data, refetch }: any) {
                   {new Date(project.dueDate).toLocaleDateString('en-Gb')}
                 </Text>
               </Row>
-              <Row className="items-center">
+
+              <Row
+                className="items-center"
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+              >
                 <TeamOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />
                 <Text className="text-lg font-bold">Team</Text>
+                {isHovering ? (
+                  <Button
+                    type="text"
+                    shape="circle"
+                    icon={<EditOutlined />}
+                    style={{ color: '#105EFC' }}
+                    className="flex items-center justify-center"
+                    onClick={showModal}
+                  />
+                ) : null}
+                <Modal visible={visibleMember} onCancel={handleCancel} footer={null}>
+                  <Form className="mt-8">
+                    <Form.Item name="Member" label="Member">
+                      <Input.Group compact>
+                        <Mentions
+                          style={{ width: '70%' }}
+                          placeholder="input @ to mention people"
+                          prefix={['@']}
+                          onChange={(e) => {
+                            handleMention(e)
+                          }}
+                          onPressEnter={handleUpdateMember}
+                        >
+                          {(memberList || []).map((value: any) => (
+                            <MentionOption
+                              key={value.id}
+                              value={value.name}
+                              className="hover:bg-primary hover:text-white py-2 px-4"
+                            >
+                              <Avatar
+                                shape="circle"
+                                size="default"
+                                src={value.image.fullPath}
+                                className="mr-2"
+                              />
+                              {value.name}
+                              <Text className="text-gray-400 text-md ml-2">{value.email}</Text>
+                            </MentionOption>
+                          ))}
+                        </Mentions>
+                        <Button
+                          style={{ width: '30%' }}
+                          loading={loading}
+                          onClick={handleUpdateMember}
+                          type="primary"
+                        >
+                          Add Member
+                        </Button>
+                      </Input.Group>
+                    </Form.Item>
+                  </Form>
+
+                  {taskData.members ? (
+                    taskData.members.map((items: any) => (
+                      <div className="flex mx-0 my-1 p-2">
+                        <Avatar key={items.id} src={items.image.fullPath} alt={items.name} />
+                        <div className="ml-4 text-lg">{items.name}</div>
+                        <Row className="flex items-end justify-end w-full">
+                          <Button
+                            danger
+                            type="text"
+                            shape="circle"
+                            className="flex items-center justify-center"
+                          >
+                            <DeleteOutlined />
+                          </Button>
+                        </Row>
+                      </div>
+                    ))
+                  ) : (
+                    <div></div>
+                  )}
+                </Modal>
               </Row>
+
               <Row className="ml-2 mb-4 overflow-y-auto">
                 {taskData.members ? (
                   taskData.members.map((items: any) => (
