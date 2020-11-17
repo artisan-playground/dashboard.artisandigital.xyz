@@ -441,7 +441,6 @@ export default {
   },
 }
 </script>
-
 <style src="vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css">
 #card {
   border-radius: 2px;

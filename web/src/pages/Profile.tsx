@@ -72,7 +72,7 @@ function Profile() {
     <LayoutDashboard noCard>
       <Row justify="space-between">
         <Col xs={24} xl={6} lg={6} md={6}>
-          <Card>
+          <Card className="mb-4">
             <Col className="text-center mb-8">
               <Row className="justify-center">
                 {userData ? (
@@ -105,11 +105,10 @@ function Profile() {
               ) : null}
             </Text>
             <Text className="flex items-center">
-              <IdcardOutlined className="mr-2" />
               {userData ? (
                 userData.type ? (
                   <>
-                    <ClusterOutlined className="mr-2" />
+                    <IdcardOutlined className="mr-2" />
                     {userData.type !== null ? userData.type : null}
                   </>
                 ) : null
@@ -122,7 +121,7 @@ function Profile() {
               <Text>Skills</Text>
               <Row className="mt-2">
                 {userData
-                  ? userData.skills
+                  ? userData.skills !== []
                     ? userData.skills.map((value: any, index: any) => (
                         <Tag key={index} color="blue" className="mb-1">
                           {value}
@@ -204,7 +203,7 @@ function Profile() {
               >
                 <Row>
                   {filteredTaskData ? (
-                    filteredTaskData.length !== 0 ? (
+                    filteredTaskData.filter((tasks: any) => tasks.isDone === false).length !== 0 ? (
                       filteredTaskData
                         .filter((tasks: any) => tasks.isDone === false)
                         .map((items: any) => (

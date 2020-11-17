@@ -77,7 +77,7 @@ function ProfileProjectCard({ data }: any) {
     <Link to={{ pathname: `/projects/${data.id}` }}>
       <Card
         hoverable
-        cover={<img alt="cover" src={data.projectImage} className="object-cover h-32" />}
+        cover={<img alt="cover" src={data.projectImage.fullPath} className="object-cover h-32" />}
       >
         <Row>
           <Col>

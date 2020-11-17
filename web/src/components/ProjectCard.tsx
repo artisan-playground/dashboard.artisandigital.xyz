@@ -71,7 +71,7 @@ function ProjectCard({ data }: any) {
         {item.map((items: any) => (
           <Link key={items.id} to={{ pathname: `/profile/${item.id}` }}>
             <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-              <Avatar key={items.id} src={items.image} className="ml-2" alt={items.name} />
+              <Avatar key={items.id} src={items.image.fullPath} className="ml-2" alt={items.name} />
               <div className="ml-4 text-base">{items.name}</div>
             </div>
           </Link>

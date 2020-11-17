@@ -11,7 +11,8 @@ model User {
   id         Int             @id @default(autoincrement())
   email      String          @unique
   name       String
-  image      Image?
+  image      Image?          @relation(fields: [imageId], references: [id])
+  imageId    Int?
   position   String?
   department String?
   type       String?
@@ -38,15 +39,16 @@ model Contact {
 }
 
 model Project {
-  id            Int             @id @default(autoincrement())
-  projectName   String?
-  projectType   String?
-  projectDetail String?
-  projectImage  ProjectImage?
-  status        String?         @default(value: "undone")
-  dueDate       DateTime?
-  members       User[]
-  tasks         Task[]
+  id              Int             @id @default(autoincrement())
+  projectName     String?
+  projectType     String?
+  projectDetail   String?
+  projectImage    ProjectImage?   @relation(fields: [projectImageId], references: [id])
+  projectImageId  Int?
+  status          String?         @default(value: "undone")
+  dueDate         DateTime?
+  members         User[]
+  tasks           Task[]
 }
 
 model Task {
@@ -66,11 +68,11 @@ model Task {
 model File {
   task      Task
   id        Int     @id @default(autoincrement())
-  endpoint  String
-  path      String
-  fullPath  String
   fileName  String
+  fullPath  String
+  path  String
   extension String
+  endpoint String
 }
 
 model Comment {
@@ -86,7 +88,7 @@ model Comment {
   reply     Comment?   @relation("ReplyComment", fields: [replyId], references: [id])
 }
 
-model Event{
+model Event {
   id        Int        @id @default(autoincrement())
   eventDate DateTime?  @default(now())
   endDate   DateTime?
@@ -98,20 +100,20 @@ model Event{
 
 model Image {
   id        Int     @id @default(autoincrement())
-  endpoint  String
-  path      String
-  fullPath  String
   fileName  String
+  fullPath  String
+  path  String
   extension String
+  endpoint String
 }
 
 model ProjectImage {
   id        Int     @id @default(autoincrement())
-  endpoint  String
-  path      String
-  fullPath  String
   fileName  String
+  fullPath  String
+  path  String
   extension String
+  endpoint String
 }
 
 enum Role {

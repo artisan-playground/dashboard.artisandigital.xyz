@@ -28,7 +28,9 @@ export const GET_USER = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -61,9 +63,9 @@ export const GET_USER = gql`
         }
         files {
           id
-          url
-          name
-          status
+          path
+          fileName
+          extension
           task {
             id
           }
@@ -117,7 +119,9 @@ export const GET_USER_BY_ID = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -150,9 +154,9 @@ export const GET_USER_BY_ID = gql`
         }
         files {
           id
-          url
-          name
-          status
+          path
+          fileName
+          extension
           task {
             id
           }
@@ -206,7 +210,9 @@ export const GET_USERS = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -239,9 +245,9 @@ export const GET_USERS = gql`
         }
         files {
           id
-          url
-          name
-          status
+          path
+          fileName
+          extension
           task {
             id
           }
@@ -268,8 +274,8 @@ export const GET_USERS = gql`
 `
 
 export const CREATE_USER = gql`
-  mutation CreateUser($data: UserCreateInput!) {
-    createOneUser(data: $data) {
+  mutation CreateUser($email: String!, $name: String!) {
+    createOneUser(data: { email: $email, name: $name }) {
       id
       email
       name
@@ -339,7 +345,9 @@ export const UPDATE_USER = gql`
 
 export const DELETE_USER = gql`
   mutation DeleteUser($id: Int!) {
-    deleteUser(id: $id)
+    deleteOneUser(where: { id: $id }) {
+      id
+    }
   }
 `
 
@@ -373,7 +381,7 @@ export const UPDATE_USER_CONTACT = gql`
 `
 
 export const UPDATE_USER_SKILLS = gql`
-  mutation updateSkills($id: Int!, $skills: [String!]) {
+  mutation updateSkills($id: Int!, $skills: [String!]!) {
     updateOneUser(where: { id: $id }, data: { skills: { set: $skills } }) {
       id
       email

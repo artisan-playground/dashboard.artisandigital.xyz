@@ -31,7 +31,6 @@
         </div>
       </md-toolbar>
     </div>
-
     <br />
     <div style="margin:60px 15px 15px 15px;">
       <a-input-search
