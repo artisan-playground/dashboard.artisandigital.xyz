@@ -11,6 +11,11 @@ const storage = new Storage({
 
 const bucketName = "dashboard.artisandigital.tech";
 
+const removeWhiteSpaces = (name) => {
+  let newName = name.replace(/\s+/g, "");
+  return newName;
+};
+
 const uploadFile = extendType({
   type: "Mutation",
   definition: (t) => {
@@ -29,23 +34,24 @@ const uploadFile = extendType({
         const { filename, mimetype, createReadStream } = await file;
         const id = shortid.generate();
         const generateFile: string = `${id}-${filename}`;
+        let sanitizedName = removeWhiteSpaces(generateFile);
 
         await new Promise((resolve, reject) => {
           createReadStream().pipe(
             storage
               .bucket(bucketName)
-              .file(generateFile)
+              .file(sanitizedName)
               .createWriteStream()
               .on("finish", () => {
                 storage
                   .bucket(bucketName)
-                  .file(generateFile)
+                  .file(sanitizedName)
                   .makePublic()
                   .then(() => {
                     const data = {
-                      fileName: generateFile,
-                      fullPath: `https://storage.googleapis.com/${bucketName}/${generateFile}`,
-                      path: `./${generateFile}`,
+                      fileName: sanitizedName,
+                      fullPath: `https://storage.googleapis.com/${bucketName}/${sanitizedName}`,
+                      path: `./${sanitizedName}`,
                       endpoint: `https://storage.googleapis.com`,
                       extension: mimetype,
                       task: taskId,
@@ -80,23 +86,24 @@ const updateFile = extendType({
         const { filename, mimetype, createReadStream } = await file;
         const generateId = shortid.generate();
         const generateFile: string = `${generateId}-${filename}`;
+        let sanitizedName = removeWhiteSpaces(generateFile);
 
         await new Promise((resolve, reject) => {
           createReadStream().pipe(
             storage
               .bucket(bucketName)
-              .file(generateFile)
+              .file(sanitizedName)
               .createWriteStream()
               .on("finish", () => {
                 storage
                   .bucket(bucketName)
-                  .file(generateFile)
+                  .file(sanitizedName)
                   .makePublic()
                   .then(() => {
                     const data = {
-                      fileName: generateFile,
-                      fullPath: `https://storage.googleapis.com/${bucketName}/${generateFile}`,
-                      path: `./${generateFile}`,
+                      fileName: sanitizedName,
+                      fullPath: `https://storage.googleapis.com/${bucketName}/${sanitizedName}`,
+                      path: `./${sanitizedName}`,
                       endpoint: `https://storage.googleapis.com`,
                       extension: mimetype,
                     };
