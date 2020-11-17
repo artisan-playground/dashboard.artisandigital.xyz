@@ -443,6 +443,15 @@ type File {
   task: Task!
 }
 
+input FileCreateInput {
+  endpoint: String!
+  extension: String!
+  fileName: String!
+  fullPath: String!
+  path: String!
+  task: TaskCreateOneWithoutFilesInput!
+}
+
 input FileCreateManyWithoutTaskInput {
   connect: [FileWhereUniqueInput!]
   create: [FileCreateWithoutTaskInput!]
@@ -467,15 +476,6 @@ input FileScalarWhereInput {
   OR: [FileScalarWhereInput!]
   path: StringFilter
   taskId: IntFilter
-}
-
-input FileUpdateInput {
-  endpoint: StringFieldUpdateOperationsInput
-  extension: StringFieldUpdateOperationsInput
-  fileName: StringFieldUpdateOperationsInput
-  fullPath: StringFieldUpdateOperationsInput
-  path: StringFieldUpdateOperationsInput
-  task: TaskUpdateOneRequiredWithoutFilesInput
 }
 
 input FileUpdateManyDataInput {
@@ -610,6 +610,7 @@ type Mutation {
   createOneComment(data: CommentCreateInput!): Comment!
   createOneContact(data: ContactCreateInput!): Contact!
   createOneEvent(data: EventCreateInput!): Event!
+  createOneFile(data: FileCreateInput!): File!
   createOneProject(data: ProjectCreateInput!): Project!
   createOneTask(data: TaskCreateInput!): Task!
   createOneUser(data: UserCreateInput!): User!
@@ -620,16 +621,16 @@ type Mutation {
   deleteOneProject(where: ProjectWhereUniqueInput!): Project
   deleteOneTask(where: TaskWhereUniqueInput!): Task
   deleteOneUser(where: UserWhereUniqueInput!): User
+  updateFile(file: Upload!, id: Int!): File
   updateImage(id: Int!, image: Upload!): Image
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateOneContact(data: ContactUpdateInput!, where: ContactWhereUniqueInput!): Contact
   updateOneEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
-  updateOneFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
   updateOneProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
   updateOneTask(data: TaskUpdateInput!, where: TaskWhereUniqueInput!): Task
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateProjectImage(id: Int!, image: Upload!): ProjectImage
-  uploadFile(file: Upload!): File
+  uploadFile(file: Upload!, taskId: TaskCreateOneWithoutFilesInput!): File
   uploadImage(image: Upload!): Image
   uploadProjectImage(image: Upload!): ProjectImage
 }
@@ -1026,6 +1027,11 @@ input TaskCreateOneWithoutCommentsInput {
   create: TaskCreateWithoutCommentsInput
 }
 
+input TaskCreateOneWithoutFilesInput {
+  connect: TaskWhereUniqueInput
+  create: TaskCreateWithoutFilesInput
+}
+
 input TaskCreateWithoutCommentsInput {
   endTime: DateTime
   files: FileCreateManyWithoutTaskInput
@@ -1139,27 +1145,9 @@ input TaskUpdateOneRequiredWithoutCommentsInput {
   upsert: TaskUpsertWithoutCommentsInput
 }
 
-input TaskUpdateOneRequiredWithoutFilesInput {
-  connect: TaskWhereUniqueInput
-  create: TaskCreateWithoutFilesInput
-  update: TaskUpdateWithoutFilesDataInput
-  upsert: TaskUpsertWithoutFilesInput
-}
-
 input TaskUpdateWithoutCommentsDataInput {
   endTime: NullableDateTimeFieldUpdateOperationsInput
   files: FileUpdateManyWithoutTaskInput
-  isDone: NullableBoolFieldUpdateOperationsInput
-  members: UserUpdateManyWithoutTasksInput
-  project: ProjectUpdateOneRequiredWithoutTasksInput
-  startTime: NullableDateTimeFieldUpdateOperationsInput
-  taskDetail: NullableStringFieldUpdateOperationsInput
-  taskName: NullableStringFieldUpdateOperationsInput
-}
-
-input TaskUpdateWithoutFilesDataInput {
-  comments: CommentUpdateManyWithoutTaskInput
-  endTime: NullableDateTimeFieldUpdateOperationsInput
   isDone: NullableBoolFieldUpdateOperationsInput
   members: UserUpdateManyWithoutTasksInput
   project: ProjectUpdateOneRequiredWithoutTasksInput
@@ -1203,11 +1191,6 @@ input TaskUpdateWithWhereUniqueWithoutProjectInput {
 input TaskUpsertWithoutCommentsInput {
   create: TaskCreateWithoutCommentsInput!
   update: TaskUpdateWithoutCommentsDataInput!
-}
-
-input TaskUpsertWithoutFilesInput {
-  create: TaskCreateWithoutFilesInput!
-  update: TaskUpdateWithoutFilesDataInput!
 }
 
 input TaskUpsertWithWhereUniqueWithoutMembersInput {

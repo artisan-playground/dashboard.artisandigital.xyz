@@ -1,33 +1,21 @@
-import { arg, extendType, scalarType } from "@nexus/schema";
-import { GraphQLUpload } from "apollo-server-core";
-import AWS, { AWSError, S3 } from "aws-sdk";
-import fs, { createWriteStream } from "fs";
-import { ReadStream } from "fs-capacitor";
-import { FileUpload } from "graphql-upload";
+import { arg, extendType, intArg } from "@nexus/schema";
 import path from "path";
 import shortid from "shortid";
 
-require("dotenv").config();
+const { Storage } = require("@google-cloud/storage");
 
-export type UploadFileRoot = FileUpload;
-scalarType({
-  ...GraphQLUpload!,
-  rootTyping: "UploadFileRoot",
+const storage = new Storage({
+  keyFilename: path.join(__dirname, "../../../sa-key.json"),
+  projectId: "artisan-playground",
 });
-const FILE_ENDPOINT = process.env.FILE_ENDPOINT!;
-const ACCESS_KEY_ID = process.env.ACCESS_KEY_ID!;
-const SECRETE_ACCESS_KEY = process.env.SECRETE_ACCESS_KEY!;
-const BUCKET = process.env.BUCKET!;
-const REGION = process.env.REGION!;
-const s3 = new AWS.S3({
-  endpoint: FILE_ENDPOINT,
-  accessKeyId: ACCESS_KEY_ID,
-  secretAccessKey: SECRETE_ACCESS_KEY,
-  region: REGION,
-});
-const uploadFileMutation = extendType({
+
+const bucketName = "dashboard.artisandigital.tech";
+
+const uploadFile = extendType({
   type: "Mutation",
   definition: (t) => {
+    t.crud.createOneFile();
+    t.crud.deleteOneFile();
     t.field("uploadFile", {
       type: "File",
       args: {
@@ -35,56 +23,97 @@ const uploadFileMutation = extendType({
           type: "Upload",
           required: true,
         }),
+        taskId: arg({ type: "TaskCreateOneWithoutFilesInput", required: true }),
       },
-      resolve: async (_, { file }, ctx) => {
-        const { generateFile, mimetype } = await processUpload(file);
-        const params = {
-          Bucket: BUCKET,
-          Key: `upload/${generateFile}`,
-          Body: fs.createReadStream(path.resolve(`./upload/${generateFile}`)),
-          ACL: "public-read",
-        };
-        await s3.putObject(params, function (
-          err: AWSError,
-          data: S3.Types.PutObjectOutput
-        ) {
-          if (err) console.log(err, err.stack);
-          else console.log(data);
-        });
-        fs.unlinkSync(path.resolve(`./upload/${generateFile}`));
-        const data = {
-          fileName: generateFile,
-          path: `upload/${generateFile}`,
-          extension: mimetype,
-        };
-        return await ctx.prisma.file.create({
-          data: Object.assign(data),
+      resolve: async (_, { file, taskId }, ctx) => {
+        const { filename, mimetype, createReadStream } = await file;
+        const id = shortid.generate();
+        const generateFile: string = `${id}-${filename}`;
+
+        await new Promise((resolve, reject) => {
+          createReadStream().pipe(
+            storage
+              .bucket(bucketName)
+              .file(generateFile)
+              .createWriteStream()
+              .on("finish", () => {
+                storage
+                  .bucket(bucketName)
+                  .file(generateFile)
+                  .makePublic()
+                  .then(() => {
+                    const data = {
+                      fileName: generateFile,
+                      fullPath: `https://storage.googleapis.com/${bucketName}/${generateFile}`,
+                      path: `./${generateFile}`,
+                      endpoint: `https://storage.googleapis.com`,
+                      extension: mimetype,
+                      task: taskId,
+                    };
+
+                    resolve(ctx.prisma.file.create({ data: data }));
+                  })
+                  .catch((e) => {
+                    reject((e) => console.log(`exec error : ${e}`));
+                  });
+              })
+          );
         });
       },
     });
   },
 });
 
-const processUpload = async (upload: FileUpload): Promise<any> => {
-  const { createReadStream, filename, mimetype } = await upload;
-  const stream: ReadStream = createReadStream();
-  const id = shortid.generate();
-  const generateFile: string = `${id}-${filename}`;
-  const path = `./upload/${generateFile}`;
-  return new Promise((resolve, reject) =>
-    stream
-      .pipe(createWriteStream(path))
-      .on("finish", () => resolve({ generateFile, mimetype }))
-      .on("error", reject)
-  );
-};
-
-const fileMutation = extendType({
+const updateFile = extendType({
   type: "Mutation",
-  definition(t) {
-    t.crud.deleteOneFile();
-    t.crud.updateOneFile();
+  definition: (t) => {
+    t.field("updateFile", {
+      type: "File",
+      args: {
+        id: intArg({ required: true }),
+        file: arg({
+          type: "Upload",
+          required: true,
+        }),
+      },
+      resolve: async (_, { file, id }, ctx) => {
+        const { filename, mimetype, createReadStream } = await file;
+        const generateId = shortid.generate();
+        const generateFile: string = `${generateId}-${filename}`;
+
+        await new Promise((resolve, reject) => {
+          createReadStream().pipe(
+            storage
+              .bucket(bucketName)
+              .file(generateFile)
+              .createWriteStream()
+              .on("finish", () => {
+                storage
+                  .bucket(bucketName)
+                  .file(generateFile)
+                  .makePublic()
+                  .then(() => {
+                    const data = {
+                      fileName: generateFile,
+                      fullPath: `https://storage.googleapis.com/${bucketName}/${generateFile}`,
+                      path: `./${generateFile}`,
+                      endpoint: `https://storage.googleapis.com`,
+                      extension: mimetype,
+                    };
+
+                    resolve(
+                      ctx.prisma.file.update({ where: { id: id }, data: data })
+                    );
+                  })
+                  .catch((e) => {
+                    reject((e) => console.log(`exec error : ${e}`));
+                  });
+              })
+          );
+        });
+      },
+    });
   },
 });
 
-export { uploadFileMutation, fileMutation };
+export { uploadFile, updateFile };
