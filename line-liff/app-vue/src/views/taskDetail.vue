@@ -378,7 +378,6 @@ export default {
         },
       })
     },
-
     // Upload file
     handleCancel() {
       this.previewVisible = false

@@ -9,7 +9,9 @@ export const TASKS = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -34,9 +36,9 @@ export const TASKS = gql`
       }
       files {
         id
-        url
-        name
-        status
+        path
+        fileName
+        extension
         task {
           id
         }
@@ -70,7 +72,9 @@ export const TASKS_BY_ID = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -95,9 +99,9 @@ export const TASKS_BY_ID = gql`
       }
       files {
         id
-        url
-        name
-        status
+        path
+        fileName
+        extension
         task {
           id
         }
@@ -131,7 +135,9 @@ export const TASKS_BY_TASKID = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -156,9 +162,9 @@ export const TASKS_BY_TASKID = gql`
       }
       files {
         id
-        url
-        name
-        status
+        path
+        fileName
+        extension
         task {
           id
         }
@@ -192,7 +198,9 @@ export const TOGGLE_TASK_DONE = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -217,9 +225,9 @@ export const TOGGLE_TASK_DONE = gql`
       }
       files {
         id
-        url
-        name
-        status
+        path
+        fileName
+        extension
         task {
           id
         }
@@ -271,7 +279,9 @@ export const ADD_TASK = gql`
         projectName
         projectType
         projectDetail
-        projectImage
+        projectImage {
+          fullPath
+        }
         status
         dueDate
         members {
@@ -296,9 +306,9 @@ export const ADD_TASK = gql`
       }
       files {
         id
-        url
-        name
-        status
+        path
+        fileName
+        extension
         task {
           id
         }
@@ -335,6 +345,18 @@ export const UPDATE_TASK_DETAIL = gql`
   mutation UpdateTaskDetail($id: Int!, $taskDetail: String!) {
     updateOneTask(where: { id: $id }, data: { taskDetail: { set: $taskDetail } }) {
       id
+    }
+  }
+`
+
+export const UPDATE_TASK_MEMBER = gql`
+  mutation UpdateTaskMember($id: Int!, $members: Int!) {
+    updateOneTask(where: { id: $id }, data: { members: { connect: { id: $members } } }) {
+      id
+      members {
+        id
+        name
+      }
     }
   }
 `

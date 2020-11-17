@@ -81,7 +81,6 @@
         </div>
       </router-link>
     </div>
-
     <!-- test UI framework -->
     <!-- <f7-app>
       <f7-block-title>On both sides with overswipes</f7-block-title>
@@ -176,19 +175,16 @@
         </f7-list-item>
       </f7-list>
     </f7-app> -->
-
     <BarRouter />
   </div>
 </template>
 
 <script>
-// import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/graphql'
 export default {
   name: 'doneTask',
   components: {
-    // ToolbarBack,
     BarRouter,
   },
   data() {

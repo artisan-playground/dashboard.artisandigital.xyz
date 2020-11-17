@@ -1,8 +1,9 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
+import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import { createUploadLink } from 'apollo-upload-client'
 
-const httpLink = createHttpLink({
-  uri: 'https://develop-artisan-dashboard-backend-utkbnolsxq-as.a.run.app/graphql',
+const httpLink = createUploadLink({
+  uri: 'https://dashboard-api.artisandigital.xyz/',
 })
 
 const authLink = setContext((_, { headers }) => {

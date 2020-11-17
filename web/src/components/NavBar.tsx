@@ -104,7 +104,7 @@ function NavBar() {
                       alt="user"
                       size="large"
                     />
-                    <Text className="font-bold">{currentUserData.name}</Text>
+                    <Text className="font-bold invisible"></Text>
                   </div>
                 )}
                 <div className="hover:block hidden">

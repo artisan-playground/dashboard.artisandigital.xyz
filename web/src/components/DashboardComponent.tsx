@@ -9,10 +9,14 @@ import SideNav from '../components/SideNav'
 import SideProfile from '../components/SideProfile'
 import TaskCard from '../components/TaskCard'
 import WelcomeCard from '../components/WelcomeCard'
+import ComponentVisible from './ComponentVisible'
+import EditProjectDetail from './EditProjectDetail'
+import EventDrawer from './EventDrawer'
 import ProfileProjectCard from './ProfileProjectCard'
 import ProfileTaskCard from './ProfileTaskCard'
-import TaskDrawer from './TaskDrawer'
+import ProjectContent from './ProjectContent'
 import ProjectDrawer from './ProjectDrawer'
+import TaskDrawer from './TaskDrawer'
 
 export {
   EventCard,
@@ -30,4 +34,8 @@ export {
   LoadingComponent,
   TaskDrawer,
   ProjectDrawer,
+  ComponentVisible,
+  EventDrawer,
+  ProjectContent,
+  EditProjectDetail,
 }

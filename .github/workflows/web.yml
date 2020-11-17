@@ -1,0 +1,40 @@
+name: Dashboard Web (dev)
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+    paths:
+      - "web/**/*"
+
+env:
+  PROJECT_ID: artisan-playground
+  SERVICE_NAME: dashboard-web
+  SA: ${{ secrets.SA_ARTISAN_PLAYGROUND }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: nelonoel/branch-name@v1
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "latest"
+          service_account_key: ${{ env.SA }}
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Build
+        run: |-
+          cd web
+          gcloud builds submit \
+          --tag gcr.io/$PROJECT_ID/$SERVICE_NAME:$BRANCH_NAME
+
+      - name: Deploy
+        run: |-
+          gcloud run deploy $SERVICE_NAME-dev \
+          --quiet \
+          --region asia-southeast1 \
+          --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$BRANCH_NAME \
+          --platform managed \
+          --allow-unauthenticated
