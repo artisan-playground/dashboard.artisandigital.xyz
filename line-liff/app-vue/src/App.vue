@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <!-- <div id="nav"> -->
-    <!-- <router-link to="/">Home</router-link>|
+    <perfect-scrollbar>
+      <!-- <div id="nav"> -->
+      <!-- <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>|
     <router-link to="/login">Login</router-link>-->
-    <!-- </div> -->
-    <router-view />
+      <!-- </div> -->
+      <router-view />
+    </perfect-scrollbar>
   </div>
 </template>
-
-<style src="vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css" />
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
@@ -17,6 +17,10 @@
 html,
 body {
   font-family: 'Roboto', sans-serif;
+}
+
+.ps {
+  height: 100vh;
 }
 
 #app {
