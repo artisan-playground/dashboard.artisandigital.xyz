@@ -67,7 +67,6 @@ export default {
   background-color: #e9f0ff;
   padding-top: 15px;
   padding-bottom: 2px;
-  font-family: 'Roboto';
 }
 #status {
   font-size: 10.5px;

@@ -86,9 +86,6 @@ export default {
 p {
   border-bottom: 1px dashed #ddd;
 } */
-div {
-  font-family: 'Roboto';
-}
 .title {
   color: white;
   margin-top: 17px;

@@ -55,9 +55,6 @@ export default {
 </script>
 
 <style scoped>
-div {
-  font-family: 'Roboto';
-}
 .title {
   color: rgb(114, 114, 114);
   font-size: 16px;
@@ -70,7 +67,6 @@ div {
   /* margin-right: none; */
   /* width: 150px; */
   border-radius: 2px;
-  font-family: 'Roboto';
 }
 
 .v-sheet.v-card:not(.v-sheet--outlined) {

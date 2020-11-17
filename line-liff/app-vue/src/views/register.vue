@@ -76,7 +76,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
-  font-family: Roboto;
   font-style: normal;
   font-weight: 700;
   font-size: 22px;

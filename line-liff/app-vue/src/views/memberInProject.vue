@@ -88,9 +88,6 @@ export default {
 </script>
 
 <style>
-div {
-  font-style: 'Roboto';
-}
 .basil {
   background-color: #fffbe6 !important;
 }

@@ -86,9 +86,6 @@ export default {
 </script>
 
 <style scoped>
-template {
-  font-style: 'Roboto';
-}
 .news {
   /* margin: 0px 12px 0px 12px; */
   /* background-color: #e9f0ff; */

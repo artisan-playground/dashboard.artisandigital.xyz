@@ -45,9 +45,6 @@ export default {
 </script>
 
 <style scoped>
-div {
-  font-family: 'Roboto';
-}
 .title {
   color: white;
   margin-top: 17px;

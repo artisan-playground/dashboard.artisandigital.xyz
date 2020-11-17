@@ -35,7 +35,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
-  font-family: Roboto;
   font-style: normal;
   font-weight: 700;
   font-size: 22px;
@@ -59,7 +58,6 @@ li {
   margin: 0 10px;
 }
 p {
-  font-family: Roboto;
   font-size: 13px;
   color: #8f8f8f;
   margin-bottom: 0px;

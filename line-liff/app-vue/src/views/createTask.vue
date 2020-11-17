@@ -30,10 +30,7 @@
                 :key="user.id"
                 :value="user.name"
               >
-                <a-col v-model="memberId">
-                  <div :value="user.id">{{ user.id }}</div>
-                </a-col>
-                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgProfile" />
+                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgMember" />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-mentions-option>
             </a-mentions>
@@ -53,8 +50,12 @@
               v-model="reviewer"
             >
               <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
-                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgProfile" />
-                <span style="float:left; margin-left:5px">{{ user.name }}</span>
+                <div v-for="member in dataProject.members" :key="member.id">
+                  <div v-if="member.id !== user.id">
+                    <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgMember" />
+                    <span style="float:left; margin-left:5px">{{ user.name }}</span>
+                  </div>
+                </div>
               </a-mentions-option>
             </a-mentions>
           </a-form-item>
@@ -91,7 +92,8 @@
           <a-button
             block
             html-type="submit"
-            @click="createTask()"
+            @focus="addMemberTask(member)"
+            @click="createTask(member)"
             style="text-transform: capitalize; background-color: #105EFB; color:white;"
             >Submit
           </a-button>
@@ -127,6 +129,7 @@ export default {
       update(data) {
         this.dataProject = data.project
         this.dataTask = data.project.tasks
+        this.dataMember = data.project.members
       },
     },
 
@@ -145,6 +148,7 @@ export default {
       startTime: '',
       endTime: '',
       dataProject: null,
+      dataMember: [],
       users: [],
     }
   },
@@ -157,19 +161,45 @@ export default {
     },
   },
   methods: {
-    createTask() {
-      for (var user in this.users) {
-        console.log(user)
-      }
-      console.log(parseInt(this.$route.params.id))
-      console.log(this.taskName)
-      console.log(this.users.indexOf(this.member))
-      console.log(this.taskDetail)
-      console.log(this.startTime)
-      console.log(this.endTime)
-      console.log(this.memberId)
+    addMemberTask(value) {
+      // console.log(
+      //   this.dataMember
+      //     .filter(item =>
+      //       value
+      //         .slice(0, -1)
+      //         .split('@')
+      //         .includes(item.name)
+      //     )
+      //     .map(val => val.id)
+      // )
+      const mem = this.dataMember
+        .filter(item =>
+          value
+            .slice(0, -1)
+            .split('@')
+            .includes(item.name)
+        )
+        .map(val => val.id)
+      return console.log('member : ', mem)
+    },
+    createTask(value) {
+      const mem = this.dataMember
+        .filter(item =>
+          value
+            .slice(0, -1)
+            .split('@')
+            .includes(item.name)
+        )
+        .map(val => val.id)
+      console.log('ID: ', parseInt(this.$route.params.id))
+      console.log('Task name: ', this.taskName)
+      console.log('member: ', mem)
+      console.log('task detail: ', this.taskDetail)
+      console.log('task start time: ', this.startTime)
+      console.log('task end time: ', this.endTime)
+      // console.log(this.memberId)
 
-      // const result = await this.$apollo.mutate({
+      // this.$apollo.mutate({
       //   mutation: gqlQuery.ADD_TASK,
       //   variables: {
       //     projectId: parseInt(this.$route.params.id),
@@ -178,7 +208,7 @@ export default {
       //     startTime: this.startTime,
       //     endTime: this.endTime,
       //     isDone: false,
-      //     members: 8
+      //     members: 2,
       //   },
       // })
     },
@@ -224,13 +254,10 @@ export default {
 </script>
 
 <style>
-div {
-  font-family: 'Roboto';
-}
 .ant-calendar-picker {
   min-width: 50px;
 }
-#imgProfile {
+#imgMember {
   /* margin-top: 17px; */
   border-radius: 100%;
   height: 30px;

@@ -21,7 +21,7 @@
 
     <a-row :gutter="15" style="margin-top:15px; margin-left:7.5px; margin-right:7.5px;">
       <a-col :span="8">
-        <a-card id="card" body-style="padding:5px; margin:0px;" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px', margin: '0px' }" :bordered="false">
           <router-link :to="{ name: 'doneTask', params: { id: dataProject.id } }">
             <div>
               <a-icon type="carry-out" style="color:#105EFB" />
@@ -32,7 +32,7 @@
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card id="card" body-style="padding:5px;" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px' }" :bordered="false">
           <router-link :to="{ name: 'memberInProject', params: { id: dataProject.id } }">
             <div>
               <a-icon type="team" style="color:#105EFB" />
@@ -45,7 +45,7 @@
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card id="card" body-style="padding:5px;" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px' }" :bordered="false">
           <router-link :to="{ name: 'todayTask', params: { id: dataProject.id } }">
             <div><a-icon type="profile" style="color:#105EFB" /></div>
             <div>
@@ -60,7 +60,7 @@
     <!-- Date -->
     <a-row style="margin-top:15px; margin-left:15px; margin-right:15px;">
       <a-col v-if="project">
-        <a-card id="card" body-style="padding:5px;" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px' }" :bordered="false">
           <div>
             <a-icon type="calendar" style="color:#105EFB" />
           </div>
@@ -89,7 +89,7 @@
         :key="task.id"
         style="margin-top:15px; margin-left:15px; margin-right:15px;"
       >
-        <a-card body-style="padding:15px;" id="card" align="left">
+        <a-card :bodyStyle="{ padding: '15px' }" id="card" align="left">
           <router-link :to="{ name: 'taskDetail', params: { id: task.id } }">
             <div>
               <a-row type="flex" justify="space-between">
@@ -238,9 +238,6 @@ export default {
 </script>
 
 <style>
-div {
-  font-family: 'Roboto';
-}
 #card {
   border-radius: 2px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);

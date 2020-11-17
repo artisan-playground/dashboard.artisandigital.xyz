@@ -8,7 +8,7 @@
       :key="task.id"
       style="margin-top:15px; margin-left:15px; margin-right:15px;"
     >
-      <a-card v-if="!task.isDone" bodyStyle="padding:15px;" id="card" align="left">
+      <a-card v-if="!task.isDone" :bodyStyle="{ padding: '15px' }" id="card" align="left">
         <router-link :to="{ name: 'taskDetail', params: { id: task.id } }">
           <div>
             <a-row type="flex" justify="space-between">
@@ -112,9 +112,6 @@ export default {
 </script>
 
 <style>
-div {
-  font-family: 'Roboto';
-}
 #card {
   border-radius: 2px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
