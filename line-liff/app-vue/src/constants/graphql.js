@@ -317,3 +317,39 @@ export const ADD_TASK = gql`
     }
   }
 `
+
+export const ADD_COMMENT = gql`
+  mutation CreateComment($timestamp: DateTime!, $message: String!, $taskId: Int!, $userId: Int!) {
+    createOneComment(
+      data: {
+        timestamp: $timestamp
+        message: $message
+        task: { connect: { id: $taskId } }
+        user: { connect: { id: $userId } }
+      }
+    ) {
+      id
+      task {
+        id
+      }
+      user {
+        id
+        name
+        image {
+          fullPath
+        }
+      }
+      timestamp
+      image
+      message
+    }
+  }
+`
+
+export const DELETE_COMMENT = gql`
+  mutation deleteComment($id: Int!) {
+    deleteOneComment(where: { id: $id }) {
+      id
+    }
+  }
+`
