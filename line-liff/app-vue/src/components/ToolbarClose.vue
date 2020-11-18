@@ -1,31 +1,31 @@
 <template>
   <div style="position: fixed; z-index:10; width:100%">
-    <md-toolbar class="toolbar" md-elevation="1">
+    <a-page-header class="toolbar" style="padding-top:0px; padding-bottom: 10px;">
       <div style="border:none; width:100% ">
-        <v-row>
-          <v-col align="left" cols="3">
+        <a-row>
+          <a-col align="left" cols="3">
             <v-btn
               @click="$router.go(-1)"
               style="background-color:#262626; max-width:5%; height: 36px; min-width: 0px; padding-left:10px; box-shadow: none;"
             >
               <a-icon type="close" style="margin-left:20px; color:white;" />
             </v-btn>
-          </v-col>
+          </a-col>
 
-          <v-col cols="6">
+          <a-col cols="6">
             <div class="title">{{ msg }}</div>
-          </v-col>
+          </a-col>
 
-          <v-col align="right" cols="3">
+          <a-col align="right" cols="3">
             <div class="profile" style="margin-top:10px;">
               <span style="color:white;" @click="test">
                 Invite
               </span>
             </div>
-          </v-col>
-        </v-row>
+          </a-col>
+        </a-row>
       </div>
-    </md-toolbar>
+    </a-page-header>
   </div>
 </template>
 
@@ -64,7 +64,6 @@ export default {
 }
 .toolbar {
   background-color: #262626;
-  height: 50px;
 }
 .profile {
   margin: 0px 10px 0px 10px;

@@ -1,36 +1,33 @@
 <template>
   <div style="position: fixed; z-index:10; width:100%">
-    <md-toolbar class="toolbar" md-elevation="1">
-      <div style="border:none; width:100% ">
-        <v-row>
-          <v-col align="left" cols="3">
-            <v-btn
-              @click="$router.go(-1)"
-              style="background-color:#262626; max-width:5%; height: 36px; min-width: 0px; padding-left:10px; box-shadow: none;"
-            >
-              <a-icon type="left" style="margin-top:10px; margin-left:20px; color:white;" />
-            </v-btn>
-          </v-col>
+    <a-page-header class="toolbar" style="padding-top:0px; padding-bottom: 10px;">
+      <a-row style="display:flex; align-items: center;">
+        <a-col align="left" :span="5">
+          <v-btn
+            @click="$router.go(-1)"
+            style="background-color:#262626; max-width:5%; height: 36px; min-width: 0px; padding-left:0px; box-shadow: none;"
+          >
+            <a-icon type="left" style="margin-left:20px; color:white;" />
+          </v-btn>
+        </a-col>
 
-          <v-col cols="6">
-            <div class="title">{{ msg }}</div>
-          </v-col>
+        <a-col :span="14">
+          <div class="title">{{ msg }}</div>
+        </a-col>
 
-          <v-col align="right" cols="3">
-            <div class="profile">
-              <img
-                id="pictureUrl"
-                :src="
-                  profileStore.pictureUrl ||
-                    'https://cdn.iconscout.com/icon/premium/png-512-thumb/profile-1506810-1278719.png'
-                "
-              />
-              <h3 id="displayName" style="display:inline">{{ profileStore.displayName }}</h3>
-            </div>
-          </v-col>
-        </v-row>
-      </div>
-    </md-toolbar>
+        <a-col align="right" :span="5">
+          <div>
+            <img
+              id="pictureUrl"
+              :src="
+                profileStore.pictureUrl ||
+                  'https://cdn.iconscout.com/icon/premium/png-512-thumb/profile-1506810-1278719.png'
+              "
+            />
+          </div>
+        </a-col>
+      </a-row>
+    </a-page-header>
   </div>
 </template>
 <script src="https://static.line-scdn.net/liff/edge/versions/2.4.0/sdk.js"></script>
@@ -79,15 +76,6 @@ export default {
 </script>
 
 <style scoped>
-/* button {
-  display: block;
-  width: 100%;
-  padding: 8px 0;
-  margin: 8px auto;
-}
-p {
-  border-bottom: 1px dashed #ddd;
-} */
 #displayName {
   font-size: 12px;
   color: white;
@@ -96,21 +84,14 @@ p {
 }
 .title {
   color: white;
-  margin-top: 17px;
   font-weight: 380;
   font-size: 18px;
 }
 #pictureUrl {
-  /* display: block; */
-  /* margin: 0 auto; */
-  /* margin-left: 10%; */
-  margin: 10px 5px 10px 10px;
-  /* width: 18%; */
   width: 24px;
   -moz-border-radius: 100px;
   -webkit-border-radius: 100px;
   border-radius: 100px;
-  /* margin-left: 40%; */
 }
 .logo {
   margin: 0px 10px 0px 15px;
@@ -118,10 +99,6 @@ p {
 }
 .toolbar {
   background-color: #262626;
-  height: 50px;
-}
-.profile {
-  margin: 0px 10px 0px 10px;
 }
 #accessToken,
 #utouId {

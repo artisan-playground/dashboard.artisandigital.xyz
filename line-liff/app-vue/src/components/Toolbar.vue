@@ -1,33 +1,28 @@
 <template>
   <div style="position: fixed; z-index:10; width:100%">
-    <md-toolbar class="toolbar" md-elevation="1">
-      <div style="border:none; width:100% ">
-        <v-row>
-          <v-col align="left" cols="3">
-            <!-- style="width:30%" -->
-            <img class="logo" src="../assets/1_1.svg" />
-            <!-- style="width:18%;" -->
-          </v-col>
+    <a-page-header class="toolbar" style="padding-top:0px; padding-bottom: 10px;">
+      <a-row style="display:flex; align-items: center;">
+        <a-col align="left" :span="5">
+          <img class="logo" src="../assets/1_1.svg" />
+        </a-col>
 
-          <v-col cols="6">
-            <div class="title">{{ msg }}</div>
-          </v-col>
+        <a-col :span="14">
+          <div class="title">{{ msg }}</div>
+        </a-col>
 
-          <v-col align="right" cols="3">
-            <div class="profile">
-              <img
-                id="pictureUrl"
-                :src="
-                  profileStore.pictureUrl ||
-                    'https://cdn.iconscout.com/icon/premium/png-512-thumb/profile-1506810-1278719.png'
-                "
-              />
-              <h3 id="displayName" style="display:inline">{{ profileStore.displayName }}</h3>
-            </div>
-          </v-col>
-        </v-row>
-      </div>
-    </md-toolbar>
+        <a-col align="right" :span="5">
+          <div>
+            <img
+              id="pictureUrl"
+              :src="
+                profileStore.pictureUrl ||
+                  'https://cdn.iconscout.com/icon/premium/png-512-thumb/profile-1506810-1278719.png'
+              "
+            />
+          </div>
+        </a-col>
+      </a-row>
+    </a-page-header>
   </div>
 </template>
 <script src="https://static.line-scdn.net/liff/edge/versions/2.4.0/sdk.js"></script>
@@ -77,18 +72,8 @@ export default {
 </script>
 
 <style scoped>
-/* button {
-  display: block;
-  width: 100%;
-  padding: 8px 0;
-  margin: 8px auto;
-}
-p {
-  border-bottom: 1px dashed #ddd;
-} */
 .title {
   color: white;
-  margin-top: 17px;
   font-weight: 380;
   font-size: 18px;
 }
@@ -99,28 +84,18 @@ p {
   margin-bottom: 0.5em;
 }
 #pictureUrl {
-  /* display: block; */
-  /* margin: 0 auto; */
-  /* margin-left: 10%; */
-  margin: 10px 5px 10px 10px;
-  /* width: 18%; */
   width: 24px;
   -moz-border-radius: 100px;
   -webkit-border-radius: 100px;
   border-radius: 100px;
-  /* margin-left: 40%; */
 }
 .logo {
-  margin: 10px 20px 0px 15px;
-  vertical-align: middle;
-  width: 22.5px;
+  width: 24px;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 .toolbar {
   background-color: #262626;
-  height: 50px;
-}
-.profile {
-  margin: 0px 10px 0px 10px;
 }
 #accessToken,
 #utouId {

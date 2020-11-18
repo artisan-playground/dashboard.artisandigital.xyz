@@ -2,13 +2,8 @@
   <div class="project">
     <!-- <h1>This is an about page</h1> -->
     <Toolbar msg="Project" />
-
-    <md-content>
-      <br />
-      <div style="margin :60px 0px 0 0px">
-        <ListProjectAll />
-      </div>
-    </md-content>
+    <br />
+    <ListProjectAll style="margin-top: 60px;" />
     <BarRouter />
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="position: fixed; z-index:10; width:100%">
-      <md-toolbar class="toolbar" md-elevation="1" style="  background-color: #262626;">
+      <a-page-header class="toolbar" style="  background-color: #262626;">
         <div style="border:none; width:100% ">
           <v-row>
             <v-col align="left" cols="3">
@@ -29,8 +29,9 @@
             </v-col>
           </v-row>
         </div>
-      </md-toolbar>
+      </a-page-header>
     </div>
+
     <br />
     <div style="margin:60px 15px 15px 15px;">
       <a-input-search
@@ -173,7 +174,6 @@ export default {
 }
 .title {
   color: white;
-  margin-top: 17px;
   font-weight: 380;
   font-size: 18px;
 }

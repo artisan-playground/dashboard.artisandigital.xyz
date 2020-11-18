@@ -1,10 +1,9 @@
 <template>
   <div class="forgetpassword">
     <h1>Forget password?</h1>
-    <!-- <h1>Artisan</h1>
-    <h1 style="margin-top:0px">Digital</h1>-->
+
     <div class="content">
-      <p>Enter your registered email below to receive reset instruction password</p>
+      <!-- <p>Enter your registered email below to receive reset instruction password</p>
       <md-field>
         <md-icon>
           <span
@@ -18,7 +17,7 @@
         <label>Email</label>
         <md-input v-model="email"></md-input>
       </md-field>
-      <md-button id="button-send" class="md-raised md-primary">Send</md-button>
+      <md-button id="button-send" class="md-raised md-primary">Send</md-button> -->
     </div>
   </div>
 </template>
@@ -32,7 +31,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
   font-style: normal;

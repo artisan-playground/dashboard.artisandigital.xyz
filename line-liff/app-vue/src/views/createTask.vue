@@ -7,7 +7,6 @@
         <a-row>
           <a-form-item label="Task name">
             <a-input
-              style="width:100%; border: 1px solid #D7D7D7; border-radius:4px; height:32px; margin-bottom:15px;"
               v-model="taskName"
               v-decorator="[
                 'name',
@@ -15,7 +14,7 @@
                   rules: [{ required: true, message: 'Please enter Task name' }],
                 },
               ]"
-              placeholder="   Task name"
+              placeholder="Task name"
             />
           </a-form-item>
         </a-row>
@@ -36,15 +35,9 @@
               </a-mentions-option>
             </a-mentions>
           </a-form-item>
-
-          <!-- <select name="" id="" v-model="member">
-            <option v-for="user in dataProject.members" :key="user.id" :value="user.id">
-              {{ user.name }}
-            </option>
-          </select> -->
         </a-row>
         <a-row>
-          <a-form-item label="Approver">
+          <!-- <a-form-item label="Approver">
             <a-mentions
               style="text-align: initial;"
               placeholder="input @ to mention people"
@@ -59,7 +52,7 @@
                 </div>
               </a-mentions-option>
             </a-mentions>
-          </a-form-item>
+          </a-form-item> -->
         </a-row>
         <a-row>
           <a-form-item label="Date" style="margin-bottom:0;">
@@ -93,7 +86,6 @@
           <a-button
             block
             html-type="submit"
-            @focus="addMemberTask(member)"
             @click="createTask(member)"
             style="text-transform: capitalize; background-color: #105EFB; color:white;"
             >Submit
@@ -162,27 +154,6 @@ export default {
     },
   },
   methods: {
-    addMemberTask(value) {
-      // console.log(
-      //   this.dataMember
-      //     .filter(item =>
-      //       value
-      //         .slice(0, -1)
-      //         .split('@')
-      //         .includes(item.name)
-      //     )
-      //     .map(val => val.id)
-      // )
-      const mem = this.dataMember
-        .filter(item =>
-          value
-            .slice(0, -1)
-            .split('@')
-            .includes(item.name)
-        )
-        .map(val => val.id)
-      return console.log('member : ', mem)
-    },
     createTask(value) {
       const mem = this.dataMember
         .filter(item =>
@@ -192,41 +163,27 @@ export default {
             .includes(item.name)
         )
         .map(val => val.id)
-      console.log('ID: ', parseInt(this.$route.params.id))
-      console.log('Task name: ', this.taskName)
-      console.log('member: ', mem)
-      console.log('task detail: ', this.taskDetail)
-      console.log('task start time: ', this.startTime)
-      console.log('task end time: ', this.endTime)
-      // console.log(this.memberId)
 
-      const taskName = this.taskName
-      const taskDetail = this.taskDetail
-      const startTime = this.startTime
-      const endTime = this.endTime
-      this.$apollo.mutate({
-        mutation: gqlQuery.ADD_TASK,
-        variables: {
-          projectId: parseInt(this.$route.params.id),
-          taskName: taskName,
-          taskDetail: taskDetail,
-          startTime: startTime,
-          endTime: endTime,
-          isDone: false,
-          members: mem,
-        },
-        update: (cache, { data: { CreateTask } }) => {
-          console.log(CreateTask)
-        },
-      })
-    },
-    handleSubmit(e) {
-      e.preventDefault()
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values)
-        }
-      })
+      this.$apollo
+        .mutate({
+          mutation: gqlQuery.ADD_TASK,
+          variables: {
+            projectId: parseInt(this.$route.params.id),
+            taskName: this.taskName,
+            taskDetail: this.taskDetail,
+            startTime: this.startTime,
+            endTime: this.endTime,
+            isDone: false,
+            members: parseInt(mem),
+          },
+        })
+        .then(() => {
+          ;(this.taskName = ''),
+            (this.taskDetail = ''),
+            (this.startTime = ''),
+            (this.endTime = ''),
+            (this.member = '')
+        })
     },
     handleSubmit(e) {
       e.preventDefault()
@@ -274,7 +231,6 @@ export default {
   min-width: 50px;
 }
 #imgMember {
-  /* margin-top: 17px; */
   border-radius: 100%;
   height: 30px;
   width: 30px;
