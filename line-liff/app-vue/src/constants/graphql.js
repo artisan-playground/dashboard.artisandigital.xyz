@@ -254,6 +254,15 @@ export const TOGGLE_STATUS = gql`
   }
 `
 
+export const PROJECT_STATUS = gql`
+  mutation UpdateProject($id: Int!, $data: ProjectUpdateInput!) {
+    updateOneProject(where: { id: $id }, data: $data) {
+      id
+      status
+    }
+  }
+`
+
 export const ADD_TASK = gql`
   mutation CreateTask(
     $projectId: Int!
@@ -305,6 +314,42 @@ export const ADD_TASK = gql`
         image
         message
       }
+    }
+  }
+`
+
+export const ADD_COMMENT = gql`
+  mutation CreateComment($timestamp: DateTime!, $message: String!, $taskId: Int!, $userId: Int!) {
+    createOneComment(
+      data: {
+        timestamp: $timestamp
+        message: $message
+        task: { connect: { id: $taskId } }
+        user: { connect: { id: $userId } }
+      }
+    ) {
+      id
+      task {
+        id
+      }
+      user {
+        id
+        name
+        image {
+          fullPath
+        }
+      }
+      timestamp
+      image
+      message
+    }
+  }
+`
+
+export const DELETE_COMMENT = gql`
+  mutation deleteComment($id: Int!) {
+    deleteOneComment(where: { id: $id }) {
+      id
     }
   }
 `

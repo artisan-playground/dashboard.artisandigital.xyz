@@ -15,10 +15,10 @@
       <a-row style="margin-top:10px;  margin-bottom:10px">
         <a-col :span="18" style="width:80%">
           <a-input-search
-            style="width:100%"
+            style="width:100%; border: 1px solid #D7D7D7; border-radius:4px; height:32px"
             v-model="search"
             type="search"
-            placeholder="input search text"
+            placeholder=" input search text"
           />
         </a-col>
         <a-col :span="6" style="width:20%">
