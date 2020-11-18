@@ -235,6 +235,7 @@ function getBase64(file) {
     reader.onerror = error => reject(error)
   })
 }
+
 import { PerfectScrollbar } from 'vue2-perfect-scrollbar'
 import ToolbarBack from '@/components/ToolbarBack.vue'
 // import store from '../store/index.js'
@@ -266,6 +267,7 @@ export default {
 
   data() {
     return {
+      check: false,
       dataTask: null,
       dataProject: null,
       dataComment: null,
@@ -275,6 +277,7 @@ export default {
       dislikes: 0,
       action: null,
       moment,
+
       benched: 0,
       // project: store.state.projects,
       // task: store.state.tasks,
@@ -317,15 +320,6 @@ export default {
       // add comment
       newComment: '',
       idForComment: 2,
-      comments: [
-        {
-          id: 1,
-          name: 'Pupaeng',
-          comment: 'สวัสดีค่ะ',
-          dateTime: '10.00 AM',
-          profileUrl: 'https://ca.slack-edge.com/T03EKL88Y-U016J08FAUC-eab33b9cc74f-512',
-        },
-      ],
     }
   },
   computed: {
@@ -333,7 +327,33 @@ export default {
       return this.$store.getters.task(parseInt(this.$route.params.id))
     },
   },
+  mounnted() {
+    // this.getTask()
+  },
   methods: {
+    getTaskByClick() {
+      console.log('Logger in call back')
+      this.$apollo.mutate({
+        mutation: gqlQuery.TASK_QUERY,
+        variables: {
+          taskId: parseInt(this.$route.params.id),
+        },
+        update: data => {
+          console.log(data)
+          this.dataTask = data.getTaskById
+          this.dataProject = data.getTaskById.project
+          this.dataComment = data.getTaskById.comments
+        },
+      })
+    },
+    checker() {
+      console.log('แป้งเอง')
+      if (this.check) {
+        this.check = false
+      } else {
+        this.check = true
+      }
+    },
     handleOk() {
       this.loading = true
       setTimeout(() => {
@@ -343,7 +363,6 @@ export default {
     toggleDone() {
       console.log(parseInt(this.$route.params.id))
       console.log(gqlQuery.TOGGLE_STATUS)
-
       this.$apollo.mutate({
         mutation: gqlQuery.TOGGLE_STATUS,
         variables: {
@@ -380,17 +399,6 @@ export default {
         },
       })
     },
-    like() {
-      this.likes = 1
-      this.dislikes = 0
-      this.action = 'liked'
-    },
-    dislike() {
-      this.likes = 0
-      this.dislikes = 1
-      this.action = 'disliked'
-    },
-
     // Upload file
     handleCancel() {
       this.previewVisible = false
@@ -408,28 +416,43 @@ export default {
 
     // add comment
     addComment() {
+      // console.log(moment())
+      // console.log(parseInt(this.$route.params.id))
+      // console.log(this.newComment)
+      console.log('Comment')
       if (this.newComment.trim().length == 0) {
         console.log('please enter some comment')
         return
+      } else {
+        console.log('Send')
+        this.$apollo
+          .mutate({
+            mutation: gqlQuery.ADD_COMMENT,
+            variables: {
+              timestamp: moment(),
+              message: this.newComment,
+              taskId: parseInt(this.$route.params.id),
+              userId: 1,
+            },
+          })
+          .then(response => {
+            console.log(response)
+            this.getTaskByClick()
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
-
-      console.log('test add comment')
-      this.comments.push({
-        id: this.idForComment,
-        name: 'Pupaeng',
-        comment: this.newComment,
-        dateTime: '10.10 AM',
-        profileUrl: 'https://ca.slack-edge.com/T03EKL88Y-U016J08FAUC-eab33b9cc74f-512',
-      })
-
       this.newComment = ''
-      this.idForComment++
-      console.log(this.comments)
     },
 
     // delete comment
     deleteComment() {
       console.log('delete comment')
+      this.$apollo.mutate({
+        mutation: gqlQuery.DELETE_COMMENT,
+        variables: {},
+      })
     },
 
     edit() {
