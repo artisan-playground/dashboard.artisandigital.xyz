@@ -36,8 +36,10 @@ export const TASKS = gql`
       }
       files {
         id
-        path
         fileName
+        path
+        fullPath
+        endpoint
         extension
         task {
           id
@@ -99,8 +101,10 @@ export const TASKS_BY_ID = gql`
       }
       files {
         id
-        path
         fileName
+        path
+        fullPath
+        endpoint
         extension
         task {
           id
@@ -162,8 +166,10 @@ export const TASKS_BY_TASKID = gql`
       }
       files {
         id
-        path
         fileName
+        path
+        fullPath
+        endpoint
         extension
         task {
           id
@@ -225,8 +231,10 @@ export const TOGGLE_TASK_DONE = gql`
       }
       files {
         id
-        path
         fileName
+        path
+        fullPath
+        endpoint
         extension
         task {
           id
@@ -306,8 +314,10 @@ export const ADD_TASK = gql`
       }
       files {
         id
-        path
         fileName
+        path
+        fullPath
+        endpoint
         extension
         task {
           id
