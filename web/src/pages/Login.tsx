@@ -1,6 +1,6 @@
 import { MailOutlined } from '@ant-design/icons'
 import { useLazyQuery } from '@apollo/client'
-import { Button, Card, Col, Form, Image, Input, Typography } from 'antd'
+import { Button, Card, Col, Form, Input, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { GET_USER } from '../services/api/user'
@@ -44,11 +44,7 @@ function Login() {
         <Col xs={18} xl={6}>
           <Card hoverable>
             <div className="flex justify-center mb-6">
-              <Image
-                alt="logo"
-                src={require('../assets/images/artisan-logo.png')}
-                className="w-48"
-              />
+              <img src={require('../assets/images/artisan-logo.png')} className="w-48" />
             </div>
             <Form
               name="normal_login"

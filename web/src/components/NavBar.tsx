@@ -1,6 +1,6 @@
 import { BellOutlined, DownOutlined, UserOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
-import { Avatar, Badge, Col, Dropdown, Image, Layout, Menu, Row, Typography } from 'antd'
+import { Avatar, Badge, Col, Dropdown, Layout, Menu, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { TASKS } from '../services/api/task'
@@ -70,12 +70,12 @@ function NavBar() {
       <div className="flex flex-row justify-between">
         <div className="w-44 ml-4 my-2">
           <RouterLink to="/">
-            <Image
+            <img
               className="hidden md:block"
               src={require('../assets/images/logo3.png')}
               width={150}
             />
-            <Image
+            <img
               className="md:hidden block"
               src={require('../assets/images/logo5.png')}
               width={40}
