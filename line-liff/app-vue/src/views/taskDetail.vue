@@ -1,58 +1,80 @@
 <template>
-  <div v-if="dataTask">
-    <ToolbarBack />
-    <br />
-    <div style="margin :60px 15px 15px 15px">
-      <!-- Done button -->
-      <a-button
-        v-if="dataTask.isDone == false"
-        block
-        v-model="isDone"
-        style="background-color:#FF4D4F; color:white; border: none; border-radius:2px;"
-        v-on:click="toggleDone()"
-        :loading="loading"
-        @click="handleOk"
-      >
-        Mark as Done
-      </a-button>
+  <perfect-scrollbar>
+    <div v-if="dataTask">
+      <ToolbarBack />
+      <br />
+      <div style="margin :60px 15px 15px 15px">
+        <!-- Done button -->
+        <a-button
+          v-if="dataTask.isDone == false"
+          block
+          v-model="isDone"
+          style="background-color:#FF4D4F; color:white; border: none; border-radius:2px;"
+          v-on:click="toggleDone()"
+          :loading="loading"
+          @click="handleOk"
+        >
+          Mark as Done
+        </a-button>
 
-      <!-- WIP button -->
-      <a-button
-        v-if="dataTask.isDone == true"
-        block
-        v-model="isDone"
-        style="background-color:#73D13D; color:white; border: none; border-radius:2px;"
-        v-on:click="toggleUndone()"
-        :loading="loading"
-        @click="handleOk"
-      >
-        Mark as Done
-      </a-button>
-    </div>
+        <!-- WIP button -->
+        <a-button
+          v-if="dataTask.isDone == true"
+          block
+          v-model="isDone"
+          style="background-color:#73D13D; color:white; border: none; border-radius:2px;"
+          v-on:click="toggleUndone()"
+          :loading="loading"
+          @click="handleOk"
+        >
+          Mark as Done
+        </a-button>
+      </div>
 
-    <!-- Dashboard -->
-    <div>
+      <!-- Dashboard -->
       <div>
-        <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
-          <a-col :span="12" :xs="12">
-            <v-card
-              :bodyStyle="{
-                padding: '5px',
-                margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-              }"
-              :bordered="false"
-            >
-              <div style="padding-top:10px">
-                <a-icon type="fund" style="color:#0036c7; font-size: 22px;" />
-              </div>
-              <div>
-                <b>{{ dataProject.projectName }}</b>
-              </div>
-              <div id="position">Project name</div>
-            </v-card>
-          </a-col>
+        <div>
+          <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
+            <a-col :span="12" :xs="12">
+              <v-card
+                :bodyStyle="{
+                  padding: '5px',
+                  margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+                }"
+                :bordered="false"
+              >
+                <div style="padding-top:10px">
+                  <a-icon type="fund" style="color:#0036c7; font-size: 22px;" />
+                </div>
+                <div>
+                  <b>{{ dataProject.projectName }}</b>
+                </div>
+                <div id="position">Project name</div>
+              </v-card>
+            </a-col>
 
-          <a-col :span="12" :xs="12">
+            <a-col :span="12" :xs="12">
+              <v-card
+                :bodyStyle="{
+                  padding: '5px',
+                  margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+                }"
+                :bordered="false"
+              >
+                <div style="padding-top:10px">
+                  <a-icon type="clock-circle" style="color:#0036c7; font-size: 22px;" />
+                </div>
+                <div>
+                  <b>{{ $dayjs(dataProject.dueDate).format('DD MMM YYYY') }}</b>
+                </div>
+                <div id="position">Due date</div>
+              </v-card>
+            </a-col>
+          </a-row>
+        </div>
+
+        <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
+          <a-col>
             <v-card
               :bodyStyle="{
                 padding: '5px',
@@ -61,154 +83,146 @@
               :bordered="false"
             >
               <div style="padding-top:10px">
-                <a-icon type="clock-circle" style="color:#0036c7; font-size: 22px;" />
+                <span
+                  class="iconify"
+                  data-inline="false"
+                  data-icon="clarity:users-line"
+                  style="color: #0036c7; font-size: 22px;"
+                ></span>
               </div>
-              <div>
-                <b>{{ $dayjs(dataProject.dueDate).format('DD MMM YYYY') }}</b>
+              <div class="center con-avatars">
+                <vs-avatar-group>
+                  <vs-avatar circle v-for="member in dataTask.members" :key="member.id">
+                    <img v-bind:src="member.image.fullPath" />
+                  </vs-avatar>
+                </vs-avatar-group>
               </div>
-              <div id="position">Due date</div>
+              <div id="position" style="padding-bottom:10px">Team</div>
             </v-card>
           </a-col>
         </a-row>
       </div>
 
-      <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
-        <a-col>
-          <v-card
-            :bodyStyle="{
-              padding: '5px',
-              margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-            }"
-            :bordered="false"
+      <!-- Detail of Task -->
+      <a-row style="margin-left:15px; margin-right:15px;">
+        <a-col
+          ><span style="float:left; font-size:20px; font-weight:550">{{
+            dataTask.taskName
+          }}</span></a-col
+        >
+      </a-row>
+      <div class="detailTask">
+        {{ dataTask.taskDetail }}
+      </div>
+
+      <!-- Clipboard -->
+      <a-row style="margin-left:6px; margin-right:6px; margin-top:12px">
+        <a-col style="padding-bottom: 0px;">
+          <span
+            class="iconify"
+            data-inline="false"
+            data-icon="ic:outline-attach-file"
+            style="float: left; color: #105efb; font-size: 22px;"
+          ></span>
+          <b style="float: left; font-size:16px">Clipboard</b>
+        </a-col>
+      </a-row>
+
+      <!-- upload file -->
+      <div class="clearfix">
+        <a-row style="margin-left:18px; margin-right:18px; margin-top:12px;">
+          <a-upload
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            list-type="picture-card"
+            :file-list="fileList"
+            @preview="handlePreview"
+            @change="handleChange"
           >
-            <div style="padding-top:10px">
-              <span
-                class="iconify"
-                data-inline="false"
-                data-icon="clarity:users-line"
-                style="color: #0036c7; font-size: 22px;"
-              ></span>
+            <div v-if="fileList.length < 8">
+              <a-icon type="plus" />
+              <div class="ant-upload-text">
+                Upload
+              </div>
             </div>
-            <div class="center con-avatars">
-              <vs-avatar-group>
-                <vs-avatar circle v-for="member in dataTask.members" :key="member.id">
-                  <img v-bind:src="member.image.fullPath" />
-                </vs-avatar>
-              </vs-avatar-group>
-            </div>
-            <div id="position" style="padding-bottom:10px">Team</div>
-          </v-card>
+          </a-upload>
+          <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+            <img alt="example" style="width: 100%" :src="previewImage" />
+          </a-modal>
+        </a-row>
+      </div>
+
+      <!-- Comment -->
+      <div style="margin-left:18px; margin-right:18px; margin-top:12px;">
+        <a-row style="display:flex;">
+          <a-icon
+            type="message"
+            style="color:rgb(16, 94, 251); font-size: 22px; margin-right:5px;"
+          />
+          <span>Comment</span>
+        </a-row>
+        <a-comment v-for="comment in dataComment" :key="comment.id">
+          <template slot="actions">
+            <span key="comment-basic-like">
+              <a-tooltip title="Like">
+                <a-icon
+                  type="like"
+                  :theme="action === 'liked' ? 'filled' : 'outlined'"
+                  @click="like"
+                />
+              </a-tooltip>
+              <span style="padding-left: '8px';cursor: 'auto'">
+                {{ likes }}
+              </span>
+            </span>
+            <span key="comment-basic-dislike">
+              <a-tooltip title="Dislike">
+                <a-icon
+                  type="dislike"
+                  :theme="action === 'disliked' ? 'filled' : 'outlined'"
+                  @click="dislike"
+                />
+              </a-tooltip>
+              <span style="padding-left: '8px';cursor: 'auto'">
+                {{ dislikes }}
+              </span>
+            </span>
+            <span key="comment-basic-reply-to">Reply to</span>
+          </template>
+          <a slot="author">{{ comment.user.name }}</a>
+          <a-avatar slot="avatar" v-bind:src="comment.user.image.fullPath" alt="Han Solo" />
+          <p slot="content" align="left">
+            {{ comment.message }}
+          </p>
+          <a-tooltip slot="datetime" :title="moment().format('YYYY-MM-DD HH:mm:ss')">
+            <span>{{ moment(comment.timestamp).fromNow() }}</span>
+          </a-tooltip>
+        </a-comment>
+      </div>
+
+      <!-- input comment -->
+      <a-row style="background-color:#E9F0FF; position: fixed; left: 0; bottom: 0; width: 100%;">
+        <a-col :span="5">
+          <span
+            class="iconify"
+            data-inline="false"
+            data-icon="carbon:user-avatar-filled-alt"
+            style="color: #8f8f8f; font-size: 30px;"
+          ></span>
+        </a-col>
+        <a-col :span="14">
+          <a-input placeholder="Say something" v-model="newComment" />
+        </a-col>
+        <a-col :span="5" @click="addComment()">
+          <span
+            class="iconify"
+            data-inline="false"
+            data-icon="cil:send"
+            style="color: #0036c7; font-size: 20px;"
+          ></span>
         </a-col>
       </a-row>
     </div>
-
-    <!-- Detail of Task -->
-    <a-row style="margin-left:15px; margin-right:15px;">
-      <a-col
-        ><span style="float:left; font-size:20px; font-weight:550">{{
-          dataTask.taskName
-        }}</span></a-col
-      >
-    </a-row>
-    <div class="detailTask">
-      {{ dataTask.taskDetail }}
-    </div>
-
-    <!-- Clipboard -->
-    <a-row style="margin-left:6px; margin-right:6px; margin-top:12px">
-      <a-col style="padding-bottom: 0px;">
-        <span
-          class="iconify"
-          data-inline="false"
-          data-icon="ic:outline-attach-file"
-          style="float: left; color: #105efb; font-size: 22px;"
-        ></span>
-        <b style="float: left; font-size:16px">Clipboard</b>
-      </a-col>
-    </a-row>
-
-    <!-- upload file -->
-    <div class="clearfix">
-      <a-row style="margin-left:18px; margin-right:18px; margin-top:12px;">
-        <a-upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          list-type="picture-card"
-          :file-list="fileList"
-          @preview="handlePreview"
-          @change="handleChange"
-        >
-          <div v-if="fileList.length < 8">
-            <a-icon type="plus" />
-            <div class="ant-upload-text">
-              Upload
-            </div>
-          </div>
-        </a-upload>
-        <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-          <img alt="example" style="width: 100%" :src="previewImage" />
-        </a-modal>
-      </a-row>
-    </div>
-
-    <!-- Comment -->
-    <div style="margin-left:18px; margin-right:18px; margin-top:12px;">
-      <a-row style="display:flex;">
-        <a-icon type="message" style="color:rgb(16, 94, 251); font-size: 22px; margin-right:5px;" />
-        <span>Comment</span>
-      </a-row>
-      <a-comment v-for="comment in dataComment" :key="comment.id">
-        <a slot="author">{{ comment.user.name }}</a>
-        <a-avatar slot="avatar" v-bind:src="comment.user.image.fullPath" alt="Han Solo" />
-        <p slot="content" align="left">
-          {{ comment.message }}
-        </p>
-        <a-tooltip slot="datetime" :title="moment().format('YYYY-MM-DD HH:mm:ss')">
-          <span>{{ moment(comment.timestamp).fromNow() }}</span>
-        </a-tooltip>
-      </a-comment>
-    </div>
-
-    <!-- input comment -->
-    <a-row
-      type="flex"
-      align="middle"
-      style="background-color:#E9F0FF; padding-top:10px; padding-bottom:5px;"
-    >
-      <a-col :span="4">
-        <span
-          class="iconify"
-          data-inline="false"
-          data-icon="carbon:user-avatar-filled-alt"
-          style="color: #8f8f8f; font-size: 30px;"
-        ></span>
-      </a-col>
-      <a-col :span="16">
-        <a-input
-          style="width:100%; border: 1px solid #D7D7D7; background-color:white; border-radius:2px; height:32px"
-          placeholder="  Say something"
-          v-model="newComment"
-        />
-      </a-col>
-      <a-col :span="4">
-        <a-row type="flex" justify="center">
-          <div
-            style="width: 22px;
-                  height: 22px;
-                  margin: 8px;
-                  cursor: pointer;"
-            @click="addComment()"
-          >
-            <span
-              class="iconify"
-              data-inline="false"
-              data-icon="cil:send"
-              style="color: #0036c7; font-size: 20px; width:100%; height:100%;"
-            ></span>
-          </div>
-        </a-row>
-      </a-col>
-    </a-row>
-  </div>
+  </perfect-scrollbar>
 </template>
 
 <script>
@@ -221,6 +235,8 @@ function getBase64(file) {
     reader.onerror = error => reject(error)
   })
 }
+
+import { PerfectScrollbar } from 'vue2-perfect-scrollbar'
 import ToolbarBack from '@/components/ToolbarBack.vue'
 // import store from '../store/index.js'
 import moment from 'moment'
@@ -230,6 +246,7 @@ export default {
   name: 'taskDetail',
   components: {
     ToolbarBack,
+    PerfectScrollbar,
   },
   apollo: {
     getTask: {
@@ -260,6 +277,10 @@ export default {
       dislikes: 0,
       action: null,
       moment,
+
+      benched: 0,
+      // project: store.state.projects,
+      // task: store.state.tasks,
 
       // upload file
       previewVisible: false,
@@ -443,8 +464,7 @@ export default {
   },
 }
 </script>
-
-<style>
+<style src="vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css">
 #card {
   border-radius: 2px;
 }

@@ -17,8 +17,9 @@ import store from './store'
 import { createProvider } from './vue-apollo'
 // Import Icons and App Custom Styles
 
+// Import Icons and App Custom Styles
+
 Vue.component(Button.name, Button)
-Vue.use(PerfectScrollbar)
 Framework7.use(Framework7Vue)
 Vue.prototype.$liff = window.liff
 Vue.config.productionTip = false
