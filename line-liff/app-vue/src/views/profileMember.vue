@@ -72,7 +72,6 @@
                             <a-tag
                               color="red"
                               style="margin-right: 0px; margin-right:0px;"
-                              md-clickable
                               v-if="project.status == 'undone'"
                             >
                               <span

@@ -298,9 +298,11 @@ export const ADD_TASK = gql`
       }
       files {
         id
-        url
-        name
-        status
+        fileName
+        fullPath
+        path
+        extension
+        endpoint
         task {
           id
         }

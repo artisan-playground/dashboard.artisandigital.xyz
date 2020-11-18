@@ -1,35 +1,30 @@
 <template>
   <div>
     <div style="position: fixed; z-index:10; width:100%">
-      <md-toolbar class="toolbar" md-elevation="1" style="  background-color: #262626;">
-        <div style="border:none; width:100% ">
-          <v-row>
-            <v-col align="left" cols="3">
-              <v-btn
-                @click="$router.go(-1)"
-                style="background-color:#262626; max-width:5%; height: 36px; min-width: 0px; padding-left:10px; box-shadow: none;"
-              >
-                <a-icon type="close" style="margin-left:20px; color:white;" />
-              </v-btn>
-            </v-col>
+      <a-page-header style="background-color: #262626; padding-top:0px; padding-bottom: 10px;">
+        <!-- <div style="border:none; width:100% "> -->
+        <a-row style="display:flex; align-items: center;">
+          <a-col align="left" :span="5">
+            <v-btn
+              @click="$router.go(-1)"
+              style="background-color:#262626; max-width:5%; height: 36px; min-width: 0px; padding-left:0px; box-shadow: none;"
+            >
+              <a-icon type="close" style="margin-left:20px; color:white;" />
+            </v-btn>
+          </a-col>
 
-            <v-col cols="6">
-              <div class="title">Edit members</div>
-            </v-col>
+          <a-col :span="14">
+            <div class="title">Edit members</div>
+          </a-col>
 
-            <v-col align="right" cols="3"> </v-col>
-          </v-row>
-        </div>
-      </md-toolbar>
+          <a-col align="right" :span="5"> </a-col>
+        </a-row>
+        <!-- </div> -->
+      </a-page-header>
     </div>
     <br />
     <div style="margin:60px 15px 15px 15px;">
-      <a-input-search
-        style="width:100%; border: 1px solid #D7D7D7; border-radius:2px; height:32px; margin-bottom:15px;"
-        v-model="search"
-        placeholder=" input search text"
-        block
-      />
+      <a-input-search v-model="search" placeholder=" input search text" block />
       <div style="float:left;">
         <a-button shape="circle" icon="plus" style="color:#333333" />
         <span style="margin-left:10px;">Invite members</span>
@@ -96,7 +91,6 @@ export default {
 <style>
 .title {
   color: white;
-  margin-top: 17px;
   font-weight: 380;
   font-size: 18px;
 }

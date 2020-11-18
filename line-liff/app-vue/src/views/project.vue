@@ -46,6 +46,7 @@
         Mark as Done
       </a-button>
     </a-row>
+
     <a-row :gutter="15" style="margin-top:15px; margin-left:7.5px; margin-right:7.5px;">
       <a-col :span="8">
         <a-card id="card" :bodyStyle="{ padding: '5px', margin: '0px' }" :bordered="false">

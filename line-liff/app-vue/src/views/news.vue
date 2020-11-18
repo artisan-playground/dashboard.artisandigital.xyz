@@ -2,14 +2,9 @@
   <div>
     <Toolbar msg="News" />
     <br />
+    <Events style="margin-top: 60px;" />
     <br />
-    <br />
-    <br />
-    <md-content>
-      <Events />
-      <br />
-      <Content />
-    </md-content>
+    <Content />
     <BarRouter />
   </div>
 </template>

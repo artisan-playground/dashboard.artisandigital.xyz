@@ -1,19 +1,11 @@
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import Vue from 'vue'
-import VueMaterial from 'vue-material'
-import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
-import 'vue-material/dist/theme/default.css'
-import 'vue-material/dist/vue-material.min.css'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
-Vue.use(VueMaterial)
 Vue.use(Antd)
-Vue.use(MdButton)
-Vue.use(MdContent)
-Vue.use(MdTabs)
 
 const routes = [
   {

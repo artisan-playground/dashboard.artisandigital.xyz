@@ -1,12 +1,9 @@
 <template>
   <div class="about">
-    <!-- <h1>This is an about page</h1> -->
     <Toolbar />
-    <md-content>
-      <MenuContent />
-      <br />
-      <ListProject />
-    </md-content>
+    <MenuContent />
+    <br />
+    <ListProject />
     <BarRouter />
   </div>
 </template>
