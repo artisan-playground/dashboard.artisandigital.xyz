@@ -63,3 +63,19 @@ export const UPDATE_FILE = gql`
     }
   }
 `
+
+export const DELETE_FILE = gql`
+  mutation DeleteFile($id: Int!) {
+    deleteOneFile(id: $id, file: $file) {
+      id
+      fileName
+      path
+      fullPath
+      endpoint
+      extension
+      task {
+        id
+      }
+    }
+  }
+`
