@@ -23,8 +23,6 @@
               name="file"
               :multiple="true"
               action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              :headers="headers"
-              @change="handleChange"
             >
               <a-input-group compact style="width:100%;">
                 <a-input style="width:80%" default-value="" placeholder="Upload image" />
@@ -35,35 +33,35 @@
             </a-upload>
           </a-form-item>
           <a-form-item label="Type">
-            <a-dropdown>
-              <a-menu slot="overlay" @click="handleMenuClick">
-                <a-menu-item key="1"> <a-icon type="user" />1st menu item </a-menu-item>
-                <a-menu-item key="2"> <a-icon type="user" />2nd menu item </a-menu-item>
-                <a-menu-item key="3"> <a-icon type="user" />3rd item </a-menu-item>
-              </a-menu>
-              <a-button block style="color:#D9D9D9">
-                Select an option and change input text above <a-icon type="down" />
-              </a-button>
-            </a-dropdown>
+            <a-input
+              v-model="projectType"
+              v-decorator="[
+                'name',
+                {
+                  rules: [{ required: true, message: 'Please enter Project Type' }],
+                },
+              ]"
+              placeholder="Project Type"
+            />
           </a-form-item>
-          <a-form-item label="Member">
+          <a-form-item label="Members">
             <a-mentions
               style="text-align: initial;"
               placeholder="input @ to mention people"
-              v-model="reviewer"
+              v-model="member"
             >
               <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
-                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgProfile" />
+                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgMember" />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-mentions-option>
             </a-mentions>
           </a-form-item>
           <a-form-item label="Due Date">
-            <a-date-picker style="width:100%" />
+            <a-date-picker style="width:100%" v-model="dueDate" />
           </a-form-item>
           <a-form-item label="Description">
             <a-textarea
-              v-model="taskDetail"
+              v-model="projectDetail"
               v-decorator="[
                 'description',
                 {
@@ -78,6 +76,7 @@
         <a-button
           block
           html-type="submit"
+          @click="createProject(member)"
           style="text-transform: capitalize; background-color: #105EFB; color:white;"
           >Submit
         </a-button>
@@ -100,8 +99,50 @@ export default {
   data() {
     return {
       users: [],
-      reviewer: '',
+      projectName: '',
+      projectType: '',
+      projectDetail: '',
+      dueDate: '',
+      member: '',
     }
+  },
+
+  methods: {
+    createProject(value) {
+      const mem = this.users
+        .filter(item =>
+          value
+            .slice(0, -1)
+            .split('@')
+            .includes(item.name)
+        )
+        .map(val => val.id)
+      this.$apollo
+        .mutate({
+          mutation: gqlQuery.ADD_PROJECT,
+          variables: {
+            data: {
+              projectName: this.projectName,
+              projectType: this.projectType,
+              projectDetail: this.projectDetail,
+              dueDate: this.dueDate,
+              members: {
+                connect: {
+                  id: parseInt(mem),
+                },
+              },
+            },
+          },
+        })
+        .then(() => {
+          ;(this.projectName = ''),
+            (this.projectType = ''),
+            (this.projectDetail = ''),
+            (this.dueDate = ''),
+            (this.member = '')
+          this.$message.success('Create project is success')
+        })
+    },
   },
 }
 </script>
@@ -115,5 +156,12 @@ export default {
 }
 .v-slide-group {
   display: grid;
+}
+#imgMember {
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  object-fit: cover;
+  position: relative;
 }
 </style>

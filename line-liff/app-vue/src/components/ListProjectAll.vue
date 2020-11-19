@@ -82,7 +82,7 @@
           </a-row>
           <a-row style="padding-top: 0px;">
             <a-col>
-              <div align="left">{{ project.projectDetail }}</div>
+              <div align="left" class="content">{{ project.projectDetail }}</div>
             </a-col>
           </a-row>
 
@@ -188,7 +188,12 @@ export default {
   padding-left: 0px;
   padding-right: 0px;
 }
-
+.content {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .md-title {
   font-size: 16px;
   margin-bottom: -1px; /* ระยะห่างระหว่างชื่อโปรเจคกับตำแหน่งงาน */

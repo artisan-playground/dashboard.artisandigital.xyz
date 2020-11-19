@@ -93,7 +93,6 @@
         </a-row>
       </a-form>
     </div>
-    <BarRouter />
     <div style="padding-bottom:60px">
       <!-- ระยะห่าง manu ข้างล่างกับ content -->
     </div>
@@ -102,14 +101,12 @@
 
 <script>
 import ToolbarBack from '@/components/ToolbarBack.vue'
-import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/graphql'
 
 export default {
   name: 'createTask',
   components: {
     ToolbarBack,
-    BarRouter,
   },
   apollo: {
     getProject: {
@@ -183,6 +180,7 @@ export default {
             (this.startTime = ''),
             (this.endTime = ''),
             (this.member = '')
+          this.$message.success('Create task is success')
         })
     },
     handleSubmit(e) {
