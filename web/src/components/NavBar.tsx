@@ -74,11 +74,13 @@ function NavBar() {
               className="hidden md:block"
               src={require('../assets/images/logo3.png')}
               width={150}
+              alt="logo"
             />
             <img
               className="md:hidden block"
               src={require('../assets/images/logo5.png')}
               width={40}
+              alt="logo"
             />
           </RouterLink>
         </div>
