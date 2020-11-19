@@ -156,7 +156,17 @@
         <a-icon type="message" style="color:rgb(16, 94, 251); font-size: 22px; margin-right:5px;" />
         <span>Comment</span>
       </a-row>
-      <a-comment v-for="comment in dataComment" :key="comment.id">
+      <a-comment
+        v-for="comment in dataComment"
+        :key="comment.id"
+        :value="comment.id"
+        v-model="commentId"
+      >
+        <template slot="actions">
+          <span @click="editComment"> <a-icon type="edit" />Edit </span>
+          <span @click="deleteComment"> <a-icon type="delete" />Delete </span>
+        </template>
+
         <a slot="author">{{ comment.user.name }}</a>
         <a-avatar slot="avatar" v-bind:src="comment.user.image.fullPath" alt="Han Solo" />
         <p slot="content" align="left">
@@ -250,6 +260,7 @@ export default {
 
   data() {
     return {
+      commentId: '',
       check: false,
       dataTask: null,
       dataProject: null,
@@ -425,13 +436,16 @@ export default {
     // delete comment
     deleteComment() {
       console.log('delete comment')
-      this.$apollo.mutate({
-        mutation: gqlQuery.DELETE_COMMENT,
-        variables: {},
-      })
+      console.log(this.commentId)
+      // this.$apollo.mutate({
+      //   mutation: gqlQuery.DELETE_COMMENT,
+      //   variables: {
+      //     id = this.commentId
+      //   },
+      // })
     },
 
-    edit() {
+    editComment() {
       console.log('edit comment')
     },
     reply() {

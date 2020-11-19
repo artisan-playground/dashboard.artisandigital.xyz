@@ -4,7 +4,14 @@
     <br />
     <a-row style="margin: 60px 15px 0px 15px">
       <a-col :span="7" style="padding: 0px 0px 0px 0px; display:flex;">
-        <img id="imgProject" v-bind:src="dataProject.projectImage.fullPath" />
+        <img
+          id="imgProject"
+          :src="
+            dataProject.projectImage
+              ? dataProject.projectImage.fullPath
+              : 'https://source.unsplash.com/random?computer,technology'
+          "
+        />
       </a-col>
       <a-col :span="17" style="vertical-align: middle; font-size:16px;" align="left">
         <div>
@@ -216,6 +223,7 @@ export default {
       dataTask: [],
       dataMemberTask: null,
       status: false,
+      isDone: false,
     }
   },
   apollo: {

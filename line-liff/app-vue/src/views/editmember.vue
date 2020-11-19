@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="dataProject">
     <div style="position: fixed; z-index:10; width:100%">
       <a-page-header style="background-color: #262626; padding-top:0px; padding-bottom: 10px;">
         <!-- <div style="border:none; width:100% "> -->
@@ -23,36 +23,30 @@
       </a-page-header>
     </div>
     <br />
-    <div style="margin:60px 15px 15px 15px;">
+    <div style="margin:60px 15px 45px 15px;">
       <a-input-search v-model="search" placeholder=" input search text" block />
-      <div style="float:left;">
+      <div style="float:left; margin-top:20px; margin-bottom:20px;">
         <a-button shape="circle" icon="plus" style="color:#333333" />
         <span style="margin-left:10px;">Invite members</span>
       </div>
     </div>
+    <br />
+    <div v-for="user in dataProject.members" :key="user.id">
+      <a-row style="margin:0px 15px 0px 15px;">
+        <a-col :span="20" align="left">
+          <img
+            v-bind:src="user.image.fullPath"
+            style="border-radius: 100%; width: 33px; height: 33px;"
+          />
+          {{ user.name }}
+        </a-col>
+        <a-col :span="4" align="right">
+          <a-button type="danger" shape="circle" icon="delete" style="color:white;" />
+        </a-col>
+      </a-row>
+      <a-divider style="margin:15px 0px 15px 0px;" />
+    </div>
 
-    <!-- list member -->
-    <f7-app>
-      <f7-list media-list>
-        <f7-list-item
-          v-for="member in dataProject.members"
-          :key="member.id"
-          :media="member.image.fullPath"
-          :title="member.name"
-          swipeout
-        >
-          <f7-swipeout-actions right>
-            <f7-swipeout-button
-              delete
-              overswipe
-              confirm-text="Are you sure you want to delete this member?"
-              style="color:white;"
-              >Delete</f7-swipeout-button
-            >
-          </f7-swipeout-actions>
-        </f7-list-item>
-      </f7-list>
-    </f7-app>
     <BarRouter />
   </div>
 </template>
@@ -69,6 +63,7 @@ export default {
   data() {
     return {
       dataProject: null,
+      search: '',
     }
   },
   apollo: {
@@ -81,7 +76,7 @@ export default {
       },
       update(data) {
         this.dataProject = data.project
-        this.dataTask = data.project.tasks
+        console.log(this.dataProject)
       },
     },
   },

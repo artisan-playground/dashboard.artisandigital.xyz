@@ -74,6 +74,9 @@
         </router-link>
       </a-card>
     </div>
+    <div style="padding-bottom:60px">
+      <!-- ระยะห่าง manu ข้างล่างกับ content -->
+    </div>
     <BarRouter />
   </div>
 </template>

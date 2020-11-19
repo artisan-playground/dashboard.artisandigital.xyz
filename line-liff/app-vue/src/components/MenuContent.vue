@@ -11,7 +11,7 @@
       <v-col>
         <v-card class="card">
           <div><a-icon type="usergroup-add" style="color: #0036c7; font-size: 22px;" /></div>
-          <div class="number">{{ dataMember.length }}</div>
+          <div class="number" v-if="dataMember">{{ dataMember.length }}</div>
           <div class="title">Participants</div>
         </v-card>
       </v-col>
