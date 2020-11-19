@@ -44,7 +44,7 @@ function Login() {
         <Col xs={18} xl={6}>
           <Card hoverable>
             <div className="flex justify-center mb-6">
-              <img src={require('../assets/images/artisan-logo.png')} className="w-48" />
+              <img alt="logo" src={require('../assets/images/artisan-logo.png')} className="w-48" />
             </div>
             <Form
               name="normal_login"
