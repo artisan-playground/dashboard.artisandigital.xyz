@@ -3,9 +3,9 @@
     <a-row>
       <router-link to="/createProject">
         <a-button
+          size="large"
           block
-          type="primary"
-          style="float:right; text-transform: capitalize; background-color: #105EFB; color:white;"
+          style="float:right; text-transform: capitalize; background-color: #0036C7; color:white;"
         >
           Create Project
         </a-button>

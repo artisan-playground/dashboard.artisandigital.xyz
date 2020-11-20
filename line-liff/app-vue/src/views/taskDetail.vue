@@ -5,6 +5,7 @@
     <div style="margin :60px 15px 15px 15px">
       <!-- Done button -->
       <a-button
+        size="large"
         v-if="dataTask.isDone == false"
         block
         v-model="isDone"
@@ -18,6 +19,7 @@
 
       <!-- WIP button -->
       <a-button
+        size="large"
         v-if="dataTask.isDone == true"
         block
         v-model="isDone"
@@ -156,11 +158,11 @@
         <a-icon type="message" style="color:rgb(16, 94, 251); font-size: 22px; margin-right:5px;" />
         <span>Comment</span>
       </a-row>
-      <a-row v-model="commentId">
+      <a-row :v-model="commentId">
         <a-comment v-for="comment in dataComment" :key="comment.id" :value="comment.id">
           <template slot="actions">
             <span @click="editComment"> <a-icon type="edit" />Edit </span>
-            <span @click="deleteComment"> <a-icon type="delete" />Delete </span>
+            <span @click="deleteComment"> <a-icon type="delete" :value="comment.id" />Delete </span>
           </template>
 
           <a slot="author">{{ comment.user.name }}</a>
@@ -427,12 +429,12 @@ export default {
     deleteComment() {
       console.log('delete comment')
       console.log(this.commentId)
-      this.$apollo.mutate({
-        mutation: gqlQuery.DELETE_COMMENT,
-        variables: {
-          id: 3,
-        },
-      })
+      // this.$apollo.mutate({
+      //   mutation: gqlQuery.DELETE_COMMENT,
+      //   variables: {
+      //     id: 3,
+      //   },
+      // })
     },
 
     editComment() {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="dataProject">
     <!-- toolbar -->
     <div style="position: fixed; z-index:10; width:100%">
       <a-page-header class="toolbar" style="padding-top:0px; padding-bottom: 10px;">
@@ -34,7 +34,7 @@
     <div style="margin: 60px 15px 20px 15px;">
       <router-link :to="{ name: 'addMemberToProject', params: { id: dataProject.id } }">
         <a-button
-          type="primary"
+          size="large"
           block
           style="background-color:#0036C7; color:white; border:none; border-radius:2px;"
         >

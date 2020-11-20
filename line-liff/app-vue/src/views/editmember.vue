@@ -23,25 +23,48 @@
       </a-page-header>
     </div>
     <br />
-    <div style="margin:60px 15px 45px 15px;">
+    <div style="margin:60px 15px 0px 15px;">
       <a-input-search v-model="search" placeholder=" input search text" block />
-      <div style="float:left; margin-top:20px; margin-bottom:20px;">
-        <a-button shape="circle" icon="plus" style="color:#333333" />
-        <span style="margin-left:10px;">Invite members</span>
+      <div style="margin-top:20px;">
+        <a-row>
+          <a-col :span="20" align="left">
+            <a-button shape="circle" icon="plus" style="color:#333333" />
+            <span style="margin-left:10px;">Invite members</span>
+          </a-col>
+          <a-col :span="4" align="right">
+            <a-button
+              v-if="deleteButton == false"
+              shape="circle"
+              icon="delete"
+              style="color:white; background-color:#FF7875;"
+              @click="deleteButton = !deleteButton"
+            />
+            <a-button
+              v-if="deleteButton == true"
+              shape="circle"
+              icon="check"
+              style="color:white; background-color:#73D13D;"
+              @click="deleteButton = !deleteButton"
+            />
+          </a-col>
+        </a-row>
       </div>
     </div>
     <br />
+    <a-divider style="margin:0px 0px 15px 0px;" />
     <div v-for="user in dataProject.members" :key="user.id">
-      <a-row style="margin:0px 15px 0px 15px;">
+      <a-row style="margin:0px 25px 0px 15px;">
         <a-col :span="20" align="left">
           <img
             v-bind:src="user.image.fullPath"
-            style="border-radius: 100%; width: 33px; height: 33px;"
+            style="border-radius: 100%; width: 30px; height: 30px;"
           />
           {{ user.name }}
         </a-col>
         <a-col :span="4" align="right">
-          <a-button type="danger" shape="circle" icon="delete" style="color:white;" />
+          <v-expand-x-transition>
+            <a-icon type="delete" v-if="deleteButton == true" />
+          </v-expand-x-transition>
         </a-col>
       </a-row>
       <a-divider style="margin:15px 0px 15px 0px;" />
@@ -64,8 +87,10 @@ export default {
     return {
       dataProject: null,
       search: '',
+      deleteButton: false,
     }
   },
+  methods: {},
   apollo: {
     getProject: {
       query: gqlQuery.PROJECT_QUERY,

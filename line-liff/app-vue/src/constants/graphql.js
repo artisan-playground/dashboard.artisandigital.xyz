@@ -245,6 +245,7 @@ export const TASK_QUERY = gql`
 `
 
 // Mutation
+// Edit
 export const TOGGLE_STATUS = gql`
   mutation UpdateTask($id: Int!, $data: TaskUpdateInput!) {
     updateOneTask(where: { id: $id }, data: $data) {
@@ -263,6 +264,7 @@ export const PROJECT_STATUS = gql`
   }
 `
 
+// Create
 export const ADD_TASK = gql`
   mutation CreateTask(
     $projectId: Int!
@@ -349,14 +351,6 @@ export const ADD_COMMENT = gql`
   }
 `
 
-export const DELETE_COMMENT = gql`
-  mutation deleteComment($id: Int!) {
-    deleteOneComment(where: { id: $id }) {
-      id
-    }
-  }
-`
-
 export const ADD_PROJECT = gql`
   mutation CreateProject($data: ProjectCreateInput!) {
     createOneProject(data: $data) {
@@ -384,6 +378,15 @@ export const ADD_MEMBER_TO_PROJECT = gql`
       members {
         id
       }
+    }
+  }
+`
+
+// Delete
+export const DELETE_COMMENT = gql`
+  mutation deleteComment($id: Int!) {
+    deleteOneComment(where: { id: $id }) {
+      id
     }
   }
 `

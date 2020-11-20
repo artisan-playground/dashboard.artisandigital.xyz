@@ -14,21 +14,27 @@
         />
       </a-col>
       <a-col :span="17" style="vertical-align: middle; font-size:16px;" align="left">
-        <div>
-          <b>{{ dataProject.projectName }}</b>
-        </div>
-        <div id="position" style="">
+        <a-row>
+          <a-col align="left" :span="20">
+            <b>{{ dataProject.projectName }}</b>
+          </a-col>
+          <a-col align="right" :span="4">
+            <a-icon type="edit" style="color:#0036C7;" />
+          </a-col>
+        </a-row>
+        <a-row id="position" style="">
           {{ dataProject.projectType }}
-        </div>
-        <div style="padding-top: 8px; font-size:14px">
+        </a-row>
+        <a-row style="padding-top: 8px; font-size:14px">
           {{ dataProject.projectDetail }}
-        </div>
+        </a-row>
       </a-col>
     </a-row>
 
     <a-row style="margin: 15px 15px 0px 15px">
       <!-- Done button -->
       <a-button
+        size="large"
         v-if="dataProject.status == 'undone'"
         block
         v-model="isDone"
@@ -39,9 +45,9 @@
       >
         Mark as Done
       </a-button>
-
       <!-- WIP button -->
       <a-button
+        size="large"
         v-if="dataProject.status == 'done'"
         block
         v-model="isDone"
@@ -108,17 +114,22 @@
     </a-row>
 
     <!-- Tasks -->
-    <div>
-      <a-row style="margin-top:30px; margin-left:15px; margin-right:15px;">
-        <a-col><span style="float:left; font-size:20px; font-weight:550">Task</span></a-col>
-        <a-col>
-          <v-btn
-            style="float:right; text-transform: capitalize; background-color: #105EFB; color:white;"
-            :to="{ name: 'createTask', params: { id: dataProject.id } }"
-            ><a-icon type="plus-circle" style="margin-right:2.5px" />Create</v-btn
+    <a-row style="margin-top:30px; margin-left:15px; margin-right:15px;">
+      <a-col :span="15"
+        ><span style="float:left; font-size:20px; font-weight:550">Task</span></a-col
+      >
+      <a-col :span="9">
+        <router-link :to="{ name: 'createTask', params: { id: dataProject.id } }">
+          <a-button
+            size="large"
+            style="float:right; background-color:#0036C7; color:white; border:none; border-radius:2px;"
           >
-        </a-col>
-      </a-row>
+            <a-icon type="plus-circle" style="margin-right:2.5px" />Create
+          </a-button>
+        </router-link>
+      </a-col>
+    </a-row>
+    <div v-if="dataTask.length > 0">
       <div
         v-for="task in dataTask"
         :key="task.id"
@@ -191,6 +202,10 @@
         </a-card>
       </div>
     </div>
+    <div v-else style="margin-top:30px;">
+      <a-empty />
+    </div>
+
     <div style="padding-bottom:90px">
       <!-- ระยะห่าง manu ข้างล่างกับ content -->
     </div>
@@ -235,6 +250,7 @@ export default {
         }
       },
       update(data) {
+        console.log(data.project.tasks.length)
         this.dataProject = data.project
         this.dataTask = data.project.tasks
       },

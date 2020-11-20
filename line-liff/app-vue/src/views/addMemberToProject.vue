@@ -35,12 +35,18 @@
       <a-input-search v-model="search" placeholder="input search text" block />
     </div>
     <a-form>
-      <div style="margin-top:30px;"></div>
+      <a-divider style="margin:25px 0px 0px 0px;" />
+      <div style="margin-top:15px;"></div>
       <div v-for="user in userFilter" :key="user.id">
         <div style="margin:0px 15px 0px 15px; float:left; display: flex;">
-          <v-checkbox color="#8C9EFF" v-model="member" :label="user.name" :value="user.id">
+          <v-checkbox color="#0036C7" v-model="member" :label="user.name" :value="user.id">
             <template v-slot:label>
-              <img v-bind:src="user.image.fullPath" class="picUser" />
+              <img
+                v-bind:src="
+                  user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
+                "
+                class="picUser"
+              />
               <span style="margin-left:5px;">{{ user.name }}</span>
             </template>
           </v-checkbox>
@@ -139,5 +145,20 @@ export default {
   -moz-border-radius: 100px;
   -webkit-border-radius: 100px;
   border-radius: 100px;
+}
+.v-icon.v-icon {
+  color: #e0e0e0;
+  border-radius: 50%;
+}
+
+.v-input--selection-controls__ripple {
+  border-radius: 50%;
+  cursor: pointer;
+  height: 34px;
+  transition: inherit;
+  width: 34px;
+  left: -12px;
+  top: calc(50% - 24px);
+  margin: 7px;
 }
 </style>
