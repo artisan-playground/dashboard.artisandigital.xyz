@@ -1,5 +1,6 @@
 import { arg, extendType, intArg } from '@nexus/schema'
-import { upload, uploadFile } from '../../services/storage'
+import shortid from 'shortid'
+import { bucketName, sanitize, storage, upload } from '../../services/storage'
 
 const uploadFile = extendType({
   type: 'Mutation',
@@ -10,19 +11,45 @@ const uploadFile = extendType({
     t.field('uploadFile', {
       type: 'File',
       args: {
-        taskId: arg({ type: 'TaskCreateOneWithoutFilesInput', required: true }),
         file: arg({
           type: 'Upload',
           required: true,
         }),
+        taskId: arg({ type: 'TaskCreateOneWithoutFilesInput', required: true }),
       },
       resolve: async (_, { file, taskId }, ctx) => {
-        try {
-          const data = await uploadFile(await file, taskId)
-          return ctx.prisma.file.create({ data })
-        } catch (e) {
-          //
-        }
+        const { filename, mimetype, createReadStream } = await file
+        const fileName = sanitize(`${shortid.generate()}-${filename}`)
+
+        await new Promise((resolve, reject) => {
+          createReadStream().pipe(
+            storage
+              .bucket(bucketName)
+              .file(fileName)
+              .createWriteStream()
+              .on('finish', () => {
+                storage
+                  .bucket(bucketName)
+                  .file(fileName)
+                  .makePublic()
+                  .then(() => {
+                    const data = {
+                      fileName: fileName,
+                      fullPath: `https://storage.googleapis.com/${bucketName}/${fileName}`,
+                      path: `./${fileName}`,
+                      endpoint: `https://storage.googleapis.com`,
+                      extension: mimetype,
+                      task: taskId,
+                    }
+
+                    resolve(ctx.prisma.file.create({ data: data }))
+                  })
+                  .catch((e) => {
+                    reject((e) => console.log(`exec error : ${e}`))
+                  })
+              })
+          )
+        })
       },
     })
   },
