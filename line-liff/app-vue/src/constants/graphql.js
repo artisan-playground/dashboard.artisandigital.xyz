@@ -338,6 +338,7 @@ export const ADD_COMMENT = gql`
         id
         name
         image {
+          id
           fullPath
         }
       }
