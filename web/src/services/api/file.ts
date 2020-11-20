@@ -66,7 +66,7 @@ export const UPDATE_FILE = gql`
 
 export const DELETE_FILE = gql`
   mutation DeleteFile($id: Int!) {
-    deleteOneFile(id: $id, file: $file) {
+    deleteOneFile(where: { id: $id }) {
       id
       fileName
       path

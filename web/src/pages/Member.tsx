@@ -1,4 +1,4 @@
-import { CloseCircleOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons'
+import { CloseCircleOutlined, DeleteOutlined, UserAddOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import {
   Button,
@@ -31,6 +31,7 @@ function Member() {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [visible, setVisible] = useState(false)
+  const [formLayout] = useState('horizontal')
 
   useEffect(() => {
     if (!error && !loading) {
@@ -56,8 +57,24 @@ function Member() {
 
   function handleDelete(key: any) {
     const dataTable = [...dataSource]
-    setDataSource(dataTable.filter((item: any) => item.key !== key))
-    deleteUser({ variables: { id: key } })
+    if (dataSource) {
+      deleteUser({ variables: { id: key } })
+        .then((res) => {
+          if (res) {
+            refetch()
+            setDataSource(dataTable.filter((item: any) => item.key !== key))
+            setVisible(false)
+          }
+        })
+        .catch((err) => {
+          message.error({
+            content: `Error : ${err}`,
+            duration: 2,
+            icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+          })
+        })
+    }
+
     refetch()
   }
 
@@ -103,14 +120,7 @@ function Member() {
             .filter((item: any) => item.image === image)
             .map((item: any) => (
               <Link key={item.id} to={{ pathname: `/profile/${item.id}` }}>
-                {image ? (
-                  <Avatar src={image.fullPath} />
-                ) : (
-                  <Avatar
-                    icon={<UserOutlined />}
-                    className="bg-primary flex items-center justify-center"
-                  />
-                )}
+                {image ? <Avatar src={image.fullPath} /> : null}
               </Link>
             ))}
         </>
@@ -188,53 +198,72 @@ function Member() {
     },
   ]
 
+  const formItemLayout =
+    formLayout === 'horizontal'
+      ? {
+          labelCol: { span: 3 },
+          wrapperCol: { span: 24 },
+        }
+      : null
+
   return (
     <LayoutDashboard noCard>
       <Row>
         <Col xs={24} xl={24}>
           <Col className="flex justify-start">
-            <Button
-              onClick={openModal}
-              type="primary"
-              style={{
-                marginBottom: 16,
-              }}
-            >
-              Add member
-            </Button>
-            <Modal visible={visible} onCancel={handleCancel} footer={null}>
-              <Form className="mt-8">
-                <Form.Item label="Email" rules={[{ type: 'email' }]}>
-                  <Input
-                    placeholder="Please enter email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </Form.Item>
-                <Form.Item label="Name">
-                  <Input
-                    placeholder="Please enter name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" onClick={handleAdd}>
-                    Add member
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Modal>
-          </Col>
-          <Col className="flex justify-end">
-            <Search
-              placeholder="Search Name"
-              value={value}
-              onChange={handleKeywordChange}
-              loading={searchLoading}
-              allowClear
-              className="w-1/3 mb-4"
-            />
+            <Row>
+              <Col>
+                <Button
+                  onClick={openModal}
+                  type="primary"
+                  style={{
+                    marginBottom: 16,
+                  }}
+                >
+                  Add member
+                </Button>
+              </Col>
+              <Modal visible={visible} onCancel={handleCancel} footer={null}>
+                <Form className="mt-8" {...formItemLayout}>
+                  <Form.Item label="Email" rules={[{ type: 'email' }]}>
+                    <Input
+                      placeholder="Please enter email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </Form.Item>
+                  <Form.Item label="Name">
+                    <Input
+                      placeholder="Please enter name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </Form.Item>
+                  <Form.Item>
+                    <div className="flex items-center justify-center">
+                      <Button
+                        type="primary"
+                        onClick={handleAdd}
+                        className="flex items-center justify-center"
+                      >
+                        <UserAddOutlined />
+                        Add member
+                      </Button>
+                    </div>
+                  </Form.Item>
+                </Form>
+              </Modal>
+            </Row>
+            <Col className="flex items-end justify-end w-full">
+              <Search
+                placeholder="Search Name"
+                value={value}
+                onChange={handleKeywordChange}
+                loading={searchLoading}
+                allowClear
+                className="w-1/3 mb-4"
+              />
+            </Col>
           </Col>
           <Table
             columns={columns}
