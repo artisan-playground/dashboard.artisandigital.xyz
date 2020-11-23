@@ -66,7 +66,10 @@ function NavBar() {
   )
 
   return (
-    <Header className="bg-white h-16 px-0 py-0 min-w-full shadow-lg">
+    <Header
+      className="bg-white h-16 px-0 py-0 min-w-full shadow-lg"
+      style={{ fontFamily: 'Anuphan' }}
+    >
       <div className="flex flex-row justify-between">
         <div className="w-44 ml-4 my-2">
           <RouterLink to="/">

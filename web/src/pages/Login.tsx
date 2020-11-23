@@ -35,7 +35,10 @@ function Login() {
   ) : (
     <div
       className="h-screen bg-auto bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur` }}
+      style={{
+        backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur`,
+        fontFamily: 'Anuphan',
+      }}
     >
       <div
         className="flex items-center justify-center h-screen h-full w-full"

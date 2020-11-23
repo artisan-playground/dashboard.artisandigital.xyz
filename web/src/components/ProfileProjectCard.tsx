@@ -17,7 +17,9 @@ function ProfileProjectCard({ data }: any) {
               <Tooltip placement="top" title={item[i].name}>
                 <Avatar
                   key={item[i].id}
-                  src={item[i].image.fullPath}
+                  src={
+                    item[i].image ? item[i].image.fullPath : require('../assets/images/logo5.png')
+                  }
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
                   alt={item[i].name}
                 />

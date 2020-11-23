@@ -9,7 +9,7 @@ function LayoutDashboard({ children, noCard }: any) {
     <>
       <NavBar />
       <SideNav>
-        <Layout className="pt-8 pb-24 px-8 w-full">
+        <Layout className="pt-8 pb-24 px-8 w-full" style={{ fontFamily: 'Anuphan' }}>
           {noCard ? (
             <Content className="bg-transparent p-8 w-full">{children}</Content>
           ) : (
