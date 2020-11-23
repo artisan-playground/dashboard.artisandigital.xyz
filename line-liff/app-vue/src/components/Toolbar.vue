@@ -72,23 +72,6 @@ export default {
 </script>
 
 <style scoped>
-.title {
-  color: white;
-  font-weight: 380;
-  font-size: 18px;
-}
-#displayName {
-  font-size: 12px;
-  color: white;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-}
-#pictureUrl {
-  width: 24px;
-  -moz-border-radius: 100px;
-  -webkit-border-radius: 100px;
-  border-radius: 100px;
-}
 .logo {
   width: 24px;
   margin-top: 6px;

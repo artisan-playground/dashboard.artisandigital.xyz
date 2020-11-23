@@ -5,6 +5,7 @@
     <div style="margin :60px 15px 15px 15px">
       <!-- Done button -->
       <a-button
+        size="large"
         v-if="dataTask.isDone == false"
         block
         v-model="isDone"
@@ -18,6 +19,7 @@
 
       <!-- WIP button -->
       <a-button
+        size="large"
         v-if="dataTask.isDone == true"
         block
         v-model="isDone"
@@ -35,12 +37,10 @@
       <div>
         <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
           <a-col :span="12" :xs="12">
-            <v-card
+            <a-card
               :bodyStyle="{
                 padding: '5px',
-                margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
               }"
-              :bordered="false"
             >
               <div style="padding-top:10px">
                 <a-icon type="fund" style="color:#0036c7; font-size: 22px;" />
@@ -48,17 +48,15 @@
               <div>
                 <b>{{ dataProject.projectName }}</b>
               </div>
-              <div id="position">Project name</div>
-            </v-card>
+              <div id="position" style="padding-bottom:10px">Project name</div>
+            </a-card>
           </a-col>
 
           <a-col :span="12" :xs="12">
-            <v-card
+            <a-card
               :bodyStyle="{
                 padding: '5px',
-                margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
               }"
-              :bordered="false"
             >
               <div style="padding-top:10px">
                 <a-icon type="clock-circle" style="color:#0036c7; font-size: 22px;" />
@@ -66,20 +64,18 @@
               <div>
                 <b>{{ $dayjs(dataProject.dueDate).format('DD MMM YYYY') }}</b>
               </div>
-              <div id="position">Due date</div>
-            </v-card>
+              <div id="position" style="padding-bottom:10px">Due date</div>
+            </a-card>
           </a-col>
         </a-row>
       </div>
 
       <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
         <a-col>
-          <v-card
+          <a-card
             :bodyStyle="{
               padding: '5px',
-              margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
             }"
-            :bordered="false"
           >
             <div style="padding-top:10px">
               <span
@@ -97,7 +93,7 @@
               </vs-avatar-group>
             </div>
             <div id="position" style="padding-bottom:10px">Team</div>
-          </v-card>
+          </a-card>
         </a-col>
       </a-row>
     </div>
@@ -156,26 +152,23 @@
         <a-icon type="message" style="color:rgb(16, 94, 251); font-size: 22px; margin-right:5px;" />
         <span>Comment</span>
       </a-row>
-      <a-comment
-        v-for="comment in dataComment"
-        :key="comment.id"
-        :value="comment.id"
-        v-model="commentId"
-      >
-        <template slot="actions">
-          <span @click="editComment"> <a-icon type="edit" />Edit </span>
-          <span @click="deleteComment"> <a-icon type="delete" />Delete </span>
-        </template>
+      <a-row :v-model="commentId">
+        <a-comment v-for="comment in dataComment" :key="comment.id" :value="comment.id">
+          <template slot="actions">
+            <span @click="editComment"> <a-icon type="edit" />Edit </span>
+            <span @click="deleteComment"> <a-icon type="delete" :value="comment.id" />Delete </span>
+          </template>
 
-        <a slot="author">{{ comment.user.name }}</a>
-        <a-avatar slot="avatar" v-bind:src="comment.user.image.fullPath" alt="Han Solo" />
-        <p slot="content" align="left">
-          {{ comment.message }}
-        </p>
-        <a-tooltip slot="datetime" :title="moment().format('YYYY-MM-DD HH:mm:ss')">
-          <span>{{ moment(comment.timestamp).fromNow() }}</span>
-        </a-tooltip>
-      </a-comment>
+          <a slot="author">{{ comment.user.name }}</a>
+          <a-avatar slot="avatar" v-bind:src="comment.user.image.fullPath" alt="Han Solo" />
+          <p slot="content" align="left">
+            {{ comment.message }}
+          </p>
+          <a-tooltip slot="datetime" :title="moment().format('YYYY-MM-DD HH:mm:ss')">
+            <span>{{ moment(comment.timestamp).fromNow() }}</span>
+          </a-tooltip>
+        </a-comment>
+      </a-row>
     </div>
 
     <!-- input comment -->
@@ -206,14 +199,16 @@
                   height: 22px;
                   margin: 8px;
                   cursor: pointer;"
-            @click="addComment()"
+            v-on:click="addComment()"
+            :loading="commentLoadding"
           >
-            <span
-              class="iconify"
-              data-inline="false"
-              data-icon="cil:send"
-              style="color: #0036c7; font-size: 20px; width:100%; height:100%;"
-            ></span>
+            <v-icon
+              style="transform: rotate(-45deg); color: #0036c7;"
+              v-if="commentLoadding == false"
+            >
+              mdi-send
+            </v-icon>
+            <a-spin v-if="commentLoadding" />
           </div>
         </a-row>
       </a-col>
@@ -232,9 +227,9 @@ function getBase64(file) {
   })
 }
 import ToolbarBack from '@/components/ToolbarBack.vue'
-// import store from '../store/index.js'
 import moment from 'moment'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/task'
+import * as gqlQueryComment from '../constants/comment'
 
 export default {
   name: 'taskDetail',
@@ -250,7 +245,6 @@ export default {
         }
       },
       update(data) {
-        console.log(data)
         this.dataTask = data.getTaskById
         this.dataProject = data.getTaskById.project
         this.dataComment = data.getTaskById.comments
@@ -261,11 +255,11 @@ export default {
   data() {
     return {
       commentId: '',
-      check: false,
       dataTask: null,
       dataProject: null,
       dataComment: null,
       loading: false,
+      commentLoadding: false,
       isDone: false,
       likes: 0,
       dislikes: 0,
@@ -323,26 +317,22 @@ export default {
   methods: {
     getTaskByClick() {
       console.log('Logger in call back')
-      this.$apollo.mutate({
-        mutation: gqlQuery.TASK_QUERY,
-        variables: {
-          taskId: parseInt(this.$route.params.id),
-        },
-        update: data => {
-          console.log(data)
-          this.dataTask = data.getTaskById
-          this.dataProject = data.getTaskById.project
-          this.dataComment = data.getTaskById.comments
-        },
-      })
-    },
-    checker() {
-      console.log('แป้งเอง')
-      if (this.check) {
-        this.check = false
-      } else {
-        this.check = true
-      }
+      this.$apollo
+        .mutate({
+          mutation: gqlQuery.TASK_QUERY,
+          variables: {
+            taskId: parseInt(this.$route.params.id),
+          },
+          update: data => {
+            this.dataTask = data.getTaskById
+            // this.dataProject = data.getTaskById.project
+            // this.dataComment = data.getTaskById.comments
+          },
+        })
+        .then(() => {
+          this.commentLoadding = false
+          this.$message.success('sent comment success')
+        })
     },
     handleOk() {
       this.loading = true
@@ -351,8 +341,6 @@ export default {
       }, 1000)
     },
     toggleDone() {
-      console.log(parseInt(this.$route.params.id))
-      console.log(gqlQuery.TOGGLE_STATUS)
       this.$apollo.mutate({
         mutation: gqlQuery.TOGGLE_STATUS,
         variables: {
@@ -370,9 +358,6 @@ export default {
       })
     },
     toggleUndone() {
-      console.log(parseInt(this.$route.params.id))
-      console.log(gqlQuery.TOGGLE_STATUS)
-
       this.$apollo.mutate({
         mutation: gqlQuery.TOGGLE_STATUS,
         variables: {
@@ -406,15 +391,17 @@ export default {
     },
 
     addComment() {
-      console.log('Comment')
       if (this.newComment.trim().length == 0) {
-        console.log('please enter some comment')
+        this.$error({
+          title: 'ยังไม่ได้คอมเม้นอะไรเลยนะ',
+          // content: 'some messages...some messages...',
+        })
         return
       } else {
-        console.log('Send')
+        this.commentLoadding = true
         this.$apollo
           .mutate({
-            mutation: gqlQuery.ADD_COMMENT,
+            mutation: gqlQueryComment.ADD_COMMENT,
             variables: {
               timestamp: moment(),
               message: this.newComment,
@@ -438,9 +425,9 @@ export default {
       console.log('delete comment')
       console.log(this.commentId)
       // this.$apollo.mutate({
-      //   mutation: gqlQuery.DELETE_COMMENT,
+      //   mutation: gqlQueryComment.DELETE_COMMENT,
       //   variables: {
-      //     id = this.commentId
+      //     id: 3,
       //   },
       // })
     },
@@ -456,20 +443,11 @@ export default {
 </script>
 
 <style>
-#card {
-  border-radius: 2px;
-}
 .detailTask {
   margin: 0px 18px 0px 18px;
   background-color: #e9f0ff;
   padding: 15px 15px 15px 15px;
   text-align: left;
-}
-#position {
-  color: #8f8f8f;
-  font-size: 12px;
-  margin-top: 0px;
-  padding-bottom: 0px;
 }
 .ant-upload-select-picture-card i {
   font-size: 32px;

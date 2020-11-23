@@ -84,7 +84,7 @@
 <script>
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/project'
 export default {
   name: 'doneTask',
   components: {
@@ -114,20 +114,4 @@ export default {
 }
 </script>
 
-<style>
-#card {
-  border-radius: 2px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin: 0px 0px 0px 0px;
-}
-#status {
-  font-size: 10.5px;
-  /* padding-right: 16px; */
-}
-.content {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>
+<style></style>

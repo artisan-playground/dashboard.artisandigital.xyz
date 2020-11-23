@@ -30,7 +30,13 @@
                 :key="user.id"
                 :value="user.name"
               >
-                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgMember" />
+                <v-img
+                  style="float:left;"
+                  v-bind:src="
+                    user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
+                  "
+                  id="imgMember"
+                />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-mentions-option>
             </a-mentions>
@@ -84,10 +90,11 @@
         </a-row>
         <a-row>
           <a-button
+            size="large"
             block
             html-type="submit"
             @click="createTask(member)"
-            style="text-transform: capitalize; background-color: #105EFB; color:white;"
+            style="text-transform: capitalize; background-color: #0036C7; color:white;"
             >Submit
           </a-button>
         </a-row>
@@ -101,7 +108,9 @@
 
 <script>
 import ToolbarBack from '@/components/ToolbarBack.vue'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQueryProject from '../constants/project'
+import * as gqlQueryTask from '../constants/task'
+import * as gqlQueryMember from '../constants/user'
 
 export default {
   name: 'createTask',
@@ -110,7 +119,7 @@ export default {
   },
   apollo: {
     getProject: {
-      query: gqlQuery.PROJECT_QUERY,
+      query: gqlQueryProject.PROJECT_QUERY,
       variables() {
         return {
           projectId: parseInt(this.$route.params.id),
@@ -123,7 +132,7 @@ export default {
       },
     },
 
-    users: gqlQuery.ALL_MEMBER_QUERY,
+    users: gqlQueryMember.ALL_MEMBER_QUERY,
   },
   data() {
     return {
@@ -163,7 +172,7 @@ export default {
 
       this.$apollo
         .mutate({
-          mutation: gqlQuery.ADD_TASK,
+          mutation: gqlQueryTask.ADD_TASK,
           variables: {
             projectId: parseInt(this.$route.params.id),
             taskName: this.taskName,

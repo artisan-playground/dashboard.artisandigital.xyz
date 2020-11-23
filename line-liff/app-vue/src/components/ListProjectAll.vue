@@ -3,9 +3,9 @@
     <a-row>
       <router-link to="/createProject">
         <a-button
+          size="large"
           block
-          type="primary"
-          style="float:right; text-transform: capitalize; background-color: #105EFB; color:white;"
+          style="float:right; text-transform: capitalize; background-color: #0036C7; color:white;"
         >
           Create Project
         </a-button>
@@ -35,7 +35,6 @@
       <a-card
         id="card"
         :bodyStyle="{ padding: '15px' }"
-        style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
         v-for="project in searchFilter"
         :key="project.id"
       >
@@ -50,7 +49,7 @@
               </div>
               <div id="position">{{ project.projectType }}</div>
             </a-col>
-            <a-col :span="4" id="status">
+            <a-col :span="4" id="statusProject">
               <a-tag
                 style="float:right; margin-right:0px;"
                 color="red"
@@ -95,7 +94,13 @@
                     :key="member.id"
                     style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                   >
-                    <img v-bind:src="member.image.fullPath" />
+                    <img
+                      v-bind:src="
+                        member.image
+                          ? member.image.fullPath
+                          : 'https://source.unsplash.com/900x900/?person'
+                      "
+                    />
                   </vs-avatar>
                 </vs-avatar-group>
               </div>
@@ -113,15 +118,13 @@
 
 <script>
 import store from '../store/index.js'
-import * as gqlQuery from '../constants/graphql'
-// import gql from 'graphql-tag'
+import * as gqlQuery from '../constants/project'
 
 export default {
   name: 'ListProjectAll',
   data() {
     return {
       search: '',
-      // projects: store.state.projects,
       projects: [],
       members: store.state.members,
       currentFilter: '',
@@ -134,10 +137,6 @@ export default {
       query: gqlQuery.ALL_PROJECT_QUERY,
       result({ data }) {
         this.dataProject = data.projects
-        // this.dataProject.forEach(element => {
-        // });
-        console.log(this.dataProject)
-        // this.dataMember = data.projects.members.user
       },
     },
   },
@@ -165,41 +164,13 @@ export default {
   padding-bottom: 0px;
   font-size: 16px;
 }
-#position {
-  color: #8f8f8f;
-  font-size: 12px;
-  margin-top: 0px;
-  padding-bottom: 0px;
-}
-#status {
-  font-size: 10.5px;
-  padding-right: 0px;
-}
-
-#iconStatus {
-  font-size: 10px;
-  vertical-align: -4.57%;
-}
 
 #card {
-  margin: 3px 0px 24px 0px; /* ระยะห่างรอบๆ card */
+  margin: 3px 0px 24px 0px;
   padding-bottom: 0px;
-  /* border-radius: 2px; */
   padding-left: 0px;
   padding-right: 0px;
 }
-.content {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.md-title {
-  font-size: 16px;
-  margin-bottom: -1px; /* ระยะห่างระหว่างชื่อโปรเจคกับตำแหน่งงาน */
-  line-height: 20px; /* ระยะห่างระหว่างบรรทัดของชื่อโปรเจค เวลาขึ้นบรรทัดใหม่ */
-}
-
 .row {
   margin-left: 5px;
   margin-right: 5px;
