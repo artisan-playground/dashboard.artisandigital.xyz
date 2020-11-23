@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { Avatar, Card, Col, Image, Row, Typography } from 'antd'
+import { Avatar, Card, Col, Row, Typography } from 'antd'
 import React, { useState } from 'react'
 import { EventCard, EventDrawer, LayoutDashboard } from '../components/DashboardComponent'
 import { EVENT } from '../services/api/event'
@@ -31,7 +31,7 @@ function News() {
         <Card hoverable className="w-full rounded-lg">
           <Row>
             <Col span={24} md={{ span: 10 }}>
-              <Image
+              <img
                 src="https://source.unsplash.com/600x600/?seal"
                 alt="kityy1"
                 className="rounded-lg"
@@ -64,7 +64,7 @@ function News() {
           <Card
             hoverable
             className="w-full rounded-lg"
-            cover={<Image src="https://source.unsplash.com/600x600/?cat" alt="kityy1" />}
+            cover={<img src="https://source.unsplash.com/600x600/?cat" alt="kityy1" />}
           >
             <Meta
               avatar={<Avatar src="https://source.unsplash.com/600x600/?user" />}
@@ -86,7 +86,7 @@ function News() {
           <Card
             hoverable
             className="w-full rounded-lg"
-            cover={<Image src="https://source.unsplash.com/600x601/?cat" alt="kityy2" />}
+            cover={<img src="https://source.unsplash.com/600x601/?cat" alt="kityy2" />}
           >
             <Meta
               avatar={<Avatar src="https://source.unsplash.com/600x601/?user" />}
@@ -108,7 +108,7 @@ function News() {
           <Card
             hoverable
             className="w-full rounded-lg"
-            cover={<Image src="https://source.unsplash.com/601x600/?cat" alt="kityy1" />}
+            cover={<img src="https://source.unsplash.com/601x600/?cat" alt="kityy1" />}
           >
             <Meta
               avatar={<Avatar src="https://source.unsplash.com/601x600/?user" />}

@@ -11,6 +11,7 @@ module.exports = {
       successop: 'rgba(27,237,9,0.5)',
       progress: '#FFF500',
       progressop: 'rgba(255,245,0,0.5)',
+      file: '#f9f9f9',
     }),
   },
 

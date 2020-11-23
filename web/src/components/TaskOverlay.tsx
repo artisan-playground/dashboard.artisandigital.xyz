@@ -11,7 +11,6 @@ import {
   LoadingOutlined,
   MoreOutlined,
   PaperClipOutlined,
-  PlusOutlined,
   RollbackOutlined,
   SendOutlined,
   TeamOutlined,
@@ -30,7 +29,6 @@ import {
   Modal,
   Row,
   Typography,
-  Upload,
 } from 'antd'
 import { useStoreState } from 'easy-peasy'
 import React, { useEffect, useState } from 'react'
@@ -38,6 +36,7 @@ import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
 import { ComponentVisible, LoadingComponent } from '../components/DashboardComponent'
 import { COMMENT, DELETE_COMMENT, UPDATE_COMMENT } from '../services/api/comment'
+import { UPLOAD_FILE } from '../services/api/file'
 import {
   TOGGLE_TASK_DONE,
   UPDATE_TASK_DETAIL,
@@ -57,13 +56,13 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
   const [updateTaskName] = useMutation(UPDATE_TASK_NAME)
   const [updateTaskDetail] = useMutation(UPDATE_TASK_DETAIL)
   const [updateTaskMember] = useMutation(UPDATE_TASK_MEMBER)
+  const [uploadFile] = useMutation(UPLOAD_FILE)
 
   const [isDone] = useState(false)
   const user = useStoreState((s) => s.userState.user)
 
   const [taskData, setTaskData] = useState<Task | null>(null)
   const [modalVisible, setModalVisible] = useState(false)
-  // const [imageUrl, setImageUrl] = useState()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [taskName, setTaskName] = useState('')
@@ -100,6 +99,7 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
     updateTaskName,
     updateTaskDetail,
     updateTaskMember,
+    uploadFile,
   ])
 
   useEffect(() => {
@@ -118,37 +118,6 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
     event.stopPropagation()
     setModalVisible(false)
     onCloseModal()
-  }
-  function getBase64(img: any, callback: any) {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => callback(reader.result))
-    reader.readAsDataURL(img)
-  }
-
-  function beforeUpload(file: any) {
-    const isValid = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isValid) {
-      alert('You upload invalid file!')
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-      alert('Image must smaller than 2MB!')
-    }
-    return isValid && isLt2M
-  }
-
-  function handleChange(info: any) {
-    if (info.file.status === 'uploading') {
-      setLoading(true)
-      return
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl: any) => {
-        // setImageUrl(imageUrl)
-        setLoading(false)
-      })
-    }
   }
 
   function handleSubmit() {
@@ -264,6 +233,33 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
     })
   }
 
+  function onUpload({
+    target: {
+      validity,
+      files: [file],
+    },
+  }: any) {
+    if (validity.valid) uploadFile({ variables: { task: Number(data.id), file } })
+  }
+
+  function filterFile(data: any) {
+    if (data.extension === 'text/plain') {
+      return (
+        <label
+          key={data.id}
+          style={{
+            width: 102,
+            height: 102,
+            backgroundColor: '#f9f9f9',
+          }}
+          className="appearance-none border-dashed border-gray-400 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300"
+        >
+          <PaperClipOutlined />
+        </label>
+      )
+    }
+  }
+
   return (
     <Modal
       visible={modalVisible}
@@ -344,21 +340,31 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                 <Text className="text-lg font-bold">Clipboard</Text>
               </Row>
               <Row className="py-2 px-4 overflow-y-auto flex flex-row clearfix">
-                <Upload
-                  fileList={taskData.files}
-                  name="avatar"
-                  listType="picture-card"
-                  showUploadList={true}
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  beforeUpload={beforeUpload}
-                  onChange={handleChange}
-                  key={new Date().toString()}
-                >
-                  <div className="flex flex-row justify-center items-center">
-                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                    <div className="ant-upload-text">Upload</div>
+                {console.log(taskData)}
+                {taskData.files ? (
+                  taskData.files.map((item: any) => (
+                    <div>
+                      {filterFile(item)}
+
+                      {item.extension}
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex justify-center items-center p-8 w-full">
+                    <Text disabled>No comment</Text>
                   </div>
-                </Upload>
+                )}
+                <label
+                  style={{
+                    width: 102,
+                    height: 102,
+                    backgroundColor: '#f9f9f9',
+                  }}
+                  className="appearance-none border-dashed border-gray-400 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300"
+                >
+                  <input type="file" className="hidden" onChange={onUpload} />
+                  Upload
+                </label>
               </Row>
               <Row className="items-center">
                 <CommentOutlined className="mr-2" style={{ color: '#105EFC', fontSize: 24 }} />

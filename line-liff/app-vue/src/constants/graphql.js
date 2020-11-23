@@ -390,3 +390,34 @@ export const DELETE_COMMENT = gql`
     }
   }
 `
+
+export const ADD_PROJECT = gql`
+  mutation CreateProject($data: ProjectCreateInput!) {
+    createOneProject(data: $data) {
+      id
+      projectName
+      projectType
+      projectDetail
+      projectImage {
+        id
+        fullPath
+      }
+      status
+      dueDate
+      members {
+        id
+      }
+    }
+  }
+`
+
+export const ADD_MEMBER_TO_PROJECT = gql`
+  mutation updateProject($id: Int!, $data: ProjectUpdateInput!) {
+    updateOneProject(where: { id: $id }, data: $data) {
+      id
+      members {
+        id
+      }
+    }
+  }
+`
