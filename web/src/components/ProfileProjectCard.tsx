@@ -17,7 +17,9 @@ function ProfileProjectCard({ data }: any) {
               <Tooltip placement="top" title={item[i].name}>
                 <Avatar
                   key={item[i].id}
-                  src={item[i].image.fullPath}
+                  src={
+                    item[i].image ? item[i].image.fullPath : require('../assets/images/logo5.png')
+                  }
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
                   alt={item[i].name}
                 />
@@ -37,7 +39,9 @@ function ProfileProjectCard({ data }: any) {
                   +{item.length - 4}
                 </div>
                 <Avatar
-                  src={item[4].image.fullPath}
+                  src={
+                    item[4].image ? item[4].image.fullPath : require('../assets/images/logo5.png')
+                  }
                   className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
                   style={{ filter: 'brightness(0.6)' }}
                 ></Avatar>
@@ -60,7 +64,7 @@ function ProfileProjectCard({ data }: any) {
               <div className="flex mx-1 my-1 p-1 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
                 <Avatar
                   key={items.id}
-                  src={items.image.fullPath}
+                  src={items.image ? items.image.fullPath : require('../assets/images/logo5.png')}
                   className="ml-2"
                   alt={items.name}
                 />

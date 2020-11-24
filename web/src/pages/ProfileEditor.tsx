@@ -49,8 +49,16 @@ function ProfileEditor() {
             <Col className="flex flex-col justify-center items-center">
               {userData ? (
                 <>
-                  <img src={userData?.image.fullPath} alt="avatar" className="w-40 rounded-full" />
-                  <label className="appearance-none shadow-sm border border-gray-400 flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300">
+                  <img
+                    src={
+                      userData?.image
+                        ? userData?.image.fullPath
+                        : require('../assets/images/logo5.png')
+                    }
+                    alt="avatar"
+                    className="w-40 rounded-full"
+                  />
+                  <label className="appearance-none border border-gray-300 flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300">
                     <input type="file" className="hidden" onChange={onChange} />
                     <UploadOutlined className="mr-2" />
                     Change Image

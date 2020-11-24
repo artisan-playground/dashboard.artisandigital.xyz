@@ -91,7 +91,11 @@ function NavBar() {
                 {currentUserData.image ? (
                   <div className="block hover:hidden">
                     <Avatar
-                      src={currentUserData.image.fullPath}
+                      src={
+                        currentUserData.image
+                          ? currentUserData.image.fullPath
+                          : require('../assets/images/logo5.png')
+                      }
                       className="border-2 mr-2 "
                       alt="user"
                       size="large"

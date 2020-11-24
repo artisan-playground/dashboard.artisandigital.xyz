@@ -5,8 +5,10 @@ import {
   CloseCircleOutlined,
   CommentOutlined,
   DeleteOutlined,
+  DownloadOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
+  EyeOutlined,
   FundProjectionScreenOutlined,
   LoadingOutlined,
   MoreOutlined,
@@ -14,6 +16,7 @@ import {
   RollbackOutlined,
   SendOutlined,
   TeamOutlined,
+  UploadOutlined,
 } from '@ant-design/icons'
 import { useMutation } from '@apollo/client'
 import {
@@ -27,6 +30,7 @@ import {
   Menu,
   message as Message,
   Modal,
+  Popconfirm,
   Row,
   Typography,
 } from 'antd'
@@ -36,7 +40,7 @@ import Linkify from 'react-linkify'
 import { Link } from 'react-router-dom'
 import { ComponentVisible, LoadingComponent } from '../components/DashboardComponent'
 import { COMMENT, DELETE_COMMENT, UPDATE_COMMENT } from '../services/api/comment'
-import { UPLOAD_FILE } from '../services/api/file'
+import { DELETE_FILE, UPLOAD_FILE } from '../services/api/file'
 import {
   TOGGLE_TASK_DONE,
   UPDATE_TASK_DETAIL,
@@ -57,6 +61,7 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
   const [updateTaskDetail] = useMutation(UPDATE_TASK_DETAIL)
   const [updateTaskMember] = useMutation(UPDATE_TASK_MEMBER)
   const [uploadFile] = useMutation(UPLOAD_FILE)
+  const [deleteFile] = useMutation(DELETE_FILE)
 
   const [isDone] = useState(false)
   const user = useStoreState((s) => s.userState.user)
@@ -68,10 +73,12 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
   const [taskName, setTaskName] = useState('')
   const [taskDetail, setTaskDetail] = useState('')
   const [isHovering, setIsHovering]: any = useState(false)
+  const [isFileHovering, setIsFileHovering]: any = useState(false)
   const [visibleMember, setVisibleMember] = useState(false)
   const [memberList, setMemberList] = useState([])
   const [members, setMembers] = useState([])
   const { Option: MentionOption } = Mentions
+  const [modalFileVisible, setModalFileVisible] = useState(false)
 
   const {
     taskNameRef,
@@ -242,20 +249,141 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
     if (validity.valid) uploadFile({ variables: { task: Number(data.id), file } })
   }
 
+  function openModal() {
+    setModalFileVisible(true)
+  }
+
+  function closeModal() {
+    setModalFileVisible(false)
+  }
+
+  function handleDeleteFile(id: any) {
+    console.log(id)
+    if (taskData) {
+      deleteFile({
+        variables: {
+          id: id,
+        },
+      })
+        .then((res) => {
+          setTaskData({ ...taskData, files: res.data.deleteFile })
+        })
+        .catch((err) => {
+          Message.error({
+            content: `Error : ${err}`,
+            duration: 2,
+            icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+          })
+        })
+    }
+  }
+
   function filterFile(data: any) {
-    if (data.extension === 'text/plain') {
+    if (data.extension === 'image/png' && 'image/jpg') {
       return (
-        <label
+        <Row
           key={data.id}
           style={{
             width: 102,
             height: 102,
-            backgroundColor: '#f9f9f9',
           }}
-          className="appearance-none border-dashed border-gray-400 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300"
+          className="mr-2 bg-file border-gray-300 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer transition delay-100 duration-300 relative"
         >
-          <PaperClipOutlined />
-        </label>
+          <div
+            style={{
+              width: 85,
+              height: 85,
+            }}
+            className="absolute hover:bg-black hover:bg-opacity-50 transition delay-100 duration-300 py-1 px-2"
+            onMouseEnter={() => setIsFileHovering(data.id)}
+            onMouseLeave={() => setIsFileHovering(false)}
+          >
+            {isFileHovering ? (
+              <Col style={{ top: '50%' }} className="flex items-center justify-center">
+                <Button
+                  className="absolute mr-8 hover:opacity-100 text-gray-300 focus:text-white hover:text-white"
+                  type="text"
+                  shape="circle"
+                  onClick={openModal}
+                >
+                  <EyeOutlined />
+                </Button>
+                <Popconfirm
+                  title="Are you sure to delete this member?"
+                  placement="topRight"
+                  onConfirm={() => handleDeleteFile(data.id)}
+                >
+                  <Button
+                    className="absolute ml-8 hover:opacity-100 text-gray-300 focus:text-white hover:text-white"
+                    type="text"
+                    shape="circle"
+                  >
+                    <DeleteOutlined />
+                  </Button>
+                </Popconfirm>
+                <Modal
+                  title={data.fileName}
+                  visible={modalFileVisible}
+                  onCancel={closeModal}
+                  footer={null}
+                  className="flex items-center justify-center"
+                >
+                  <img src={data.fullPath} alt="logo" />
+                </Modal>
+              </Col>
+            ) : null}
+          </div>
+          <img src={data.fullPath} alt="logo" />
+        </Row>
+      )
+    } else {
+      return (
+        <Row
+          key={data.id}
+          style={{
+            width: 102,
+            height: 102,
+          }}
+          className="mr-2 bg-file border-gray-300 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer transition delay-100 duration-300 relative"
+        >
+          <div
+            style={{
+              width: 85,
+              height: 85,
+            }}
+            className="absolute hover:bg-black hover:bg-opacity-50 transition delay-100 duration-300 py-1 px-2"
+            onMouseEnter={() => setIsFileHovering(data.id)}
+            onMouseLeave={() => setIsFileHovering(false)}
+          >
+            {isFileHovering ? (
+              <Col style={{ top: '50%' }} className="flex items-center justify-center">
+                <Button
+                  className="absolute mr-8 hover:opacity-100 text-gray-300 focus:text-white hover:text-white"
+                  type="text"
+                  shape="circle"
+                >
+                  <a href={data.fullPath} download>
+                    <DownloadOutlined />
+                  </a>
+                </Button>
+                <Popconfirm
+                  title="Are you sure to delete this member?"
+                  placement="topRight"
+                  onConfirm={() => handleDeleteFile(data.id)}
+                >
+                  <Button
+                    className="absolute ml-8 hover:opacity-100 text-gray-300 focus:text-white hover:text-white"
+                    type="text"
+                    shape="circle"
+                  >
+                    <DeleteOutlined />
+                  </Button>
+                </Popconfirm>
+              </Col>
+            ) : null}
+          </div>
+          <PaperClipOutlined className="text-2xl text-blue-600" />
+        </Row>
       )
     }
   }
@@ -340,14 +468,11 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                 <Text className="text-lg font-bold">Clipboard</Text>
               </Row>
               <Row className="py-2 px-4 overflow-y-auto flex flex-row clearfix">
-                {console.log(taskData)}
                 {taskData.files ? (
                   taskData.files.map((item: any) => (
-                    <div>
-                      {filterFile(item)}
-
-                      {item.extension}
-                    </div>
+                    <Row>
+                      <Col>{filterFile(item)}</Col>
+                    </Row>
                   ))
                 ) : (
                   <div className="flex justify-center items-center p-8 w-full">
@@ -360,9 +485,10 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                     height: 102,
                     backgroundColor: '#f9f9f9',
                   }}
-                  className="appearance-none border-dashed border-gray-400 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300"
+                  className="appearance-none border-dashed border-gray-300 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300"
                 >
                   <input type="file" className="hidden" onChange={onUpload} />
+                  <UploadOutlined className="mr-2" />
                   Upload
                 </label>
               </Row>
@@ -381,7 +507,14 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                           className="flex justify-center items-center mr-2"
                         >
                           <Link to={{ pathname: `/profile/${item.user.id}` }}>
-                            <Avatar size="large" src={item.user.image.fullPath} />
+                            <Avatar
+                              size="large"
+                              src={
+                                item.user.image
+                                  ? item.user.image.fullPath
+                                  : require('../assets/images/logo5.png')
+                              }
+                            />
                           </Link>
                         </Col>
                         <Col span={18} lg={{ span: 20 }}>
@@ -448,7 +581,7 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                   <Avatar
                     className="flex justify-center items-center mr-4 mt-2"
                     size="large"
-                    src={user?.image.fullPath}
+                    src={user?.image ? user?.image.fullPath : require('../assets/images/logo5.png')}
                   />
                   <Input
                     className="rounded-lg mt-4"
@@ -528,7 +661,11 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                               <Avatar
                                 shape="circle"
                                 size="default"
-                                src={value.image.fullPath}
+                                src={
+                                  value.image
+                                    ? value.image.fullPath
+                                    : require('../assets/images/logo5.png')
+                                }
                                 className="mr-2"
                               />
                               {value.name}
@@ -551,8 +688,18 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                   {taskData.members ? (
                     taskData.members.map((items: any) => (
                       <div className="flex mx-0 my-1 p-2">
-                        <Avatar key={items.id} src={items.image.fullPath} alt={items.name} />
-                        <div className="ml-4 text-lg">{items.name}</div>
+                        <Row className="w-full">
+                          <Avatar
+                            key={items.id}
+                            src={
+                              items.image
+                                ? items.image.fullPath
+                                : require('../assets/images/logo5.png')
+                            }
+                            alt={items.name}
+                          />
+                          <div className="ml-4 text-lg">{items.name}</div>
+                        </Row>
                         <Row className="flex items-end justify-end w-full">
                           <Button
                             danger
@@ -580,7 +727,15 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                       to={{ pathname: `/profile/${items.id}` }}
                     >
                       <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                        <Avatar key={items.id} src={items.image.fullPath} alt={items.name} />
+                        <Avatar
+                          key={items.id}
+                          src={
+                            items.image
+                              ? items.image.fullPath
+                              : require('../assets/images/logo5.png')
+                          }
+                          alt={items.name}
+                        />
                         <div className="ml-4 text-lg">{items.name}</div>
                       </div>
                     </Link>

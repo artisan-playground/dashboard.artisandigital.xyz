@@ -1,4 +1,4 @@
-import { CloseCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+import { CloseCircleOutlined, ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import { useMutation } from '@apollo/client'
 import {
   Avatar,
@@ -168,9 +168,15 @@ function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
                 className="w-40 rounded-full"
               />
             </div>
-            <label className="appearance-none shadow-sm border border-gray-400 flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300">
-              <input type="file" className="hidden" onChange={onChangeImage} />
-            </label>
+            <Row className="flex items-center justify-center">
+              <label className="appearance-none border border-gray-300 flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300 w-1/2 relative">
+                <input type="file" className="invisible" onChange={onChangeImage} />
+                <div className="absolute">
+                  <UploadOutlined className="mr-2" />
+                  Change Image
+                </div>
+              </label>
+            </Row>
             <Form.Item
               name="projectName"
               label="Project name"
@@ -226,7 +232,9 @@ function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
                     <Avatar
                       shape="circle"
                       size="default"
-                      src={value.image.fullPath}
+                      src={
+                        value.image ? value.image.fullPath : require('../assets/images/logo5.png')
+                      }
                       className="mr-2"
                     />
                     {value.name}

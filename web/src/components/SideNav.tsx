@@ -10,8 +10,8 @@ import {
 import { Layout, Menu, Typography } from 'antd'
 import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import '../styles/main.css'
 import { useStoreState } from '../store'
+import '../styles/main.css'
 
 function SideNav({ children }: any) {
   const { Text } = Typography
