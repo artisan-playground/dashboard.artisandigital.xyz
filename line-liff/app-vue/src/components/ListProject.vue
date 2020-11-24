@@ -3,7 +3,7 @@
     <div class="listProject">
       <a-card
         id="card"
-        style="margin: 3px 15px 24px 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+        style="margin: 3px 15px 24px 15px;"
         :bodyStyle="{ padding: '15px' }"
         v-for="project in projects"
         :key="project.id"
@@ -66,7 +66,13 @@
                     :key="member.id"
                     style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                   >
-                    <img v-bind:src="member.image.fullPath" />
+                    <img
+                      v-bind:src="
+                        member.image
+                          ? member.image.fullPath
+                          : 'https://source.unsplash.com/900x900/?person'
+                      "
+                    />
                   </vs-avatar>
                 </vs-avatar-group>
               </div>
@@ -84,7 +90,7 @@
 
 <script>
 import store from '../store/index.js'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/project'
 
 export default {
   name: 'ListProject',
@@ -110,7 +116,6 @@ export default {
 
 <style scoped>
 .listProject {
-  /* margin: 0px 18px 0px 18px; */
   background-color: #e9f0ff;
   padding-top: 15px;
   padding-bottom: 2px;
@@ -118,39 +123,5 @@ export default {
 #title {
   padding-bottom: 0px;
   font-size: 16px;
-}
-#position {
-  color: #8f8f8f;
-  font-size: 12px;
-  margin-top: 0px;
-  padding-bottom: 0px;
-}
-#status {
-  font-size: 10.5px;
-  /* width: 25%; */
-  padding-right: 0px;
-  /* float: right;
-  justify-content: flex-end; */
-}
-#iconStatus {
-  font-size: 10px;
-  vertical-align: -4.57%;
-}
-#card {
-  /* margin: 3px 15px 24px 15px;  */
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-}
-.md-title {
-  font-size: 16px;
-  margin-bottom: -1px; /* ระยะห่างระหว่างชื่อโปรเจคกับตำแหน่งงาน */
-  line-height: 20px; /* ระยะห่างระหว่างบรรทัดของชื่อโปรเจค เวลาขึ้นบรรทัดใหม่ */
-}
-.content {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 </style>

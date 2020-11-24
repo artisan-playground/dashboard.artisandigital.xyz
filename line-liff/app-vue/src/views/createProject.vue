@@ -51,7 +51,13 @@
               v-model="member"
             >
               <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
-                <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgMember" />
+                <v-img
+                  style="float:left;"
+                  v-bind:src="
+                    user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
+                  "
+                  id="imgMember"
+                />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-mentions-option>
             </a-mentions>
@@ -87,14 +93,16 @@
 
 <script>
 import ToolbarBack from '@/components/ToolbarBack'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/project'
+import * as gqlQueryUser from '../constants/user'
+
 export default {
   name: 'createProject',
   components: {
     ToolbarBack,
   },
   apollo: {
-    users: gqlQuery.ALL_MEMBER_QUERY,
+    users: gqlQueryUser.ALL_MEMBER_QUERY,
   },
   data() {
     return {

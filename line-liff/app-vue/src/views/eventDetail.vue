@@ -114,7 +114,7 @@
 <script>
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/event'
 export default {
   name: 'eventDetail',
   components: {

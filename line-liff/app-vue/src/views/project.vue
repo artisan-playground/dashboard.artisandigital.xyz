@@ -14,21 +14,27 @@
         />
       </a-col>
       <a-col :span="17" style="vertical-align: middle; font-size:16px;" align="left">
-        <div>
-          <b>{{ dataProject.projectName }}</b>
-        </div>
-        <div id="position" style="">
+        <a-row>
+          <a-col align="left" :span="20">
+            <b>{{ dataProject.projectName }}</b>
+          </a-col>
+          <a-col align="right" :span="4">
+            <a-icon type="edit" style="color:#0036C7;" />
+          </a-col>
+        </a-row>
+        <a-row id="position" style="">
           {{ dataProject.projectType }}
-        </div>
-        <div style="padding-top: 8px; font-size:14px">
+        </a-row>
+        <a-row style="padding-top: 8px; font-size:14px">
           {{ dataProject.projectDetail }}
-        </div>
+        </a-row>
       </a-col>
     </a-row>
 
     <a-row style="margin: 15px 15px 0px 15px">
       <!-- Done button -->
       <a-button
+        size="large"
         v-if="dataProject.status == 'undone'"
         block
         v-model="isDone"
@@ -39,9 +45,9 @@
       >
         Mark as Done
       </a-button>
-
       <!-- WIP button -->
       <a-button
+        size="large"
         v-if="dataProject.status == 'done'"
         block
         v-model="isDone"
@@ -56,7 +62,7 @@
 
     <a-row :gutter="15" style="margin-top:15px; margin-left:7.5px; margin-right:7.5px;">
       <a-col :span="8">
-        <a-card id="card" :bodyStyle="{ padding: '5px', margin: '0px' }" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px', margin: '0px' }">
           <router-link :to="{ name: 'doneTask', params: { id: dataProject.id } }">
             <div>
               <a-icon type="carry-out" style="color:#105EFB" />
@@ -67,7 +73,7 @@
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card id="card" :bodyStyle="{ padding: '5px' }" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px' }">
           <router-link :to="{ name: 'memberInProject', params: { id: dataProject.id } }">
             <div>
               <a-icon type="team" style="color:#105EFB" />
@@ -80,7 +86,7 @@
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card id="card" :bodyStyle="{ padding: '5px' }" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px' }">
           <router-link :to="{ name: 'todayTask', params: { id: dataProject.id } }">
             <div><a-icon type="profile" style="color:#105EFB" /></div>
             <div>
@@ -95,7 +101,7 @@
     <!-- Date -->
     <a-row style="margin-top:15px; margin-left:15px; margin-right:15px;">
       <a-col v-if="project">
-        <a-card id="card" :bodyStyle="{ padding: '5px' }" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px' }">
           <div>
             <a-icon type="calendar" style="color:#105EFB" />
           </div>
@@ -108,17 +114,21 @@
     </a-row>
 
     <!-- Tasks -->
-    <div>
-      <a-row style="margin-top:30px; margin-left:15px; margin-right:15px;">
-        <a-col><span style="float:left; font-size:20px; font-weight:550">Task</span></a-col>
-        <a-col>
-          <v-btn
-            style="float:right; text-transform: capitalize; background-color: #105EFB; color:white;"
-            :to="{ name: 'createTask', params: { id: dataProject.id } }"
-            ><a-icon type="plus-circle" style="margin-right:2.5px" />Create</v-btn
+    <a-row style="margin-top:30px; margin-left:15px; margin-right:15px;">
+      <a-col :span="15"
+        ><span style="float:left; font-size:20px; font-weight:550">Task</span></a-col
+      >
+      <a-col :span="9">
+        <router-link :to="{ name: 'createTask', params: { id: dataProject.id } }">
+          <a-button
+            style="float:right; background-color:#0036C7; color:white; border:none; border-radius:2px; height:35px;"
           >
-        </a-col>
-      </a-row>
+            <a-icon type="plus-circle" style="margin-right:2.5px" />Create
+          </a-button>
+        </router-link>
+      </a-col>
+    </a-row>
+    <div v-if="dataTask.length > 0">
       <div
         v-for="task in dataTask"
         :key="task.id"
@@ -191,6 +201,10 @@
         </a-card>
       </div>
     </div>
+    <div v-else style="margin-top:30px;">
+      <a-empty />
+    </div>
+
     <div style="padding-bottom:90px">
       <!-- ระยะห่าง manu ข้างล่างกับ content -->
     </div>
@@ -202,7 +216,7 @@
 import store from '../store/index.js'
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/project'
 // import gql from 'graphql-tag'
 export default {
   name: 'project',
@@ -235,6 +249,7 @@ export default {
         }
       },
       update(data) {
+        console.log(data.project.tasks.length)
         this.dataProject = data.project
         this.dataTask = data.project.tasks
       },
@@ -323,36 +338,14 @@ export default {
 </script>
 
 <style>
-#card {
-  border-radius: 2px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin: 0px 0px 0px 0px;
-}
 #imgProject {
   margin-top: 2px;
   border-radius: 100%;
   width: 22vmin;
   height: 22vmin;
-  /* height: 75px; */
   object-fit: cover;
 }
 #imgProject::after {
   display: block;
-}
-#position {
-  color: #8f8f8f;
-  font-size: 12px;
-  margin-top: 0px;
-  padding-bottom: 0px;
-}
-#status {
-  font-size: 10.5px;
-  /* padding-right: 16px; */
-}
-.content {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 </style>

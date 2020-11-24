@@ -11,7 +11,7 @@
         <a-col :span="6">
           <img
             class="profile"
-            id="pictureUrl"
+            id="profilePic"
             :src="
               profileStore.pictureUrl ||
                 'https://www.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png'
@@ -100,19 +100,6 @@ export default {
 </script>
 
 <style scoped>
-#pictureUrl {
-  /* display: block; */
-  /* margin: 0 auto; */
-  /* margin-left: 10%; */
-  /* margin: 10px 15px 10px 18px; */
-  /* width: 18%; */
-  width: 80px;
-  -moz-border-radius: 100px;
-  -webkit-border-radius: 100px;
-  border-radius: 100px;
-  /* margin-left: 40%; */
-}
-
 .edit-button {
   background-color: #0036c7;
   color: rgb(255, 255, 255);

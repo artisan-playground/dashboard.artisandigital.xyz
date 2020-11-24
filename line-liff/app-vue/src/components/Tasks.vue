@@ -40,21 +40,7 @@ export default {
   padding-top: 15px;
   padding-bottom: 2px;
 }
-#status {
-  font-size: 10.5px;
-  /* padding-right: 16px; */
-}
-#iconStatus {
-  font-size: 10px;
-  vertical-align: -4.57%;
-}
 #card {
-  /* margin: 3px 15px 24px 15px;  */
   border-radius: 2px;
-}
-.md-title {
-  font-size: 16px;
-  margin-bottom: -1px; /* ระยะห่างระหว่างชื่อโปรเจคกับตำแหน่งงาน */
-  line-height: 20px; /* ระยะห่างระหว่างบรรทัดของชื่อโปรเจค เวลาขึ้นบรรทัดใหม่ */
 }
 </style>
