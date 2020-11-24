@@ -1,11 +1,13 @@
 <template>
   <div id="app">
+    <!-- <perfect-scrollbar> -->
     <!-- <div id="nav"> -->
     <!-- <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>|
     <router-link to="/login">Login</router-link>-->
     <!-- </div> -->
     <router-view />
+    <!-- </perfect-scrollbar> -->
   </div>
 </template>
 
@@ -16,6 +18,10 @@ html,
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+/* .ps {
+  height: 100vh;
+} */
 
 #app {
   font-family: 'Roboto', serif;

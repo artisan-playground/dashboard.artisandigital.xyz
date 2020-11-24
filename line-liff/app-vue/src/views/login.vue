@@ -4,7 +4,7 @@
     <!-- <h1>Artisan</h1>
     <h1 style="margin-top:0px">Digital</h1>-->
     <div class="content">
-      <md-field>
+      <!-- <md-field>
         <md-icon>
           <span class="iconify" data-inline="false" data-icon="clarity:user-line"></span>
         </md-icon>
@@ -25,7 +25,7 @@
       <a href="/register">
         <span style="color:black; ">Don't have account?</span>
         Register?
-      </a>
+      </a> -->
     </div>
   </div>
 </template>

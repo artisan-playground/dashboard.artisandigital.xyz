@@ -4,7 +4,14 @@
     <br />
     <a-row style="margin: 60px 15px 0px 15px">
       <a-col :span="7" style="padding: 0px 0px 0px 0px; display:flex;">
-        <img id="imgProject" v-bind:src="dataProject.projectImage.fullPath" />
+        <img
+          id="imgProject"
+          :src="
+            dataProject.projectImage
+              ? dataProject.projectImage.fullPath
+              : 'https://source.unsplash.com/random?computer,technology'
+          "
+        />
       </a-col>
       <a-col :span="17" style="vertical-align: middle; font-size:16px;" align="left">
         <div>
@@ -17,6 +24,34 @@
           {{ dataProject.projectDetail }}
         </div>
       </a-col>
+    </a-row>
+
+    <a-row style="margin: 15px 15px 0px 15px">
+      <!-- Done button -->
+      <a-button
+        v-if="dataProject.status == 'undone'"
+        block
+        v-model="isDone"
+        style="background-color:#FF4D4F; color:white; border: none; border-radius:2px;"
+        v-on:click="toggleDone()"
+        :loading="loading"
+        @click="handleOk"
+      >
+        Mark as Done
+      </a-button>
+
+      <!-- WIP button -->
+      <a-button
+        v-if="dataProject.status == 'done'"
+        block
+        v-model="isDone"
+        style="background-color:#73D13D; color:white; border: none; border-radius:2px;"
+        v-on:click="toggleUndone()"
+        :loading="loading"
+        @click="handleOk"
+      >
+        Mark as Done
+      </a-button>
     </a-row>
 
     <a-row :gutter="15" style="margin-top:15px; margin-left:7.5px; margin-right:7.5px;">
@@ -179,13 +214,16 @@ export default {
     const projectId = parseInt(this.$route.params.id)
     return {
       project: store.state.projects.find(p => p.id === projectId),
-      members: store.state.members,
-      task: store.state.tasks,
+      // members: store.state.members,
+      // task: store.state.tasks,
+      loading: false,
       form: this.$form.createForm(this),
       visible: false,
       dataProject: null,
       dataTask: [],
       dataMemberTask: null,
+      status: false,
+      isDone: false,
     }
   },
   apollo: {
@@ -204,6 +242,53 @@ export default {
   },
 
   methods: {
+    handleOk() {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 1000)
+    },
+    toggleDone() {
+      console.log(parseInt(this.$route.params.id))
+      console.log(gqlQuery.PROJECT_STATUS)
+
+      this.$apollo.mutate({
+        mutation: gqlQuery.PROJECT_STATUS,
+        variables: {
+          id: parseInt(this.$route.params.id),
+          data: {
+            status: { set: 'done' },
+          },
+        },
+        update: (store, { data: { updateOneProject } }) => {
+          if (updateOneProject.status) {
+            // eslint-disable-next-line
+            console.log(updateOneProject)
+          }
+        },
+      })
+    },
+    toggleUndone() {
+      console.log(parseInt(this.$route.params.id))
+      console.log(gqlQuery.PROJECT_STATUS)
+
+      this.$apollo.mutate({
+        mutation: gqlQuery.PROJECT_STATUS,
+        variables: {
+          id: parseInt(this.$route.params.id),
+          data: {
+            status: { set: 'undone' },
+          },
+        },
+        update: (store, { data: { updateOneProject } }) => {
+          if (updateOneProject.status) {
+            // eslint-disable-next-line
+            console.log(updateOneProject)
+          }
+        },
+      })
+    },
+
     showDrawer() {
       this.visible = true
       console.log(this.visible)

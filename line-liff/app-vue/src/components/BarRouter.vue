@@ -42,7 +42,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 div {
-  // font-family: 'Roboto';
   text-decoration: none;
 }
 span {

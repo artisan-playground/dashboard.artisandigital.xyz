@@ -53,7 +53,7 @@
           </a-row>
           <a-row>
             <a-col>
-              <div align="left">{{ project.projectDetail }}</div>
+              <div align="left" class="content">{{ project.projectDetail }}</div>
             </a-col>
           </a-row>
 
@@ -146,5 +146,11 @@ export default {
   font-size: 16px;
   margin-bottom: -1px; /* ระยะห่างระหว่างชื่อโปรเจคกับตำแหน่งงาน */
   line-height: 20px; /* ระยะห่างระหว่างบรรทัดของชื่อโปรเจค เวลาขึ้นบรรทัดใหม่ */
+}
+.content {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

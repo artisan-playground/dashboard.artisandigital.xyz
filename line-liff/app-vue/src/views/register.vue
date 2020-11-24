@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <h1>Register</h1>
+    <!-- <h1>Register</h1>
 
     <div class="content">
       <md-field>
@@ -60,7 +60,7 @@
         <span style="color:black; ">Already have account?</span>
         Login?
       </a>
-    </div>
+    </div> -->
   </div>
 </template>
 

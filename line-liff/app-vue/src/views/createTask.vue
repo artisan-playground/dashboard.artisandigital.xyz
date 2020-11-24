@@ -35,15 +35,9 @@
               </a-mentions-option>
             </a-mentions>
           </a-form-item>
-
-          <!-- <select name="" id="" v-model="member">
-            <option v-for="user in dataProject.members" :key="user.id" :value="user.id">
-              {{ user.name }}
-            </option>
-          </select> -->
         </a-row>
         <a-row>
-          <a-form-item label="Approver">
+          <!-- <a-form-item label="Approver">
             <a-mentions
               style="text-align: initial;"
               placeholder="input @ to mention people"
@@ -58,7 +52,7 @@
                 </div>
               </a-mentions-option>
             </a-mentions>
-          </a-form-item>
+          </a-form-item> -->
         </a-row>
         <a-row>
           <a-form-item label="Date" style="margin-bottom:0;">
@@ -92,7 +86,6 @@
           <a-button
             block
             html-type="submit"
-            @focus="addMemberTask(member)"
             @click="createTask(member)"
             style="text-transform: capitalize; background-color: #105EFB; color:white;"
             >Submit
@@ -100,7 +93,6 @@
         </a-row>
       </a-form>
     </div>
-    <BarRouter />
     <div style="padding-bottom:60px">
       <!-- ระยะห่าง manu ข้างล่างกับ content -->
     </div>
@@ -109,14 +101,12 @@
 
 <script>
 import ToolbarBack from '@/components/ToolbarBack.vue'
-import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/graphql'
 
 export default {
   name: 'createTask',
   components: {
     ToolbarBack,
-    BarRouter,
   },
   apollo: {
     getProject: {
@@ -161,27 +151,6 @@ export default {
     },
   },
   methods: {
-    addMemberTask(value) {
-      // console.log(
-      //   this.dataMember
-      //     .filter(item =>
-      //       value
-      //         .slice(0, -1)
-      //         .split('@')
-      //         .includes(item.name)
-      //     )
-      //     .map(val => val.id)
-      // )
-      const mem = this.dataMember
-        .filter(item =>
-          value
-            .slice(0, -1)
-            .split('@')
-            .includes(item.name)
-        )
-        .map(val => val.id)
-      return console.log('member : ', mem)
-    },
     createTask(value) {
       const mem = this.dataMember
         .filter(item =>
@@ -191,26 +160,28 @@ export default {
             .includes(item.name)
         )
         .map(val => val.id)
-      console.log('ID: ', parseInt(this.$route.params.id))
-      console.log('Task name: ', this.taskName)
-      console.log('member: ', mem)
-      console.log('task detail: ', this.taskDetail)
-      console.log('task start time: ', this.startTime)
-      console.log('task end time: ', this.endTime)
-      // console.log(this.memberId)
 
-      // this.$apollo.mutate({
-      //   mutation: gqlQuery.ADD_TASK,
-      //   variables: {
-      //     projectId: parseInt(this.$route.params.id),
-      //     taskName: this.taskName,
-      //     taskDetail: this.taskDetail,
-      //     startTime: this.startTime,
-      //     endTime: this.endTime,
-      //     isDone: false,
-      //     members: 2,
-      //   },
-      // })
+      this.$apollo
+        .mutate({
+          mutation: gqlQuery.ADD_TASK,
+          variables: {
+            projectId: parseInt(this.$route.params.id),
+            taskName: this.taskName,
+            taskDetail: this.taskDetail,
+            startTime: this.startTime,
+            endTime: this.endTime,
+            isDone: false,
+            members: parseInt(mem),
+          },
+        })
+        .then(() => {
+          ;(this.taskName = ''),
+            (this.taskDetail = ''),
+            (this.startTime = ''),
+            (this.endTime = ''),
+            (this.member = '')
+          this.$message.success('Create task is success')
+        })
     },
     handleSubmit(e) {
       e.preventDefault()
@@ -258,7 +229,6 @@ export default {
   min-width: 50px;
 }
 #imgMember {
-  /* margin-top: 17px; */
   border-radius: 100%;
   height: 30px;
   width: 30px;

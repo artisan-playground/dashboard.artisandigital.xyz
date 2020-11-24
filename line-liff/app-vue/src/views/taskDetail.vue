@@ -35,7 +35,7 @@
       <div>
         <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
           <a-col :span="12" :xs="12">
-            <a-card
+            <v-card
               :bodyStyle="{
                 padding: '5px',
                 margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
@@ -49,11 +49,11 @@
                 <b>{{ dataProject.projectName }}</b>
               </div>
               <div id="position">Project name</div>
-            </a-card>
+            </v-card>
           </a-col>
 
           <a-col :span="12" :xs="12">
-            <a-card
+            <v-card
               :bodyStyle="{
                 padding: '5px',
                 margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
@@ -67,14 +67,14 @@
                 <b>{{ $dayjs(dataProject.dueDate).format('DD MMM YYYY') }}</b>
               </div>
               <div id="position">Due date</div>
-            </a-card>
+            </v-card>
           </a-col>
         </a-row>
       </div>
 
       <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
         <a-col>
-          <a-card
+          <v-card
             :bodyStyle="{
               padding: '5px',
               margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
@@ -97,7 +97,7 @@
               </vs-avatar-group>
             </div>
             <div id="position" style="padding-bottom:10px">Team</div>
-          </a-card>
+          </v-card>
         </a-col>
       </a-row>
     </div>
@@ -151,39 +151,22 @@
     </div>
 
     <!-- Comment -->
-    <a-row style="margin-left:18px; margin-right:18px; margin-top:12px">
+    <div style="margin-left:18px; margin-right:18px; margin-top:12px;">
       <a-row style="display:flex;">
         <a-icon type="message" style="color:rgb(16, 94, 251); font-size: 22px; margin-right:5px;" />
         <span>Comment</span>
       </a-row>
-      <a-comment v-for="comment in dataComment" :key="comment.id">
+      <a-comment
+        v-for="comment in dataComment"
+        :key="comment.id"
+        :value="comment.id"
+        v-model="commentId"
+      >
         <template slot="actions">
-          <span key="comment-basic-like">
-            <a-tooltip title="Like">
-              <a-icon
-                type="like"
-                :theme="action === 'liked' ? 'filled' : 'outlined'"
-                @click="like"
-              />
-            </a-tooltip>
-            <span style="padding-left: '8px';cursor: 'auto'">
-              {{ likes }}
-            </span>
-          </span>
-          <span key="comment-basic-dislike">
-            <a-tooltip title="Dislike">
-              <a-icon
-                type="dislike"
-                :theme="action === 'disliked' ? 'filled' : 'outlined'"
-                @click="dislike"
-              />
-            </a-tooltip>
-            <span style="padding-left: '8px';cursor: 'auto'">
-              {{ dislikes }}
-            </span>
-          </span>
-          <span key="comment-basic-reply-to">Reply to</span>
+          <span @click="editComment"> <a-icon type="edit" />Edit </span>
+          <span @click="deleteComment"> <a-icon type="delete" />Delete </span>
         </template>
+
         <a slot="author">{{ comment.user.name }}</a>
         <a-avatar slot="avatar" v-bind:src="comment.user.image.fullPath" alt="Han Solo" />
         <p slot="content" align="left">
@@ -193,11 +176,15 @@
           <span>{{ moment(comment.timestamp).fromNow() }}</span>
         </a-tooltip>
       </a-comment>
-    </a-row>
+    </div>
 
     <!-- input comment -->
-    <a-row style="background-color:#E9F0FF">
-      <a-col :span="5">
+    <a-row
+      type="flex"
+      align="middle"
+      style="background-color:#E9F0FF; padding-top:10px; padding-bottom:5px;"
+    >
+      <a-col :span="4">
         <span
           class="iconify"
           data-inline="false"
@@ -205,16 +192,30 @@
           style="color: #8f8f8f; font-size: 30px;"
         ></span>
       </a-col>
-      <a-col :span="14">
-        <a-input placeholder="Say something" v-model="newComment" />
+      <a-col :span="16">
+        <a-input
+          style="width:100%; border: 1px solid #D7D7D7; background-color:white; border-radius:2px; height:32px"
+          placeholder="Say something"
+          v-model="newComment"
+        />
       </a-col>
-      <a-col :span="5" @click="addComment()">
-        <span
-          class="iconify"
-          data-inline="false"
-          data-icon="cil:send"
-          style="color: #0036c7; font-size: 20px;"
-        ></span>
+      <a-col :span="4">
+        <a-row type="flex" justify="center">
+          <div
+            style="width: 22px;
+                  height: 22px;
+                  margin: 8px;
+                  cursor: pointer;"
+            @click="addComment()"
+          >
+            <span
+              class="iconify"
+              data-inline="false"
+              data-icon="cil:send"
+              style="color: #0036c7; font-size: 20px; width:100%; height:100%;"
+            ></span>
+          </div>
+        </a-row>
       </a-col>
     </a-row>
   </div>
@@ -230,7 +231,6 @@ function getBase64(file) {
     reader.onerror = error => reject(error)
   })
 }
-
 import ToolbarBack from '@/components/ToolbarBack.vue'
 // import store from '../store/index.js'
 import moment from 'moment'
@@ -260,6 +260,8 @@ export default {
 
   data() {
     return {
+      commentId: '',
+      check: false,
       dataTask: null,
       dataProject: null,
       dataComment: null,
@@ -269,8 +271,6 @@ export default {
       dislikes: 0,
       action: null,
       moment,
-      // project: store.state.projects,
-      // task: store.state.tasks,
 
       // upload file
       previewVisible: false,
@@ -310,15 +310,6 @@ export default {
       // add comment
       newComment: '',
       idForComment: 2,
-      comments: [
-        {
-          id: 1,
-          name: 'Pupaeng',
-          comment: 'สวัสดีค่ะ',
-          dateTime: '10.00 AM',
-          profileUrl: 'https://ca.slack-edge.com/T03EKL88Y-U016J08FAUC-eab33b9cc74f-512',
-        },
-      ],
     }
   },
   computed: {
@@ -326,7 +317,33 @@ export default {
       return this.$store.getters.task(parseInt(this.$route.params.id))
     },
   },
+  mounnted() {
+    // this.getTask()
+  },
   methods: {
+    getTaskByClick() {
+      console.log('Logger in call back')
+      this.$apollo.mutate({
+        mutation: gqlQuery.TASK_QUERY,
+        variables: {
+          taskId: parseInt(this.$route.params.id),
+        },
+        update: data => {
+          console.log(data)
+          this.dataTask = data.getTaskById
+          this.dataProject = data.getTaskById.project
+          this.dataComment = data.getTaskById.comments
+        },
+      })
+    },
+    checker() {
+      console.log('แป้งเอง')
+      if (this.check) {
+        this.check = false
+      } else {
+        this.check = true
+      }
+    },
     handleOk() {
       this.loading = true
       setTimeout(() => {
@@ -336,7 +353,6 @@ export default {
     toggleDone() {
       console.log(parseInt(this.$route.params.id))
       console.log(gqlQuery.TOGGLE_STATUS)
-
       this.$apollo.mutate({
         mutation: gqlQuery.TOGGLE_STATUS,
         variables: {
@@ -373,16 +389,6 @@ export default {
         },
       })
     },
-    like() {
-      this.likes = 1
-      this.dislikes = 0
-      this.action = 'liked'
-    },
-    dislike() {
-      this.likes = 0
-      this.dislikes = 1
-      this.action = 'disliked'
-    },
 
     // Upload file
     handleCancel() {
@@ -399,33 +405,47 @@ export default {
       this.fileList = fileList
     },
 
-    // add comment
     addComment() {
+      console.log('Comment')
       if (this.newComment.trim().length == 0) {
         console.log('please enter some comment')
         return
+      } else {
+        console.log('Send')
+        this.$apollo
+          .mutate({
+            mutation: gqlQuery.ADD_COMMENT,
+            variables: {
+              timestamp: moment(),
+              message: this.newComment,
+              taskId: parseInt(this.$route.params.id),
+              userId: 1,
+            },
+          })
+          .then(response => {
+            console.log(response)
+            this.getTaskByClick()
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
-
-      console.log('test add comment')
-      this.comments.push({
-        id: this.idForComment,
-        name: 'Pupaeng',
-        comment: this.newComment,
-        dateTime: '10.10 AM',
-        profileUrl: 'https://ca.slack-edge.com/T03EKL88Y-U016J08FAUC-eab33b9cc74f-512',
-      })
-
       this.newComment = ''
-      this.idForComment++
-      console.log(this.comments)
     },
 
     // delete comment
     deleteComment() {
       console.log('delete comment')
+      console.log(this.commentId)
+      // this.$apollo.mutate({
+      //   mutation: gqlQuery.DELETE_COMMENT,
+      //   variables: {
+      //     id = this.commentId
+      //   },
+      // })
     },
 
-    edit() {
+    editComment() {
       console.log('edit comment')
     },
     reply() {
