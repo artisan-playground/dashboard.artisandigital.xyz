@@ -17,7 +17,9 @@ function ProjectCard({ data }: any) {
                 {item[i].image ? (
                   <Avatar
                     key={item[i].id}
-                    src={item[i].image ? item[i].image.fullPath : null}
+                    src={
+                      item[i].image ? item[i].image.fullPath : require('../assets/images/logo5.png')
+                    }
                     className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
                     alt={item[i].name}
                   />

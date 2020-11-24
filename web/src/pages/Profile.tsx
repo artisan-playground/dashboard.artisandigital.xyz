@@ -76,7 +76,15 @@ function Profile() {
             <Col className="text-center mb-8">
               <Row className="justify-center">
                 {userData ? (
-                  <Avatar src={userData.image.fullPath} alt="user" size={125} />
+                  <Avatar
+                    src={
+                      userData.image
+                        ? userData.image.fullPath
+                        : require('../assets/images/logo5.png')
+                    }
+                    alt="user"
+                    size={125}
+                  />
                 ) : (
                   <Avatar
                     icon={<UserOutlined />}

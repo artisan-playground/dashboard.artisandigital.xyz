@@ -134,7 +134,15 @@ function ProjectDetail() {
                         <Link to={`/profile/${item.id}`}>
                           <List.Item>
                             <List.Item.Meta
-                              avatar={<Avatar src={item.image.fullPath} />}
+                              avatar={
+                                <Avatar
+                                  src={
+                                    item.image
+                                      ? item.image.fullPath
+                                      : require('../assets/images/logo5.png')
+                                  }
+                                />
+                              }
                               title={<Text>{item.name}</Text>}
                             />
                           </List.Item>

@@ -25,7 +25,12 @@ function WelcomeCard({ task, project, data }: any) {
       <Link to="/projects">
         <div className="ml-24 relative z-50">
           <Meta
-            avatar={<Avatar size={100} src={data.image ? data.image.fullPath : null} />}
+            avatar={
+              <Avatar
+                size={100}
+                src={data.image ? data.image.fullPath : require('../assets/images/logo5.png')}
+              />
+            }
             title={
               <Text className="text-white text-xl font-bold z-30">
                 {!data.name ? `Hi!` : `Hi ${data.name} !`}

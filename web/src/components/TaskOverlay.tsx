@@ -507,7 +507,14 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                           className="flex justify-center items-center mr-2"
                         >
                           <Link to={{ pathname: `/profile/${item.user.id}` }}>
-                            <Avatar size="large" src={item.user.image.fullPath} />
+                            <Avatar
+                              size="large"
+                              src={
+                                item.user.image
+                                  ? item.user.image.fullPath
+                                  : require('../assets/images/logo5.png')
+                              }
+                            />
                           </Link>
                         </Col>
                         <Col span={18} lg={{ span: 20 }}>
@@ -574,7 +581,7 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                   <Avatar
                     className="flex justify-center items-center mr-4 mt-2"
                     size="large"
-                    src={user?.image.fullPath}
+                    src={user?.image ? user?.image.fullPath : require('../assets/images/logo5.png')}
                   />
                   <Input
                     className="rounded-lg mt-4"
@@ -654,7 +661,11 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                               <Avatar
                                 shape="circle"
                                 size="default"
-                                src={value.image.fullPath}
+                                src={
+                                  value.image
+                                    ? value.image.fullPath
+                                    : require('../assets/images/logo5.png')
+                                }
                                 className="mr-2"
                               />
                               {value.name}
@@ -678,7 +689,15 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                     taskData.members.map((items: any) => (
                       <div className="flex mx-0 my-1 p-2">
                         <Row className="w-full">
-                          <Avatar key={items.id} src={items.image.fullPath} alt={items.name} />
+                          <Avatar
+                            key={items.id}
+                            src={
+                              items.image
+                                ? items.image.fullPath
+                                : require('../assets/images/logo5.png')
+                            }
+                            alt={items.name}
+                          />
                           <div className="ml-4 text-lg">{items.name}</div>
                         </Row>
                         <Row className="flex items-end justify-end w-full">
@@ -708,7 +727,15 @@ function TaskOverlay({ project, visibleTask, onCloseModal, data, refetch }: any)
                       to={{ pathname: `/profile/${items.id}` }}
                     >
                       <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-                        <Avatar key={items.id} src={items.image.fullPath} alt={items.name} />
+                        <Avatar
+                          key={items.id}
+                          src={
+                            items.image
+                              ? items.image.fullPath
+                              : require('../assets/images/logo5.png')
+                          }
+                          alt={items.name}
+                        />
                         <div className="ml-4 text-lg">{items.name}</div>
                       </div>
                     </Link>

@@ -57,7 +57,13 @@ function EventCard({ data }: any) {
                   >
                     {item.invited.map((item: any) => (
                       <Tooltip title={item.name} placement="top">
-                        <Avatar key={item.id} src={item.image.fullPath} alt={item.name}></Avatar>
+                        <Avatar
+                          key={item.id}
+                          src={
+                            item.image ? item.image.fullPath : require('../assets/images/logo5.png')
+                          }
+                          alt={item.name}
+                        ></Avatar>
                       </Tooltip>
                     ))}
                   </Avatar.Group>

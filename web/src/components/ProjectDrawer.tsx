@@ -1,22 +1,11 @@
 import { CloseCircleOutlined, ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
-import {
-  Button,
-  Col,
-  DatePicker,
-  Drawer,
-  Form,
-  Input,
-  Mentions,
-  message,
-  Row,
-  Select,
-  Upload,
-} from 'antd'
+import { Button, Col, DatePicker, Drawer, Form, Input, Mentions, message, Row, Select } from 'antd'
 import Avatar from 'antd/lib/avatar/avatar'
 import Text from 'antd/lib/typography/Text'
 import React, { useEffect, useState } from 'react'
 import { CREATE_PROJECT } from '../services/api/project'
+import { UPDATE_PROJECT_IMAGE } from '../services/api/projectImage'
 import { GET_USERS } from '../services/api/user'
 
 function ProjectDrawer({ visibillity, onCloseDrawer, refetch }: any) {
@@ -36,13 +25,14 @@ function ProjectDrawer({ visibillity, onCloseDrawer, refetch }: any) {
   const [projectType, setProjectType] = useState('')
   const [projectImage, setProjectImage] = useState('')
   const [imageUrl, setImageUrl] = useState()
+  const [uploadImage] = useMutation(UPDATE_PROJECT_IMAGE)
 
   useEffect(() => {
     setVisible(visibillity)
     if (!loading && data) {
       setUserList(data.users)
     }
-  }, [visibillity, data, loading])
+  }, [visibillity, data, loading, uploadImage])
 
   function onClose() {
     setVisible(false)
@@ -98,33 +88,15 @@ function ProjectDrawer({ visibillity, onCloseDrawer, refetch }: any) {
     setMembers(ids[0])
   }
 
-  function getBase64(img: any, callback: any) {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => callback(reader.result))
-    reader.readAsDataURL(img)
+  function onUpload({
+    target: {
+      validity,
+      files: [file],
+    },
+  }: any) {
+    if (validity.valid) uploadImage({ variables: { file } })
   }
 
-  function beforeUpload(file: any) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!')
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!')
-    }
-    return isJpgOrPng && isLt2M
-  }
-
-  function handleChange(info: any) {
-    if (info.file.status === 'uploading') {
-      return
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl: any) => setImageUrl(imageUrl))
-    }
-  }
   return (
     <>
       <Drawer
@@ -151,6 +123,22 @@ function ProjectDrawer({ visibillity, onCloseDrawer, refetch }: any) {
         <Form layout="vertical">
           <Row gutter={16}>
             <Col span={24}>
+              <div className="flex items-center justify-center">
+                <img
+                  src={imageUrl ? imageUrl : require('../assets/images/logo5.png')}
+                  alt="avatar"
+                  className="w-40 rounded-full"
+                />
+              </div>
+              <Row className="flex items-center justify-center">
+                <label className="appearance-none border border-gray-300 flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300 w-1/2 relative">
+                  <input type="file" className="invisible" onChange={onUpload} />
+                  <div className="absolute">
+                    <UploadOutlined className="mr-2" />
+                    Change Image
+                  </div>
+                </label>
+              </Row>
               <Form.Item
                 name="projectName"
                 label="Project name"
@@ -165,31 +153,6 @@ function ProjectDrawer({ visibillity, onCloseDrawer, refetch }: any) {
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                name="projectImage"
-                label="Project Image"
-                rules={[{ required: true, message: 'Please enter image link' }]}
-              >
-                <Upload showUploadList={false} beforeUpload={beforeUpload} onChange={handleChange}>
-                  <Input.Group compact>
-                    <Input
-                      style={{ width: '54%' }}
-                      defaultValue={imageUrl}
-                      placeholder="Upload Image..."
-                    />
-                    <Button
-                      icon={<UploadOutlined />}
-                      className="flex items-center justify-center"
-                      type="primary"
-                    >
-                      Upload Image
-                    </Button>
-                  </Input.Group>
-                </Upload>
-              </Form.Item>
-            </Col>
-
             <Col span={12}>
               <Form.Item
                 name="type"
