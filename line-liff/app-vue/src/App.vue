@@ -1,32 +1,30 @@
 <template>
   <div id="app">
-    <!-- <perfect-scrollbar> -->
-    <!-- <div id="nav"> -->
-    <!-- <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>|
-    <router-link to="/login">Login</router-link>-->
-    <!-- </div> -->
     <router-view />
-    <!-- </perfect-scrollbar> -->
   </div>
 </template>
+
+<script>
+export default {
+  mounted() {
+    console.log('Working on = ' + process.env.VUE_APP_GRAPHQL_HTTP)
+  },
+}
+</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 
 @font-face {
-  font-family: 'Anuphan';
-  src: local('Anuphan'), url(./fonts/Anuphan-Regular.otf) format('truetype');
+  font-family: Anuphan;
+  src: url('./fonts/Anuphan-Regular.woff') format('woff');
+  font-weight: 400;
 }
 
 html,
 body {
   font-family: 'Anuphan', sans-serif;
 }
-
-/* .ps {
-  height: 100vh;
-} */
 .md-title {
   font-size: 16px;
   margin-bottom: -1px; /* ระยะห่างระหว่างชื่อโปรเจคกับตำแหน่งงาน */

@@ -152,11 +152,13 @@
         <a-icon type="message" style="color:rgb(16, 94, 251); font-size: 22px; margin-right:5px;" />
         <span>Comment</span>
       </a-row>
-      <a-row :v-model="commentId">
-        <a-comment v-for="comment in dataComment" :key="comment.id" :value="comment.id">
+      <a-row>
+        <a-comment v-for="comment in dataComment" :key="comment.id">
           <template slot="actions">
             <span @click="editComment"> <a-icon type="edit" />Edit </span>
-            <span @click="deleteComment"> <a-icon type="delete" :value="comment.id" />Delete </span>
+            <span @click="deleteComment">
+              <a-icon type="delete" v-model="commentId" :value="comment.id" /> Delete
+            </span>
           </template>
 
           <a slot="author">{{ comment.user.name }}</a>
@@ -325,8 +327,6 @@ export default {
           },
           update: data => {
             this.dataTask = data.getTaskById
-            // this.dataProject = data.getTaskById.project
-            // this.dataComment = data.getTaskById.comments
           },
         })
         .then(() => {
@@ -334,6 +334,7 @@ export default {
           this.$message.success('sent comment success')
         })
     },
+
     handleOk() {
       this.loading = true
       setTimeout(() => {
@@ -351,7 +352,6 @@ export default {
         },
         update: (store, { data: { updateOneTask } }) => {
           if (updateOneTask.isDone) {
-            // eslint-disable-next-line
             console.log(updateOneTask)
           }
         },
@@ -368,7 +368,6 @@ export default {
         },
         update: (store, { data: { updateOneTask } }) => {
           if (updateOneTask.isDone) {
-            // eslint-disable-next-line
             console.log(updateOneTask)
           }
         },
@@ -394,7 +393,6 @@ export default {
       if (this.newComment.trim().length == 0) {
         this.$error({
           title: 'ยังไม่ได้คอมเม้นอะไรเลยนะ',
-          // content: 'some messages...some messages...',
         })
         return
       } else {
