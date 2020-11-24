@@ -62,7 +62,7 @@
 
     <a-row :gutter="15" style="margin-top:15px; margin-left:7.5px; margin-right:7.5px;">
       <a-col :span="8">
-        <a-card id="card" :bodyStyle="{ padding: '5px', margin: '0px' }" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px', margin: '0px' }">
           <router-link :to="{ name: 'doneTask', params: { id: dataProject.id } }">
             <div>
               <a-icon type="carry-out" style="color:#105EFB" />
@@ -73,7 +73,7 @@
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card id="card" :bodyStyle="{ padding: '5px' }" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px' }">
           <router-link :to="{ name: 'memberInProject', params: { id: dataProject.id } }">
             <div>
               <a-icon type="team" style="color:#105EFB" />
@@ -86,7 +86,7 @@
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card id="card" :bodyStyle="{ padding: '5px' }" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px' }">
           <router-link :to="{ name: 'todayTask', params: { id: dataProject.id } }">
             <div><a-icon type="profile" style="color:#105EFB" /></div>
             <div>
@@ -101,7 +101,7 @@
     <!-- Date -->
     <a-row style="margin-top:15px; margin-left:15px; margin-right:15px;">
       <a-col v-if="project">
-        <a-card id="card" :bodyStyle="{ padding: '5px' }" :bordered="false">
+        <a-card id="card" :bodyStyle="{ padding: '5px' }">
           <div>
             <a-icon type="calendar" style="color:#105EFB" />
           </div>
@@ -121,8 +121,7 @@
       <a-col :span="9">
         <router-link :to="{ name: 'createTask', params: { id: dataProject.id } }">
           <a-button
-            size="large"
-            style="float:right; background-color:#0036C7; color:white; border:none; border-radius:2px;"
+            style="float:right; background-color:#0036C7; color:white; border:none; border-radius:2px; height:35px;"
           >
             <a-icon type="plus-circle" style="margin-right:2.5px" />Create
           </a-button>
@@ -217,7 +216,7 @@
 import store from '../store/index.js'
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/project'
 // import gql from 'graphql-tag'
 export default {
   name: 'project',
@@ -339,36 +338,14 @@ export default {
 </script>
 
 <style>
-#card {
-  border-radius: 2px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin: 0px 0px 0px 0px;
-}
 #imgProject {
   margin-top: 2px;
   border-radius: 100%;
   width: 22vmin;
   height: 22vmin;
-  /* height: 75px; */
   object-fit: cover;
 }
 #imgProject::after {
   display: block;
-}
-#position {
-  color: #8f8f8f;
-  font-size: 12px;
-  margin-top: 0px;
-  padding-bottom: 0px;
-}
-#status {
-  font-size: 10.5px;
-  /* padding-right: 16px; */
-}
-.content {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 </style>

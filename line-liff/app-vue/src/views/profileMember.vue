@@ -5,22 +5,20 @@
     <div style="margin-top:60px">
       <div style="border:none;">
         <div style="margin:0px 15px 0px 15px">
-          <!-- ระยะห่างด้านข้าง margin:0px 18px 0px 18px -->
           <a-row type="flex" style="font-size:12.5px; margin-bottom: 10px;">
             <a-col :span="6">
               <img
                 style="justify-content: flex-start;"
                 class="profile"
-                id="pictureUrl"
-                :src="
-                  user.image.fullPath ||
-                    'https://www.iconfinder.com/data/icons/facebook-51/32/FACEBOOK_LINE-01-512.png'
+                id="profilePic"
+                v-bind:src="
+                  user.image ? user.image.fullPath : 'https://source.unsplash.com/900x900/?person'
                 "
               />
               <h3 id="displayName" style="display:inline"></h3>
             </a-col>
 
-            <!-- ใส่ข้อมูล Project Participants Today’s task-->
+            <!-- ใส่ข้อมูล Project, Today’s task-->
             <a-col :span="6">
               <a-row>{{ projectNum }}</a-row>
               <a-row>Project</a-row>
@@ -54,7 +52,7 @@
                     <a-card
                       :bodyStyle="{ padding: '15px' }"
                       v-for="project in user.projects"
-                      style="color: black; margin-bottom: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
+                      style="color: black; margin-bottom: 15px;"
                       :key="project.id"
                     >
                       <router-link
@@ -112,7 +110,13 @@
                                   :key="member.id"
                                   style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                                 >
-                                  <img v-bind:src="member.image.fullPath" />
+                                  <img
+                                    v-bind:src="
+                                      member.image
+                                        ? member.image.fullPath
+                                        : 'https://source.unsplash.com/900x900/?person'
+                                    "
+                                  />
                                 </vs-avatar>
                               </vs-avatar-group>
                             </div>
@@ -123,15 +127,11 @@
                   </div>
                 </a-tab-pane>
                 <a-tab-pane key="2" tab="Tasks" force-render>
-                  <div
-                    v-for="task in user.tasks"
-                    :key="task.id"
-                    style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);"
-                  >
+                  <div v-for="task in user.tasks" :key="task.id">
                     <a-card
                       v-if="!task.isDone"
                       :bodyStyle="{ padding: '15px' }"
-                      id="card"
+                      id="cardTask"
                       align="left"
                     >
                       <router-link :to="{ name: 'taskDetail', params: { id: task.id } }">
@@ -190,7 +190,14 @@
                                     :key="member.id"
                                     style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                                   >
-                                    <img style="z-index:1;" v-bind:src="member.image.fullPath" />
+                                    <img
+                                      style="z-index:1;"
+                                      v-bind:src="
+                                        member.image
+                                          ? member.image.fullPath
+                                          : 'https://source.unsplash.com/900x900/?person'
+                                      "
+                                    />
                                   </vs-avatar>
                                 </vs-avatar-group>
                               </div>
@@ -219,7 +226,7 @@
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
 // import gql from 'graphql-tag'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/user'
 export default {
   name: 'profileMember',
   components: {
@@ -265,46 +272,13 @@ export default {
 </script>
 
 <style>
-#pictureUrl {
-  width: 80px;
-  -moz-border-radius: 100px;
-  -webkit-border-radius: 100px;
-  border-radius: 100px;
-  /* margin-left: 40%; */
-}
-.md-title {
-  font-size: 16px;
-  margin-bottom: -1px; /* ระยะห่างระหว่างชื่อโปรเจคกับตำแหน่งงาน */
-  line-height: 20px; /* ระยะห่างระหว่างบรรทัดของชื่อโปรเจค เวลาขึ้นบรรทัดใหม่ */
-}
 #status {
   font-size: 10.5px;
   padding-right: 0px;
 }
-#iconStatus {
-  font-size: 10px;
-  vertical-align: -4.57%;
-}
-#card {
-  margin: 3px 0px 15px 0px; /* ระยะห่างรอบๆ card */
+#cardTask {
+  margin: 3px 0px 15px 0px;
   padding-bottom: 10px;
   border-radius: 2px;
-  /* padding-left: 20px;
-  padding-right: 20px; */
-}
-#position {
-  color: #8f8f8f;
-  font-size: 12px;
-  margin-top: 0px;
-  padding-bottom: 0px;
-}
-.content {
-  /* white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 </style>

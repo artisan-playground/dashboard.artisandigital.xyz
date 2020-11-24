@@ -8,7 +8,7 @@
       <!-- <router-link> -->
       <div v-for="event in events" :key="event.id">
         <router-link :to="{ name: 'eventDetail', params: { id: event.id } }">
-          <a-card :bodyStyle="{ padding: '15px 15px 15px 0px' }" class="card" :bordered="false">
+          <a-card :bodyStyle="{ padding: '15px 15px 15px 0px' }" class="card">
             <a-row v-if="new Date(event.endDate).toLocaleString() > new Date().toLocaleString()">
               <a-col :span="3" sty>
                 <a-row class="flex-container">
@@ -34,7 +34,7 @@
                       color="orange"
                     >
                       <span
-                        id="iconStatus"
+                        id="iconStatusEvent"
                         class="iconify"
                         data-inline="false"
                         data-icon="bi:bookmark"
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/event'
 export default {
   name: 'Events',
   data() {
@@ -95,48 +95,14 @@ export default {
 .news {
   padding-bottom: 5px;
 }
-.content {
-  /* white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.card {
-  margin-left: 15px;
-  margin-right: 15px;
-  transition: 0.3s;
-  text-align: left;
-  color: black;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-.flex-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  align-content: center;
-  border: none;
-  height: 100%;
-  margin-top: 25px;
-}
 #profileImg {
   border-radius: 100%;
   margin-left: 3px;
   width: 25px;
   height: 25px;
 }
-#iconStatus {
+#iconStatusEvent {
   font-size: 10px;
   vertical-align: -9%;
-}
-.vl {
-  border-left: 0.5px solid rgb(184, 184, 184);
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 </style>

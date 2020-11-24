@@ -92,7 +92,7 @@ p {
   border-bottom: 1px dashed #ddd;
 }
 
-#pictureUrl {
+/* #pictureUrl {
   display: block;
   margin: 0 auto;
   width: 12%;
@@ -106,7 +106,7 @@ p {
   -moz-border-radius: 100px;
   -webkit-border-radius: 100px;
   border-radius: 100px;
-}
+} */
 
 #accessToken,
 #utouId {

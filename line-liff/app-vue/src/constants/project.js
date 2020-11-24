@@ -1,0 +1,107 @@
+import gql from 'graphql-tag'
+
+export const ALL_PROJECT_QUERY = gql`
+  query {
+    projects {
+      id
+      projectName
+      projectType
+      projectImage {
+        id
+        fullPath
+      }
+      projectDetail
+      status
+      dueDate
+      members {
+        id
+        name
+        email
+        image {
+          id
+          fullPath
+        }
+      }
+    }
+  }
+`
+
+export const PROJECT_QUERY = gql`
+  query($projectId: Int!) {
+    project(id: $projectId) {
+      id
+      projectName
+      projectType
+      projectImage {
+        id
+        fullPath
+      }
+      projectDetail
+      status
+      dueDate
+      tasks {
+        id
+        taskName
+        startTime
+        endTime
+        taskDetail
+        isDone
+        members {
+          id
+          image {
+            id
+            fullPath
+          }
+        }
+      }
+      members {
+        id
+        name
+        image {
+          id
+          fullPath
+        }
+      }
+    }
+  }
+`
+
+export const PROJECT_STATUS = gql`
+  mutation UpdateProject($id: Int!, $data: ProjectUpdateInput!) {
+    updateOneProject(where: { id: $id }, data: $data) {
+      id
+      status
+    }
+  }
+`
+
+export const ADD_PROJECT = gql`
+  mutation CreateProject($data: ProjectCreateInput!) {
+    createOneProject(data: $data) {
+      id
+      projectName
+      projectType
+      projectDetail
+      projectImage {
+        id
+        fullPath
+      }
+      status
+      dueDate
+      members {
+        id
+      }
+    }
+  }
+`
+
+export const ADD_MEMBER_TO_PROJECT = gql`
+  mutation updateProject($id: Int!, $data: ProjectUpdateInput!) {
+    updateOneProject(where: { id: $id }, data: $data) {
+      id
+      members {
+        id
+      }
+    }
+  }
+`

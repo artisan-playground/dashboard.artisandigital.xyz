@@ -22,19 +22,19 @@
     <div class="news">
       <div v-for="content in contents" :key="content.id">
         <router-link to="/">
-          <div class="card">
+          <a-card hoverable class="card">
             <img
+              slot="cover"
+              alt="example"
               v-bind:src="content.imageUrl"
-              alt=""
               style="width:100%; height:200px; object-fit:cover;"
             />
-            <div class="container">
-              <h3 style="font-size:15px">
-                <b>{{ content.imageAlt }}</b>
-              </h3>
-              <p>{{ content.data }}</p>
-            </div>
-          </div>
+            <a-card-meta :title="content.imageAlt">
+              <template slot="description">
+                {{ content.data }}
+              </template>
+            </a-card-meta>
+          </a-card>
         </router-link>
       </div>
     </div>
@@ -87,32 +87,6 @@ export default {
 
 <style scoped>
 .news {
-  /* margin: 0px 12px 0px 12px; */
-  /* background-color: #e9f0ff; */
-  /* padding-left: 15px;
-  padding-right: 15px; */
   padding-bottom: 0.5px;
-}
-.card {
-  margin: 0px 15px 20px 15px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  /* width: 95%; */
-  text-align: left;
-  color: black;
-}
-.container {
-  margin-top: 7px;
-  padding: 2px 16px;
-}
-#iconStatus {
-  font-size: 10px;
-  vertical-align: -9%;
-}
-#date {
-  vertical-align: middle;
-}
-.vl {
-  border-left: 0.5px solid grey;
 }
 </style>

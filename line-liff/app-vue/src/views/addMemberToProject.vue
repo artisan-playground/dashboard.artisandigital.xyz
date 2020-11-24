@@ -59,7 +59,8 @@
 </template>
 
 <script>
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/project'
+import * as gqlQueryUser from '../constants/user'
 export default {
   name: 'addMemberToProject',
   components: {
@@ -99,7 +100,7 @@ export default {
   },
   apollo: {
     getUser: {
-      query: gqlQuery.ALL_MEMBER_QUERY,
+      query: gqlQueryUser.ALL_MEMBER_QUERY,
       update(data) {
         this.users = data.users
         this.username = data.users.name
@@ -129,22 +130,20 @@ export default {
 .v-input__slot {
   margin-bottom: 0px;
 }
-.picUser {
-  border-radius: 100%;
-  margin-left: 3px;
-  width: 33px;
-  height: 33px;
+.v-icon.v-icon {
+  color: #e0e0e0;
+  border-radius: 50%;
 }
-.title {
-  color: white;
-  font-weight: 380;
-  font-size: 18px;
-}
-#pictureUrl {
-  width: 24px;
-  -moz-border-radius: 100px;
-  -webkit-border-radius: 100px;
-  border-radius: 100px;
+
+.v-input--selection-controls__ripple {
+  border-radius: 50%;
+  cursor: pointer;
+  height: 34px;
+  transition: inherit;
+  width: 34px;
+  left: -12px;
+  top: calc(50% - 24px);
+  margin: 7px;
 }
 .v-icon.v-icon {
   color: #e0e0e0;

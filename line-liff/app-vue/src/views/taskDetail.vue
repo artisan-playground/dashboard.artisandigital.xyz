@@ -37,12 +37,10 @@
       <div>
         <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
           <a-col :span="12" :xs="12">
-            <v-card
+            <a-card
               :bodyStyle="{
                 padding: '5px',
-                margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
               }"
-              :bordered="false"
             >
               <div style="padding-top:10px">
                 <a-icon type="fund" style="color:#0036c7; font-size: 22px;" />
@@ -50,17 +48,15 @@
               <div>
                 <b>{{ dataProject.projectName }}</b>
               </div>
-              <div id="position">Project name</div>
-            </v-card>
+              <div id="position" style="padding-bottom:10px">Project name</div>
+            </a-card>
           </a-col>
 
           <a-col :span="12" :xs="12">
-            <v-card
+            <a-card
               :bodyStyle="{
                 padding: '5px',
-                margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
               }"
-              :bordered="false"
             >
               <div style="padding-top:10px">
                 <a-icon type="clock-circle" style="color:#0036c7; font-size: 22px;" />
@@ -68,20 +64,18 @@
               <div>
                 <b>{{ $dayjs(dataProject.dueDate).format('DD MMM YYYY') }}</b>
               </div>
-              <div id="position">Due date</div>
-            </v-card>
+              <div id="position" style="padding-bottom:10px">Due date</div>
+            </a-card>
           </a-col>
         </a-row>
       </div>
 
       <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
         <a-col>
-          <v-card
+          <a-card
             :bodyStyle="{
               padding: '5px',
-              margin: '0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2)',
             }"
-            :bordered="false"
           >
             <div style="padding-top:10px">
               <span
@@ -99,7 +93,7 @@
               </vs-avatar-group>
             </div>
             <div id="position" style="padding-bottom:10px">Team</div>
-          </v-card>
+          </a-card>
         </a-col>
       </a-row>
     </div>
@@ -234,7 +228,8 @@ function getBase64(file) {
 }
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import moment from 'moment'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/task'
+import * as gqlQueryComment from '../constants/comment'
 
 export default {
   name: 'taskDetail',
@@ -406,7 +401,7 @@ export default {
         this.commentLoadding = true
         this.$apollo
           .mutate({
-            mutation: gqlQuery.ADD_COMMENT,
+            mutation: gqlQueryComment.ADD_COMMENT,
             variables: {
               timestamp: moment(),
               message: this.newComment,
@@ -430,7 +425,7 @@ export default {
       console.log('delete comment')
       console.log(this.commentId)
       // this.$apollo.mutate({
-      //   mutation: gqlQuery.DELETE_COMMENT,
+      //   mutation: gqlQueryComment.DELETE_COMMENT,
       //   variables: {
       //     id: 3,
       //   },
@@ -448,20 +443,11 @@ export default {
 </script>
 
 <style>
-#card {
-  border-radius: 2px;
-}
 .detailTask {
   margin: 0px 18px 0px 18px;
   background-color: #e9f0ff;
   padding: 15px 15px 15px 15px;
   text-align: left;
-}
-#position {
-  color: #8f8f8f;
-  font-size: 12px;
-  margin-top: 0px;
-  padding-bottom: 0px;
 }
 .ant-upload-select-picture-card i {
   font-size: 32px;

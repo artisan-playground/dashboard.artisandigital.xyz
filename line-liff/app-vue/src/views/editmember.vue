@@ -56,8 +56,10 @@
       <a-row style="margin:0px 25px 0px 15px;">
         <a-col :span="20" align="left">
           <img
-            v-bind:src="user.image.fullPath"
-            style="border-radius: 100%; width: 30px; height: 30px;"
+            "
+            class="picUser"
+            v-bind:src="
+              user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
           />
           {{ user.name }}
         </a-col>
@@ -75,7 +77,7 @@
 </template>
 
 <script>
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/project'
 import BarRouter from '@/components/BarRouter.vue'
 
 export default {
@@ -109,11 +111,6 @@ export default {
 </script>
 
 <style>
-.title {
-  color: white;
-  font-weight: 380;
-  font-size: 18px;
-}
 .item-media {
   /* border-radius: 100%; */
   width: 30px;

@@ -108,7 +108,9 @@
 
 <script>
 import ToolbarBack from '@/components/ToolbarBack.vue'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQueryProject from '../constants/project'
+import * as gqlQueryTask from '../constants/task'
+import * as gqlQueryMember from '../constants/user'
 
 export default {
   name: 'createTask',
@@ -117,7 +119,7 @@ export default {
   },
   apollo: {
     getProject: {
-      query: gqlQuery.PROJECT_QUERY,
+      query: gqlQueryProject.PROJECT_QUERY,
       variables() {
         return {
           projectId: parseInt(this.$route.params.id),
@@ -130,7 +132,7 @@ export default {
       },
     },
 
-    users: gqlQuery.ALL_MEMBER_QUERY,
+    users: gqlQueryMember.ALL_MEMBER_QUERY,
   },
   data() {
     return {
@@ -170,7 +172,7 @@ export default {
 
       this.$apollo
         .mutate({
-          mutation: gqlQuery.ADD_TASK,
+          mutation: gqlQueryTask.ADD_TASK,
           variables: {
             projectId: parseInt(this.$route.params.id),
             taskName: this.taskName,

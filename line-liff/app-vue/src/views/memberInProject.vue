@@ -48,9 +48,14 @@
         style="text-decoration: none;"
         :to="{ name: 'profileMember', params: { id: member.id } }"
       >
-        <div class="flex-container">
+        <div id="flex-container">
           <div class="cardPicture">
-            <img v-bind:src="member.image.fullPath" id="imgProfile" />
+            <img
+              v-bind:src="
+                member.image ? member.image.fullPath : 'https://source.unsplash.com/900x900/?person'
+              "
+              id="imgProfile"
+            />
           </div>
           <div class="cardInformation">
             <div id="displayname">
@@ -85,7 +90,7 @@
 <script>
 // import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/project'
 export default {
   name: 'doneTask',
   components: {
@@ -122,76 +127,7 @@ export default {
 .basil--text {
   color: #105efb !important;
 }
-/* .v-slide-group {
-  display: inline-grid;
-} */
-.flex-container {
-  display: flex;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-
-  margin: 0px 15px 20px 15px;
-  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
-  transition: 0.3s;
-  text-align: left;
-  color: black;
-  border: 1px solid #f0f0f0;
-  align-items: flex-start;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-}
-.flex-container > *:first-child {
-  align-self: stretch;
-}
-.cardPicture {
-  background-color: #9daace;
-  box-shadow: 0 0 1px 1px #9daace;
-  padding: 15px 10px 15px 10px;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-.cardInformation {
-  margin-top: 17px;
-  margin-bottom: 30px;
-  padding: 2px 16px;
-}
-#displayname {
-  color: #0036c7;
-  font-size: 18px;
-  font-weight: 550;
-}
-#imgProfile {
-  margin-top: 10px;
-  border-radius: 100%;
-  height: 77px;
-  width: 77px;
-  object-fit: cover;
-  border: 4px solid #9daace;
-  position: relative;
-  box-shadow: 0 0 1px 3px rgb(255, 255, 255);
-}
-#memberposition {
-  color: #000000;
-  opacity: 0.85;
-  font-weight: 500;
-}
-#department {
-  color: #000000;
-  opacity: 0.85;
-  font-size: 12px;
-}
-.title {
-  color: white;
-  font-weight: 380;
-  font-size: 18px;
-}
 .toolbar {
   background-color: #262626;
-}
-#pictureUrl {
-  width: 24px;
-  -moz-border-radius: 100px;
-  -webkit-border-radius: 100px;
-  border-radius: 100px;
 }
 </style>

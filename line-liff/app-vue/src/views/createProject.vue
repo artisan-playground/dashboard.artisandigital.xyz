@@ -93,14 +93,16 @@
 
 <script>
 import ToolbarBack from '@/components/ToolbarBack'
-import * as gqlQuery from '../constants/graphql'
+import * as gqlQuery from '../constants/project'
+import * as gqlQueryUser from '../constants/user'
+
 export default {
   name: 'createProject',
   components: {
     ToolbarBack,
   },
   apollo: {
-    users: gqlQuery.ALL_MEMBER_QUERY,
+    users: gqlQueryUser.ALL_MEMBER_QUERY,
   },
   data() {
     return {
