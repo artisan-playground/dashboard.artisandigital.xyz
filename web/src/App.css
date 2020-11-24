@@ -1,4 +1,9 @@
 @font-face {
-  font-family: 'Anuphan';
-  src: local('Anuphan'), url(./assets/fonts/Anuphan-Regular.otf) format('truetype');
+  font-family: Anuphan;
+  src: url('./assets/fonts/Anuphan-Regular.woff') format('woff');
+  font-weight: 400;
+}
+
+#root {
+  font-family: Anuphan, sans-serif;
 }
