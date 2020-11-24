@@ -37,7 +37,6 @@ function Login() {
       className="h-screen bg-auto bg-center bg-no-repeat"
       style={{
         backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur`,
-        fontFamily: 'Anuphan',
       }}
     >
       <div

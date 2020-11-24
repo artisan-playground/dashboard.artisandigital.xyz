@@ -32,7 +32,7 @@ function SideNav({ children }: any) {
   }
 
   return (
-    <Layout className="flex flex-row justify-center" style={{ fontFamily: 'Anuphan' }}>
+    <Layout className="flex flex-row justify-center">
       <div>
         <Sider
           trigger={
