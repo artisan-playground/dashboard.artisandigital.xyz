@@ -6,7 +6,6 @@ import { Link as RouterLink } from 'react-router-dom'
 import { TASKS } from '../services/api/task'
 import { GET_USER_BY_ID } from '../services/api/user'
 import { useStoreActions, useStoreState } from '../store'
-import '../styles/main.css'
 
 function NavBar() {
   const { Header } = Layout

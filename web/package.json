@@ -6,8 +6,8 @@
     "start": "npm run watch:css && react-scripts start",
     "build": "npm run build:css && GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
-    "watch:css": "postcss src/styles/tailwind.css -o src/styles/main.css",
-    "build:css": "postcss src/styles/tailwind.css -o src/styles/main.css --env production"
+    "watch:css": "postcss src/styles/tailwind.css -o src/styles/tailwind-generated.css",
+    "build:css": "postcss src/styles/tailwind.css -o src/styles/tailwind-generated.css --env production"
   },
   "dependencies": {
     "@apollo/client": "^3.2.4",

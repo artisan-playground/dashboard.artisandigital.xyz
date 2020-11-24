@@ -24,4 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
-src/styles/main.css
+src/styles/tailwind-generated.css

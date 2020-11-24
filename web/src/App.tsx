@@ -1,8 +1,8 @@
 import { ApolloProvider } from '@apollo/client'
+import 'antd/dist/antd.css'
 import { StoreProvider } from 'easy-peasy'
 import React from 'react'
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
-import './App.css'
 import AuthorizedRoute from './components/AuthorizedRoute'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
@@ -14,7 +14,7 @@ import ProjectDetail from './pages/ProjectDetail'
 import ProjectList from './pages/ProjectList'
 import { client } from './services/api'
 import store from './store'
-import './styles/main.css'
+import './styles/tailwind-generated.css'
 
 function App() {
   return (
