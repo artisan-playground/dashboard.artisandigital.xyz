@@ -68,7 +68,9 @@ function TaskCard({ data, project, refetch }: any) {
               <Tooltip placement="top" title={item[i].name}>
                 <Avatar
                   key={item[i].id}
-                  src={item[i].image.fullPath}
+                  src={
+                    item[i].image ? item[i].image.fullPath : require('../assets/images/logo5.png')
+                  }
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
                   alt={item[i].name}
                 />
@@ -88,7 +90,9 @@ function TaskCard({ data, project, refetch }: any) {
                   +{item.length - 3}
                 </div>
                 <Avatar
-                  src={item[3].image.fullPath}
+                  src={
+                    item[3].image ? item[3].image.fullPath : require('../assets/images/logo5.png')
+                  }
                   className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
                   style={{ filter: 'brightness(0.6)' }}
                 ></Avatar>
@@ -108,7 +112,12 @@ function TaskCard({ data, project, refetch }: any) {
         {item.map((items: any) => (
           <Link key={items.id} to={{ pathname: `/profile/${item.id}` }}>
             <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-              <Avatar key={items.id} src={items.image.fullPath} className="ml-2" alt={items.name} />
+              <Avatar
+                key={items.id}
+                src={items.image ? items.image.fullPath : require('../assets/images/logo5.png')}
+                className="ml-2"
+                alt={items.name}
+              />
               <div className="ml-4 text-lg">{items.name}</div>
             </div>
           </Link>

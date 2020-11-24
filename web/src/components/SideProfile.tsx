@@ -18,7 +18,11 @@ function SideProfile({ data, project, contact }: any) {
       <Sider className="p-2 min-h-screen shadow-lg bg-white">
         <Col className="text-center mb-8">
           <Row className="justify-center">
-            <Avatar src={data.image.fullPath} alt="user" size={125} />
+            <Avatar
+              src={data.image ? data.image.fullPath : require('../assets/images/logo5.png')}
+              alt="user"
+              size={125}
+            />
           </Row>
           <Row className="justify-center">
             <Text className="text-xl font-bold">{data.name}</Text>

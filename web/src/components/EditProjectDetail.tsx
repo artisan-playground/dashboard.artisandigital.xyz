@@ -232,7 +232,9 @@ function EditProjectDetail({ visibillity, onCloseDrawer, data, refetch }: any) {
                     <Avatar
                       shape="circle"
                       size="default"
-                      src={value.image.fullPath}
+                      src={
+                        value.image ? value.image.fullPath : require('../assets/images/logo5.png')
+                      }
                       className="mr-2"
                     />
                     {value.name}
