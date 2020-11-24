@@ -9,7 +9,6 @@ import { PROJECT } from '../services/api/project'
 import { TASKS } from '../services/api/task'
 import { GET_USERS, GET_USER_BY_ID } from '../services/api/user'
 import { useStoreState } from '../store'
-import '../styles/main.css'
 
 function Dashboard() {
   const { Title, Text } = Typography
