@@ -3,7 +3,3 @@
   src: url('./assets/fonts/Anuphan-Regular.woff') format('woff');
   font-weight: 400;
 }
-
-#root {
-  font-family: Anuphan, sans-serif;
-}
