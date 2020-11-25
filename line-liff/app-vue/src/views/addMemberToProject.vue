@@ -67,9 +67,9 @@ export default {
     // ToolbarClose,
   },
   methods: {
-    addmember() {
-      this.$apollo
-        .mutate({
+    async addmember() {
+      try {
+        await this.$apollo.mutate({
           mutation: gqlQuery.ADD_MEMBER_TO_PROJECT,
           variables: {
             id: parseInt(this.$route.params.id),
@@ -82,10 +82,11 @@ export default {
             },
           },
         })
-        .then(() => {
-          this.member = ''
-          this.$message.success('Add member success')
-        })
+        this.$router.go(-1)
+        this.$message.success('Add member success')
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
   data() {
@@ -96,6 +97,7 @@ export default {
       checkb: false,
       test: [],
       member: [],
+      userInProject: [],
     }
   },
   apollo: {
@@ -103,7 +105,17 @@ export default {
       query: gqlQueryUser.ALL_MEMBER_QUERY,
       update(data) {
         this.users = data.users
-        this.username = data.users.name
+      },
+    },
+    getUserInProject: {
+      query: gqlQuery.PROJECT_QUERY,
+      variables() {
+        return {
+          projectId: parseInt(this.$route.params.id),
+        }
+      },
+      update(data) {
+        this.userInProject = data.project.members
       },
     },
   },
