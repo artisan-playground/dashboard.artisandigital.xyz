@@ -115,13 +115,16 @@
 
     <!-- Tasks -->
     <a-row style="margin-top:30px; margin-left:15px; margin-right:15px;">
-      <a-col :span="15"
-        ><span style="float:left; font-size:20px; font-weight:550">Task</span></a-col
-      >
-      <a-col :span="9">
+      <span style="float:left; font-size:20px; font-weight:550">Task</span>
+    </a-row>
+    <a-row style="margin-top:10px; margin-left:15px; margin-right:15px;">
+      <a-col :span="18">
+        <a-input-search v-model="search" type="search" placeholder=" input search text" />
+      </a-col>
+      <a-col :span="6">
         <router-link :to="{ name: 'createTask', params: { id: dataProject.id } }">
           <a-button
-            style="float:right; background-color:#0036C7; color:white; border:none; border-radius:2px; height:35px;"
+            style="float:right; background-color:#0036C7; color:white; border:none; border-radius:2px;"
           >
             <a-icon type="plus-circle" style="margin-right:2.5px" />Create
           </a-button>
@@ -130,7 +133,7 @@
     </a-row>
     <div v-if="dataTask.length > 0">
       <div
-        v-for="task in dataTask"
+        v-for="task in taskFilter"
         :key="task.id"
         style="margin-top:15px; margin-left:15px; margin-right:15px;"
       >
@@ -190,7 +193,14 @@
                         :key="member.id"
                         style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                       >
-                        <img style="z-index:1;" v-bind:src="member.image.fullPath" />
+                        <img
+                          style="z-index:1;"
+                          v-bind:src="
+                            member.image
+                              ? member.image.fullPath
+                              : 'https://source.unsplash.com/900x900/?person'
+                          "
+                        />
                       </vs-avatar>
                     </vs-avatar-group>
                   </div>
@@ -228,8 +238,6 @@ export default {
     const projectId = parseInt(this.$route.params.id)
     return {
       project: store.state.projects.find(p => p.id === projectId),
-      // members: store.state.members,
-      // task: store.state.tasks,
       loading: false,
       form: this.$form.createForm(this),
       visible: false,
@@ -238,6 +246,7 @@ export default {
       dataMemberTask: null,
       status: false,
       isDone: false,
+      search: '',
     }
   },
   apollo: {
@@ -248,13 +257,16 @@ export default {
           projectId: parseInt(this.$route.params.id),
         }
       },
+      fetchPolicy: 'no-cache',
       update(data) {
-        console.log(data.project.tasks.length)
+        console.log('Get again :', data.project.tasks.length)
         this.dataProject = data.project
         this.dataTask = data.project.tasks
       },
     },
   },
+
+  mounted() {},
 
   methods: {
     handleOk() {
@@ -317,6 +329,12 @@ export default {
     formatCompat(date) {
       var ms = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
       return date.getDate() + ' ' + ms[date.getMonth()] + ' ' + date.getFullYear()
+    },
+    taskFilter() {
+      let text = this.search.trim()
+      return this.dataTask.filter(item => {
+        return item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1
+      })
     },
     projectFunc() {
       return this.$store.getters.project(parseInt(this.$route.params.id))

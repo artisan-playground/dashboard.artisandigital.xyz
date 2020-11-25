@@ -49,7 +49,13 @@
                 <a-row>
                   <vs-avatar-group float max="4" style="float:right; margin-top:5px;">
                     <vs-avatar v-for="member in event.invited" :key="member.id" id="profileImg">
-                      <img v-bind:src="member.image.fullPath" />
+                      <img
+                        v-bind:src="
+                          member.image
+                            ? member.image.fullPath
+                            : 'https://source.unsplash.com/900x900/?person'
+                        "
+                      />
                     </vs-avatar>
                   </vs-avatar-group>
                 </a-row>

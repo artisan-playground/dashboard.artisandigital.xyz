@@ -105,3 +105,18 @@ export const ADD_MEMBER_TO_PROJECT = gql`
     }
   }
 `
+
+export const DELETE_MEMBER_FROM_PROJECT = gql`
+  mutation UpdateUserProject($projectId: Int!, $memberId: Int!) {
+    updateOneProject(
+      where: { id: $projectId }
+      data: { members: { disconnect: { id: $memberId } } }
+    ) {
+      id
+      projectName
+      members {
+        id
+      }
+    }
+  }
+`

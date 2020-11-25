@@ -135,6 +135,7 @@ export default {
   apollo: {
     projects: {
       query: gqlQuery.ALL_PROJECT_QUERY,
+      fetchPolicy: 'no-cache',
       result({ data }) {
         this.dataProject = data.projects
       },
