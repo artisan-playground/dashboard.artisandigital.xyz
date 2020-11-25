@@ -4,14 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  mounted() {
-    console.log('Working on = ' + process.env.VUE_APP_GRAPHQL_HTTP)
-  },
-}
-</script>
-
 <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 

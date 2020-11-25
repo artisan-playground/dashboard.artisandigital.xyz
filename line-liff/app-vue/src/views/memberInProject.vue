@@ -52,7 +52,7 @@
           <div class="cardPicture">
             <img
               v-bind:src="
-                member.image ? member.image.fullPath : 'https://source.unsplash.com/900x900/?person'
+                member.image ? member.image.fullPath : 'https://source.unsplash.com/900x900/?teen'
               "
               id="imgProfile"
             />
@@ -82,6 +82,9 @@
           </div>
         </div>
       </router-link>
+    </div>
+    <div style="padding-bottom:60px">
+      <!-- ระยะห่าง manu ข้างล่างกับ content -->
     </div>
     <BarRouter />
   </div>
