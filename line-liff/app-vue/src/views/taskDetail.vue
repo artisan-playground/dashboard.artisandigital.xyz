@@ -88,7 +88,13 @@
             <div class="center con-avatars">
               <vs-avatar-group>
                 <vs-avatar circle v-for="member in dataTask.members" :key="member.id">
-                  <img v-bind:src="member.image.fullPath" />
+                  <img
+                    v-bind:src="
+                      member.image
+                        ? member.image.fullPath
+                        : 'https://source.unsplash.com/900x900/?person'
+                    "
+                  />
                 </vs-avatar>
               </vs-avatar-group>
             </div>
@@ -153,16 +159,23 @@
         <span>Comment</span>
       </a-row>
       <a-row>
-        <a-comment v-for="comment in dataComment" :key="comment.id">
+        <a-comment v-for="comment in dataComment" :key="comment.id" v-bind:value="comment.id">
           <template slot="actions">
             <span @click="editComment"> <a-icon type="edit" />Edit </span>
-            <span @click="deleteComment">
-              <a-icon type="delete" v-model="commentId" :value="comment.id" /> Delete
-            </span>
+
+            <span @click="deleteComment(comment.id)"> <a-icon type="delete" /> Delete </span>
           </template>
 
           <a slot="author">{{ comment.user.name }}</a>
-          <a-avatar slot="avatar" v-bind:src="comment.user.image.fullPath" alt="Han Solo" />
+          <a-avatar
+            slot="avatar"
+            v-bind:src="
+              comment.user.image
+                ? comment.user.image.fullPath
+                : 'https://source.unsplash.com/900x900/?person'
+            "
+            alt="Han Solo"
+          />
           <p slot="content" align="left">
             {{ comment.message }}
           </p>
@@ -331,7 +344,6 @@ export default {
         })
         .then(() => {
           this.commentLoadding = false
-          this.$message.success('sent comment success')
         })
     },
 
@@ -389,16 +401,16 @@ export default {
       this.fileList = fileList
     },
 
-    addComment() {
+    async addComment() {
       if (this.newComment.trim().length == 0) {
         this.$error({
           title: 'ยังไม่ได้คอมเม้นอะไรเลยนะ',
         })
         return
       } else {
-        this.commentLoadding = true
-        this.$apollo
-          .mutate({
+        try {
+          this.commentLoadding = true
+          await this.$apollo.mutate({
             mutation: gqlQueryComment.ADD_COMMENT,
             variables: {
               timestamp: moment(),
@@ -407,27 +419,40 @@ export default {
               userId: 1,
             },
           })
-          .then(response => {
-            console.log(response)
-            this.getTaskByClick()
-          })
-          .catch(error => {
-            console.log(error)
-          })
+          this.getTaskByClick()
+          setTimeout(this.$message.success('sent comment success'), 800)
+        } catch (error) {
+          console.error(error)
+        }
       }
       this.newComment = ''
     },
 
     // delete comment
-    deleteComment() {
-      console.log('delete comment')
-      console.log(this.commentId)
-      // this.$apollo.mutate({
-      //   mutation: gqlQueryComment.DELETE_COMMENT,
-      //   variables: {
-      //     id: 3,
-      //   },
-      // })
+    async deleteComment(commentId) {
+      try {
+        this.$confirm({
+          title: 'Are you sure delete this task?',
+          okText: 'Yes',
+          okType: 'danger',
+          cancelText: 'No',
+          onOk: () => {
+            this.$apollo.mutate({
+              mutation: gqlQueryComment.DELETE_COMMENT,
+              variables: {
+                id: commentId,
+              },
+            })
+            this.getTaskByClick()
+            setTimeout(this.$message.success('delete comment success'), 800)
+          },
+          onCancel() {
+            console.log('Cancel')
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
     },
 
     editComment() {
