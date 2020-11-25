@@ -116,17 +116,17 @@ export default {
   },
 
   methods: {
-    createProject(value) {
-      const mem = this.users
-        .filter(item =>
-          value
-            .slice(0, -1)
-            .split('@')
-            .includes(item.name)
-        )
-        .map(val => val.id)
-      this.$apollo
-        .mutate({
+    async createProject(value) {
+      try {
+        const mem = this.users
+          .filter(item =>
+            value
+              .slice(0, -1)
+              .split('@')
+              .includes(item.name)
+          )
+          .map(val => val.id)
+        this.$apollo.mutate({
           mutation: gqlQuery.ADD_PROJECT,
           variables: {
             data: {
@@ -142,14 +142,16 @@ export default {
             },
           },
         })
-        .then(() => {
-          ;(this.projectName = ''),
-            (this.projectType = ''),
-            (this.projectDetail = ''),
-            (this.dueDate = ''),
-            (this.member = '')
-          this.$message.success('Create project is success')
-        })
+        this.projectName = ''
+        this.projectType = ''
+        this.projectDetail = ''
+        this.dueDate = ''
+        this.member = ''
+        this.$router.go(-1)
+        this.$message.success('Create project is success')
+      } catch (error) {
+        this.$message.error(error)
+      }
     },
   },
 }

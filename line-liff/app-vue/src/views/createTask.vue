@@ -160,18 +160,18 @@ export default {
     },
   },
   methods: {
-    createTask(value) {
-      const mem = this.dataMember
-        .filter(item =>
-          value
-            .slice(0, -1)
-            .split('@')
-            .includes(item.name)
-        )
-        .map(val => val.id)
+    async createTask(value) {
+      try {
+        const mem = this.dataMember
+          .filter(item =>
+            value
+              .slice(0, -1)
+              .split('@')
+              .includes(item.name)
+          )
+          .map(val => val.id)
 
-      this.$apollo
-        .mutate({
+        this.$apollo.mutate({
           mutation: gqlQueryTask.ADD_TASK,
           variables: {
             projectId: parseInt(this.$route.params.id),
@@ -183,14 +183,16 @@ export default {
             members: parseInt(mem),
           },
         })
-        .then(() => {
-          ;(this.taskName = ''),
-            (this.taskDetail = ''),
-            (this.startTime = ''),
-            (this.endTime = ''),
-            (this.member = '')
-          this.$message.success('Create task is success')
-        })
+        this.taskName = ''
+        this.taskDetail = ''
+        this.startTime = ''
+        this.endTime = ''
+        this.member = ''
+        this.$router.go(-1)
+        this.$message.success('Create task is success')
+      } catch (error) {
+        this.$message.error(error)
+      }
     },
     handleSubmit(e) {
       e.preventDefault()
