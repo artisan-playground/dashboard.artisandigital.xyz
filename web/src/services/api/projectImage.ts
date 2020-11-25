@@ -41,7 +41,7 @@ export const UPLOAD_PROJECT_IMAGE = gql`
 
 export const UPDATE_PROJECT_IMAGE = gql`
   mutation Upload($id: Int!, $file: Upload!) {
-    uploadProjectImage(id: $id, image: $file) {
+    updateProjectImage(id: $id, image: $file) {
       id
       fileName
       path
