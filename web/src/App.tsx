@@ -15,6 +15,7 @@ import ProjectDetail from './pages/ProjectDetail'
 import ProjectList from './pages/ProjectList'
 import { client } from './services/api'
 import store from './store'
+import './styles/main.css'
 import './styles/tailwind-generated.css'
 
 function App() {
