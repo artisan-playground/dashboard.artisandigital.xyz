@@ -28,9 +28,12 @@
       <div style="margin-top:20px;">
         <a-row>
           <a-col :span="20" align="left">
-            <a-button shape="circle" icon="plus" style="color:#333333" />
-            <span style="margin-left:10px;">Invite members</span>
+            <router-link :to="{ name: 'addMemberToProject', params: { id: dataProject.id } }">
+              <a-button shape="circle" icon="plus" style="color:#333333" />
+              <span style="margin-left:10px; color:black;">Invite members</span>
+            </router-link>
           </a-col>
+
           <a-col :span="4" align="right">
             <a-button
               v-if="deleteButton == false"
@@ -52,20 +55,25 @@
     </div>
     <br />
     <a-divider style="margin:0px 0px 15px 0px;" />
-    <div v-for="user in dataProject.members" :key="user.id">
+    <div v-for="user in userFilter" :key="user.id">
       <a-row style="margin:0px 25px 0px 15px;">
         <a-col :span="20" align="left">
           <img
-            "
             class="picUser"
             v-bind:src="
               user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
+            "
           />
           {{ user.name }}
         </a-col>
         <a-col :span="4" align="right">
           <v-expand-x-transition>
-            <a-icon type="delete" v-if="deleteButton == true" />
+            <a-icon
+              type="delete"
+              v-if="deleteButton == true"
+              @click="deleteMemberProject(user.id)"
+              style="color:#FF4D4F;"
+            />
           </v-expand-x-transition>
         </a-col>
       </a-row>
@@ -88,11 +96,48 @@ export default {
   data() {
     return {
       dataProject: null,
+      dataMember: null,
       search: '',
       deleteButton: false,
+      commentLoadding: false,
+      memberId: '',
     }
   },
-  methods: {},
+  methods: {
+    async deleteMemberProject(memberId) {
+      try {
+        await this.$confirm({
+          title: 'Are you sure delete this task?',
+          okText: 'Yes',
+          okType: 'danger',
+          cancelText: 'No',
+          onOk: () => {
+            this.$apollo.mutate({
+              mutation: gqlQuery.DELETE_MEMBER_FROM_PROJECT,
+              variables: {
+                projectId: parseInt(this.$route.params.id),
+                memberId: memberId,
+              },
+            })
+            setTimeout(this.$message.success('delete comment success'), 800)
+          },
+          onCancel() {
+            console.log('Cancel')
+          },
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
+  computed: {
+    userFilter() {
+      let text = this.search.trim()
+      return this.dataMember.filter(item => {
+        return item.name.toLowerCase().indexOf(text.toLowerCase()) > -1
+      })
+    },
+  },
   apollo: {
     getProject: {
       query: gqlQuery.PROJECT_QUERY,
@@ -103,7 +148,7 @@ export default {
       },
       update(data) {
         this.dataProject = data.project
-        console.log(this.dataProject)
+        this.dataMember = data.project.members
       },
     },
   },
