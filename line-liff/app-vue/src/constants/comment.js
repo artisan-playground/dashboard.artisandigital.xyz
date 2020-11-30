@@ -59,3 +59,12 @@ export const DELETE_COMMENT = gql`
     }
   }
 `
+
+export const EDIT_COMMENT = gql`
+  mutation updateComment($id: Int!, $data: CommentUpdateInput!) {
+    updateOneComment(where: { id: $id }, data: $data) {
+      id
+      message
+    }
+  }
+`

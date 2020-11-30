@@ -161,7 +161,9 @@
       <a-row>
         <a-comment v-for="comment in dataComment" :key="comment.id" v-bind:value="comment.id">
           <template slot="actions">
-            <span @click="editComment"> <a-icon type="edit" />Edit </span>
+            <span @click="editComment" v-on:click="commentEdit = !commentEdit">
+              <a-icon type="edit" />Edit
+            </span>
 
             <span @click="deleteComment(comment.id)"> <a-icon type="delete" /> Delete </span>
           </template>
@@ -177,7 +179,21 @@
             alt="Han Solo"
           />
           <p slot="content" align="left">
-            {{ comment.message }}
+            <span v-if="commentEdit == false">
+              {{ comment.message }}
+            </span>
+            <span v-if="commentEdit == true">
+              <a-col :span="19">
+                <a-input v-model="comment.message" />
+              </a-col>
+              <a-col :span="5">
+                <a-button
+                  @click="editComment(comment.id, comment.message)"
+                  v-on:click="commentEdit = !commentEdit"
+                  >Done</a-button
+                >
+              </a-col>
+            </span>
           </p>
           <a-tooltip slot="datetime" :title="moment().format('YYYY-MM-DD HH:mm:ss')">
             <span>{{ moment(comment.timestamp).fromNow() }}</span>
@@ -280,6 +296,7 @@ export default {
       dislikes: 0,
       action: null,
       moment,
+      commentEdit: false,
 
       // upload file
       previewVisible: false,
@@ -455,8 +472,19 @@ export default {
       }
     },
 
-    editComment() {
+    editComment(id, message) {
       console.log('edit comment')
+      console.log(id)
+      console.log(message)
+      this.$apollo.mutate({
+        mutation: gqlQueryComment.EDIT_COMMENT,
+        variables: {
+          id: id,
+          data: {
+            message: { set: message },
+          },
+        },
+      })
     },
     reply() {
       console.log('reply comment')
