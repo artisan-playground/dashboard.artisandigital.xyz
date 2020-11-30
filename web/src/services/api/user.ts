@@ -359,6 +359,7 @@ export const UPDATE_USER_CONTACT = gql`
     $instagram: String!
     $gitlab: String!
     $github: String!
+    $userId: Int!
   ) {
     updateOneContact(
       where: { id: $id }
@@ -368,6 +369,7 @@ export const UPDATE_USER_CONTACT = gql`
         instagram: { set: $instagram }
         gitlab: { set: $gitlab }
         github: { set: $github }
+        User: { connect: { id: $userId } }
       }
     ) {
       id
@@ -403,6 +405,34 @@ export const UPDATE_USER_SKILLS = gql`
         gitlab
         github
       }
+    }
+  }
+`
+
+export const CREATE_CONTACT = gql`
+  mutation CreateContact(
+    $facebook: String!
+    $twitter: String!
+    $instagram: String!
+    $gitlab: String!
+    $github: String!
+    $userId: Int!
+  ) {
+    createOneContact(
+      data: {
+        facebook: $facebook
+        twitter: $twitter
+        instagram: $instagram
+        gitlab: $gitlab
+        github: $github
+      }
+    ) {
+      id
+      facebook
+      twitter
+      instagram
+      gitlab
+      github
     }
   }
 `
