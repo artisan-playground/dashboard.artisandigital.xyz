@@ -52,7 +52,7 @@
                 :key="member.id"
                 style="border-radius: 100%; margin-left:3px; width:30px; height:30px;"
               >
-                <img v-bind:src="member.image.fullPath" />
+                <img v-bind:src="member.image ? member.image.fullPath : ''" />
               </vs-avatar>
             </vs-avatar-group>
           </a-col>
@@ -136,8 +136,6 @@ export default {
       },
       update(data) {
         this.event = data.getEventById
-        console.log('get data : ', data)
-        console.log('get event by id : ', this.event)
       },
     },
   },

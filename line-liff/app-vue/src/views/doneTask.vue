@@ -64,7 +64,10 @@
                       :key="member.id"
                       style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                     >
-                      <img style="z-index:1;" v-bind:src="member.image.fullPath" />
+                      <img
+                        style="z-index:1;"
+                        v-bind:src="member.image ? member.image.fullPath : ''"
+                      />
                     </vs-avatar>
                   </vs-avatar-group>
                 </div>

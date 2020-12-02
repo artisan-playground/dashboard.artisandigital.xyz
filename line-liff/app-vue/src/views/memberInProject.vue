@@ -36,7 +36,7 @@
         <a-button
           size="large"
           block
-          style="background-color:#0036C7; color:white; border:none; border-radius:2px;"
+          style="background-color:#134F83; color:white; border:none; border-radius:2px;"
         >
           Add member
         </a-button>
@@ -50,12 +50,7 @@
       >
         <div id="flex-container">
           <div class="cardPicture">
-            <img
-              v-bind:src="
-                member.image ? member.image.fullPath : 'https://source.unsplash.com/900x900/?teen'
-              "
-              id="imgProfile"
-            />
+            <img v-bind:src="member.image ? member.image.fullPath : ''" id="imgProfile" />
           </div>
           <div class="cardInformation">
             <div id="displayname">

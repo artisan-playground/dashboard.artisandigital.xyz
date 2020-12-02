@@ -22,14 +22,7 @@
               >
                 <div v-if="member.department === item" id="flex-container">
                   <div class="cardPicture">
-                    <img
-                      v-bind:src="
-                        member.image
-                          ? member.image.fullPath
-                          : 'https://source.unsplash.com/random?cat,bunny'
-                      "
-                      id="imgProfile"
-                    />
+                    <img v-bind:src="member.image ? member.image.fullPath : ''" id="imgProfile" />
                   </div>
                   <div class="cardInformation">
                     <div id="displayname">

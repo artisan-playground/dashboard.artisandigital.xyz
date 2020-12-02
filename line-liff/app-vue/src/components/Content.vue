@@ -6,11 +6,10 @@
           <v-row>
             <v-col cols="6" align="left" style="font-size:20px; font-weight:550">Content</v-col>
             <v-col cols="6" style="padding-right: 30px;">
-              <v-btn
-                color="primary"
-                style="float:right; text-transform: capitalize; background-color: #105EFB; "
+              <a-button
+                style="float:right; text-transform: capitalize; color:white; background-color: #134F83; "
                 to="/news/createContent"
-                ><a-icon type="plus" style="margin-right:2.5px" />Create</v-btn
+                ><a-icon type="plus" style="margin-right:2.5px" />Create</a-button
               >
             </v-col>
           </v-row>

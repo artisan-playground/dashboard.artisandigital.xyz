@@ -48,7 +48,6 @@ export default {
       query: gqlQuery.ALL_MEMBER_QUERY,
       update(data) {
         this.dataMember = data.users
-        console.log(data.users.length)
       },
     },
   },
