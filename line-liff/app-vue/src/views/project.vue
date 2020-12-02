@@ -19,7 +19,9 @@
             <b>{{ dataProject.projectName }}</b>
           </a-col>
           <a-col align="right" :span="4">
-            <a-icon type="edit" style="color:#0036C7;" />
+            <router-link :to="{ name: 'editProject', params: { id: dataProject.id } }">
+              <a-icon type="edit" style="color:#0036C7;" />
+            </router-link>
           </a-col>
         </a-row>
         <a-row id="position" style="">
@@ -35,7 +37,7 @@
       <!-- Done button -->
       <a-button
         size="large"
-        v-if="dataProject.status == 'undone'"
+        v-if="dataStatus == 'undone'"
         block
         v-model="isDone"
         style="background-color:#FF4D4F; color:white; border: none; border-radius:2px;"
@@ -48,7 +50,7 @@
       <!-- WIP button -->
       <a-button
         size="large"
-        v-if="dataProject.status == 'done'"
+        v-if="dataStatus == 'done'"
         block
         v-model="isDone"
         style="background-color:#73D13D; color:white; border: none; border-radius:2px;"
@@ -56,7 +58,7 @@
         :loading="loading"
         @click="handleOk"
       >
-        Mark as Done
+        Mark as Undone
       </a-button>
     </a-row>
 
@@ -124,7 +126,7 @@
       <a-col :span="6">
         <router-link :to="{ name: 'createTask', params: { id: dataProject.id } }">
           <a-button
-            style="float:right; background-color:#0036C7; color:white; border:none; border-radius:2px;"
+            style="float:right; background-color:#134F83; color:white; border:none; border-radius:2px;"
           >
             <a-icon type="plus-circle" style="margin-right:2.5px" />Create
           </a-button>
@@ -195,11 +197,7 @@
                       >
                         <img
                           style="z-index:1;"
-                          v-bind:src="
-                            member.image
-                              ? member.image.fullPath
-                              : 'https://source.unsplash.com/900x900/?person'
-                          "
+                          v-bind:src="member.image ? member.image.fullPath : ''"
                         />
                       </vs-avatar>
                     </vs-avatar-group>
@@ -242,14 +240,25 @@ export default {
       form: this.$form.createForm(this),
       visible: false,
       dataProject: null,
+      dataStatus: null,
       dataTask: [],
       dataMemberTask: null,
-      status: false,
       isDone: false,
       search: '',
     }
   },
   apollo: {
+    getStatus: {
+      query: gqlQuery.PROJECT_QUERY,
+      variables() {
+        return {
+          projectId: parseInt(this.$route.params.id),
+        }
+      },
+      update(data) {
+        this.dataStatus = data.project.status
+      },
+    },
     getProject: {
       query: gqlQuery.PROJECT_QUERY,
       variables() {
@@ -259,7 +268,6 @@ export default {
       },
       fetchPolicy: 'no-cache',
       update(data) {
-        console.log('Get again :', data.project.tasks.length)
         this.dataProject = data.project
         this.dataTask = data.project.tasks
       },
@@ -276,9 +284,6 @@ export default {
       }, 1000)
     },
     toggleDone() {
-      console.log(parseInt(this.$route.params.id))
-      console.log(gqlQuery.PROJECT_STATUS)
-
       this.$apollo.mutate({
         mutation: gqlQuery.PROJECT_STATUS,
         variables: {
@@ -287,18 +292,9 @@ export default {
             status: { set: 'done' },
           },
         },
-        update: (store, { data: { updateOneProject } }) => {
-          if (updateOneProject.status) {
-            // eslint-disable-next-line
-            console.log(updateOneProject)
-          }
-        },
       })
     },
     toggleUndone() {
-      console.log(parseInt(this.$route.params.id))
-      console.log(gqlQuery.PROJECT_STATUS)
-
       this.$apollo.mutate({
         mutation: gqlQuery.PROJECT_STATUS,
         variables: {
@@ -307,18 +303,11 @@ export default {
             status: { set: 'undone' },
           },
         },
-        update: (store, { data: { updateOneProject } }) => {
-          if (updateOneProject.status) {
-            // eslint-disable-next-line
-            console.log(updateOneProject)
-          }
-        },
       })
     },
 
     showDrawer() {
       this.visible = true
-      console.log(this.visible)
     },
     onClose() {
       this.visible = false

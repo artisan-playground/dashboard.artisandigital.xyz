@@ -1,13 +1,13 @@
 <template>
   <div>
-    <ToolbarBack msg="Create Project" />
+    <ToolbarBack msg="Edit Project" />
     <br />
     <div style="margin: 60px 18px 0px 18px;">
-      <a-form layout="vertical" hide-required-mark>
+      <a-form layout="vertical" hide-required-mark v-if="dataProject">
         <a-row>
           <a-form-item label="Project name">
             <a-input
-              v-model="projectName"
+              v-model="dataProject.projectName"
               v-decorator="[
                 'name',
                 {
@@ -34,7 +34,7 @@
           </a-form-item>
           <a-form-item label="Type">
             <a-select
-              v-model="projectType"
+              v-model="dataProject.projectType"
               show-search
               placeholder="Select a Type"
               block
@@ -62,46 +62,36 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="Members">
-            <a-mentions
-              style="text-align: initial;"
-              placeholder="input @ to mention people"
-              v-model="member"
+          <!-- <a-form-item label="Members">
+            <a-select-option
+              mode="tags"
+              style="width: 100%"
+              placeholder="Tag People"
+              :default-value="[dataProject.members.id]"
+              v-model="dataProject.members"
             >
-              <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
+              <a-select-option
+                v-for="user in dataProject.members"
+                :key="user.id"
+                :value="user.name"
+              >
                 <v-img
                   style="float:left;"
                   v-bind:src="
-                    user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
+                    user.image ? user.image.fullPath : ''
                   "
                   id="imgMember"
                 />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
-              </a-mentions-option>
-            </a-mentions>
-            <!-- <a-select
-              mode="tags"
-              style="width: 100%"
-              placeholder="Tag People"
-              @change="testClick"
-              v-model="member"
-            >
-              <a-select-option v-for="user in users" :key="user.id" :value="user.name">
-                <v-img
-                  style="float:left;"
-                  v-bind:src="user.image ? user.image.fullPath : ''"
-                  id="imgMember"
-                />
-                <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-select-option>
-            </a-select> -->
+            </a-select-option>
           </a-form-item>
           <a-form-item label="Due Date">
-            <a-date-picker style="width:100%" v-model="dueDate" />
-          </a-form-item>
+            <a-date-picker style="width:100%" v-model="dataProject.dueDate" />
+          </a-form-item> -->
           <a-form-item label="Description">
             <a-textarea
-              v-model="projectDetail"
+              v-model="dataProject.projectDetail"
               v-decorator="[
                 'description',
                 {
@@ -112,11 +102,33 @@
               placeholder="please enter url description"
             />
           </a-form-item>
+          <a-form-item align="left" label="Project Status">
+            <a-switch
+              default-checked
+              v-model="switchCheck"
+              :loading="loading"
+              @change="onChange(switchCheck)"
+            />
+            <span v-if="switchCheck == true">Active</span>
+            <span v-if="switchCheck == false">Inactive</span>
+          </a-form-item>
         </a-row>
         <a-button
+          v-if="switchCheck == true"
           block
           html-type="submit"
-          @click="createProject(member)"
+          @click="
+            editProject(dataProject.projectName, dataProject.projectType, dataProject.projectDetail)
+          "
+          style="text-transform: capitalize; background-color: #134F83; color:white;"
+          >Submit
+        </a-button>
+
+        <a-button
+          v-if="switchCheck == false"
+          block
+          html-type="submit"
+          @click="deleteProject()"
           style="text-transform: capitalize; background-color: #134F83; color:white;"
           >Submit
         </a-button>
@@ -127,73 +139,92 @@
 
 <script>
 import ToolbarBack from '@/components/ToolbarBack'
-import * as gqlQuery from '../constants/project'
-import * as gqlQueryUser from '../constants/user'
+import * as gqlQueryProject from '../constants/project'
 
 export default {
-  name: 'createProject',
+  name: 'editProject',
   components: {
     ToolbarBack,
   },
   apollo: {
-    users: gqlQueryUser.ALL_MEMBER_QUERY,
+    getProject: {
+      query: gqlQueryProject.PROJECT_QUERY,
+      variables() {
+        return {
+          projectId: parseInt(this.$route.params.id),
+        }
+      },
+      update(data) {
+        this.dataProject = data.project
+      },
+    },
   },
   data() {
     return {
-      users: [],
-      projectName: '',
-      projectType: '',
-      projectDetail: '',
-      dueDate: '',
-      member: '',
+      dataProject: null,
+      switchCheck: true,
+      loading: false,
     }
   },
 
   methods: {
-    testClick(value) {
-      console.log(value)
-      // console.log(this.users.filter(data => data.name == value).map(val => val.id))
-      // console.log(`selected ${this.users.filter(data => data)}`)
-
-      var mem = this.users.filter(data => data.name == value).map(val => val.id)
-
-      console.log(mem)
+    onChange() {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 1000)
     },
-    async createProject(value) {
+
+    async editProject(projectName, projectType, projectDetail) {
       try {
-        const mem = this.users
-          .filter(item =>
-            value
-              .slice(0, -1)
-              .split('@')
-              .includes(item.name)
-          )
-          .map(val => val.id)
         await this.$apollo.mutate({
-          mutation: gqlQuery.ADD_PROJECT,
+          mutation: gqlQueryProject.EDIT_PROJECT,
           variables: {
-            data: {
-              projectName: this.projectName,
-              projectType: this.projectType,
-              projectDetail: this.projectDetail,
-              dueDate: this.dueDate,
-              members: {
-                connect: {
-                  id: parseInt(mem),
-                },
-              },
-            },
+            id: parseInt(this.$route.params.id),
+            projectName: projectName,
+            projectType: projectType,
+            projectDetail: projectDetail,
           },
         })
-        this.projectName = ''
-        this.projectType = ''
-        this.projectDetail = ''
-        this.dueDate = ''
-        this.member = ''
         this.$router.go(-1)
-        this.$message.success('Create project is success')
+        this.$message.success('Edit project is success')
       } catch (error) {
-        this.$message.error(error + '')
+        this.$message.error(error)
+      }
+    },
+
+    async deleteProject() {
+      try {
+        await this.$confirm({
+          title: 'Are you sure delete this task?',
+          okText: 'Yes',
+          okType: 'danger',
+          cancelText: 'No',
+          onOk: () => {
+            this.$apollo.mutate({
+              mutation: gqlQueryProject.DELETE_PROJECT,
+              variables: {
+                id: parseInt(this.$route.params.id),
+              },
+            })
+            this.$router.go(-2)
+            this.$message.success('Delete project is success')
+          },
+          onCancel() {
+            console.log('Cancel')
+          },
+        })
+
+        // await this.$apollo.mutate({
+        //   mutation: gqlQueryProject.DELETE_PROJECT,
+        //   variables: {
+        //     id: parseInt(this.$route.params.id),
+        //   },
+        // })
+        // this.$router.go(-2)
+        // this.$message.success('Delete project is success')
+      } catch (error) {
+        this.$message.error(error)
       }
     },
   },

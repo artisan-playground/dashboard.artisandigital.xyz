@@ -109,3 +109,24 @@ export const ADD_TASK = gql`
     }
   }
 `
+
+export const EDIT_TASK = gql`
+  mutation UpdateTask($id: Int!, $taskName: String, $taskDetail: String) {
+    updateOneTask(
+      where: { id: $id }
+      data: { taskName: { set: $taskName }, taskDetail: { set: $taskDetail } }
+    ) {
+      id
+      taskName
+      taskDetail
+    }
+  }
+`
+
+export const DELETE_TASK = gql`
+  mutation DeleteTask($id: Int!) {
+    deleteOneTask(where: { id: $id }) {
+      id
+    }
+  }
+`

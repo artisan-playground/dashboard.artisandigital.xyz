@@ -32,9 +32,7 @@
               >
                 <v-img
                   style="float:left;"
-                  v-bind:src="
-                    user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
-                  "
+                  v-bind:src="user.image ? user.image.fullPath : ''"
                   id="imgMember"
                 />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
@@ -94,7 +92,7 @@
             block
             html-type="submit"
             @click="createTask(member)"
-            style="text-transform: capitalize; background-color: #0036C7; color:white;"
+            style="text-transform: capitalize; background-color: #134F83; color:white;"
             >Submit
           </a-button>
         </a-row>

@@ -39,6 +39,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/project.vue'),
   },
   {
+    path: '/projects/:id/editProject/:id',
+    name: 'editProject',
+    component: () => import(/* webpackChunkName: "about" */ '../views/editProject.vue'),
+  },
+  {
     path: '/projects/:id/members',
     name: 'memberInProject',
     component: () => import(/* webpackChunkName: "about" */ '../views/memberInProject.vue'),
@@ -77,6 +82,11 @@ const routes = [
     path: '/taskDetail/:id',
     name: 'taskDetail',
     component: () => import(/* webpackChunkName: "about" */ '../views/taskDetail.vue'),
+  },
+  {
+    path: '/taskDetail/:id/editTask/:id',
+    name: 'editTask',
+    component: () => import(/* webpackChunkName: "about" */ '../views/editTask.vue'),
   },
   {
     path: '/login',
