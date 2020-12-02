@@ -120,3 +120,35 @@ export const DELETE_MEMBER_FROM_PROJECT = gql`
     }
   }
 `
+
+export const EDIT_PROJECT = gql`
+  mutation UpdateProject(
+    $id: Int!
+    $projectName: String
+    $projectDetail: String
+    $projectType: String
+  ) {
+    updateOneProject(
+      where: { id: $id }
+      data: {
+        projectName: { set: $projectName }
+        projectDetail: { set: $projectDetail }
+        projectType: { set: $projectType }
+      }
+    ) {
+      id
+      projectName
+      projectDetail
+      projectType
+      status
+    }
+  }
+`
+
+export const DELETE_PROJECT = gql`
+  mutation deleteOneProject($id: Int!) {
+    deleteOneProject(where: { id: $id }) {
+      id
+    }
+  }
+`

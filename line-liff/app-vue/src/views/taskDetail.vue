@@ -28,7 +28,7 @@
         :loading="loading"
         @click="handleOk"
       >
-        Mark as Done
+        Mark as Undone
       </a-button>
     </div>
 
@@ -88,13 +88,7 @@
             <div class="center con-avatars">
               <vs-avatar-group>
                 <vs-avatar circle v-for="member in dataTask.members" :key="member.id">
-                  <img
-                    v-bind:src="
-                      member.image
-                        ? member.image.fullPath
-                        : 'https://source.unsplash.com/900x900/?person'
-                    "
-                  />
+                  <img v-bind:src="member.image ? member.image.fullPath : ''" />
                 </vs-avatar>
               </vs-avatar-group>
             </div>
@@ -106,11 +100,14 @@
 
     <!-- Detail of Task -->
     <a-row style="margin-left:15px; margin-right:15px;">
-      <a-col
-        ><span style="float:left; font-size:20px; font-weight:550">{{
-          dataTask.taskName
-        }}</span></a-col
-      >
+      <a-col align="left" :span="20"
+        ><span style="float:left; font-size:20px; font-weight:550">{{ dataTask.taskName }}</span>
+      </a-col>
+      <a-col align="right" :span="4" style="padding-right:3px;">
+        <router-link :to="{ name: 'editTask', params: { id: dataTask.id } }">
+          <a-icon type="edit" style="color:#0036C7;" />
+        </router-link>
+      </a-col>
     </a-row>
     <div class="detailTask">
       {{ dataTask.taskDetail }}
@@ -171,11 +168,7 @@
           <a slot="author">{{ comment.user.name }}</a>
           <a-avatar
             slot="avatar"
-            v-bind:src="
-              comment.user.image
-                ? comment.user.image.fullPath
-                : 'https://source.unsplash.com/900x900/?person'
-            "
+            v-bind:src="comment.user.image ? comment.user.image.fullPath : ''"
             alt="Han Solo"
           />
           <p slot="content" align="left">
@@ -348,7 +341,6 @@ export default {
   },
   methods: {
     getTaskByClick() {
-      console.log('Logger in call back')
       this.$apollo
         .mutate({
           mutation: gqlQuery.TASK_QUERY,
@@ -379,11 +371,6 @@ export default {
             isDone: { set: true },
           },
         },
-        update: (store, { data: { updateOneTask } }) => {
-          if (updateOneTask.isDone) {
-            console.log(updateOneTask)
-          }
-        },
       })
     },
     toggleUndone() {
@@ -394,11 +381,6 @@ export default {
           data: {
             isDone: { set: false },
           },
-        },
-        update: (store, { data: { updateOneTask } }) => {
-          if (updateOneTask.isDone) {
-            console.log(updateOneTask)
-          }
         },
       })
     },
@@ -448,8 +430,8 @@ export default {
     // delete comment
     async deleteComment(commentId) {
       try {
-        this.$confirm({
-          title: 'Are you sure delete this task?',
+        await this.$confirm({
+          title: 'Are you sure delete this comment?',
           okText: 'Yes',
           okType: 'danger',
           cancelText: 'No',
@@ -463,19 +445,14 @@ export default {
             this.getTaskByClick()
             setTimeout(this.$message.success('delete comment success'), 800)
           },
-          onCancel() {
-            console.log('Cancel')
-          },
+          onCancel() {},
         })
       } catch (error) {
-        console.error(error)
+        this.$message.error(error)
       }
     },
 
     editComment(id, message) {
-      console.log('edit comment')
-      console.log(id)
-      console.log(message)
       this.$apollo.mutate({
         mutation: gqlQueryComment.EDIT_COMMENT,
         variables: {
@@ -486,9 +463,7 @@ export default {
         },
       })
     },
-    reply() {
-      console.log('reply comment')
-    },
+    reply() {},
   },
 }
 </script>
