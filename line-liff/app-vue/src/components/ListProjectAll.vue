@@ -5,7 +5,7 @@
         <a-button
           size="large"
           block
-          style="float:right; text-transform: capitalize; background-color: #0036C7; color:white;"
+          style="float:right; text-transform: capitalize; background-color: #134F83; color:white;"
         >
           Create Project
         </a-button>
@@ -94,13 +94,7 @@
                     :key="member.id"
                     style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                   >
-                    <img
-                      v-bind:src="
-                        member.image
-                          ? member.image.fullPath
-                          : 'https://source.unsplash.com/900x900/?person'
-                      "
-                    />
+                    <img v-bind:src="member.image ? member.image.fullPath : ''" />
                   </vs-avatar>
                 </vs-avatar-group>
               </div>

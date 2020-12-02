@@ -49,13 +49,7 @@
                 <a-row>
                   <vs-avatar-group float max="4" style="float:right; margin-top:5px;">
                     <vs-avatar v-for="member in event.invited" :key="member.id" id="profileImg">
-                      <img
-                        v-bind:src="
-                          member.image
-                            ? member.image.fullPath
-                            : 'https://source.unsplash.com/900x900/?person'
-                        "
-                      />
+                      <img v-bind:src="member.image ? member.image.fullPath : ''" />
                     </vs-avatar>
                   </vs-avatar-group>
                 </a-row>
@@ -90,7 +84,6 @@ export default {
       const result = this.events.map(item => {
         return new Date(item.endDate).toLocaleString() > new Date().toLocaleString()
       })
-      console.log(result)
       return result
     },
   },

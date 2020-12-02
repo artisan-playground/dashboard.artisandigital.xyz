@@ -11,9 +11,7 @@
                 style="justify-content: flex-start;"
                 class="profile"
                 id="profilePic"
-                v-bind:src="
-                  user.image ? user.image.fullPath : 'https://source.unsplash.com/900x900/?person'
-                "
+                v-bind:src="user.image ? user.image.fullPath : ''"
               />
               <h3 id="displayName" style="display:inline"></h3>
             </a-col>
@@ -110,13 +108,7 @@
                                   :key="member.id"
                                   style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                                 >
-                                  <img
-                                    v-bind:src="
-                                      member.image
-                                        ? member.image.fullPath
-                                        : 'https://source.unsplash.com/900x900/?person'
-                                    "
-                                  />
+                                  <img v-bind:src="member.image ? member.image.fullPath : ''" />
                                 </vs-avatar>
                               </vs-avatar-group>
                             </div>
@@ -192,11 +184,7 @@
                                   >
                                     <img
                                       style="z-index:1;"
-                                      v-bind:src="
-                                        member.image
-                                          ? member.image.fullPath
-                                          : 'https://source.unsplash.com/900x900/?person'
-                                      "
+                                      v-bind:src="member.image ? member.image.fullPath : ''"
                                     />
                                   </vs-avatar>
                                 </vs-avatar-group>
@@ -244,7 +232,6 @@ export default {
       },
       update(data) {
         this.user = data.user
-        console.log('We got some result!', data)
         this.dataProject = data.user.projects
         this.dataTask = data.user.tasks
       },
@@ -265,9 +252,7 @@ export default {
       dataTask: [],
     }
   },
-  mounted() {
-    console.log(this.$route.params.id)
-  },
+  mounted() {},
 }
 </script>
 
