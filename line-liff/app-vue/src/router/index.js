@@ -84,6 +84,21 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/taskDetail.vue'),
   },
   {
+    path: '/taskDetail/:id/editMemberInTask',
+    name: 'editMemberInTask',
+    component: () => import(/* webpackChunkName: "about" */ '../views/editMemberInTask.vue'),
+  },
+  {
+    path: '/taskDetail/:id/addMemberToTask',
+    name: 'addMemberToTask',
+    component: () => import(/* webpackChunkName: "about" */ '../views/addMemberToTask.vue'),
+  },
+  {
+    path: '/taskDetail/:id/memberInTask/:id',
+    name: 'memberInTask',
+    component: () => import(/* webpackChunkName: "about" */ '../views/memberInTask.vue'),
+  },
+  {
     path: '/taskDetail/:id/editTask/:id',
     name: 'editTask',
     component: () => import(/* webpackChunkName: "about" */ '../views/editTask.vue'),

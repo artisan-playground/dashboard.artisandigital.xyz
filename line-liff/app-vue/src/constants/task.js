@@ -7,6 +7,8 @@ export const TASK_QUERY = gql`
       isDone
       taskName
       taskDetail
+      startTime
+      endTime
       project {
         id
         projectName
@@ -14,6 +16,7 @@ export const TASK_QUERY = gql`
         dueDate
         members {
           id
+          name
           image {
             id
             fullPath
@@ -126,6 +129,25 @@ export const EDIT_TASK = gql`
 export const DELETE_TASK = gql`
   mutation DeleteTask($id: Int!) {
     deleteOneTask(where: { id: $id }) {
+      id
+    }
+  }
+`
+
+export const ADD_MEMBER_TO_TASK = gql`
+  mutation UpdateTask($id: Int!, $data: TaskUpdateInput!) {
+    updateOneTask(where: { id: $id }, data: $data) {
+      id
+      members {
+        id
+      }
+    }
+  }
+`
+
+export const DELETE_MEMBER_IN_TASK = gql`
+  mutation deleteMemInTask($taskId: Int!, $memberId: Int!) {
+    updateOneTask(where: { id: $taskId }, data: { members: { disconnect: { id: $memberId } } }) {
       id
     }
   }

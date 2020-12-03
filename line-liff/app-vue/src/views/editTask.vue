@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ToolbarBack msg="Edit Project" />
+    <ToolbarBack msg="Edit Task" />
     <br />
     <div style="margin: 60px 18px 0px 18px;">
       <a-form layout="vertical" hide-required-mark v-if="dataTask">
@@ -17,45 +17,41 @@
               placeholder="Task name"
             />
           </a-form-item>
-          <!-- <a-form-item label="Type">
-            <a-input
-              v-model="dataTask.projectType"
-              v-decorator="[
-                'name',
-                {
-                  rules: [{ required: true, message: 'Please enter Project Type' }],
-                },
-              ]"
-              placeholder="Project Type"
-            />
-          </a-form-item> -->
-          <!-- <a-form-item label="Members">
-            <a-select-option
-              mode="tags"
-              style="width: 100%"
-              placeholder="Tag People"
-              :default-value="[dataTask.members.id]"
-              v-model="dataTask.members"
+          <a-form-item label="Date">
+            <a-form-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
+              <a-date-picker
+                style="width: 100%"
+                :default-value="moment(dataTask.startTime, dateFormat)"
+                disabled
+              />
+            </a-form-item>
+            <a-form-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
+              <a-date-picker
+                style="width: 100%"
+                :default-value="moment(dataTask.endTime, dateFormat)"
+                disabled
+              />
+            </a-form-item>
+          </a-form-item>
+          <a-form-item label="Members">
+            <a-card
+              disabled
+              style="background-color:#EAEAEA; min-height:32px; border: 1px solid #C0C0C0; border-radius: 4px;"
+              :bodyStyle="{
+                padding: '4px',
+              }"
             >
-              <a-select-option
+              <a-tag
+                style="float:left; background-color:#EAEAEA; border: 1px solid #C0C0C0; border-radius: 2px;"
+                disabled
                 v-for="user in dataTask.members"
                 :key="user.id"
                 :value="user.name"
               >
-                <v-img
-                  style="float:left;"
-                  v-bind:src="
-                    user.image ? user.image.fullPath : ''
-                  "
-                  id="imgMember"
-                />
-                <span style="float:left; margin-left:5px">{{ user.name }}</span>
-              </a-select-option>
-            </a-select-option>
+                {{ user.name }}
+              </a-tag>
+            </a-card>
           </a-form-item>
-          <a-form-item label="Due Date">
-            <a-date-picker style="width:100%" v-model="dataTask.dueDate" />
-          </a-form-item> -->
           <a-form-item label="Description">
             <a-textarea
               v-model="dataTask.taskDetail"
@@ -105,7 +101,7 @@
 <script>
 import ToolbarBack from '@/components/ToolbarBack'
 import * as gqlQueryTask from '../constants/task'
-
+import moment from 'moment'
 export default {
   name: 'editProject',
   components: {
@@ -125,6 +121,7 @@ export default {
     },
   },
   data() {
+    this.dateFormat = 'YYYY-MM-DD'
     return {
       dataTask: null,
       switchCheck: true,
@@ -133,6 +130,7 @@ export default {
   },
 
   methods: {
+    moment,
     onChange() {
       this.loading = true
       setTimeout(() => {
