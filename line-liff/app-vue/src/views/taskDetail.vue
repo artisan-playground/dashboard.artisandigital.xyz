@@ -72,28 +72,34 @@
 
       <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
         <a-col>
-          <a-card
-            :bodyStyle="{
-              padding: '5px',
-            }"
-          >
-            <div style="padding-top:10px">
-              <span
-                class="iconify"
-                data-inline="false"
-                data-icon="clarity:users-line"
-                style="color: #0036c7; font-size: 22px;"
-              ></span>
-            </div>
-            <div class="center con-avatars">
-              <vs-avatar-group>
-                <vs-avatar circle v-for="member in dataTask.members" :key="member.id">
-                  <img v-bind:src="member.image ? member.image.fullPath : ''" />
-                </vs-avatar>
-              </vs-avatar-group>
-            </div>
-            <div id="position" style="padding-bottom:10px">Team</div>
-          </a-card>
+          <router-link :to="{ name: 'memberInTask', params: { id: dataTask.id } }">
+            <a-card
+              :bodyStyle="{
+                padding: '5px',
+              }"
+            >
+              <div style="padding-top:10px">
+                <span
+                  class="iconify"
+                  data-inline="false"
+                  data-icon="clarity:users-line"
+                  style="color: #0036c7; font-size: 22px;"
+                ></span>
+              </div>
+              <div class="center con-avatars">
+                <vs-avatar-group>
+                  <vs-avatar circle v-for="member in dataTask.members" :key="member.id">
+                    <img
+                      v-bind:src="
+                        member.image ? member.image.fullPath : require('../assets/user.svg')
+                      "
+                    />
+                  </vs-avatar>
+                </vs-avatar-group>
+              </div>
+              <div id="position" style="padding-bottom:10px">Team</div>
+            </a-card>
+          </router-link>
         </a-col>
       </a-row>
     </div>
@@ -168,7 +174,9 @@
           <a slot="author">{{ comment.user.name }}</a>
           <a-avatar
             slot="avatar"
-            v-bind:src="comment.user.image ? comment.user.image.fullPath : ''"
+            v-bind:src="
+              comment.user.image ? comment.user.image.fullPath : require('../assets/user.svg')
+            "
             alt="Han Solo"
           />
           <p slot="content" align="left">

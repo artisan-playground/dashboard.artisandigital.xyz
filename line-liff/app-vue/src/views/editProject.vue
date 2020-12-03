@@ -62,33 +62,34 @@
               </a-select-option>
             </a-select>
           </a-form-item>
-          <!-- <a-form-item label="Members">
-            <a-select-option
-              mode="tags"
-              style="width: 100%"
-              placeholder="Tag People"
-              :default-value="[dataProject.members.id]"
-              v-model="dataProject.members"
+
+          <a-form-item label="Due Date">
+            <a-date-picker
+              :default-value="moment(dataProject.dueDate, dateFormat)"
+              style="width:100%"
+              disabled
+            />
+          </a-form-item>
+          <a-form-item label="Members">
+            <a-card
+              disabled
+              style="background-color:#EAEAEA; min-height:32px; border: 1px solid #C0C0C0; border-radius: 4px;"
+              :bodyStyle="{
+                padding: '4px',
+              }"
             >
-              <a-select-option
+              <a-tag
+                style="float:left; background-color:#EAEAEA; border: 1px solid #C0C0C0; border-radius: 2px;"
+                disabled
                 v-for="user in dataProject.members"
                 :key="user.id"
                 :value="user.name"
               >
-                <v-img
-                  style="float:left;"
-                  v-bind:src="
-                    user.image ? user.image.fullPath : ''
-                  "
-                  id="imgMember"
-                />
-                <span style="float:left; margin-left:5px">{{ user.name }}</span>
-              </a-select-option>
-            </a-select-option>
+                {{ user.name }}
+              </a-tag>
+            </a-card>
           </a-form-item>
-          <a-form-item label="Due Date">
-            <a-date-picker style="width:100%" v-model="dataProject.dueDate" />
-          </a-form-item> -->
+
           <a-form-item label="Description">
             <a-textarea
               v-model="dataProject.projectDetail"
@@ -140,7 +141,7 @@
 <script>
 import ToolbarBack from '@/components/ToolbarBack'
 import * as gqlQueryProject from '../constants/project'
-
+import moment from 'moment'
 export default {
   name: 'editProject',
   components: {
@@ -160,6 +161,7 @@ export default {
     },
   },
   data() {
+    this.dateFormat = 'YYYY-MM-DD'
     return {
       dataProject: null,
       switchCheck: true,
@@ -168,6 +170,7 @@ export default {
   },
 
   methods: {
+    moment,
     onChange() {
       this.loading = true
       setTimeout(() => {
@@ -196,7 +199,7 @@ export default {
     async deleteProject() {
       try {
         await this.$confirm({
-          title: 'Are you sure delete this task?',
+          title: 'Are you sure delete this project?',
           okText: 'Yes',
           okType: 'danger',
           cancelText: 'No',
@@ -214,15 +217,6 @@ export default {
             console.log('Cancel')
           },
         })
-
-        // await this.$apollo.mutate({
-        //   mutation: gqlQueryProject.DELETE_PROJECT,
-        //   variables: {
-        //     id: parseInt(this.$route.params.id),
-        //   },
-        // })
-        // this.$router.go(-2)
-        // this.$message.success('Delete project is success')
       } catch (error) {
         this.$message.error(error)
       }
