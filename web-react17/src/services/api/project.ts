@@ -8,6 +8,7 @@ export const PROJECT = gql`
       projectType
       projectDetail
       projectImage {
+        id
         fileName
         fullPath
       }
@@ -18,6 +19,8 @@ export const PROJECT = gql`
         name
         email
         image {
+          id
+          fileName
           fullPath
         }
       }
@@ -35,6 +38,8 @@ export const PROJECT = gql`
           id
           name
           image {
+            id
+            fileName
             fullPath
           }
         }
@@ -51,6 +56,8 @@ export const GET_PROJECT_BY_ID = gql`
       projectType
       projectDetail
       projectImage {
+        id
+        fileName
         fullPath
       }
       status
@@ -60,6 +67,8 @@ export const GET_PROJECT_BY_ID = gql`
         name
         email
         image {
+          id
+          fileName
           fullPath
         }
       }
@@ -77,6 +86,8 @@ export const GET_PROJECT_BY_ID = gql`
           id
           name
           image {
+            id
+            fileName
             fullPath
           }
         }
@@ -109,6 +120,8 @@ export const CREATE_PROJECT = gql`
       projectType
       projectDetail
       projectImage {
+        id
+        fileName
         fullPath
       }
       status
@@ -117,6 +130,8 @@ export const CREATE_PROJECT = gql`
         id
         name
         image {
+          id
+          fileName
           fullPath
         }
       }
@@ -177,6 +192,17 @@ export const UPDATE_PROJECT_TYPE = gql`
 export const UPDATE_PROJECT_STATUS = gql`
   mutation UpdateProjectStatus($id: Int!, $status: String) {
     updateOneProject(where: { id: $id }, data: { status: { set: $status } }) {
+      id
+    }
+  }
+`
+
+export const DELETE_MEMBER_FROM_PROJECT = gql`
+  mutation DeleteMemberFromProject($projectId: Int!, $memberId: Int!) {
+    updateOneProject(
+      where: { id: $projectId }
+      data: { members: { disconnect: [{ id: $memberId }] } }
+    ) {
       id
     }
   }

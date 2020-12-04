@@ -33,8 +33,8 @@ export const GET_FILE = gql`
 `
 
 export const UPLOAD_FILE = gql`
-  mutation UploadFile($id: Int!, $file: Upload!) {
-    uploadFile(taskId: { connect: { id: $id } }, file: $file) {
+  mutation UploadFile($taskId: Int!, $file: Upload!) {
+    uploadFile(taskId: { connect: { id: $taskId } }, file: $file) {
       id
       fileName
       path
