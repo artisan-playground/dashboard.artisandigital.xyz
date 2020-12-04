@@ -94,7 +94,11 @@
                     :key="member.id"
                     style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                   >
-                    <img v-bind:src="member.image ? member.image.fullPath : ''" />
+                    <img
+                      v-bind:src="
+                        member.image ? member.image.fullPath : require('../assets/user.svg')
+                      "
+                    />
                   </vs-avatar>
                 </vs-avatar-group>
               </div>

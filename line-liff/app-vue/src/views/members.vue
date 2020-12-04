@@ -22,7 +22,12 @@
               >
                 <div v-if="member.department === item" id="flex-container">
                   <div class="cardPicture">
-                    <img v-bind:src="member.image ? member.image.fullPath : ''" id="imgProfile" />
+                    <img
+                      v-bind:src="
+                        member.image ? member.image.fullPath : require('../assets/user.svg')
+                      "
+                      id="imgProfile"
+                    />
                   </div>
                   <div class="cardInformation">
                     <div id="displayname">
@@ -66,7 +71,6 @@
 import Toolbar from '@/components/Toolbar'
 import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/user'
-// import store from '../store/index.js'
 
 export default {
   name: 'members',
@@ -85,7 +89,6 @@ export default {
       displayName: '',
       name: '',
       users: [],
-      // users: store.state.users,
     }
   },
   computed: {
@@ -110,6 +113,5 @@ export default {
   flex-wrap: wrap;
 }
 div.v-tabs-bar {
-  /* height: auto; */
 }
 </style>

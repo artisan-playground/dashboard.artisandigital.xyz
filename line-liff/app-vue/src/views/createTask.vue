@@ -32,7 +32,7 @@
               >
                 <v-img
                   style="float:left;"
-                  v-bind:src="user.image ? user.image.fullPath : ''"
+                  v-bind:src="user.image ? user.image.fullPath : require('../assets/user.svg')"
                   id="imgMember"
                 />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
@@ -40,33 +40,13 @@
             </a-mentions>
           </a-form-item>
         </a-row>
-        <a-row>
-          <!-- <a-form-item label="Approver">
-            <a-mentions
-              style="text-align: initial;"
-              placeholder="input @ to mention people"
-              v-model="reviewer"
-            >
-              <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
-                <div v-for="member in dataProject.members" :key="member.id">
-                  <div v-if="member.id !== user.id">
-                    <v-img style="float:left;" v-bind:src="user.image.fullPath" id="imgMember" />
-                    <span style="float:left; margin-left:5px">{{ user.name }}</span>
-                  </div>
-                </div>
-              </a-mentions-option>
-            </a-mentions>
-          </a-form-item> -->
-        </a-row>
+        <a-row> </a-row>
         <a-row>
           <a-form-item label="Date" style="margin-bottom:0;">
-            <a-form-item :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }">
+            <a-form-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
               <a-date-picker style="width: 100%" v-model="startTime" />
             </a-form-item>
-            <span :style="{ display: 'inline-block', width: '24px', textAlign: 'center' }">
-              -
-            </span>
-            <a-form-item :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }">
+            <a-form-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
               <a-date-picker style="width: 100%" v-model="endTime" />
             </a-form-item>
           </a-form-item>
@@ -98,9 +78,7 @@
         </a-row>
       </a-form>
     </div>
-    <div style="padding-bottom:60px">
-      <!-- ระยะห่าง manu ข้างล่างกับ content -->
-    </div>
+    <div style="padding-bottom:60px"></div>
   </div>
 </template>
 

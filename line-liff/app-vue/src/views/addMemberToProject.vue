@@ -42,9 +42,7 @@
           <v-checkbox color="#0036C7" v-model="member" :label="user.name" :value="user.id">
             <template v-slot:label>
               <img
-                v-bind:src="
-                  user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
-                "
+                v-bind:src="user.image ? user.image.fullPath : require('../assets/user.svg')"
                 class="picUser"
               />
               <span style="margin-left:5px;">{{ user.name }}</span>
@@ -63,9 +61,7 @@ import * as gqlQuery from '../constants/project'
 import * as gqlQueryUser from '../constants/user'
 export default {
   name: 'addMemberToProject',
-  components: {
-    // ToolbarClose,
-  },
+  components: {},
   methods: {
     async addmember() {
       try {

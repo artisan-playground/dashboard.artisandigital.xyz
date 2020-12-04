@@ -62,7 +62,7 @@
                 <a-icon type="clock-circle" style="color:#0036c7; font-size: 22px;" />
               </div>
               <div>
-                <b>{{ $dayjs(dataProject.dueDate).format('DD MMM YYYY') }}</b>
+                <b>{{ $dayjs(dataTask.startTime).format('DD MMM YYYY') }}</b>
               </div>
               <div id="position" style="padding-bottom:10px">Due date</div>
             </a-card>

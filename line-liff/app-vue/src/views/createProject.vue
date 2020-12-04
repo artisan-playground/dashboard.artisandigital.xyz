@@ -71,30 +71,12 @@
               <a-mentions-option v-for="user in users" :key="user.id" :value="user.name">
                 <v-img
                   style="float:left;"
-                  v-bind:src="
-                    user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
-                  "
+                  v-bind:src="user.image ? user.image.fullPath : require('../assets/user.svg')"
                   id="imgMember"
                 />
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-mentions-option>
             </a-mentions>
-            <!-- <a-select
-              mode="tags"
-              style="width: 100%"
-              placeholder="Tag People"
-              @change="testClick"
-              v-model="member"
-            >
-              <a-select-option v-for="user in users" :key="user.id" :value="user.name">
-                <v-img
-                  style="float:left;"
-                  v-bind:src="user.image ? user.image.fullPath : ''"
-                  id="imgMember"
-                />
-                <span style="float:left; margin-left:5px">{{ user.name }}</span>
-              </a-select-option>
-            </a-select> -->
           </a-form-item>
           <a-form-item label="Due Date">
             <a-date-picker style="width:100%" v-model="dueDate" />
@@ -152,9 +134,6 @@ export default {
   methods: {
     testClick(value) {
       console.log(value)
-      // console.log(this.users.filter(data => data.name == value).map(val => val.id))
-      // console.log(`selected ${this.users.filter(data => data)}`)
-
       var mem = this.users.filter(data => data.name == value).map(val => val.id)
 
       console.log(mem)

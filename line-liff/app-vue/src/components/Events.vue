@@ -49,7 +49,11 @@
                 <a-row>
                   <vs-avatar-group float max="4" style="float:right; margin-top:5px;">
                     <vs-avatar v-for="member in event.invited" :key="member.id" id="profileImg">
-                      <img v-bind:src="member.image ? member.image.fullPath : ''" />
+                      <img
+                        v-bind:src="
+                          member.image ? member.image.fullPath : require('../assets/user.svg')
+                        "
+                      />
                     </vs-avatar>
                   </vs-avatar-group>
                 </a-row>
@@ -80,7 +84,6 @@ export default {
   },
   methods: {
     currentDate() {
-      // new Date(this.events.endDate).toLocaleString() > new Date().toLocaleString()
       const result = this.events.map(item => {
         return new Date(item.endDate).toLocaleString() > new Date().toLocaleString()
       })

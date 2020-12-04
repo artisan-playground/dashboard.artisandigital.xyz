@@ -52,52 +52,13 @@
                 :key="member.id"
                 style="border-radius: 100%; margin-left:3px; width:30px; height:30px;"
               >
-                <img v-bind:src="member.image ? member.image.fullPath : ''" />
+                <img
+                  v-bind:src="member.image ? member.image.fullPath : require('../assets/user.svg')"
+                />
               </vs-avatar>
             </vs-avatar-group>
           </a-col>
         </a-row>
-
-        <!--  -->
-        <!-- <a-col :span="12" style="text-align:left; font-size:16px;">
-          <a-row>{{ event.eventName }}</a-row>
-          <a-row>{{ $dayjs(event.eventDate).format('ddd DD MMM YYYY') }}</a-row>
-          <a-row>สัมภาษณ์โดย</a-row>
-        </a-col>
-        <a-col :span="12" style="text-align:right; font-size:16px;">
-          <a-row>
-            <a-tag
-              style="float:right; margin-right:0px;"
-              v-if="event.tag == 'Important'"
-              color="orange"
-            >
-              <span
-                id="iconStatus"
-                class="iconify"
-                data-inline="false"
-                data-icon="bi:bookmark"
-                style="font-size: 14px;"
-              ></span>
-
-              {{ event.tag }}
-            </a-tag>
-          </a-row>
-          <a-row>
-            {{ $dayjs(event.eventDate).format('H A' + ' to ') }}
-            {{ $dayjs(event.endDate).format(' H A') }}
-          </a-row>
-          <a-row style="float:right;">
-            <vs-avatar-group float>
-              <vs-avatar
-                v-for="member in event.invited"
-                :key="member.id"
-                style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
-              >
-                <img v-bind:src="member.image.fullPath" />
-              </vs-avatar>
-            </vs-avatar-group>
-          </a-row>
-        </a-col> -->
       </a-row>
     </div>
     <a-divider />
