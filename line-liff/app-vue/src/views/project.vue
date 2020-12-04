@@ -197,7 +197,9 @@
                       >
                         <img
                           style="z-index:1;"
-                          v-bind:src="member.image ? member.image.fullPath : ''"
+                          v-bind:src="
+                            member.image ? member.image.fullPath : require('../assets/user.svg')
+                          "
                         />
                       </vs-avatar>
                     </vs-avatar-group>
@@ -225,7 +227,7 @@ import store from '../store/index.js'
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/project'
-// import gql from 'graphql-tag'
+
 export default {
   name: 'project',
   components: {

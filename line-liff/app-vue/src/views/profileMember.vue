@@ -11,12 +11,11 @@
                 style="justify-content: flex-start;"
                 class="profile"
                 id="profilePic"
-                v-bind:src="user.image ? user.image.fullPath : ''"
+                v-bind:src="user.image ? user.image.fullPath : require('../assets/user.svg')"
               />
               <h3 id="displayName" style="display:inline"></h3>
             </a-col>
 
-            <!-- ใส่ข้อมูล Project, Today’s task-->
             <a-col :span="6">
               <a-row>{{ projectNum }}</a-row>
               <a-row>Project</a-row>
@@ -108,7 +107,13 @@
                                   :key="member.id"
                                   style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
                                 >
-                                  <img v-bind:src="member.image ? member.image.fullPath : ''" />
+                                  <img
+                                    v-bind:src="
+                                      member.image
+                                        ? member.image.fullPath
+                                        : require('../assets/user.svg')
+                                    "
+                                  />
                                 </vs-avatar>
                               </vs-avatar-group>
                             </div>
@@ -184,7 +189,11 @@
                                   >
                                     <img
                                       style="z-index:1;"
-                                      v-bind:src="member.image ? member.image.fullPath : ''"
+                                      v-bind:src="
+                                        member.image
+                                          ? member.image.fullPath
+                                          : require('../assets/user.svg')
+                                      "
                                     />
                                   </vs-avatar>
                                 </vs-avatar-group>
@@ -202,18 +211,14 @@
         </div>
       </div>
     </div>
-    <div style="padding-bottom:90px">
-      <!-- ระยะห่าง manu ข้างล่างกับ content -->
-    </div>
+    <div style="padding-bottom:90px"></div>
     <BarRouter />
   </div>
 </template>
 
 <script>
-// import store from '../store/index.js'
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
-// import gql from 'graphql-tag'
 import * as gqlQuery from '../constants/user'
 export default {
   name: 'profileMember',

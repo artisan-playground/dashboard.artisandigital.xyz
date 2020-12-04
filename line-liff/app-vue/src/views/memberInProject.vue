@@ -50,7 +50,10 @@
       >
         <div id="flex-container">
           <div class="cardPicture">
-            <img v-bind:src="member.image ? member.image.fullPath : ''" id="imgProfile" />
+            <img
+              v-bind:src="member.image ? member.image.fullPath : require('../assets/user.svg')"
+              id="imgProfile"
+            />
           </div>
           <div class="cardInformation">
             <div id="displayname">
@@ -86,13 +89,11 @@
 </template>
 
 <script>
-// import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/project'
 export default {
   name: 'doneTask',
   components: {
-    // ToolbarBack,
     BarRouter,
   },
   data() {

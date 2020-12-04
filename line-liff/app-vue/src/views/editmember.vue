@@ -2,7 +2,6 @@
   <div v-if="dataProject">
     <div style="position: fixed; z-index:10; width:100%">
       <a-page-header style="background-color: #262626; padding-top:0px; padding-bottom: 10px;">
-        <!-- <div style="border:none; width:100% "> -->
         <a-row style="display:flex; align-items: center;">
           <a-col align="left" :span="5">
             <v-btn
@@ -19,7 +18,6 @@
 
           <a-col align="right" :span="5"> </a-col>
         </a-row>
-        <!-- </div> -->
       </a-page-header>
     </div>
     <br />
@@ -60,9 +58,7 @@
         <a-col :span="20" align="left">
           <img
             class="picUser"
-            v-bind:src="
-              user.image ? user.image.fullPath : 'https://source.unsplash.com/random?animal'
-            "
+            v-bind:src="user.image ? user.image.fullPath : require('../assets/user.svg')"
           />
           {{ user.name }}
         </a-col>
@@ -79,20 +75,15 @@
       </a-row>
       <a-divider style="margin:15px 0px 15px 0px;" />
     </div>
-
-    <BarRouter />
   </div>
 </template>
 
 <script>
 import * as gqlQuery from '../constants/project'
-import BarRouter from '@/components/BarRouter.vue'
 
 export default {
   name: 'editmember',
-  components: {
-    BarRouter,
-  },
+  components: {},
   data() {
     return {
       dataProject: null,
@@ -107,7 +98,7 @@ export default {
     async deleteMemberProject(memberId) {
       try {
         await this.$confirm({
-          title: 'Are you sure delete this task?',
+          title: 'Are you sure delete this member?',
           okText: 'Yes',
           okType: 'danger',
           cancelText: 'No',
@@ -119,7 +110,7 @@ export default {
                 memberId: memberId,
               },
             })
-            setTimeout(this.$message.success('delete comment success'), 800)
+            setTimeout(this.$message.success('delete member success'), 800)
           },
           onCancel() {
             console.log('Cancel')
@@ -157,7 +148,6 @@ export default {
 
 <style>
 .item-media {
-  /* border-radius: 100%; */
   width: 30px;
   height: 30px;
 }
@@ -169,9 +159,6 @@ export default {
 li.media-item .item-media img {
   display: block;
   border-radius: 100%;
-  /* width: 33px;
-  height: 33px; */
   margin-top: 15px;
-  /* margin-top: 10px; */
 }
 </style>

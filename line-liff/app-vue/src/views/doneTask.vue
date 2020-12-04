@@ -66,7 +66,9 @@
                     >
                       <img
                         style="z-index:1;"
-                        v-bind:src="member.image ? member.image.fullPath : ''"
+                        v-bind:src="
+                          member.image ? member.image.fullPath : require('../assets/user.svg')
+                        "
                       />
                     </vs-avatar>
                   </vs-avatar-group>
