@@ -23,6 +23,7 @@ model User {
   projects   Project[]
   tasks      Task[]
   event      Event[]
+  notification Notification[]
   startDate  DateTime?        @default(now())
   dueDate    DateTime?
   role       Role             @default(USER)
@@ -114,6 +115,14 @@ model ProjectImage {
   path  String
   extension String
   endpoint String
+}
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  update    String?
+  timestamp DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
 }
 
 enum Role {

@@ -16,6 +16,7 @@ const userObjectType = objectType({
     t.model.tasks();
     t.model.startDate();
     t.model.dueDate();
+    t.model.notification()
   },
 });
 
