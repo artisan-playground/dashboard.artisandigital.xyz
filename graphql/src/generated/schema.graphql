@@ -310,6 +310,21 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
+}
+
 input DateTimeNullableFilter {
   equals: DateTime
   gt: DateTime
@@ -611,6 +626,7 @@ type Mutation {
   createOneContact(data: ContactCreateInput!): Contact!
   createOneEvent(data: EventCreateInput!): Event!
   createOneFile(data: FileCreateInput!): File!
+  createOneNotification(data: NotificationCreateInput!): Notification!
   createOneProject(data: ProjectCreateInput!): Project!
   createOneTask(data: TaskCreateInput!): Task!
   createOneUser(data: UserCreateInput!): User!
@@ -626,6 +642,7 @@ type Mutation {
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateOneContact(data: ContactUpdateInput!, where: ContactWhereUniqueInput!): Contact
   updateOneEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
+  updateOneNotification(data: NotificationUpdateInput!, where: NotificationWhereUniqueInput!): Notification
   updateOneProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
   updateOneTask(data: TaskUpdateInput!, where: TaskWhereUniqueInput!): Task
   updateOneUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
@@ -638,6 +655,17 @@ type Mutation {
 input NestedBoolNullableFilter {
   equals: Boolean
   not: NestedBoolNullableFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: NestedDateTimeFilter
+  notIn: [DateTime!]
 }
 
 input NestedDateTimeNullableFilter {
@@ -708,6 +736,87 @@ input NestedStringNullableFilter {
   startsWith: String
 }
 
+type Notification {
+  id: Int!
+  timestamp: DateTime!
+  update: String
+  user: User!
+}
+
+input NotificationCreateInput {
+  timestamp: DateTime
+  update: String
+  user: UserCreateOneWithoutNotificationInput!
+}
+
+input NotificationCreateManyWithoutUserInput {
+  connect: [NotificationWhereUniqueInput!]
+  create: [NotificationCreateWithoutUserInput!]
+}
+
+input NotificationCreateWithoutUserInput {
+  timestamp: DateTime
+  update: String
+}
+
+input NotificationScalarWhereInput {
+  AND: [NotificationScalarWhereInput!]
+  id: IntFilter
+  NOT: [NotificationScalarWhereInput!]
+  OR: [NotificationScalarWhereInput!]
+  timestamp: DateTimeFilter
+  update: StringNullableFilter
+  userId: IntFilter
+}
+
+input NotificationUpdateInput {
+  timestamp: DateTimeFieldUpdateOperationsInput
+  update: NullableStringFieldUpdateOperationsInput
+  user: UserUpdateOneRequiredWithoutNotificationInput
+}
+
+input NotificationUpdateManyDataInput {
+  timestamp: DateTimeFieldUpdateOperationsInput
+  update: NullableStringFieldUpdateOperationsInput
+}
+
+input NotificationUpdateManyWithoutUserInput {
+  connect: [NotificationWhereUniqueInput!]
+  create: [NotificationCreateWithoutUserInput!]
+  delete: [NotificationWhereUniqueInput!]
+  deleteMany: [NotificationScalarWhereInput!]
+  disconnect: [NotificationWhereUniqueInput!]
+  set: [NotificationWhereUniqueInput!]
+  update: [NotificationUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [NotificationUpdateManyWithWhereNestedInput!]
+  upsert: [NotificationUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input NotificationUpdateManyWithWhereNestedInput {
+  data: NotificationUpdateManyDataInput!
+  where: NotificationScalarWhereInput!
+}
+
+input NotificationUpdateWithoutUserDataInput {
+  timestamp: DateTimeFieldUpdateOperationsInput
+  update: NullableStringFieldUpdateOperationsInput
+}
+
+input NotificationUpdateWithWhereUniqueWithoutUserInput {
+  data: NotificationUpdateWithoutUserDataInput!
+  where: NotificationWhereUniqueInput!
+}
+
+input NotificationUpsertWithWhereUniqueWithoutUserInput {
+  create: NotificationCreateWithoutUserInput!
+  update: NotificationUpdateWithoutUserDataInput!
+  where: NotificationWhereUniqueInput!
+}
+
+input NotificationWhereUniqueInput {
+  id: Int
+}
+
 input NullableBoolFieldUpdateOperationsInput {
   set: Boolean
 }
@@ -721,6 +830,7 @@ input NullableStringFieldUpdateOperationsInput {
 }
 
 type Project {
+  createAt: DateTime
   dueDate: DateTime
   id: Int!
   members(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
@@ -733,6 +843,7 @@ type Project {
 }
 
 input ProjectCreateInput {
+  createAt: DateTime
   dueDate: DateTime
   members: UserCreateManyWithoutProjectsInput
   projectDetail: String
@@ -754,6 +865,7 @@ input ProjectCreateOneWithoutTasksInput {
 }
 
 input ProjectCreateWithoutMembersInput {
+  createAt: DateTime
   dueDate: DateTime
   projectDetail: String
   projectImage: ProjectImageCreateOneWithoutProjectInput
@@ -764,6 +876,7 @@ input ProjectCreateWithoutMembersInput {
 }
 
 input ProjectCreateWithoutTasksInput {
+  createAt: DateTime
   dueDate: DateTime
   members: UserCreateManyWithoutProjectsInput
   projectDetail: String
@@ -823,6 +936,7 @@ input ProjectImageWhereUniqueInput {
 
 input ProjectScalarWhereInput {
   AND: [ProjectScalarWhereInput!]
+  createAt: DateTimeNullableFilter
   dueDate: DateTimeNullableFilter
   id: IntFilter
   NOT: [ProjectScalarWhereInput!]
@@ -835,6 +949,7 @@ input ProjectScalarWhereInput {
 }
 
 input ProjectUpdateInput {
+  createAt: NullableDateTimeFieldUpdateOperationsInput
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   members: UserUpdateManyWithoutProjectsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
@@ -846,6 +961,7 @@ input ProjectUpdateInput {
 }
 
 input ProjectUpdateManyDataInput {
+  createAt: NullableDateTimeFieldUpdateOperationsInput
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
   projectName: NullableStringFieldUpdateOperationsInput
@@ -878,6 +994,7 @@ input ProjectUpdateOneRequiredWithoutTasksInput {
 }
 
 input ProjectUpdateWithoutMembersDataInput {
+  createAt: NullableDateTimeFieldUpdateOperationsInput
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
   projectImage: ProjectImageUpdateOneWithoutProjectInput
@@ -888,6 +1005,7 @@ input ProjectUpdateWithoutMembersDataInput {
 }
 
 input ProjectUpdateWithoutTasksDataInput {
+  createAt: NullableDateTimeFieldUpdateOperationsInput
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   members: UserUpdateManyWithoutProjectsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
@@ -932,6 +1050,8 @@ type Query {
   getTaskByProjectId(id: Int!): [Task]
   getUserByEmail(email: String!): User
   images(after: ImageWhereUniqueInput, before: ImageWhereUniqueInput, first: Int, last: Int): [ProjectImage!]!
+  notification(id: Int!): Notification
+  notifications(after: NotificationWhereUniqueInput, before: NotificationWhereUniqueInput, first: Int, last: Int): [Notification!]!
   project(id: Int!): Project
   projects(after: ProjectWhereUniqueInput, before: ProjectWhereUniqueInput, first: Int, last: Int): [Project!]!
   tasks(after: TaskWhereUniqueInput, before: TaskWhereUniqueInput, first: Int, last: Int): [Task!]!
@@ -1220,6 +1340,7 @@ type User {
   id: Int!
   image: Image
   name: String!
+  notification(after: NotificationWhereUniqueInput, before: NotificationWhereUniqueInput, first: Int, last: Int): [Notification!]!
   position: String
   projects(after: ProjectWhereUniqueInput, before: ProjectWhereUniqueInput, first: Int, last: Int): [Project!]!
   skills: [String!]!
@@ -1237,6 +1358,7 @@ input UserCreateInput {
   event: EventCreateManyWithoutInvitedInput
   image: ImageCreateOneWithoutUserInput
   name: String!
+  notification: NotificationCreateManyWithoutUserInput
   position: String
   projects: ProjectCreateManyWithoutMembersInput
   role: Role
@@ -1271,6 +1393,11 @@ input UserCreateOneWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput
 }
 
+input UserCreateOneWithoutNotificationInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateWithoutNotificationInput
+}
+
 input UserCreateskillsInput {
   set: [String!]!
 }
@@ -1283,6 +1410,7 @@ input UserCreateWithoutCommentsInput {
   event: EventCreateManyWithoutInvitedInput
   image: ImageCreateOneWithoutUserInput
   name: String!
+  notification: NotificationCreateManyWithoutUserInput
   position: String
   projects: ProjectCreateManyWithoutMembersInput
   role: Role
@@ -1300,6 +1428,7 @@ input UserCreateWithoutContactsInput {
   event: EventCreateManyWithoutInvitedInput
   image: ImageCreateOneWithoutUserInput
   name: String!
+  notification: NotificationCreateManyWithoutUserInput
   position: String
   projects: ProjectCreateManyWithoutMembersInput
   role: Role
@@ -1315,6 +1444,25 @@ input UserCreateWithoutEventInput {
   department: String
   dueDate: DateTime
   email: String!
+  image: ImageCreateOneWithoutUserInput
+  name: String!
+  notification: NotificationCreateManyWithoutUserInput
+  position: String
+  projects: ProjectCreateManyWithoutMembersInput
+  role: Role
+  skills: UserCreateskillsInput
+  startDate: DateTime
+  tasks: TaskCreateManyWithoutMembersInput
+  type: String
+}
+
+input UserCreateWithoutNotificationInput {
+  comments: CommentCreateManyWithoutUserInput
+  contacts: ContactCreateOneWithoutUserInput
+  department: String
+  dueDate: DateTime
+  email: String!
+  event: EventCreateManyWithoutInvitedInput
   image: ImageCreateOneWithoutUserInput
   name: String!
   position: String
@@ -1335,6 +1483,7 @@ input UserCreateWithoutProjectsInput {
   event: EventCreateManyWithoutInvitedInput
   image: ImageCreateOneWithoutUserInput
   name: String!
+  notification: NotificationCreateManyWithoutUserInput
   position: String
   role: Role
   skills: UserCreateskillsInput
@@ -1352,6 +1501,7 @@ input UserCreateWithoutTasksInput {
   event: EventCreateManyWithoutInvitedInput
   image: ImageCreateOneWithoutUserInput
   name: String!
+  notification: NotificationCreateManyWithoutUserInput
   position: String
   projects: ProjectCreateManyWithoutMembersInput
   role: Role
@@ -1387,6 +1537,7 @@ input UserUpdateInput {
   event: EventUpdateManyWithoutInvitedInput
   image: ImageUpdateOneWithoutUserInput
   name: StringFieldUpdateOperationsInput
+  notification: NotificationUpdateManyWithoutUserInput
   position: NullableStringFieldUpdateOperationsInput
   projects: ProjectUpdateManyWithoutMembersInput
   role: EnumRoleFieldUpdateOperationsInput
@@ -1468,6 +1619,13 @@ input UserUpdateOneRequiredWithoutCommentsInput {
   upsert: UserUpsertWithoutCommentsInput
 }
 
+input UserUpdateOneRequiredWithoutNotificationInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateWithoutNotificationInput
+  update: UserUpdateWithoutNotificationDataInput
+  upsert: UserUpsertWithoutNotificationInput
+}
+
 input UserUpdateskillsInput {
   set: [String!]!
 }
@@ -1480,6 +1638,7 @@ input UserUpdateWithoutCommentsDataInput {
   event: EventUpdateManyWithoutInvitedInput
   image: ImageUpdateOneWithoutUserInput
   name: StringFieldUpdateOperationsInput
+  notification: NotificationUpdateManyWithoutUserInput
   position: NullableStringFieldUpdateOperationsInput
   projects: ProjectUpdateManyWithoutMembersInput
   role: EnumRoleFieldUpdateOperationsInput
@@ -1497,6 +1656,7 @@ input UserUpdateWithoutContactsDataInput {
   event: EventUpdateManyWithoutInvitedInput
   image: ImageUpdateOneWithoutUserInput
   name: StringFieldUpdateOperationsInput
+  notification: NotificationUpdateManyWithoutUserInput
   position: NullableStringFieldUpdateOperationsInput
   projects: ProjectUpdateManyWithoutMembersInput
   role: EnumRoleFieldUpdateOperationsInput
@@ -1512,6 +1672,25 @@ input UserUpdateWithoutEventDataInput {
   department: NullableStringFieldUpdateOperationsInput
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   email: StringFieldUpdateOperationsInput
+  image: ImageUpdateOneWithoutUserInput
+  name: StringFieldUpdateOperationsInput
+  notification: NotificationUpdateManyWithoutUserInput
+  position: NullableStringFieldUpdateOperationsInput
+  projects: ProjectUpdateManyWithoutMembersInput
+  role: EnumRoleFieldUpdateOperationsInput
+  skills: UserUpdateskillsInput
+  startDate: NullableDateTimeFieldUpdateOperationsInput
+  tasks: TaskUpdateManyWithoutMembersInput
+  type: NullableStringFieldUpdateOperationsInput
+}
+
+input UserUpdateWithoutNotificationDataInput {
+  comments: CommentUpdateManyWithoutUserInput
+  contacts: ContactUpdateOneWithoutUserInput
+  department: NullableStringFieldUpdateOperationsInput
+  dueDate: NullableDateTimeFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  event: EventUpdateManyWithoutInvitedInput
   image: ImageUpdateOneWithoutUserInput
   name: StringFieldUpdateOperationsInput
   position: NullableStringFieldUpdateOperationsInput
@@ -1532,6 +1711,7 @@ input UserUpdateWithoutProjectsDataInput {
   event: EventUpdateManyWithoutInvitedInput
   image: ImageUpdateOneWithoutUserInput
   name: StringFieldUpdateOperationsInput
+  notification: NotificationUpdateManyWithoutUserInput
   position: NullableStringFieldUpdateOperationsInput
   role: EnumRoleFieldUpdateOperationsInput
   skills: UserUpdateskillsInput
@@ -1549,6 +1729,7 @@ input UserUpdateWithoutTasksDataInput {
   event: EventUpdateManyWithoutInvitedInput
   image: ImageUpdateOneWithoutUserInput
   name: StringFieldUpdateOperationsInput
+  notification: NotificationUpdateManyWithoutUserInput
   position: NullableStringFieldUpdateOperationsInput
   projects: ProjectUpdateManyWithoutMembersInput
   role: EnumRoleFieldUpdateOperationsInput
@@ -1580,6 +1761,11 @@ input UserUpdateWithWhereUniqueWithoutTasksInput {
 input UserUpsertWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput!
   update: UserUpdateWithoutCommentsDataInput!
+}
+
+input UserUpsertWithoutNotificationInput {
+  create: UserCreateWithoutNotificationInput!
+  update: UserUpdateWithoutNotificationDataInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutContactsInput {

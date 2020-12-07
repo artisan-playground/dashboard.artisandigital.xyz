@@ -9,6 +9,7 @@ const projectObjectType = objectType({
     t.model.projectDetail();
     t.model.projectImage();
     t.model.status();
+    t.model.createAt();
     t.model.dueDate();
     t.model.members();
     t.model.tasks();
@@ -16,3 +17,4 @@ const projectObjectType = objectType({
 });
 
 export { projectObjectType };
+

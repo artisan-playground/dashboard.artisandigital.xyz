@@ -46,6 +46,7 @@ model Project {
   projectImage    ProjectImage?   @relation(fields: [projectImageId], references: [id])
   projectImageId  Int?
   status          String?         @default(value: "undone")
+  createAt       DateTime?        @default(now())
   dueDate         DateTime?
   members         User[]
   tasks           Task[]
