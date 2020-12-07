@@ -2,6 +2,12 @@
   <div>
     <ToolbarBack msg="Edit Task" />
     <br />
+    <div id="modal" v-if="switchCheck == true">
+      <vue-confirm-dialog></vue-confirm-dialog>
+    </div>
+    <div id="modal" class="modal-delete" v-else>
+      <vue-confirm-dialog></vue-confirm-dialog>
+    </div>
     <div style="margin: 60px 18px 0px 18px;">
       <a-form layout="vertical" hide-required-mark v-if="dataTask">
         <a-row>
@@ -73,14 +79,14 @@
               @change="onChange(switchCheck)"
             />
             <span v-if="switchCheck == true">Active</span>
-            <span v-if="switchCheck == false">Inactive</span>
+            <span v-else>Inactive</span>
           </a-form-item>
         </a-row>
         <a-button
           v-if="switchCheck == true"
           block
           html-type="submit"
-          @click="editProject(dataTask.taskName, dataTask.taskDetail)"
+          @click="editTask(dataTask.taskName, dataTask.taskDetail)"
           style="text-transform: capitalize; background-color: #134F83; color:white;"
           >Submit
         </a-button>
@@ -89,7 +95,7 @@
           v-if="switchCheck == false"
           block
           html-type="submit"
-          @click="deleteProject()"
+          @click="deleteTask()"
           style="text-transform: capitalize; background-color: #134F83; color:white;"
           >Submit
         </a-button>
@@ -103,7 +109,7 @@ import ToolbarBack from '@/components/ToolbarBack'
 import * as gqlQueryTask from '../constants/task'
 import moment from 'moment'
 export default {
-  name: 'editProject',
+  name: 'editTask',
   components: {
     ToolbarBack,
   },
@@ -138,43 +144,55 @@ export default {
       }, 1000)
     },
 
-    async editProject(taskName, taskDetail) {
+    async editTask(taskName, taskDetail) {
       try {
-        await this.$apollo.mutate({
-          mutation: gqlQueryTask.EDIT_TASK,
-          variables: {
-            id: parseInt(this.$route.params.id),
-            taskName: taskName,
-            taskDetail: taskDetail,
+        await this.$confirm({
+          title: 'Are you sure you want to edit this project ?',
+          button: {
+            no: 'Cancel',
+            yes: 'Ok',
+          },
+          callback: confirm => {
+            if (confirm) {
+              this.$apollo.mutate({
+                mutation: gqlQueryTask.EDIT_TASK,
+                variables: {
+                  id: parseInt(this.$route.params.id),
+                  taskName: taskName,
+                  taskDetail: taskDetail,
+                },
+              })
+              this.$router.go(-1)
+              this.$message.success('Edit task is success')
+            }
           },
         })
-        this.$router.go(-1)
-        this.$message.success('Edit task is success')
       } catch (error) {
         this.$message.error(error)
       }
     },
 
-    async deleteProject() {
+    async deleteTask() {
       try {
         await this.$confirm({
-          title: 'Are you sure delete this task?',
-          okText: 'Yes',
-          okType: 'danger',
-          cancelText: 'No',
-          onOk: () => {
-            this.$apollo.mutate({
-              mutation: gqlQueryTask.DELETE_TASK,
-              variables: {
-                id: parseInt(this.$route.params.id),
-              },
-            })
-            this.$router.go(-2)
-            this.$message.success('Delete task is success')
+          title: 'Are you sure you want to delete this task ?',
+          button: {
+            no: 'Cancel',
+            yes: 'Delete',
           },
-          onCancel() {
-            console.log('Cancel')
+          callback: confirm => {
+            if (confirm) {
+              this.$apollo.mutate({
+                mutation: gqlQueryTask.DELETE_TASK,
+                variables: {
+                  id: parseInt(this.$route.params.id),
+                },
+              })
+              this.$router.go(-2)
+              this.$message.success('Delete task is success')
+            }
           },
+          onCancel() {},
         })
       } catch (error) {
         this.$message.error(error)

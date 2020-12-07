@@ -1,13 +1,16 @@
 <template>
   <div>
-    <Toolbar msg="Members" />
+    <Toolbar msg="Employee" />
     <br />
     <div style="margin-top: 60px;">
-      <v-tabs v-model="tab" background-color="transparent" color="#105EFB">
-        <v-tab v-for="item in items" :key="item">
-          {{ item }}
-        </v-tab>
-      </v-tabs>
+      <div class="tabs-member">
+        <v-tabs v-model="tab" background-color="transparent" color="#105EFB">
+          <v-tab v-for="item in items" :key="item">
+            {{ item }}
+          </v-tab>
+        </v-tabs>
+      </div>
+
       <div style="margin-top:20px; margin-left: 15px; margin-right: 15px;">
         <a-input-search v-model="search" type="search" placeholder="input search text" />
       </div>
@@ -108,10 +111,5 @@ export default {
 }
 .basil--text {
   color: #105efb !important;
-}
-.v-tabs-bar__content {
-  flex-wrap: wrap;
-}
-div.v-tabs-bar {
 }
 </style>

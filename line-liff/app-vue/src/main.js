@@ -1,6 +1,7 @@
 import 'ant-design-vue/dist/antd.css'
 import Button from 'ant-design-vue/lib/button'
 import Vue from 'vue'
+import VueConfirmDialog from 'vue-confirm-dialog'
 import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 import Vuesax from 'vuesax'
@@ -12,6 +13,8 @@ import router from './router'
 import store from './store'
 import { createProvider } from './vue-apollo'
 // Import Icons and App Custom Styles
+Vue.use(VueConfirmDialog)
+Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
 
 Vue.component(Button.name, Button)
 Vue.use(PerfectScrollbar)

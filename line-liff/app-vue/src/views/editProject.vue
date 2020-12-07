@@ -2,6 +2,12 @@
   <div>
     <ToolbarBack msg="Edit Project" />
     <br />
+    <div id="modal" v-if="switchCheck == true">
+      <vue-confirm-dialog></vue-confirm-dialog>
+    </div>
+    <div id="modal" class="modal-delete" v-else>
+      <vue-confirm-dialog></vue-confirm-dialog>
+    </div>
     <div style="margin: 60px 18px 0px 18px;">
       <a-form layout="vertical" hide-required-mark v-if="dataProject">
         <a-row>
@@ -126,7 +132,7 @@
         </a-button>
 
         <a-button
-          v-if="switchCheck == false"
+          v-else
           block
           html-type="submit"
           @click="deleteProject()"
@@ -180,17 +186,29 @@ export default {
 
     async editProject(projectName, projectType, projectDetail) {
       try {
-        await this.$apollo.mutate({
-          mutation: gqlQueryProject.EDIT_PROJECT,
-          variables: {
-            id: parseInt(this.$route.params.id),
-            projectName: projectName,
-            projectType: projectType,
-            projectDetail: projectDetail,
+        await this.$confirm({
+          title: 'Are you sure you want to edit this project ?',
+          button: {
+            no: 'Cancel',
+            yes: 'Ok',
           },
+          callback: confirm => {
+            if (confirm) {
+              this.$apollo.mutate({
+                mutation: gqlQueryProject.EDIT_PROJECT,
+                variables: {
+                  id: parseInt(this.$route.params.id),
+                  projectName: projectName,
+                  projectType: projectType,
+                  projectDetail: projectDetail,
+                },
+              })
+              this.$router.go(-1)
+              this.$message.success('Edit project is success')
+            }
+          },
+          onCancel() {},
         })
-        this.$router.go(-1)
-        this.$message.success('Edit project is success')
       } catch (error) {
         this.$message.error(error)
       }
@@ -199,23 +217,24 @@ export default {
     async deleteProject() {
       try {
         await this.$confirm({
-          title: 'Are you sure delete this project?',
-          okText: 'Yes',
-          okType: 'danger',
-          cancelText: 'No',
-          onOk: () => {
-            this.$apollo.mutate({
-              mutation: gqlQueryProject.DELETE_PROJECT,
-              variables: {
-                id: parseInt(this.$route.params.id),
-              },
-            })
-            this.$router.go(-2)
-            this.$message.success('Delete project is success')
+          title: 'Are you sure you want to delete this project ?',
+          button: {
+            no: 'Cancel',
+            yes: 'Delete',
           },
-          onCancel() {
-            console.log('Cancel')
+          callback: confirm => {
+            if (confirm) {
+              this.$apollo.mutate({
+                mutation: gqlQueryProject.DELETE_PROJECT,
+                variables: {
+                  id: parseInt(this.$route.params.id),
+                },
+              })
+              this.$router.go(-2)
+              this.$message.success('Delete project is success')
+            }
           },
+          onCancel() {},
         })
       } catch (error) {
         this.$message.error(error)

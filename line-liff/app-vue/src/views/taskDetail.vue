@@ -3,6 +3,9 @@
     <ToolbarBack />
     <br />
     <div style="margin :60px 15px 15px 15px">
+      <div class="modal-delete" id="modal">
+        <vue-confirm-dialog></vue-confirm-dialog>
+      </div>
       <!-- Done button -->
       <a-button
         size="large"
@@ -361,9 +364,24 @@ export default {
         })
         .then(() => {
           this.commentLoadding = false
+          this.$message.success('sent comment success')
         })
     },
-
+    getDeleteCommentByClick() {
+      this.$apollo
+        .mutate({
+          mutation: gqlQuery.TASK_QUERY,
+          variables: {
+            taskId: parseInt(this.$route.params.id),
+          },
+          update: data => {
+            this.dataTask = data.getTaskById
+          },
+        })
+        .then(() => {
+          this.$message.success('delete comment success')
+        })
+    },
     handleOk() {
       this.loading = true
       setTimeout(() => {
@@ -427,7 +445,6 @@ export default {
             },
           })
           this.getTaskByClick()
-          setTimeout(this.$message.success('sent comment success'), 800)
         } catch (error) {
           console.error(error)
         }
@@ -439,19 +456,21 @@ export default {
     async deleteComment(commentId) {
       try {
         await this.$confirm({
-          title: 'Are you sure delete this comment?',
-          okText: 'Yes',
-          okType: 'danger',
-          cancelText: 'No',
-          onOk: () => {
-            this.$apollo.mutate({
-              mutation: gqlQueryComment.DELETE_COMMENT,
-              variables: {
-                id: commentId,
-              },
-            })
-            this.getTaskByClick()
-            setTimeout(this.$message.success('delete comment success'), 800)
+          title: 'Are you sure you want to delete this comment ?',
+          button: {
+            no: 'Cancel',
+            yes: 'Delete',
+          },
+          callback: confirm => {
+            if (confirm) {
+              this.$apollo.mutate({
+                mutation: gqlQueryComment.DELETE_COMMENT,
+                variables: {
+                  id: commentId,
+                },
+              })
+              this.getDeleteCommentByClick()
+            }
           },
           onCancel() {},
         })

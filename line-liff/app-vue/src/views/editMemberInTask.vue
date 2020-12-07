@@ -1,5 +1,8 @@
 <template>
   <div v-if="dataTask">
+    <div class="modal-delete" id="modal">
+      <vue-confirm-dialog></vue-confirm-dialog>
+    </div>
     <div style="position: fixed; z-index:10; width:100%">
       <a-page-header style="background-color: #262626; padding-top:0px; padding-bottom: 10px;">
         <a-row style="display:flex; align-items: center;">
@@ -98,10 +101,23 @@ export default {
     async deleteMemberTask(memberId) {
       try {
         await this.$confirm({
-          title: 'Are you sure delete this member?',
-          okText: 'Yes',
-          okType: 'danger',
-          cancelText: 'No',
+          message: `Are you sure you want to delete this member ?`,
+          button: {
+            no: 'Cancel',
+            yes: 'Delete',
+          },
+          callback: confirm => {
+            if (confirm) {
+              this.$apollo.mutate({
+                mutation: gqlQueryTask.DELETE_MEMBER_IN_TASK,
+                variables: {
+                  taskId: parseInt(this.$route.params.id),
+                  memberId: memberId,
+                },
+              })
+              setTimeout(this.$message.success('delete member success'), 1000)
+            }
+          },
           onOk: () => {
             this.$apollo.mutate({
               mutation: gqlQueryTask.DELETE_MEMBER_IN_TASK,
