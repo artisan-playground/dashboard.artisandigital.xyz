@@ -149,6 +149,10 @@ export const DELETE_MEMBER_IN_TASK = gql`
   mutation deleteMemInTask($taskId: Int!, $memberId: Int!) {
     updateOneTask(where: { id: $taskId }, data: { members: { disconnect: { id: $memberId } } }) {
       id
+      members {
+        id
+        name
+      }
     }
   }
 `

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- <vue-confirm-dialog></vue-confirm-dialog> -->
     <router-view />
   </div>
 </template>
@@ -16,6 +17,27 @@
 html,
 body {
   font-family: 'Anuphan', sans-serif;
+}
+.modal-delete .vc-btn {
+  color: rgb(255, 32, 32);
+}
+#modal .vc-btn.left {
+  color: #4083ff;
+  font-weight: 650;
+}
+#modal .vc-btn {
+  font-weight: 400;
+}
+
+.tabs-member .v-slide-group {
+  display: grid;
+}
+
+.create-form .ant-form-explain {
+  float: left;
+}
+.login_form .ant-form-explain {
+  float: left;
 }
 .md-title {
   font-size: 16px;
