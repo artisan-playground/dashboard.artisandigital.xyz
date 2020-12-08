@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <!-- <vue-confirm-dialog></vue-confirm-dialog> -->
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
     <router-view />
   </div>
 </template>
@@ -18,26 +19,49 @@ html,
 body {
   font-family: 'Anuphan', sans-serif;
 }
+.label-inline .ant-form-item-label {
+  width: fit-content;
+  margin-right: 5px;
+  margin-top: 10px;
+}
 .modal-delete .vc-btn {
   color: rgb(255, 32, 32);
 }
 #modal .vc-btn.left {
-  color: #4083ff;
-  font-weight: 650;
+  color: #4f4f4f;
+}
+#modal .vc-title {
+  font-size: 14px;
+  color: #4f4f4f;
+  font-weight: normal;
 }
 #modal .vc-btn {
-  font-weight: 400;
+  font-weight: normal;
+  font-size: 18px;
 }
 
 .tabs-member .v-slide-group {
   display: grid;
+  text-transform: capitalize;
 }
-
+.tab-member .v-tab {
+  text-transform: capitalize;
+}
 .create-form .ant-form-explain {
   float: left;
 }
 .login_form .ant-form-explain {
   float: left;
+}
+.label-form .ant-col.ant-form-item-label {
+  float: left;
+}
+#imgMember {
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  object-fit: cover;
+  position: relative;
 }
 .md-title {
   font-size: 16px;

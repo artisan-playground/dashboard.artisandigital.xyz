@@ -118,19 +118,7 @@ export default {
               setTimeout(this.$message.success('delete member success'), 1000)
             }
           },
-          onOk: () => {
-            this.$apollo.mutate({
-              mutation: gqlQueryTask.DELETE_MEMBER_IN_TASK,
-              variables: {
-                taskId: parseInt(this.$route.params.id),
-                memberId: memberId,
-              },
-            })
-            setTimeout(this.$message.success('delete member success'), 800)
-          },
-          onCancel() {
-            console.log('Cancel')
-          },
+          onCancel() {},
         })
       } catch (error) {
         console.error(error)

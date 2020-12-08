@@ -19,7 +19,7 @@
 
           <a-col align="right" :span="5">
             <div id="pictureUrl">
-              <router-link :to="{ name: 'editmember', params: { id: dataProject.id } }">
+              <router-link :to="{ name: 'editMemberInProject', params: { id: dataProject.id } }">
                 <span style="color:white; margin-right:15px;">
                   Edit
                 </span>
