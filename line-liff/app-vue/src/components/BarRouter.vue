@@ -16,7 +16,7 @@
     </v-btn>
 
     <v-btn to="/members" id="bottom-navigation">
-      <span>Members</span>
+      <span>Employees</span>
       <a-icon id="icons" type="team" />
     </v-btn>
 

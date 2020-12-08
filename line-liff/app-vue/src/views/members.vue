@@ -4,7 +4,7 @@
     <br />
     <div style="margin-top: 60px;">
       <div class="tabs-member">
-        <v-tabs v-model="tab" background-color="transparent" color="#105EFB">
+        <v-tabs class="tab-member" v-model="tab" background-color="transparent" color="#105EFB">
           <v-tab v-for="item in items" :key="item">
             {{ item }}
           </v-tab>

@@ -1,12 +1,12 @@
 <template>
-  <div class="element">
-    <div class="subelement">
-      <img style="height:80px;" src="../assets/Artisan Digital_logo.png" />
-      <div
-        style="color:#134F83; font-weight:560; font-size:18px; margin-top:5px; margin-bottom:20px;"
-      >
-        Artisan Dashboard
-      </div>
+  <div class="subelement">
+    <img style="height:80px;" src="../assets/Artisan Digital_logo.png" />
+    <div
+      style="color:#134F83; font-weight:560; font-size:18px; margin-top:5px; margin-bottom:20px;"
+    >
+      Artisan Dashboard
+    </div>
+    <div class="login_form">
       <a-form
         id="components-form-demo-normal-login"
         :form="form"
@@ -35,9 +35,10 @@
           </a-button>
         </a-form-item>
       </a-form>
-      <div class="sub-element">
-        <img src="../../src/assets/background-login.svg" alt="" />
-      </div>
+    </div>
+
+    <div class="sub-element">
+      <img src="../../src/assets/background-login.svg" alt="" />
     </div>
   </div>
 </template>
@@ -67,8 +68,9 @@ export default {
     handleSubmit(e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
+        console.log(values)
         if (!err) {
-          console.log('Received values of form: ', values)
+          console.log('Received values of form: ', `${values.email}@artisan.co.th`)
         }
       })
     },
@@ -76,8 +78,6 @@ export default {
 }
 </script>
 <style scoped>
-.element {
-}
 .subelement {
   margin-left: 15px;
   margin-right: 15px;

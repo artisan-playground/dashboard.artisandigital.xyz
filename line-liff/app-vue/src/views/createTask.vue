@@ -2,92 +2,83 @@
   <div>
     <ToolbarBack msg="Create Task" />
     <br />
-    <div style="margin: 60px 18px 0px 18px" v-if="dataProject">
-      <a-form layout="vertical" hide-required-mark>
-        <a-row>
-          <a-form-item label="Task name">
-            <a-input
-              v-model="taskName"
-              v-decorator="[
-                'name',
-                {
-                  rules: [{ required: true, message: 'Please enter Task name' }],
-                },
-              ]"
-              placeholder="Task name"
-            />
-          </a-form-item>
-        </a-row>
-        <a-row style="">
-          <a-form-item label="Members">
-            <a-mentions
-              style="text-align: initial;"
-              placeholder="input @ to mention people"
-              v-model="member"
+    <div class="create-form" style="margin: 60px 18px 0px 18px;" v-if="dataProject">
+      <a-form-model class="label-form" ref="ruleForm" :model="form" :rules="rules">
+        <a-form-model-item ref="taskName" label="Task name" prop="taskName">
+          <a-input
+            v-model="form.taskName"
+            placeholder="Task name"
+            @blur="
+              () => {
+                $refs.taskName.onFieldBlur()
+              }
+            "
+          />
+        </a-form-model-item>
+        <a-form-model-item label="Members" prop="member">
+          <a-mentions
+            class="ant-input"
+            style="text-align: initial;"
+            placeholder="input @ to mention people"
+            v-model="form.member"
+          >
+            <a-mentions-option
+              v-for="user in dataProject.members"
+              :key="user.id"
+              :value="user.name"
             >
-              <a-mentions-option
-                v-for="user in dataProject.members"
-                :key="user.id"
-                :value="user.name"
-              >
-                <v-img
-                  style="float:left;"
-                  v-bind:src="user.image ? user.image.fullPath : require('../assets/user.svg')"
-                  id="imgMember"
-                />
-                <span style="float:left; margin-left:5px">{{ user.name }}</span>
-              </a-mentions-option>
-            </a-mentions>
-          </a-form-item>
-        </a-row>
-        <a-row> </a-row>
-        <a-row>
-          <a-form-item label="Date" style="margin-bottom:0;">
-            <a-form-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
-              <a-date-picker style="width: 100%" v-model="startTime" />
-            </a-form-item>
-            <a-form-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
-              <a-date-picker style="width: 100%" v-model="endTime" />
-            </a-form-item>
-          </a-form-item>
-        </a-row>
-        <a-row>
-          <a-form-item label="Description">
-            <a-textarea
-              v-model="taskDetail"
-              v-decorator="[
-                'description',
-                {
-                  rules: [{ required: true, message: 'Please enter url description' }],
-                },
-              ]"
-              :rows="4"
-              placeholder="please enter url description"
-            />
-          </a-form-item>
-        </a-row>
-        <a-row>
+              <v-img
+                style="float:left;"
+                v-bind:src="user.image ? user.image.fullPath : require('../assets/user.svg')"
+                id="imgMember"
+              />
+              <span style="float:left; margin-left:5px">{{ user.name }}</span>
+            </a-mentions-option>
+          </a-mentions>
+        </a-form-model-item>
+        <a-form-model-item label="Date" prop="startTime">
+          <a-form-model-item
+            prop="startTime"
+            :style="{ display: 'inline-block', width: 'calc(50%)' }"
+          >
+            <a-date-picker style="width: 100%" v-model="form.startTime" />
+          </a-form-model-item>
+          <a-form-model-item
+            prop="endTime"
+            :style="{ display: 'inline-block', width: 'calc(50%)' }"
+          >
+            <a-date-picker style="width: 100%" v-model="form.endTime" />
+          </a-form-model-item>
+        </a-form-model-item>
+        <a-form-model-item label="Description" prop="taskDetail">
+          <a-textarea
+            v-model="form.taskDetail"
+            :rows="4"
+            placeholder="please enter task description"
+          />
+        </a-form-model-item>
+        <a-form-model-item>
           <a-button
             size="large"
-            block
+            type="primary"
+            @click="createTask(form.member)"
             html-type="submit"
-            @click="createTask(member)"
+            block
             style="text-transform: capitalize; background-color: #134F83; color:white;"
-            >Submit
+          >
+            Create
           </a-button>
-        </a-row>
-      </a-form>
+        </a-form-model-item>
+      </a-form-model>
     </div>
     <div style="padding-bottom:60px"></div>
   </div>
 </template>
-
 <script>
-import ToolbarBack from '@/components/ToolbarBack.vue'
+import ToolbarBack from '@/components/ToolbarBack'
 import * as gqlQueryProject from '../constants/project'
 import * as gqlQueryTask from '../constants/task'
 import * as gqlQueryMember from '../constants/user'
-
 export default {
   name: 'createTask',
   components: {
@@ -112,114 +103,90 @@ export default {
   },
   data() {
     return {
-      startValue: null,
-      endValue: null,
-      endOpen: false,
-      reviewer: '',
-      taskName: '',
-      member: '',
-      memberId: '',
-      taskDetail: '',
-      startTime: '',
-      endTime: '',
-      dataProject: null,
-      dataMember: [],
+      other: '',
       users: [],
+      dataMember: [],
+      dataProject: null,
+      form: {
+        taskName: '',
+        member: '',
+        taskDetail: '',
+        startTime: '',
+        endTime: '',
+      },
+      rules: {
+        taskName: [{ required: true, message: 'Please enter Task name', trigger: 'blur' }],
+        member: [{ required: true, message: 'Please enter Task member', trigger: 'change' }],
+        startTime: [{ required: true, message: 'Please enter Task start date', trigger: 'change' }],
+        endTime: [{ required: true, message: 'Please enter Task end date', trigger: 'change' }],
+        taskDetail: [{ required: true, message: 'Please enter Task description', trigger: 'blur' }],
+      },
     }
-  },
-  watch: {
-    startValue(val) {
-      console.log('startValue', val)
-    },
-    endValue(val) {
-      console.log('endValue', val)
-    },
   },
   methods: {
     async createTask(value) {
-      try {
-        const mem = this.dataMember
-          .filter(item =>
-            value
-              .slice(0, -1)
-              .split('@')
-              .includes(item.name)
-          )
-          .map(val => val.id)
-
-        this.$apollo.mutate({
-          mutation: gqlQueryTask.ADD_TASK,
-          variables: {
-            projectId: parseInt(this.$route.params.id),
-            taskName: this.taskName,
-            taskDetail: this.taskDetail,
-            startTime: this.startTime,
-            endTime: this.endTime,
-            isDone: false,
-            members: parseInt(mem),
-          },
-        })
-        this.taskName = ''
-        this.taskDetail = ''
-        this.startTime = ''
-        this.endTime = ''
-        this.member = ''
-        this.$router.go(-1)
-        this.$message.success('Create task is success')
-      } catch (error) {
-        this.$message.error(error)
+      const mem = this.dataMember
+        .filter(item =>
+          value
+            .slice(0, -1)
+            .split('@')
+            .includes(item.name)
+        )
+        .map(val => val.id)
+      if (
+        this.form.taskName !== '' &&
+        this.form.taskDetail !== '' &&
+        this.form.startTime !== '' &&
+        this.form.endTime !== '' &&
+        parseInt(mem).length !== 0
+      ) {
+        try {
+          await this.$apollo.mutate({
+            mutation: gqlQueryTask.ADD_TASK,
+            variables: {
+              projectId: parseInt(this.$route.params.id),
+              taskName: this.form.taskName,
+              taskDetail: this.form.taskDetail,
+              startTime: this.form.startTime,
+              endTime: this.form.endTime,
+              isDone: false,
+              members: parseInt(mem),
+            },
+          })
+          this.taskName = ''
+          this.taskDetail = ''
+          this.startTime = ''
+          this.endTime = ''
+          this.member = ''
+          this.$router.go(-1)
+          this.$message.success('Create task is success')
+        } catch (error) {
+          this.$message.error(error + '')
+        }
       }
-    },
-    handleSubmit(e) {
-      e.preventDefault()
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values)
+
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          return true
+        } else {
+          return false
         }
       })
     },
-
-    onSearch(_, prefix) {
-      console.log(_, prefix)
-      this.prefix = prefix
-
-      console.log(this.users)
-    },
-    disabledStartDate(startValue) {
-      const endValue = this.endValue
-      if (!startValue || !endValue) {
-        return false
-      }
-      return startValue.valueOf() > endValue.valueOf()
-    },
-    disabledEndDate(endValue) {
-      const startValue = this.startValue
-      if (!endValue || !startValue) {
-        return false
-      }
-      return startValue.valueOf() >= endValue.valueOf()
-    },
-    handleStartOpenChange(open) {
-      if (!open) {
-        this.endOpen = true
-      }
-    },
-    handleEndOpenChange(open) {
-      this.endOpen = open
+    resetForm() {
+      this.$refs.ruleForm.resetFields()
     },
   },
 }
 </script>
-
 <style>
-.ant-calendar-picker {
-  min-width: 50px;
+.basil {
+  background-color: #fffbe6 !important;
 }
-#imgMember {
-  border-radius: 100%;
-  height: 30px;
-  width: 30px;
-  object-fit: cover;
-  position: relative;
+.basil--text {
+  color: #105efb !important;
+}
+.v-slide-group {
+  display: grid;
 }
 </style>

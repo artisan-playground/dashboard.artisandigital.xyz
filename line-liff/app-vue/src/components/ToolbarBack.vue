@@ -17,13 +17,7 @@
 
         <a-col align="right" :span="5">
           <div>
-            <img
-              id="pictureUrl"
-              :src="
-                profileStore.pictureUrl ||
-                  'https://cdn.iconscout.com/icon/premium/png-512-thumb/profile-1506810-1278719.png'
-              "
-            />
+            <img id="pictureUrl" :src="profileStore.pictureUrl || require('../assets/user.svg')" />
           </div>
         </a-col>
       </a-row>

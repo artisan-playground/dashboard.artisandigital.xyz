@@ -49,9 +49,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/memberInProject.vue'),
   },
   {
-    path: '/projects/:id/editmember',
-    name: 'editmember',
-    component: () => import(/* webpackChunkName: "about" */ '../views/editmember.vue'),
+    path: '/projects/:id/editMemberInProject',
+    name: 'editMemberInProject',
+    component: () => import(/* webpackChunkName: "about" */ '../views/editMemberInProject.vue'),
   },
   {
     path: '/projects/:id/members/addmember',

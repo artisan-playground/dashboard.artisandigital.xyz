@@ -6,6 +6,7 @@ module.exports = {
     apollo: {
       enableMocks: false,
       enableEngine: false,
+      lintGQL: true,
     },
   },
   transpileDependencies: ['vuetify'],

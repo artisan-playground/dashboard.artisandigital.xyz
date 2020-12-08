@@ -1,5 +1,8 @@
 <template>
   <div v-if="dataProject">
+    <div class="modal-delete" id="modal">
+      <vue-confirm-dialog></vue-confirm-dialog>
+    </div>
     <div style="position: fixed; z-index:10; width:100%">
       <a-page-header style="background-color: #262626; padding-top:0px; padding-bottom: 10px;">
         <a-row style="display:flex; align-items: center;">
@@ -82,7 +85,7 @@
 import * as gqlQuery from '../constants/project'
 
 export default {
-  name: 'editmember',
+  name: 'editMemberInProject',
   components: {},
   data() {
     return {
@@ -98,19 +101,22 @@ export default {
     async deleteMemberProject(memberId) {
       try {
         await this.$confirm({
-          title: 'Are you sure delete this member?',
-          okText: 'Yes',
-          okType: 'danger',
-          cancelText: 'No',
-          onOk: () => {
-            this.$apollo.mutate({
-              mutation: gqlQuery.DELETE_MEMBER_FROM_PROJECT,
-              variables: {
-                projectId: parseInt(this.$route.params.id),
-                memberId: memberId,
-              },
-            })
-            setTimeout(this.$message.success('delete member success'), 800)
+          message: `Are you sure you want to delete this member ?`,
+          button: {
+            no: 'Cancel',
+            yes: 'Delete',
+          },
+          callback: confirm => {
+            if (confirm) {
+              this.$apollo.mutate({
+                mutation: gqlQuery.DELETE_MEMBER_FROM_PROJECT,
+                variables: {
+                  projectId: parseInt(this.$route.params.id),
+                  memberId: memberId,
+                },
+              })
+              setTimeout(this.$message.success('delete member success'), 800)
+            }
           },
           onCancel() {
             console.log('Cancel')
