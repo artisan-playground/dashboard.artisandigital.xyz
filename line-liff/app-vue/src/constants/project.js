@@ -53,6 +53,16 @@ export const PROJECT_QUERY = gql`
             fullPath
           }
         }
+        comments {
+          id
+          user {
+            id
+          }
+        }
+        files {
+          id
+          fullPath
+        }
       }
       members {
         id

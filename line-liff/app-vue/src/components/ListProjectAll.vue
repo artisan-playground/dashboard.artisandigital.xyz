@@ -98,6 +98,7 @@
                       v-bind:src="
                         member.image ? member.image.fullPath : require('../assets/user.svg')
                       "
+                      :alt="member.name"
                     />
                   </vs-avatar>
                 </vs-avatar-group>
@@ -148,9 +149,18 @@ export default {
         let filtered = true
         if (filterStatus && filterStatus.length > 0) {
           filtered = item.status == filterStatus
-          return filtered
+          return (
+            filtered &&
+            (item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+              item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+              item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
+          )
         } else {
-          return item.projectName.indexOf(text) > -1
+          return (
+            item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+          )
         }
       })
     },

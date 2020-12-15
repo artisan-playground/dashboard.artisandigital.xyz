@@ -102,7 +102,7 @@
 
     <!-- Date -->
     <a-row style="margin-top:15px; margin-left:15px; margin-right:15px;">
-      <a-col v-if="project">
+      <a-col>
         <a-card id="card" :bodyStyle="{ padding: '5px' }">
           <div>
             <a-icon type="calendar" style="color:#105EFB" />
@@ -146,10 +146,13 @@
                 <a-col :span="18" align="left">
                   <a-row>
                     <b style="color:#333333;">
-                      {{ task.taskName }} <a-icon style="color:#105EFB" type="paper-clip" /><a-icon
-                        style="color:#105EFB"
-                        type="message"
-                      />
+                      {{ task.taskName }}
+                      <span v-if="task.files.length > 0">
+                        <a-icon style="color:#105EFB" type="paper-clip" />
+                      </span>
+                      <span v-if="task.comments.length > 0">
+                        <a-icon style="color:#105EFB" type="message" />
+                      </span>
                     </b>
                   </a-row>
                   <a-row id="position">
@@ -223,7 +226,6 @@
 </template>
 
 <script>
-import store from '../store/index.js'
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/project'
@@ -235,9 +237,7 @@ export default {
     BarRouter,
   },
   data() {
-    const projectId = parseInt(this.$route.params.id)
     return {
-      project: store.state.projects.find(p => p.id === projectId),
       loading: false,
       form: this.$form.createForm(this),
       visible: false,
@@ -324,7 +324,10 @@ export default {
     taskFilter() {
       let text = this.search.trim()
       return this.dataTask.filter(item => {
-        return item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1
+        return (
+          item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+          item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+        )
       })
     },
     projectFunc() {
