@@ -3,81 +3,87 @@
     <ToolbarBack msg="Done Task" />
     <br />
     <div style="margin-top:60px;">
-      <div
-        v-for="task in dataTask"
-        :key="task.id"
-        style="margin-top:15px; margin-left:15px; margin-right:15px;"
-      >
-        <a-card v-if="task.isDone" :bodyStyle="{ padding: '15px' }" id="card" align="left">
-          <router-link :to="{ name: 'taskDetail', params: { id: task.id } }">
-            <div>
-              <a-row type="flex" justify="space-between">
-                <a-col :span="18" align="left">
-                  <a-row>
-                    <b style="color:black;">
-                      {{ task.taskName }} <a-icon style="color:#105EFB" type="paper-clip" /><a-icon
-                        style="color:#105EFB"
-                        type="message"
-                      />
-                    </b>
-                  </a-row>
-                  <a-row id="position">
-                    {{ $dayjs(task.startTime).format('DD MMM YY ') }}
-                  </a-row>
-                </a-col>
-                <a-col :span="4" id="status">
-                  <a-tag
-                    color="red"
-                    style="float:right; margin-right:0px;"
-                    v-if="task.isDone == false"
-                  >
-                    <span
-                      id="iconStatus"
-                      class="iconify"
-                      data-inline="false"
-                      data-icon="carbon:warning"
-                    ></span>
-                    WIP
-                  </a-tag>
-                  <a-tag color="green" style="margin-right: 0px;" v-if="task.isDone == true">
-                    <span
-                      id="iconStatus"
-                      class="iconify"
-                      data-inline="false"
-                      data-icon="octicon:check-circle-24"
-                    ></span>
-                    Done
-                  </a-tag>
-                </a-col>
-              </a-row>
-              <a-row>
-                <div style="color:black;" class="content">{{ task.taskDetail }}</div>
-              </a-row>
-
-              <!-- list members -->
-              <a-row>
-                <a-col>
-                  <div style="float:right">
-                    <vs-avatar-group float max="4">
-                      <vs-avatar
-                        v-for="member in task.members"
-                        :key="member.id"
-                        style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
-                      >
-                        <img
-                          style="z-index:1;"
-                          v-bind:src="
-                            member.image ? member.image.fullPath : require('../assets/user.svg')
-                          "
+      <div v-if="emptyTask == 0" class="noData" style="height:500px;">
+        <a-empty />
+      </div>
+      <div v-else>
+        <div
+          v-for="task in dataTask"
+          :key="task.id"
+          style="margin-top:15px; margin-left:15px; margin-right:15px;"
+        >
+          <a-card v-if="task.isDone" :bodyStyle="{ padding: '15px' }" id="card" align="left">
+            <router-link :to="{ name: 'taskDetail', params: { id: task.id } }">
+              <div>
+                <a-row type="flex" justify="space-between">
+                  <a-col :span="18" align="left">
+                    <a-row>
+                      <b style="color:black;">
+                        {{ task.taskName }}
+                        <a-icon style="color:#105EFB" type="paper-clip" /><a-icon
+                          style="color:#105EFB"
+                          type="message"
                         />
-                      </vs-avatar>
-                    </vs-avatar-group>
-                  </div>
-                </a-col>
-              </a-row>
-            </div>
-          </router-link>
-        </a-card>
+                      </b>
+                    </a-row>
+                    <a-row id="position">
+                      {{ $dayjs(task.startTime).format('DD MMM YY ') }}
+                    </a-row>
+                  </a-col>
+                  <a-col :span="4" id="status">
+                    <a-tag
+                      color="red"
+                      style="float:right; margin-right:0px;"
+                      v-if="task.isDone == false"
+                    >
+                      <span
+                        id="iconStatus"
+                        class="iconify"
+                        data-inline="false"
+                        data-icon="carbon:warning"
+                      ></span>
+                      WIP
+                    </a-tag>
+                    <a-tag color="green" style="margin-right: 0px;" v-if="task.isDone == true">
+                      <span
+                        id="iconStatus"
+                        class="iconify"
+                        data-inline="false"
+                        data-icon="octicon:check-circle-24"
+                      ></span>
+                      Done
+                    </a-tag>
+                  </a-col>
+                </a-row>
+                <a-row>
+                  <div style="color:black;" class="content">{{ task.taskDetail }}</div>
+                </a-row>
+
+                <!-- list members -->
+                <a-row>
+                  <a-col>
+                    <div style="float:right">
+                      <vs-avatar-group float max="4">
+                        <vs-avatar
+                          v-for="member in task.members"
+                          :key="member.id"
+                          style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
+                        >
+                          <img
+                            style="z-index:1;"
+                            v-bind:src="
+                              member.image ? member.image.fullPath : require('../assets/user.svg')
+                            "
+                          />
+                        </vs-avatar>
+                      </vs-avatar-group>
+                    </div>
+                  </a-col>
+                </a-row>
+              </div>
+            </router-link>
+          </a-card>
+        </div>
       </div>
     </div>
     <div style="padding-bottom:60px">
@@ -115,6 +121,17 @@ export default {
         this.dataProject = data.project
         this.dataTask = data.project.tasks
       },
+    },
+  },
+  computed: {
+    emptyTask() {
+      let statusTask = 0
+      return this.dataTask.filter(value => {
+        if (value.isDone == true) {
+          statusTask += 1
+          return statusTask
+        }
+      })
     },
   },
 }

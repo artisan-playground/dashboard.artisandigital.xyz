@@ -46,9 +46,31 @@
               <a-tabs default-active-key="1">
                 <a-tab-pane key="1" tab="Project">
                   <div>
+                    <a-row style="margin-bottom:15px">
+                      <a-col :span="18" style="width:80%">
+                        <a-input-search
+                          v-model="search"
+                          type="search"
+                          placeholder=" input search text"
+                        />
+                      </a-col>
+                      <a-col :span="6" style="width:20%">
+                        <a-select style="width:100%" v-model="currentFilter">
+                          <a-select-option value="">
+                            <span style="font-size:10px">All</span>
+                          </a-select-option>
+                          <a-select-option value="undone">
+                            <span style="font-size:10px">WIP</span>
+                          </a-select-option>
+                          <a-select-option value="done">
+                            <span style="font-size:10px">Done</span>
+                          </a-select-option>
+                        </a-select>
+                      </a-col>
+                    </a-row>
                     <a-card
                       :bodyStyle="{ padding: '15px' }"
-                      v-for="project in user.projects"
+                      v-for="project in searchProjectFilter"
                       style="color: black; margin-bottom: 15px;"
                       :key="project.id"
                     >
@@ -124,7 +146,16 @@
                   </div>
                 </a-tab-pane>
                 <a-tab-pane key="2" tab="Tasks" force-render>
-                  <div v-for="task in user.tasks" :key="task.id">
+                  <a-row style="margin-bottom:15px">
+                    <a-col>
+                      <a-input-search
+                        v-model="search"
+                        type="search"
+                        placeholder=" input search text"
+                      />
+                    </a-col>
+                  </a-row>
+                  <div v-for="task in searchTaskFilter" :key="task.id">
                     <a-card
                       v-if="!task.isDone"
                       :bodyStyle="{ padding: '15px' }"
@@ -249,12 +280,35 @@ export default {
     tasksUndone() {
       return this.dataTask.filter(item => item.isDone == false).length
     },
+    searchProjectFilter() {
+      let text = this.search.trim()
+      let filterStatus = this.currentFilter.trim()
+
+      return this.dataProject.filter(item => {
+        let filtered = true
+        if (filterStatus && filterStatus.length > 0) {
+          filtered = item.status == filterStatus
+          return filtered
+        } else {
+          return item.projectName.indexOf(text) > -1
+        }
+      })
+    },
+    searchTaskFilter() {
+      let text = this.search.trim()
+
+      return this.dataTask.filter(item => {
+        return item.taskName.indexOf(text) > -1
+      })
+    },
   },
   data() {
     return {
       user: null,
       dataProject: [],
       dataTask: [],
+      search: '',
+      currentFilter: '',
     }
   },
   mounted() {},

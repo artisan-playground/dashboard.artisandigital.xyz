@@ -1,7 +1,7 @@
 <template>
   <div class="project">
     <!-- <h1>This is an about page</h1> -->
-    <Toolbar msg="Project" />
+    <Toolbar msg="Projects" />
     <br />
     <ListProjectAll style="margin-top: 60px;" />
     <BarRouter />

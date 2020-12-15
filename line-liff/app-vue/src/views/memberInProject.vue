@@ -19,11 +19,17 @@
 
           <a-col align="right" :span="5">
             <div id="pictureUrl">
-              <router-link :to="{ name: 'editMemberInProject', params: { id: dataProject.id } }">
+              <router-link
+                v-if="dataProject.members.length > 0"
+                :to="{ name: 'editMemberInProject', params: { id: dataProject.id } }"
+              >
                 <span style="color:white; margin-right:15px;">
                   Edit
                 </span>
               </router-link>
+              <span v-else style="color:rgb(140, 140, 140);">
+                Edit
+              </span>
             </div>
           </a-col>
         </a-row>
@@ -43,44 +49,50 @@
       </router-link>
     </div>
 
-    <div v-for="member in dataProject.members" :key="member.id">
-      <router-link
-        style="text-decoration: none;"
-        :to="{ name: 'profileMember', params: { id: member.id } }"
-      >
-        <div id="flex-container">
-          <div class="cardPicture">
-            <img
-              v-bind:src="member.image ? member.image.fullPath : require('../assets/user.svg')"
-              id="imgProfile"
-            />
+    <div v-if="dataProject.members.length > 0">
+      <div v-for="member in dataProject.members" :key="member.id">
+        <router-link
+          style="text-decoration: none;"
+          :to="{ name: 'profileMember', params: { id: member.id } }"
+        >
+          <div id="flex-container">
+            <div class="cardPicture">
+              <img
+                v-bind:src="member.image ? member.image.fullPath : require('../assets/user.svg')"
+                id="imgProfile"
+              />
+            </div>
+            <div class="cardInformation">
+              <div id="displayname">
+                {{ member.name }}
+              </div>
+              <div id="memberposition">
+                {{ member.position }}
+              </div>
+              <div id="department">
+                Full-time/Intern :
+                <span>{{ member.type }}</span>
+              </div>
+              <div id="department">
+                Department:
+                <span>{{ member.department }}</span>
+              </div>
+              <div v-if="member.type == 'intern'" id="department" style="font-size:10px">
+                Internship period :
+                <span>
+                  {{ $dayjs(member.startDate).format('DD MMM YYYY') }}
+                  - {{ $dayjs(member.dueDate).format('DD MMM YYYY') }}
+                </span>
+              </div>
+            </div>
           </div>
-          <div class="cardInformation">
-            <div id="displayname">
-              {{ member.name }}
-            </div>
-            <div id="memberposition">
-              {{ member.position }}
-            </div>
-            <div id="department">
-              Full-time/Intern :
-              <span>{{ member.type }}</span>
-            </div>
-            <div id="department">
-              Department:
-              <span>{{ member.department }}</span>
-            </div>
-            <div v-if="member.type == 'intern'" id="department" style="font-size:10px">
-              Internship period :
-              <span>
-                {{ $dayjs(member.startDate).format('DD MMM YYYY') }}
-                - {{ $dayjs(member.dueDate).format('DD MMM YYYY') }}
-              </span>
-            </div>
-          </div>
-        </div>
-      </router-link>
+        </router-link>
+      </div>
     </div>
+    <div v-else class="noData" style="height:400px;">
+      <a-empty />
+    </div>
+
     <div style="padding-bottom:60px">
       <!-- ระยะห่าง manu ข้างล่างกับ content -->
     </div>

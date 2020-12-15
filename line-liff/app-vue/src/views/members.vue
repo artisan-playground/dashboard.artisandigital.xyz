@@ -39,6 +39,7 @@
                     <div id="memberposition">
                       {{ member.position }}
                     </div>
+                    <br />
                     <div id="department">
                       Full-time/Intern :
                       <span>{{ member.type }}</span>
@@ -47,7 +48,7 @@
                       Department:
                       <span>{{ member.department }}</span>
                     </div>
-                    <div v-if="member.type == 'intern'" id="department" style="font-size:10px">
+                    <div v-if="member.type == 'Intern'" id="department" style="font-size:10px">
                       Internship period :
                       <span>
                         {{ $dayjs(member.startDate).format('DD MMM YYYY') }}
