@@ -4,8 +4,15 @@
       <a-col :span="12">
         <a-card :bordered="false" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
           <div><a-icon type="line-chart" style="color: #0036c7; font-size: 22px;" /></div>
-          <div class="number" style="font-weight: 950;">{{ numProject }}</div>
-          <div class="title">Project</div>
+          <div class="number" style="font-weight: 950;">
+            <span v-if="numProject">
+              {{ numProject.length }}
+            </span>
+            <span v-else>
+              0
+            </span>
+          </div>
+          <div class="title">Projects</div>
         </a-card>
       </a-col>
       <a-col :span="12">
@@ -22,7 +29,14 @@
       <a-col>
         <a-card :bordered="false" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
           <div><a-icon type="profile" style="color: #0036c7; font-size: 22px;" /></div>
-          <div class="number" style="font-weight: 950;">{{ numTaskToday }}</div>
+          <div class="number" style="font-weight: 950;">
+            <span v-if="numTaskToday">
+              {{ taskToday.length }}
+            </span>
+            <span v-else>
+              0
+            </span>
+          </div>
           <div class="title">Today’s tasks</div>
         </a-card>
       </a-col>
@@ -31,16 +45,15 @@
 </template>
 
 <script>
+import auth from '../store/Auth/index.js'
 import * as gqlQuery from '../constants/user'
 export default {
   name: 'MenuContent',
   data() {
     return {
-      numProject: 6,
-      // numPaticipants: 16,
-      numTaskToday: 13,
+      numProject: auth.state.user.projects,
+      numTaskToday: auth.state.user.tasks,
       dataMember: null,
-      numMember: null,
     }
   },
   apollo: {
@@ -51,7 +64,17 @@ export default {
       },
     },
   },
-  computed: {},
+  computed: {
+    taskToday() {
+      let statusTask = 0
+      return this.numTaskToday.filter(value => {
+        if (value.isDone == false) {
+          statusTask += 1
+          return statusTask
+        }
+      })
+    },
+  },
 }
 </script>
 
