@@ -12,7 +12,12 @@
 
         <a-col align="right" :span="5">
           <div>
-            <img id="pictureUrl" :src="profileStore.pictureUrl || require('../assets/user.svg')" />
+            <router-link to="/profile">
+              <img
+                id="pictureUrl"
+                :src="userProfile ? userProfile.fullPath : require('../assets/user.svg')"
+              />
+            </router-link>
           </div>
         </a-col>
       </a-row>
@@ -22,44 +27,27 @@
 <script src="https://static.line-scdn.net/liff/edge/versions/2.4.0/sdk.js"></script>
 
 <script>
-// @ is an alias to /src
-import { mapState } from 'vuex'
+import { mapActions } from 'vuex'
+import auth from '../store/Auth/index.js'
+
 export default {
   name: 'Toolbar',
+  data() {
+    return {
+      userProfile: auth.state.user.image,
+    }
+  },
   props: {
     msg: String,
   },
-  computed: {
-    ...mapState({
-      profileStore: store => store.profile,
-    }),
-  },
-  // async mounted() {
-  //   await liff.init({ liffId: '1654900324-lDYAE146' })
-  //   if (!liff.isLoggedIn()) {
-  //     liff.login()
-  //     this.getEnvironment()
-  //     this.getUserProfile()
-  //   }
-  // liff.login({ redirectUri: 'https://localhost:8080' }) // ไม่เอา
-  // await liff.init({ liffId: '1654900324-lDYAE146' })
-  // },
+  computed: {},
+
   methods: {
-    // async getUserProfile() {
-    //   console.log('Logger : ', await liff.getProfile())
-    //   const profile = await liff.getProfile()
-    //   this.$store.commit('setUserId', profile.userId)
-    //   this.$store.commit('setPicProfile', profile.pictureUrl)
-    //   this.$store.commit('setDisplayName', profile.displayName)
-    //   this.$store.commit('setStatusMessage', profile.statusMessage)
-    //   this.$store.commit('setEmail', getDecodedIDToken.email)
-    // },
-    getEnvironment() {
-      document.getElementById('os').append(liff.getOS()) // liff.getOS() ทำให้เราทราบว่า liff ที่เราเปิดตอนนี้เปิดด้วย device อะไรอยู่ ex. แอนดรอย ios web
-      document.getElementById('language').append(liff.getLanguage()) // liff.getLanguage() รู้ว่า client นี้ defalt เขาใช้ภาษาอะไร
-      document.getElementById('version').append(liff.getVersion()) // liff.getVersion() เว่อร์ชั่น liff
-      document.getElementById('accessToken').append(liff.getAccessToken())
-      document.getElementById('isInClient').append(liff.isInClient())
+    ...mapActions({
+      logOut: 'Auth/logOut',
+    }),
+    signOut() {
+      this.logOut()
     },
   },
 }
@@ -79,9 +67,4 @@ export default {
   display: block;
   overflow: auto;
 }
-/* #accessToken,
-#utouId {
-  display: block;
-  overflow: auto;
-} */
 </style>

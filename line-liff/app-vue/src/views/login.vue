@@ -1,50 +1,54 @@
 <template>
   <div class="subelement">
-    <img style="height:80px;" src="../assets/Artisan Digital_logo.png" />
-    <div
-      style="color:#134F83; font-weight:560; font-size:18px; margin-top:5px; margin-bottom:20px;"
-    >
-      Artisan Dashboard
-    </div>
-    <div class="login_form">
-      <a-form
-        id="components-form-demo-normal-login"
-        :form="form"
-        class="login-form"
-        @submit="handleSubmit"
+    <a-spin :spinning="spinning">
+      <img style="height:80px;" src="../assets/Artisan Digital_logo.png" />
+      <div
+        style="color:#134F83; font-weight:560; font-size:18px; margin-top:5px; margin-bottom:20px;"
       >
-        <a-form-item style="margin-bottom: 10px;">
-          <a-input
-            v-decorator="[
-              'email',
-              { rules: [{ required: true, message: 'Please input your E-mail!' }] },
-            ]"
-            placeholder="E-mail"
-            addon-after="@artisan.co.th"
-          >
-            <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
-          </a-input>
-        </a-form-item>
-        <a-form-item>
-          <a-button
-            style="color:white; background-color:#134F83;"
-            html-type="submit"
-            class="login-form-button"
-          >
-            Log in
-          </a-button>
-        </a-form-item>
-      </a-form>
-    </div>
+        Artisan Dashboard
+      </div>
+      <div class="login_form">
+        <a-form-model
+          ref="ruleForm"
+          :model="ruleForm"
+          :rules="rules"
+          id="components-form-demo-normal-login"
+          :form="form"
+          class="login-form"
+          @submit.prevent="getUserByEmail(ruleForm.email)"
+        >
+          <a-form-model-item prop="email" style="margin-bottom: 10px;">
+            <a-input
+              v-model="ruleForm.email"
+              autocomplete="off"
+              placeholder="E-mail"
+              addon-after="@artisan.co.th"
+            >
+              <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
+            </a-input>
+          </a-form-model-item>
+          <a-form-model-item>
+            <a-button
+              size="large"
+              style="color:white; background-color:#134F83;"
+              html-type="submit"
+              class="login-form-button"
+            >
+              Sign in
+            </a-button>
+          </a-form-model-item>
+        </a-form-model>
+      </div>
 
-    <div class="sub-element">
-      <img src="../../src/assets/background-login.svg" alt="" />
-    </div>
+      <div class="sub-element">
+        <img src="../../src/assets/background-login.svg" alt="" />
+      </div>
+    </a-spin>
   </div>
 </template>
 
 <script>
-// import * as gqlUserQuery from '../constants/user'
+import { mapActions } from 'vuex'
 export default {
   name: 'LoginPage',
   beforeCreate() {
@@ -52,27 +56,33 @@ export default {
   },
   data() {
     return {
+      spinning: false,
+      ruleForm: {
+        email: '',
+      },
+      rules: {
+        email: [{ required: true, message: 'Please enter your E-mail', trigger: 'change' }],
+      },
       suffix: '@artisan.co.th',
     }
   },
-  // apollo: {
-  //   user: {
-  //     query: gqlUserQuery.GET_USER_EMAIL,
-  //     variable() {
-  //       return {
-  //       }
-  //     },
-  //   },
-  // },
   methods: {
-    handleSubmit(e) {
-      e.preventDefault()
-      this.form.validateFields((err, values) => {
-        console.log(values)
-        if (!err) {
-          console.log('Received values of form: ', `${values.email}@artisan.co.th`)
+    ...mapActions({
+      login: 'Auth/login',
+    }),
+
+    async getUserByEmail(email) {
+      if (email !== '') {
+        try {
+          email = `${email}@artisan.co.th`
+          this.spinning = !this.spinning
+          await this.login({ email })
+        } catch (error) {
+          this.spinning = false
+          this.$message.error('Invalid E-mail')
         }
-      })
+      }
+      this.$refs.ruleForm.validate(isValid => isValid)
     },
   },
 }
