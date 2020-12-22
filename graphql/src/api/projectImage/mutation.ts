@@ -7,14 +7,14 @@ const uploadProjectImage = extendType({
     t.field('uploadProjectImage', {
       type: 'ProjectImage',
       args: {
-        image: arg({
+        projectImage: arg({
           type: 'Upload',
           required: true,
         }),
       },
-      resolve: async (_, { image }, ctx) => {
+      resolve: async (_, { projectImage }, ctx) => {
         try {
-          const data = await upload(await image)
+          const data = await upload(await projectImage)
           return ctx.prisma.projectImage.create({ data })
         } catch (e) {
           //
@@ -31,14 +31,14 @@ const updateProjectImage = extendType({
       type: 'ProjectImage',
       args: {
         id: intArg({ required: true }),
-        image: arg({
+        projectImage: arg({
           type: 'Upload',
           required: true,
         }),
       },
-      resolve: async (_, { image, id }, ctx) => {
+      resolve: async (_, { projectImage, id }, ctx) => {
         try {
-          const data = await upload(await image)
+          const data = await upload(await projectImage)
           return ctx.prisma.projectImage.update({ where: { id }, data })
         } catch (e) {
           //

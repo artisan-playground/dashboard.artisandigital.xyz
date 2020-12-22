@@ -1,15 +1,15 @@
-import { objectType } from "@nexus/schema";
+import { objectType } from '@nexus/schema'
 
 const commentObjectType = objectType({
-  name: "Comment",
+  name: 'Comment',
   definition(t) {
-    t.model.id();
-    t.model.user();
-    t.model.task();
-    t.model.timestamp();
-    t.model.image();
-    t.model.message();
+    t.model.id()
+    t.model.user()
+    t.model.task()
+    t.model.timestamp()
+    t.model.message()
+    t.model.reply()
   },
-});
+})
 
-export { commentObjectType };
+export { commentObjectType }
