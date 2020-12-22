@@ -8,34 +8,24 @@ datasource db {
 }
 
 model User {
-  id         Int             @id @default(autoincrement())
-  email      String          @unique
-  name       String
-  image      Image?          @relation(fields: [imageId], references: [id])
-  imageId    Int?
-  position   String?
-  department String?
-  type       String?
-  skills     String[]
-  contacts   Contact?         @relation(fields: [contactId], references: [id])
-  contactId  Int?
-  comments   Comment[]
-  projects   Project[]
-  tasks      Task[]
-  event      Event[]
-  startDate  DateTime?        @default(now())
-  dueDate    DateTime?
-  role       Role             @default(USER)
-}
-
-model Contact {
-  id        Int       @id @default(autoincrement())
-  facebook  String?
-  twitter   String?
-  instagram String?
-  gitlab    String?
-  github    String?
-  User      User[]
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  name          String
+  image         Image?          @relation(fields: [imageId], references: [id])
+  imageId       Int?
+  position      String?
+  department    String?
+  type          String?
+  phone         String?
+  comments      Comment[]
+  projects      Project[]
+  tasks         Task[]
+  event         Event[]
+  startDate     DateTime?        @default(now())
+  dueDate       DateTime?
+  notifications Notification[]
+  contents      Content[]
+  role          Role             @default(USER)
 }
 
 model Project {
@@ -68,9 +58,11 @@ model Task {
 model File {
   task      Task
   id        Int     @id @default(autoincrement())
-  path      String
   fileName  String
+  fullPath  String
+  path      String
   extension String
+  endpoint  String
 }
 
 model Comment {
@@ -80,7 +72,6 @@ model Comment {
   task      Task       @relation(fields: [taskId], references: [id])
   taskId    Int
   timestamp DateTime?  @default(now())
-  image     String?
   message   String?
   replyId   Int?
   reply     Comment?   @relation("ReplyComment", fields: [replyId], references: [id])
@@ -98,20 +89,58 @@ model Event {
 
 model Image {
   id        Int     @id @default(autoincrement())
-  endpoint  String
-  path      String
-  fullPath  String
   fileName  String
+  fullPath  String
+  path      String
   extension String
+  endpoint  String
 }
 
 model ProjectImage {
   id        Int     @id @default(autoincrement())
-  endpoint  String
-  path      String
-  fullPath  String
   fileName  String
+  fullPath  String
+  path      String
   extension String
+  endpoint  String
+}
+
+model Zone {
+  id        Int     @id @default(autoincrement())
+  name      String
+  longitude String
+  latitude  String
+  timestamp DateTime?  @default(now())
+  radius    String
+}
+
+model Content {
+  id            Int             @id @default(autoincrement())
+  subject       String
+  content       String
+  contentImage  ContentImage[]
+  timestamp     DateTime?       @default(now())
+  user          User            @relation(fields: [userId], references: [id])
+  userId        Int
+}
+
+model ContentImage {
+  id        Int     @id @default(autoincrement())
+  fileName  String
+  fullPath  String
+  path      String
+  extension String
+  endpoint  String
+}
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  message   String
+  timestamp DateTime? @default(now())
+  type      String
+  sender    User      @relation(name:"senderNotify",fields: [senderId], references: [id])
+  senderId  Int
+  receiver  User[]
 }
 
 enum Role {
