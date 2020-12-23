@@ -98,7 +98,7 @@ export default {
   data() {
     return {
       projects: auth.state.user.projects,
-      Data: auth.state.user,
+      data: auth.state.user,
       authStatus: auth.state.authStatus,
     }
   },
