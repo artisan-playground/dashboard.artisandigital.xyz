@@ -24,7 +24,7 @@ const actions = {
         },
       })
 
-      let { token } = data.getUserByEmail
+      const { token } = data.getUserByEmail
 
       commit('SET_TOKEN', token)
       localStorage.setItem('apollo-token', token)
@@ -57,17 +57,18 @@ const mutations = {
     state.token = token
   },
 
-  GET_USER_EMAIL(state, value) {
+  GET_USER_EMAIL(state, user) {
     state.authStatus = true
-    state.user = value
+    state.user = user
   },
 
-  LOGOUT_USER() {
-    state.user = {}
-    state.authStatus = false
-    state.token = '' && localStorage.removeItem('apollo-token')
-    localStorage.removeItem('vuex')
-    localStorage.clear()
+  async LOGOUT_USER() {
+    try {
+      await router.push('/login')
+      await localStorage.clear()
+    } catch (error) {
+      this.$message.error(error + '')
+    }
   },
 }
 
