@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const GET_PROJECT_IMAGES = gql`
   query {
-    images {
+    projectImages {
       id
       fileName
       path
@@ -15,7 +15,7 @@ export const GET_PROJECT_IMAGES = gql`
 
 export const GET_PROJECT_IMAGE = gql`
   query getImage($id: Int!) {
-    image(where: { id: $id }) {
+    getProjectImageById(id: $id) {
       id
       fileName
       path
@@ -27,8 +27,8 @@ export const GET_PROJECT_IMAGE = gql`
 `
 
 export const UPLOAD_PROJECT_IMAGE = gql`
-  mutation Upload($file: Upload!) {
-    uploadProjectImage(image: $file) {
+  mutation UploadProjectImage($file: Upload!) {
+    uploadProjectImage(projectImage: $file) {
       id
       fileName
       path
@@ -41,7 +41,7 @@ export const UPLOAD_PROJECT_IMAGE = gql`
 
 export const UPDATE_PROJECT_IMAGE = gql`
   mutation Upload($id: Int!, $file: Upload!) {
-    updateProjectImage(id: $id, image: $file) {
+    updateProjectImage(id: $id, projectImage: $file) {
       id
       fileName
       path

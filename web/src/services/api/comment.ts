@@ -18,11 +18,10 @@ export const COMMENT = gql`
         id
         name
         image {
+          id
           fullPath
         }
       }
-      timestamp
-      image
       message
     }
   }
@@ -43,8 +42,6 @@ export const UPDATE_COMMENT = gql`
       task {
         id
       }
-      timestamp
-      image
       message
     }
   }

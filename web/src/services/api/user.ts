@@ -6,23 +6,17 @@ export const GET_USER = gql`
       id
       email
       name
+      role
       image {
+        id
         fullPath
       }
       position
-      skills
       department
       type
       startDate
       dueDate
-      contacts {
-        id
-        facebook
-        twitter
-        instagram
-        gitlab
-        github
-      }
+      phone
       projects {
         id
         projectName
@@ -53,6 +47,7 @@ export const GET_USER = gql`
         startTime
         endTime
         taskDetail
+        taskType
         isDone
         members {
           id
@@ -83,8 +78,39 @@ export const GET_USER = gql`
             }
           }
           timestamp
-          image
           message
+        }
+      }
+      notifications {
+        id
+        update
+        timestamp
+        type
+        receiver {
+          id
+          email
+          name
+          image {
+            fullPath
+          }
+        }
+        sender {
+          id
+          email
+          name
+          image {
+            fullPath
+          }
+        }
+      }
+      contents {
+        id
+        subject
+        content
+        timestamp
+        contentImage {
+          id
+          fullPath
         }
       }
     }
@@ -97,23 +123,17 @@ export const GET_USER_BY_ID = gql`
       id
       email
       name
+      role
       image {
+        id
         fullPath
       }
       position
-      skills
       department
       type
       startDate
       dueDate
-      contacts {
-        id
-        facebook
-        twitter
-        instagram
-        gitlab
-        github
-      }
+      phone
       projects {
         id
         projectName
@@ -144,6 +164,7 @@ export const GET_USER_BY_ID = gql`
         startTime
         endTime
         taskDetail
+        taskType
         isDone
         members {
           id
@@ -174,8 +195,39 @@ export const GET_USER_BY_ID = gql`
             }
           }
           timestamp
-          image
           message
+        }
+      }
+      notifications {
+        id
+        update
+        timestamp
+        type
+        receiver {
+          id
+          email
+          name
+          image {
+            fullPath
+          }
+        }
+        sender {
+          id
+          email
+          name
+          image {
+            fullPath
+          }
+        }
+      }
+      contents {
+        id
+        subject
+        content
+        timestamp
+        contentImage {
+          id
+          fullPath
         }
       }
     }
@@ -188,23 +240,17 @@ export const GET_USERS = gql`
       id
       email
       name
+      role
       image {
+        id
         fullPath
       }
       position
-      skills
       department
       type
       startDate
       dueDate
-      contacts {
-        id
-        facebook
-        twitter
-        instagram
-        gitlab
-        github
-      }
+      phone
       projects {
         id
         projectName
@@ -235,6 +281,7 @@ export const GET_USERS = gql`
         startTime
         endTime
         taskDetail
+        taskType
         isDone
         members {
           id
@@ -265,8 +312,39 @@ export const GET_USERS = gql`
             }
           }
           timestamp
-          image
           message
+        }
+      }
+      notifications {
+        id
+        update
+        timestamp
+        type
+        receiver {
+          id
+          email
+          name
+          image {
+            fullPath
+          }
+        }
+        sender {
+          id
+          email
+          name
+          image {
+            fullPath
+          }
+        }
+      }
+      contents {
+        id
+        subject
+        content
+        timestamp
+        contentImage {
+          id
+          fullPath
         }
       }
     }
@@ -274,12 +352,30 @@ export const GET_USERS = gql`
 `
 
 export const CREATE_USER = gql`
-  mutation CreateUser($email: String!, $name: String!) {
-    createOneUser(data: { email: $email, name: $name }) {
+  mutation CreateUser(
+    $email: String!
+    $name: String!
+    $position: String!
+    $phone: String!
+    $department: String!
+    $type: String!
+  ) {
+    createOneUser(
+      data: {
+        email: $email
+        name: $name
+        position: $position
+        phone: $phone
+        department: $department
+        type: $type
+      }
+    ) {
       id
       email
       name
+      role
       image {
+        id
         fullPath
       }
       position
@@ -288,14 +384,7 @@ export const CREATE_USER = gql`
       type
       startDate
       dueDate
-      contacts {
-        id
-        facebook
-        twitter
-        instagram
-        gitlab
-        github
-      }
+      phone
     }
   }
 `
@@ -307,7 +396,11 @@ export const UPDATE_USER = gql`
     $name: String!
     $position: String!
     $department: String!
+    $phone: String!
     $type: String!
+    $startDate: DateTime!
+    $dueDate: DateTime!
+    $file: Int!
   ) {
     updateOneUser(
       where: { id: $id }
@@ -316,13 +409,19 @@ export const UPDATE_USER = gql`
         name: { set: $name }
         position: { set: $position }
         department: { set: $department }
+        phone: { set: $phone }
         type: { set: $type }
+        startDate: { set: $startDate }
+        dueDate: { set: $dueDate }
+        image: { connect: { id: $file } }
       }
     ) {
       id
       email
       name
+      role
       image {
+        id
         fullPath
       }
       position
@@ -331,14 +430,7 @@ export const UPDATE_USER = gql`
       type
       startDate
       dueDate
-      contacts {
-        id
-        facebook
-        twitter
-        instagram
-        gitlab
-        github
-      }
+      phone
     }
   }
 `
@@ -347,92 +439,6 @@ export const DELETE_USER = gql`
   mutation DeleteUser($id: Int!) {
     deleteOneUser(where: { id: $id }) {
       id
-    }
-  }
-`
-
-export const UPDATE_USER_CONTACT = gql`
-  mutation updateContact(
-    $id: Int!
-    $facebook: String!
-    $twitter: String!
-    $instagram: String!
-    $gitlab: String!
-    $github: String!
-    $userId: Int!
-  ) {
-    updateOneContact(
-      where: { id: $id }
-      data: {
-        facebook: { set: $facebook }
-        twitter: { set: $twitter }
-        instagram: { set: $instagram }
-        gitlab: { set: $gitlab }
-        github: { set: $github }
-        User: { connect: { id: $userId } }
-      }
-    ) {
-      id
-      facebook
-      twitter
-      instagram
-      gitlab
-      github
-    }
-  }
-`
-
-export const UPDATE_USER_SKILLS = gql`
-  mutation updateSkills($id: Int!, $skills: [String!]!) {
-    updateOneUser(where: { id: $id }, data: { skills: { set: $skills } }) {
-      id
-      email
-      name
-      image {
-        fullPath
-      }
-      position
-      skills
-      department
-      type
-      startDate
-      dueDate
-      contacts {
-        id
-        facebook
-        twitter
-        instagram
-        gitlab
-        github
-      }
-    }
-  }
-`
-
-export const CREATE_CONTACT = gql`
-  mutation CreateContact(
-    $facebook: String!
-    $twitter: String!
-    $instagram: String!
-    $gitlab: String!
-    $github: String!
-    $userId: Int!
-  ) {
-    createOneContact(
-      data: {
-        facebook: $facebook
-        twitter: $twitter
-        instagram: $instagram
-        gitlab: $gitlab
-        github: $github
-      }
-    ) {
-      id
-      facebook
-      twitter
-      instagram
-      gitlab
-      github
     }
   }
 `

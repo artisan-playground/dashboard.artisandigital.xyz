@@ -10,6 +10,7 @@ export const TASKS = gql`
         projectType
         projectDetail
         projectImage {
+          id
           fullPath
         }
         status
@@ -18,6 +19,7 @@ export const TASKS = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
@@ -26,11 +28,13 @@ export const TASKS = gql`
       startTime
       endTime
       taskDetail
+      taskType
       isDone
       members {
         id
         name
         image {
+          id
           fullPath
         }
       }
@@ -54,11 +58,11 @@ export const TASKS = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
         timestamp
-        image
         message
       }
     }
@@ -75,6 +79,7 @@ export const TASKS_BY_ID = gql`
         projectType
         projectDetail
         projectImage {
+          id
           fullPath
         }
         status
@@ -83,6 +88,7 @@ export const TASKS_BY_ID = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
@@ -91,11 +97,13 @@ export const TASKS_BY_ID = gql`
       startTime
       endTime
       taskDetail
+      taskType
       isDone
       members {
         id
         name
         image {
+          id
           fullPath
         }
       }
@@ -119,11 +127,11 @@ export const TASKS_BY_ID = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
         timestamp
-        image
         message
       }
     }
@@ -132,7 +140,7 @@ export const TASKS_BY_ID = gql`
 
 export const TASKS_BY_TASKID = gql`
   query Task($id: Int!) {
-    task(id: $id) {
+    getTaskById(id: $id) {
       id
       project {
         id
@@ -140,6 +148,7 @@ export const TASKS_BY_TASKID = gql`
         projectType
         projectDetail
         projectImage {
+          id
           fullPath
         }
         status
@@ -148,6 +157,7 @@ export const TASKS_BY_TASKID = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
@@ -156,11 +166,13 @@ export const TASKS_BY_TASKID = gql`
       startTime
       endTime
       taskDetail
+      taskType
       isDone
       members {
         id
         name
         image {
+          id
           fullPath
         }
       }
@@ -184,11 +196,11 @@ export const TASKS_BY_TASKID = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
         timestamp
-        image
         message
       }
     }
@@ -205,6 +217,7 @@ export const TOGGLE_TASK_DONE = gql`
         projectType
         projectDetail
         projectImage {
+          id
           fullPath
         }
         status
@@ -213,6 +226,7 @@ export const TOGGLE_TASK_DONE = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
@@ -221,11 +235,13 @@ export const TOGGLE_TASK_DONE = gql`
       startTime
       endTime
       taskDetail
+      taskType
       isDone
       members {
         id
         name
         image {
+          id
           fullPath
         }
       }
@@ -249,11 +265,11 @@ export const TOGGLE_TASK_DONE = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
         timestamp
-        image
         message
       }
     }
@@ -288,6 +304,7 @@ export const ADD_TASK = gql`
         projectType
         projectDetail
         projectImage {
+          id
           fullPath
         }
         status
@@ -296,6 +313,7 @@ export const ADD_TASK = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
@@ -304,11 +322,13 @@ export const ADD_TASK = gql`
       startTime
       endTime
       taskDetail
+      taskType
       isDone
       members {
         id
         name
         image {
+          id
           fullPath
         }
       }
@@ -332,29 +352,31 @@ export const ADD_TASK = gql`
           id
           name
           image {
+            id
             fullPath
           }
         }
         timestamp
-        image
         message
       }
     }
   }
 `
 
-export const UPDATE_TASK_NAME = gql`
-  mutation UpdateTaskName($id: Int!, $taskName: String!) {
-    updateOneTask(where: { id: $id }, data: { taskName: { set: $taskName } }) {
+export const UPDATE_TASK = gql`
+  mutation UpdateTask($id: Int!, $taskName: String!, $taskDetail: String!, $taskType: String!) {
+    updateOneTask(
+      where: { id: $id }
+      data: {
+        taskName: { set: $taskName }
+        taskDetail: { set: $taskDetail }
+        taskType: { set: $taskType }
+      }
+    ) {
       id
-    }
-  }
-`
-
-export const UPDATE_TASK_DETAIL = gql`
-  mutation UpdateTaskDetail($id: Int!, $taskDetail: String!) {
-    updateOneTask(where: { id: $id }, data: { taskDetail: { set: $taskDetail } }) {
-      id
+      taskName
+      taskDetail
+      taskType
     }
   }
 `
