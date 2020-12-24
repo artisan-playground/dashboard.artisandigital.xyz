@@ -13,11 +13,15 @@ export const PROJECT = gql`
         fullPath
       }
       status
+      createAt
       dueDate
       members {
         id
         name
         email
+        phone
+        position
+        department
         image {
           id
           fileName
@@ -33,6 +37,7 @@ export const PROJECT = gql`
         startTime
         endTime
         taskDetail
+        taskType
         isDone
         members {
           id
@@ -61,11 +66,15 @@ export const GET_PROJECT_BY_ID = gql`
         fullPath
       }
       status
+      createAt
       dueDate
       members {
         id
         name
         email
+        phone
+        position
+        department
         image {
           id
           fileName
@@ -81,6 +90,7 @@ export const GET_PROJECT_BY_ID = gql`
         startTime
         endTime
         taskDetail
+        taskType
         isDone
         members {
           id
@@ -101,17 +111,19 @@ export const CREATE_PROJECT = gql`
     $projectName: String!
     $projectType: String!
     $projectDetail: String!
-    $projectImage: String!
+    $createAt: DateTime!
     $dueDate: DateTime!
     $members: Int!
+    $file: Int!
   ) {
     createOneProject(
       data: {
         projectName: $projectName
         projectType: $projectType
         projectDetail: $projectDetail
-        projectImage: $projectImage
+        createAt: $createAt
         dueDate: $dueDate
+        projectImage: { connect: { id: $file } }
         members: { connect: [{ id: $members }] }
       }
     ) {
@@ -125,6 +137,7 @@ export const CREATE_PROJECT = gql`
         fullPath
       }
       status
+      createAt
       dueDate
       members {
         id
@@ -142,10 +155,9 @@ export const CREATE_PROJECT = gql`
 export const UPDATE_PROJECT = gql`
   mutation UpdateProject(
     $id: Int!
-    $projectName: String
-    $projectDetail: String
-    $projectType: String
-    $status: String
+    $projectName: String!
+    $projectDetail: String!
+    $projectType: String!
   ) {
     updateOneProject(
       where: { id: $id }
@@ -153,7 +165,6 @@ export const UPDATE_PROJECT = gql`
         projectName: { set: $projectName }
         projectDetail: { set: $projectDetail }
         projectType: { set: $projectType }
-        status: { set: $status }
       }
     ) {
       id
@@ -165,25 +176,9 @@ export const UPDATE_PROJECT = gql`
   }
 `
 
-export const UPDATE_PROJECT_NAME = gql`
-  mutation UpdateProjectName($id: Int!, $projectName: String) {
-    updateOneProject(where: { id: $id }, data: { projectName: { set: $projectName } }) {
-      id
-    }
-  }
-`
-
-export const UPDATE_PROJECT_DETAIL = gql`
-  mutation UpdateProjectDetail($id: Int!, $projectDetail: String) {
-    updateOneProject(where: { id: $id }, data: { projectDetail: { set: $projectDetail } }) {
-      id
-    }
-  }
-`
-
-export const UPDATE_PROJECT_TYPE = gql`
-  mutation UpdateProjectType($id: Int!, $projectType: String) {
-    updateOneProject(where: { id: $id }, data: { projectType: { set: $projectType } }) {
+export const DELETE_PROJECT = gql`
+  mutation DeleteProject($projectId: Int!) {
+    deleteOneProject(where: { id: $projectId }) {
       id
     }
   }
@@ -193,6 +188,18 @@ export const UPDATE_PROJECT_STATUS = gql`
   mutation UpdateProjectStatus($id: Int!, $status: String) {
     updateOneProject(where: { id: $id }, data: { status: { set: $status } }) {
       id
+    }
+  }
+`
+
+export const ADD_MEMBER_TO_PROJECT = gql`
+  mutation addMember($id: Int!, $memberId: Int!) {
+    updateOneProject(where: { id: $id }, data: { members: { connect: { id: $memberId } } }) {
+      id
+      members {
+        id
+        name
+      }
     }
   }
 `
