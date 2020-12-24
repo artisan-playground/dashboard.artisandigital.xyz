@@ -11,7 +11,7 @@ const storeModel: StoreModel = persist(
   { userState },
   {
     storage: 'localStorage',
-    whitelist: isDev ? ['userState'] : [],
+    allow: isDev ? ['userState'] : [],
   }
 )
 
