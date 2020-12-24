@@ -1,9 +1,0 @@
-@tailwind base;
-
-html,
-body {
-  font-family: Anuphan, sans-serif;
-}
-
-@tailwind components;
-@tailwind utilities;
