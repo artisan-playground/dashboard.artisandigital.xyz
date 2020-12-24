@@ -1,6 +1,6 @@
 import { MailOutlined } from '@ant-design/icons'
 import { useLazyQuery } from '@apollo/client'
-import { Button, Card, Col, Form, Input, Typography } from 'antd'
+import { Button, Col, Form, Input, Row, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { GET_USER } from '../services/api/user'
@@ -16,7 +16,8 @@ function Login() {
   const [getUser, { data }] = useLazyQuery<UserData>(GET_USER)
   async function onLogin() {
     if (email) {
-      getUser({ variables: { email } })
+      const userEmail = email + '@artisan.co.th'
+      getUser({ variables: { email: userEmail } })
     }
   }
   if (data?.getUserByEmail) {
@@ -33,20 +34,24 @@ function Login() {
   return user ? (
     <Redirect to="/" />
   ) : (
-    <div
-      className="h-screen bg-auto bg-center bg-no-repeat"
-      style={{
-        backgroundImage: `url(https://source.unsplash.com/1600x900/?computer,blur`,
-      }}
-    >
-      <div
-        className="flex items-center justify-center h-screen h-full w-full"
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
-      >
-        <Col xs={18} xl={6}>
-          <Card hoverable>
-            <div className="flex justify-center mb-6">
-              <img alt="logo" src={require('../assets/images/artisan-logo.png')} className="w-48" />
+    <div className="h-screen bg-center bg-no-repeat">
+      <Row justify="space-around" className="w-full items-center jestify-center">
+        <Col xs={16} className="-ml-16">
+          <div className="flex justify-center items-center">
+            <img alt="logo" src={require('../assets/images/login-image.png')} className="w-full" />
+          </div>
+        </Col>
+        <Col xs={7} className="mr-16">
+          <div className="items-center justify-center">
+            <div className="flex justify-center mb-2">
+              <img
+                alt="logo"
+                src={require('../assets/images/Artisan_Digital_logo.png')}
+                className="w-64"
+              />
+            </div>
+            <div className="flex justify-center mb-2">
+              <Text className="text-blue-900 text-base">Artisan Dashboard</Text>
             </div>
             <Form
               name="normal_login"
@@ -58,19 +63,16 @@ function Login() {
                 name="email"
                 rules={[
                   {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!',
-                  },
-                  {
                     required: true,
                     message: 'Please input your E-mail!',
                   },
                 ]}
               >
                 <Input
-                  prefix={<MailOutlined className="site-form-item-icon" />}
+                  prefix={<MailOutlined className="site-form-item-icon text-gray-300" />}
                   className="w-full"
-                  placeholder="Email..."
+                  placeholder="Email"
+                  addonAfter="@artisan.co.th"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -81,17 +83,17 @@ function Login() {
                   htmlType="submit"
                   loading={loading}
                   onClick={enterLoading}
-                  className="login-form-button w-full"
+                  className="login-form-button w-full bg-secondary border-none hover:bg-thirdcolor"
                 >
                   <Text strong className="text-white">
-                    Continue
+                    Sign in
                   </Text>
                 </Button>
               </Form.Item>
             </Form>
-          </Card>
+          </div>
         </Col>
-      </div>
+      </Row>
     </div>
   )
 }
