@@ -13,7 +13,6 @@ import ContentCreate from './ContentCreate'
 import EditProjectDetail from './EditProjectDetail'
 import EditTaskDetail from './EditTaskDetail'
 import EmployeeCard from './EmployeeCard'
-import LeaveForm from './LeaveForm'
 import Notify from './Notify'
 import ProjectContent from './ProjectContent'
 import ProjectCreate from './ProjectCreate'
@@ -41,5 +40,4 @@ export {
   EditTaskDetail,
   ContentCard,
   ContentCreate,
-  LeaveForm,
 }
