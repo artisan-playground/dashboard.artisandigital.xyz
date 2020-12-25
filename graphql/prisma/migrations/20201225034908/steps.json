@@ -453,6 +453,38 @@
     {
       "tag": "CreateField",
       "model": "Project",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Project",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Project",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Project",
       "field": "dueDate",
       "type": "DateTime",
       "arity": "Optional"
@@ -621,6 +653,13 @@
       "tag": "CreateField",
       "model": "Task",
       "field": "taskDetail",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Task",
+      "field": "taskType",
       "type": "String",
       "arity": "Optional"
     },
@@ -1695,7 +1734,7 @@
     {
       "tag": "CreateField",
       "model": "Notification",
-      "field": "message",
+      "field": "update",
       "type": "String",
       "arity": "Required"
     },
