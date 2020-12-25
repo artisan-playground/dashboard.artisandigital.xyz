@@ -33,22 +33,22 @@ function App() {
       <ApolloProvider client={client}>
         <Router>
           <Switch>
-            <Route path="/login" exact component={Login} />
+            <AuthorizedRoute path="/content/:id" exact component={ContentDetail} />
+            <AuthorizedRoute path="/create-content" exact component={CreateContent} />
+            <AuthorizedRoute path="/new-form" exact component={CreateForm} />
+            <AuthorizedRoute path="/new-zone" exact component={CreateZone} />
             <AuthorizedRoute path="/" exact component={Dashboard} />
-            <AuthorizedRoute path="/projects" exact component={ProjectList} />
-            <AuthorizedRoute path="/projects/:projectId" exact component={ProjectDetail} />
+            <AuthorizedRoute path="/employee" exact component={Employee} />
+            <AuthorizedRoute path="/forms" exact component={Form} />
+            <Route path="/login" exact component={Login} />
             <AuthorizedRoute path="/members/:projectId" exact component={Member} />
-            <AuthorizedRoute path="/task/:id" exact component={TaskDetail} />
+            <AuthorizedRoute path="/news" exact component={News} />
             <AuthorizedRoute path="/profile/:id" exact component={Profile} />
             <AuthorizedRoute path="/profile-edit/:id" exact component={ProfileEditor} />
-            <AuthorizedRoute path="/news" exact component={News} />
-            <AuthorizedRoute path="/employee" exact component={Employee} />
+            <AuthorizedRoute path="/projects/:projectId" exact component={ProjectDetail} />
+            <AuthorizedRoute path="/projects" exact component={ProjectList} />
+            <AuthorizedRoute path="/task/:id" exact component={TaskDetail} />
             <AuthorizedRoute path="/zone" exact component={Zone} />
-            <AuthorizedRoute path="/new-zone" exact component={CreateZone} />
-            <AuthorizedRoute path="/forms" exact component={Form} />
-            <AuthorizedRoute path="/content/:id" exact component={ContentDetail} />
-            <AuthorizedRoute path="/new-form" exact component={CreateForm} />
-            <AuthorizedRoute path="/create-content" exact component={CreateContent} />
             <Redirect to="/" />
           </Switch>
         </Router>
