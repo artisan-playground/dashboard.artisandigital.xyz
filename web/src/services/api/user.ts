@@ -83,7 +83,7 @@ export const GET_USER = gql`
       }
       notifications {
         id
-        update
+        message
         timestamp
         type
         receiver {
@@ -200,7 +200,7 @@ export const GET_USER_BY_ID = gql`
       }
       notifications {
         id
-        update
+        message
         timestamp
         type
         receiver {
@@ -317,7 +317,7 @@ export const GET_USERS = gql`
       }
       notifications {
         id
-        update
+        message
         timestamp
         type
         receiver {

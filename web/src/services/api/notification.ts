@@ -4,7 +4,7 @@ export const NOTIFICATION = gql`
   query {
     notifications {
       id
-      update
+      message
       timestamp
       type
       receiver {
