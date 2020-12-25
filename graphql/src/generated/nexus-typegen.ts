@@ -644,11 +644,11 @@ export interface NexusGenInputs {
     startsWith?: string | null; // String
   }
   NotificationCreateInput: { // input type
+    message: string; // String!
     receiver?: NexusGenInputs['UserCreateManyWithoutNotificationsInput'] | null; // UserCreateManyWithoutNotificationsInput
     sender: NexusGenInputs['UserCreateOneWithoutNotificationInput']; // UserCreateOneWithoutNotificationInput!
     timestamp?: NexusGenScalars['DateTime'] | null; // DateTime
     type: string; // String!
-    update: string; // String!
   }
   NotificationCreateManyWithoutReceiverInput: { // input type
     connect?: NexusGenInputs['NotificationWhereUniqueInput'][] | null; // [NotificationWhereUniqueInput!]
@@ -659,38 +659,38 @@ export interface NexusGenInputs {
     create?: NexusGenInputs['NotificationCreateWithoutSenderInput'][] | null; // [NotificationCreateWithoutSenderInput!]
   }
   NotificationCreateWithoutReceiverInput: { // input type
+    message: string; // String!
     sender: NexusGenInputs['UserCreateOneWithoutNotificationInput']; // UserCreateOneWithoutNotificationInput!
     timestamp?: NexusGenScalars['DateTime'] | null; // DateTime
     type: string; // String!
-    update: string; // String!
   }
   NotificationCreateWithoutSenderInput: { // input type
+    message: string; // String!
     receiver?: NexusGenInputs['UserCreateManyWithoutNotificationsInput'] | null; // UserCreateManyWithoutNotificationsInput
     timestamp?: NexusGenScalars['DateTime'] | null; // DateTime
     type: string; // String!
-    update: string; // String!
   }
   NotificationScalarWhereInput: { // input type
     AND?: NexusGenInputs['NotificationScalarWhereInput'][] | null; // [NotificationScalarWhereInput!]
     id?: NexusGenInputs['IntFilter'] | null; // IntFilter
+    message?: NexusGenInputs['StringFilter'] | null; // StringFilter
     NOT?: NexusGenInputs['NotificationScalarWhereInput'][] | null; // [NotificationScalarWhereInput!]
     OR?: NexusGenInputs['NotificationScalarWhereInput'][] | null; // [NotificationScalarWhereInput!]
     senderId?: NexusGenInputs['IntFilter'] | null; // IntFilter
     timestamp?: NexusGenInputs['DateTimeNullableFilter'] | null; // DateTimeNullableFilter
     type?: NexusGenInputs['StringFilter'] | null; // StringFilter
-    update?: NexusGenInputs['StringFilter'] | null; // StringFilter
   }
   NotificationUpdateInput: { // input type
+    message?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     receiver?: NexusGenInputs['UserUpdateManyWithoutNotificationsInput'] | null; // UserUpdateManyWithoutNotificationsInput
     sender?: NexusGenInputs['UserUpdateOneRequiredWithoutNotificationInput'] | null; // UserUpdateOneRequiredWithoutNotificationInput
     timestamp?: NexusGenInputs['NullableDateTimeFieldUpdateOperationsInput'] | null; // NullableDateTimeFieldUpdateOperationsInput
     type?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    update?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   NotificationUpdateManyDataInput: { // input type
+    message?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     timestamp?: NexusGenInputs['NullableDateTimeFieldUpdateOperationsInput'] | null; // NullableDateTimeFieldUpdateOperationsInput
     type?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    update?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   NotificationUpdateManyWithWhereNestedInput: { // input type
     data: NexusGenInputs['NotificationUpdateManyDataInput']; // NotificationUpdateManyDataInput!
@@ -727,16 +727,16 @@ export interface NexusGenInputs {
     where: NexusGenInputs['NotificationWhereUniqueInput']; // NotificationWhereUniqueInput!
   }
   NotificationUpdateWithoutReceiverDataInput: { // input type
+    message?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     sender?: NexusGenInputs['UserUpdateOneRequiredWithoutNotificationInput'] | null; // UserUpdateOneRequiredWithoutNotificationInput
     timestamp?: NexusGenInputs['NullableDateTimeFieldUpdateOperationsInput'] | null; // NullableDateTimeFieldUpdateOperationsInput
     type?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    update?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   NotificationUpdateWithoutSenderDataInput: { // input type
+    message?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     receiver?: NexusGenInputs['UserUpdateManyWithoutNotificationsInput'] | null; // UserUpdateManyWithoutNotificationsInput
     timestamp?: NexusGenInputs['NullableDateTimeFieldUpdateOperationsInput'] | null; // NullableDateTimeFieldUpdateOperationsInput
     type?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
-    update?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
   }
   NotificationUpsertWithWhereUniqueWithoutReceiverInput: { // input type
     create: NexusGenInputs['NotificationCreateWithoutReceiverInput']; // NotificationCreateWithoutReceiverInput!
@@ -1978,11 +1978,11 @@ export interface NexusGenFieldTypes {
   }
   Notification: { // field return type
     id: number; // Int!
+    message: string; // String!
     receiver: NexusGenRootTypes['User'][]; // [User!]!
     sender: NexusGenRootTypes['User']; // User!
     timestamp: NexusGenScalars['DateTime'] | null; // DateTime
     type: string; // String!
-    update: string; // String!
   }
   Project: { // field return type
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
@@ -2162,11 +2162,11 @@ export interface NexusGenFieldTypeNames {
   }
   Notification: { // field return type name
     id: 'Int'
+    message: 'String'
     receiver: 'User'
     sender: 'User'
     timestamp: 'DateTime'
     type: 'String'
-    update: 'String'
   }
   Project: { // field return type name
     createdAt: 'DateTime'

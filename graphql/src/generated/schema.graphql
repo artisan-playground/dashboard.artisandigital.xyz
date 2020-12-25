@@ -815,19 +815,19 @@ input NestedStringNullableFilter {
 
 type Notification {
   id: Int!
+  message: String!
   receiver(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
   sender: User!
   timestamp: DateTime
   type: String!
-  update: String!
 }
 
 input NotificationCreateInput {
+  message: String!
   receiver: UserCreateManyWithoutNotificationsInput
   sender: UserCreateOneWithoutNotificationInput!
   timestamp: DateTime
   type: String!
-  update: String!
 }
 
 input NotificationCreateManyWithoutReceiverInput {
@@ -841,42 +841,42 @@ input NotificationCreateManyWithoutSenderInput {
 }
 
 input NotificationCreateWithoutReceiverInput {
+  message: String!
   sender: UserCreateOneWithoutNotificationInput!
   timestamp: DateTime
   type: String!
-  update: String!
 }
 
 input NotificationCreateWithoutSenderInput {
+  message: String!
   receiver: UserCreateManyWithoutNotificationsInput
   timestamp: DateTime
   type: String!
-  update: String!
 }
 
 input NotificationScalarWhereInput {
   AND: [NotificationScalarWhereInput!]
   id: IntFilter
+  message: StringFilter
   NOT: [NotificationScalarWhereInput!]
   OR: [NotificationScalarWhereInput!]
   senderId: IntFilter
   timestamp: DateTimeNullableFilter
   type: StringFilter
-  update: StringFilter
 }
 
 input NotificationUpdateInput {
+  message: StringFieldUpdateOperationsInput
   receiver: UserUpdateManyWithoutNotificationsInput
   sender: UserUpdateOneRequiredWithoutNotificationInput
   timestamp: NullableDateTimeFieldUpdateOperationsInput
   type: StringFieldUpdateOperationsInput
-  update: StringFieldUpdateOperationsInput
 }
 
 input NotificationUpdateManyDataInput {
+  message: StringFieldUpdateOperationsInput
   timestamp: NullableDateTimeFieldUpdateOperationsInput
   type: StringFieldUpdateOperationsInput
-  update: StringFieldUpdateOperationsInput
 }
 
 input NotificationUpdateManyWithoutReceiverInput {
@@ -909,17 +909,17 @@ input NotificationUpdateManyWithWhereNestedInput {
 }
 
 input NotificationUpdateWithoutReceiverDataInput {
+  message: StringFieldUpdateOperationsInput
   sender: UserUpdateOneRequiredWithoutNotificationInput
   timestamp: NullableDateTimeFieldUpdateOperationsInput
   type: StringFieldUpdateOperationsInput
-  update: StringFieldUpdateOperationsInput
 }
 
 input NotificationUpdateWithoutSenderDataInput {
+  message: StringFieldUpdateOperationsInput
   receiver: UserUpdateManyWithoutNotificationsInput
   timestamp: NullableDateTimeFieldUpdateOperationsInput
   type: StringFieldUpdateOperationsInput
-  update: StringFieldUpdateOperationsInput
 }
 
 input NotificationUpdateWithWhereUniqueWithoutReceiverInput {
