@@ -29,21 +29,21 @@ export const NOTIFICATION = gql`
 
 export const CREATE_NOTIFICATION = gql`
   mutation createNotification(
-    $update: String!
+    $message: String!
     $receiverId: Int!
     $senderId: Int!
     $type: String!
   ) {
     createOneNotification(
       data: {
-        update: $update
+        message: $message
         receiver: { connect: { id: $receiverId } }
         sender: { connect: { id: $senderId } }
         type: $type
       }
     ) {
       id
-      update
+      message
       timestamp
       type
       receiver {
