@@ -10,7 +10,7 @@ const projectObjectType = objectType({
     t.model.projectImage()
     t.model.status()
     t.model.dueDate()
-    t.model.createAt()
+    t.model.createdAt()
     t.model.members()
     t.model.tasks()
   },
