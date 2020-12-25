@@ -36,6 +36,7 @@ model Project {
   projectImage    ProjectImage?   @relation(fields: [projectImageId], references: [id])
   projectImageId  Int?
   status          String?         @default(value: "undone")
+  createdAt        DateTime?       @default(now())
   dueDate         DateTime?
   members         User[]
   tasks           Task[]
@@ -136,7 +137,7 @@ model ContentImage {
 
 model Notification {
   id        Int       @id @default(autoincrement())
-  message   String
+  update   String
   timestamp DateTime? @default(now())
   type      String
   sender    User      @relation(name:"senderNotify",fields: [senderId], references: [id])
