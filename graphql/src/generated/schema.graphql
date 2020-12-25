@@ -815,19 +815,19 @@ input NestedStringNullableFilter {
 
 type Notification {
   id: Int!
-  message: String!
   receiver(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
   sender: User!
   timestamp: DateTime
   type: String!
+  update: String!
 }
 
 input NotificationCreateInput {
-  message: String!
   receiver: UserCreateManyWithoutNotificationsInput
   sender: UserCreateOneWithoutNotificationInput!
   timestamp: DateTime
   type: String!
+  update: String!
 }
 
 input NotificationCreateManyWithoutReceiverInput {
@@ -841,42 +841,42 @@ input NotificationCreateManyWithoutSenderInput {
 }
 
 input NotificationCreateWithoutReceiverInput {
-  message: String!
   sender: UserCreateOneWithoutNotificationInput!
   timestamp: DateTime
   type: String!
+  update: String!
 }
 
 input NotificationCreateWithoutSenderInput {
-  message: String!
   receiver: UserCreateManyWithoutNotificationsInput
   timestamp: DateTime
   type: String!
+  update: String!
 }
 
 input NotificationScalarWhereInput {
   AND: [NotificationScalarWhereInput!]
   id: IntFilter
-  message: StringFilter
   NOT: [NotificationScalarWhereInput!]
   OR: [NotificationScalarWhereInput!]
   senderId: IntFilter
   timestamp: DateTimeNullableFilter
   type: StringFilter
+  update: StringFilter
 }
 
 input NotificationUpdateInput {
-  message: StringFieldUpdateOperationsInput
   receiver: UserUpdateManyWithoutNotificationsInput
   sender: UserUpdateOneRequiredWithoutNotificationInput
   timestamp: NullableDateTimeFieldUpdateOperationsInput
   type: StringFieldUpdateOperationsInput
+  update: StringFieldUpdateOperationsInput
 }
 
 input NotificationUpdateManyDataInput {
-  message: StringFieldUpdateOperationsInput
   timestamp: NullableDateTimeFieldUpdateOperationsInput
   type: StringFieldUpdateOperationsInput
+  update: StringFieldUpdateOperationsInput
 }
 
 input NotificationUpdateManyWithoutReceiverInput {
@@ -909,17 +909,17 @@ input NotificationUpdateManyWithWhereNestedInput {
 }
 
 input NotificationUpdateWithoutReceiverDataInput {
-  message: StringFieldUpdateOperationsInput
   sender: UserUpdateOneRequiredWithoutNotificationInput
   timestamp: NullableDateTimeFieldUpdateOperationsInput
   type: StringFieldUpdateOperationsInput
+  update: StringFieldUpdateOperationsInput
 }
 
 input NotificationUpdateWithoutSenderDataInput {
-  message: StringFieldUpdateOperationsInput
   receiver: UserUpdateManyWithoutNotificationsInput
   timestamp: NullableDateTimeFieldUpdateOperationsInput
   type: StringFieldUpdateOperationsInput
+  update: StringFieldUpdateOperationsInput
 }
 
 input NotificationUpdateWithWhereUniqueWithoutReceiverInput {
@@ -961,6 +961,7 @@ input NullableStringFieldUpdateOperationsInput {
 }
 
 type Project {
+  createdAt: DateTime
   dueDate: DateTime
   id: Int!
   members(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
@@ -973,6 +974,7 @@ type Project {
 }
 
 input ProjectCreateInput {
+  createdAt: DateTime
   dueDate: DateTime
   members: UserCreateManyWithoutProjectsInput
   projectDetail: String
@@ -994,6 +996,7 @@ input ProjectCreateOneWithoutTasksInput {
 }
 
 input ProjectCreateWithoutMembersInput {
+  createdAt: DateTime
   dueDate: DateTime
   projectDetail: String
   projectImage: ProjectImageCreateOneWithoutProjectInput
@@ -1004,6 +1007,7 @@ input ProjectCreateWithoutMembersInput {
 }
 
 input ProjectCreateWithoutTasksInput {
+  createdAt: DateTime
   dueDate: DateTime
   members: UserCreateManyWithoutProjectsInput
   projectDetail: String
@@ -1063,6 +1067,7 @@ input ProjectImageWhereUniqueInput {
 
 input ProjectScalarWhereInput {
   AND: [ProjectScalarWhereInput!]
+  createdAt: DateTimeNullableFilter
   dueDate: DateTimeNullableFilter
   id: IntFilter
   NOT: [ProjectScalarWhereInput!]
@@ -1075,6 +1080,7 @@ input ProjectScalarWhereInput {
 }
 
 input ProjectUpdateInput {
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   members: UserUpdateManyWithoutProjectsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
@@ -1086,6 +1092,7 @@ input ProjectUpdateInput {
 }
 
 input ProjectUpdateManyDataInput {
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
   projectName: NullableStringFieldUpdateOperationsInput
@@ -1118,6 +1125,7 @@ input ProjectUpdateOneRequiredWithoutTasksInput {
 }
 
 input ProjectUpdateWithoutMembersDataInput {
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
   projectImage: ProjectImageUpdateOneWithoutProjectInput
@@ -1128,6 +1136,7 @@ input ProjectUpdateWithoutMembersDataInput {
 }
 
 input ProjectUpdateWithoutTasksDataInput {
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
   dueDate: NullableDateTimeFieldUpdateOperationsInput
   members: UserUpdateManyWithoutProjectsInput
   projectDetail: NullableStringFieldUpdateOperationsInput
