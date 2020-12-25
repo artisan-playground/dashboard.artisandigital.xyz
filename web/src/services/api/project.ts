@@ -13,7 +13,7 @@ export const PROJECT = gql`
         fullPath
       }
       status
-      createAt
+      createdAt
       dueDate
       members {
         id
@@ -66,7 +66,7 @@ export const GET_PROJECT_BY_ID = gql`
         fullPath
       }
       status
-      createAt
+      createdAt
       dueDate
       members {
         id
@@ -111,7 +111,7 @@ export const CREATE_PROJECT = gql`
     $projectName: String!
     $projectType: String!
     $projectDetail: String!
-    $createAt: DateTime!
+    $createdAt: DateTime!
     $dueDate: DateTime!
     $members: Int!
     $file: Int!
@@ -121,7 +121,7 @@ export const CREATE_PROJECT = gql`
         projectName: $projectName
         projectType: $projectType
         projectDetail: $projectDetail
-        createAt: $createAt
+        createdAt: $createdAt
         dueDate: $dueDate
         projectImage: { connect: { id: $file } }
         members: { connect: [{ id: $members }] }
@@ -137,7 +137,7 @@ export const CREATE_PROJECT = gql`
         fullPath
       }
       status
-      createAt
+      createdAt
       dueDate
       members {
         id
