@@ -16,14 +16,12 @@ import Login from './pages/Login'
 import Member from './pages/Member'
 import News from './pages/News'
 import Profile from './pages/Profile'
-import ProfileEditor from './pages/ProfileEditor'
 import ProjectDetail from './pages/ProjectDetail'
 import ProjectList from './pages/ProjectList'
 import TaskDetail from './pages/TaskDetail'
 import Zone from './pages/Zone'
 import { client } from './services/api'
 import store from './store'
-import './styles/antd.less'
 import './styles/main.css'
 import './styles/tailwind-generated.css'
 
@@ -44,7 +42,6 @@ function App() {
             <AuthorizedRoute path="/members/:projectId" exact component={Member} />
             <AuthorizedRoute path="/news" exact component={News} />
             <AuthorizedRoute path="/profile/:id" exact component={Profile} />
-            <AuthorizedRoute path="/profile-edit/:id" exact component={ProfileEditor} />
             <AuthorizedRoute path="/projects/:projectId" exact component={ProjectDetail} />
             <AuthorizedRoute path="/projects" exact component={ProjectList} />
             <AuthorizedRoute path="/task/:id" exact component={TaskDetail} />
