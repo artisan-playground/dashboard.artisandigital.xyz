@@ -13,7 +13,6 @@ export const ALL_MEMBER_QUERY = gql`
       department
       position
       type
-      skills
       startDate
       dueDate
     }
@@ -32,7 +31,6 @@ export const MEMBER_QUERY = gql`
       department
       position
       type
-      skills
       startDate
       dueDate
       projects {
@@ -58,6 +56,8 @@ export const MEMBER_QUERY = gql`
         taskName
         taskDetail
         isDone
+        startTime
+        endTime
       }
     }
   }
@@ -71,6 +71,7 @@ export const GET_USER_EMAIL = gql`
       name
       startDate
       dueDate
+      role
       image {
         id
         fileName
@@ -82,15 +83,6 @@ export const GET_USER_EMAIL = gql`
       position
       department
       type
-      skills
-      contacts {
-        id
-        facebook
-        twitter
-        instagram
-        gitlab
-        github
-      }
       projects {
         id
         projectName
@@ -121,6 +113,12 @@ export const GET_USER_EMAIL = gql`
       }
       tasks {
         id
+        taskName
+        taskType
+        taskDetail
+        startTime
+        endTime
+        isDone
         project {
           id
           projectName
@@ -129,11 +127,6 @@ export const GET_USER_EMAIL = gql`
             fullPath
           }
         }
-        taskName
-        startTime
-        endTime
-        taskDetail
-        isDone
         members {
           id
           name
@@ -159,6 +152,19 @@ export const GET_USER_EMAIL = gql`
           fileName
         }
       }
+    }
+  }
+`
+
+export const EDIT_PROFILE = gql`
+  mutation updateOneUser($id: Int!, $name: String, $position: String) {
+    updateOneUser(
+      where: { id: $id }
+      data: { name: { set: $name }, position: { set: $position } }
+    ) {
+      id
+      name
+      email
     }
   }
 `
