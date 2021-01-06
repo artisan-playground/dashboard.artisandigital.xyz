@@ -1,94 +1,166 @@
 <template>
-  <div style="padding-top:80px; margin:0px 18px 0px 18px">
-    <a-row :gutter="16">
-      <a-col :span="12">
-        <a-card :bordered="false" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-          <div><a-icon type="line-chart" style="color: #0036c7; font-size: 22px;" /></div>
-          <div class="number" style="font-weight: 950;">
-            <span v-if="numProject">
-              {{ numProject.length }}
-            </span>
-            <span v-else>
-              0
-            </span>
-          </div>
-          <div class="title">Projects</div>
-        </a-card>
-      </a-col>
-      <a-col :span="12">
-        <a-card :bordered="false" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-          <div><a-icon type="usergroup-add" style="color: #0036c7; font-size: 22px;" /></div>
-          <div class="number" v-if="dataMember" style="font-weight: 950;">
-            {{ dataMember.length }}
-          </div>
-          <div class="title">Participants</div>
-        </a-card>
-      </a-col>
-    </a-row>
-    <a-row style="margin-top:16px;">
-      <a-col>
-        <a-card :bordered="false" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-          <div><a-icon type="profile" style="color: #0036c7; font-size: 22px;" /></div>
-          <div class="number" style="font-weight: 950;">
-            <span v-if="numTaskToday">
-              {{ taskToday.length }}
-            </span>
-            <span v-else>
-              0
-            </span>
-          </div>
-          <div class="title">Today’s tasks</div>
-        </a-card>
-      </a-col>
-    </a-row>
+  <div style="margin:10px 18px 0px 18px">
+    <div class="menuContent">
+      <a-row :gutter="[0, 16]">
+        <a-col>
+          <a-card
+            :bordered="false"
+            class="overDue"
+            style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius:4px;"
+          >
+            <div style="float:right;">
+              <div class="num-task">
+                {{ numOverDue }}
+              </div>
+              <div class="name-task">
+                Over due
+              </div>
+            </div>
+          </a-card>
+        </a-col>
+        <a-col>
+          <a-card
+            :bordered="false"
+            class="deadline"
+            style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius:4px;"
+          >
+            <div style="float:right;">
+              <div class="num-task">
+                {{ numDeadline }}
+              </div>
+              <div class="name-task">
+                Deadline
+              </div>
+            </div>
+          </a-card>
+        </a-col>
+        <a-col>
+          <a-card
+            :bordered="false"
+            class="todaytask"
+            style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius:4px;"
+          >
+            <div style="float:right;">
+              <div class="num-task">
+                {{ numTodayTask }}
+              </div>
+              <div class="name-task">
+                My today's task
+              </div>
+            </div>
+          </a-card>
+        </a-col>
+      </a-row>
+    </div>
+    <div style="padding-bottom:80px">
+      <!-- ระยะห่าง manu ข้างล่างกับ content -->
+    </div>
   </div>
 </template>
 
 <script>
-import auth from '../store/Auth/index.js'
-import * as gqlQuery from '../constants/user'
+import * as gqlQueryUser from '../constants/user'
 export default {
   name: 'MenuContent',
-  data() {
-    return {
-      numProject: auth.state.user.projects,
-      numTaskToday: auth.state.user.tasks,
-      dataMember: null,
-    }
-  },
   apollo: {
     getUser: {
-      query: gqlQuery.ALL_MEMBER_QUERY,
+      query: gqlQueryUser.MEMBER_QUERY,
+      variables() {
+        return {
+          userId: this.userId,
+        }
+      },
       update(data) {
-        this.dataMember = data.users
+        this.dataUserId = data.user.id
+        this.dataTask = data.user.tasks
+        this.task = data.user.tasks
+        this.deadlineFunc()
+        this.todayTaskFunc()
+        this.overDueFunc()
       },
     },
   },
-  computed: {
-    taskToday() {
-      let statusTask = 0
-      return this.numTaskToday.filter(value => {
-        if (value.isDone == false) {
-          statusTask += 1
-          return statusTask
+  data() {
+    return {
+      currentDate: new Date(),
+      userId: 0,
+      dataTask: null,
+      numTodayTask: 0,
+      numDeadline: 0,
+      numOverDue: 0,
+    }
+  },
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      const get = JSON.parse(localStorage.getItem('vuex'))
+      this.userId = get.Auth.user.id
+    },
+    deadlineFunc() {
+      let doneTaskTemp = 0
+      this.dataTask.filter(value => {
+        if (value.isDone == true) {
+          doneTaskTemp += 1
         }
       })
+      this.numDoneTask = doneTaskTemp
+    },
+    todayTaskFunc() {
+      let todayTaskTemp = 0
+      var currentDate = new Date(this.currentDate)
+      this.dataTask.filter(value => {
+        let endDate = new Date(value.endTime)
+        if (value.isDone == false && endDate > currentDate) {
+          todayTaskTemp += 1
+        }
+      })
+      this.numTodayTask = todayTaskTemp
+    },
+    overDueFunc() {
+      let overDueTemp = 0
+      const currentDate = new Date(this.currentDate)
+      this.task.filter(value => {
+        let endDate = new Date(value.endTime)
+        if (value.isDone == false && endDate < currentDate) {
+          overDueTemp += 1
+        }
+      })
+      this.numOverDue = overDueTemp
     },
   },
 }
 </script>
 
 <style scoped>
-.title {
-  color: rgb(114, 114, 114);
-  font-size: 16px;
+.overDue {
+  background-image: url('../assets/menu-content/overDue.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom 70% right 10%;
 }
-.container {
-  padding: 2px 16px;
+.deadline {
+  background-image: url('../assets/menu-content/deadline.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom 70% right 35px;
 }
-
-.number {
+.todaytask {
+  background-image: url('../assets/menu-content/todayTask.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom 50% right 75px;
+}
+.num-task {
+  color: #0036c7;
+  font-weight: 1000;
+  font-size: 30px;
+  text-align: right;
+}
+.name-task {
+  font-weight: 600;
   font-size: 18px;
-  font-weight: 550;
+  text-align: right;
 }
 </style>
