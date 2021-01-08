@@ -17,11 +17,47 @@ export const UPLOAD_PROJECT_IMG = gql`
     }
   }
 `
+
+export const UPDATE_PROJECT_IMG = gql`
+  mutation Upload($id: Int!, $file: Upload!) {
+    updateProjectImage(id: $id, image: $file) {
+      id
+      fileName
+      path
+      fullPath
+      endpoint
+      extension
+    }
+  }
+`
+
+export const ALL_PROJECT_IMG = gql`
+  query images {
+    images {
+      id
+      fileName
+      fullPath
+    }
+  }
+`
+
 export const UPLOAD_TASK_FILE = gql`
   mutation Upload($taskId: Int!, $file: Upload!) {
-    uploadFile(file: $file, taskId: { connect: { id: $taskId } }) {
+    uploadFile(taskId: { connect: { id: $taskId } }, file: $file) {
       id
+      fileName
+      path
       fullPath
+      endpoint
+      extension
+    }
+  }
+`
+
+export const DELETE_TASK_FILE = gql`
+  mutation deleteOneFile($id: Int!) {
+    deleteOneFile(where: { id: $id }) {
+      id
     }
   }
 `
