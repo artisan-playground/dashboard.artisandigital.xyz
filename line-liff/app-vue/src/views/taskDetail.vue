@@ -65,7 +65,7 @@
                 <a-icon type="clock-circle" style="color:#0036c7; font-size: 22px;" />
               </div>
               <div>
-                <b>{{ $dayjs(dataTask.startTime).format('DD MMM YYYY') }}</b>
+                <b>{{ $dayjs(dataTask.endTime).format('DD MMM YYYY') }}</b>
               </div>
               <div id="position" style="padding-bottom:10px">Due date</div>
             </a-card>
@@ -75,7 +75,7 @@
 
       <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
         <a-col>
-          <router-link :to="{ name: 'memberInTask', params: { id: dataTask.id } }">
+          <router-link :to="{ name: 'MemberInTask', params: { id: dataTask.id } }">
             <a-card
               :bodyStyle="{
                 padding: '5px',
@@ -113,7 +113,7 @@
         ><span style="float:left; font-size:20px; font-weight:550">{{ dataTask.taskName }}</span>
       </a-col>
       <a-col align="right" :span="4" style="padding-right:3px;">
-        <router-link :to="{ name: 'editTask', params: { id: dataTask.id } }">
+        <router-link :to="{ name: 'EditTask', params: { id: dataTask.id } }">
           <a-icon type="edit" style="color:#0036C7;" />
         </router-link>
       </a-col>
@@ -131,30 +131,136 @@
           data-icon="ic:outline-attach-file"
           style="float: left; color: #105efb; font-size: 22px;"
         ></span>
-        <b style="float: left; font-size:16px">Clipboard</b>
+        <b style="float: left; font-size:16px">Attachments</b>
       </a-col>
     </a-row>
 
     <!-- upload file -->
     <div class="clearfix">
-      <a-row style="margin-left:18px; margin-right:18px; margin-top:12px;">
-        <a-upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          list-type="picture-card"
-          :file-list="fileList"
-          @preview="handlePreview"
-          @change="handleChange"
+      <a-row style="margin: 0px 15px 15px;" :gutter="[8, 8]">
+        <div v-for="file in dataTask.files" :key="file.id">
+          <a-col :xs="{ span: 8 }" :sm="{ span: 4 }" :md="{ span: 4 }" :lg="{ span: 2 }">
+            <div
+              style="border: 1px solid #d9d9d9; border-radius: 2px; width: 105px;"
+              class="taskFile"
+            >
+              <div v-if="file.extension == 'text/plain'" class="flexBox-file">
+                <a-icon type="file-text" style="font-size:30px; color:#0036C7" />
+                <span class="taskFileName"> {{ file.fileName }} </span>
+                <span>.txt</span>
+                <div class="overlay">
+                  <div class="flexbox-delFileTask">
+                    <a-icon
+                      type="delete"
+                      style="font-size:20px; color:white;"
+                      @click="deleteTaskFile(file.id)"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="file.extension == 'application/pdf'" class="flexBox-file">
+                <a-icon type="file-pdf" style="font-size:30px; color:#0036C7" />
+                <span class="taskFileName"> {{ file.fileName }} </span>
+                <span>.pdf</span>
+                <div class="overlay">
+                  <div class="flexbox-delFileTask">
+                    <a-icon
+                      type="delete"
+                      style="font-size:20px; color:white;"
+                      @click="deleteTaskFile(file.id)"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="file.extension == 'text/javascript'" class="flexBox-file">
+                <a-icon type="file" style="font-size:30px; color:#0036C7" />
+                <span class="taskFileName"> {{ file.fileName }} </span>
+                <span>.js</span>
+                <div class="overlay">
+                  <div class="flexbox-delFileTask">
+                    <a-icon
+                      type="delete"
+                      style="font-size:20px; color:white;"
+                      @click="deleteTaskFile(file.id)"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div v-if="file.extension == 'application/x-zip-compressed'" class="flexBox-file">
+                <a-icon type="file-zip" style="font-size:30px; color:#0036C7" />
+                <span class="taskFileName"> {{ file.fileName }} </span>
+                <span>.zip</span>
+                <div class="overlay">
+                  <div class="flexbox-delFileTask">
+                    <a-icon
+                      type="delete"
+                      style="font-size:20px; color:white;"
+                      @click="deleteTaskFile(file.id)"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                v-if="
+                  file.extension ==
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                "
+                class="flexBox-file"
+              >
+                <a-icon type="file-word" style="font-size:30px; color:#0036C7" />
+                <span class="taskFileName"> {{ file.fileName }} </span>
+                <span>.docx</span>
+                <div class="overlay">
+                  <div class="flexbox-delFileTask">
+                    <a-icon
+                      type="delete"
+                      style="font-size:20px; color:white;"
+                      @click="deleteTaskFile(file.id)"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                id="taskFile"
+                v-if="
+                  file.extension == 'image/png' ||
+                    file.extension == 'image/jpg' ||
+                    file.extension == 'image/svg+xml'
+                "
+              >
+                <img :src="file.fullPath" alt="" class="img-task" />
+                <div class="overlay">
+                  <div class="flexbox-delFileTask">
+                    <a-icon
+                      type="delete"
+                      style="font-size:20px; color:white;"
+                      @click="deleteTaskFile(file.id)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a-col>
+        </div>
+        <a-col
+          class="upload-btn-wrapper"
+          :xs="{ span: 8 }"
+          :sm="{ span: 4 }"
+          :md="{ span: 4 }"
+          :lg="{ span: 2 }"
         >
-          <div v-if="fileList.length < 8">
-            <a-icon type="plus" />
-            <div class="ant-upload-text">
+          <a-button
+            style="border: 1px dashed #d9d9d9; border-radius: 2px; width: 105px; height: 102px; background-color:#FAFAFA"
+          >
+            <a-icon type="plus" style="color:#585858; font-size:20px; margin-bottom:10px;" />
+            <div>
               Upload
             </div>
-          </div>
-        </a-upload>
-        <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-          <img alt="example" style="width: 100%" :src="previewImage" />
-        </a-modal>
+          </a-button>
+          <input @change="uploadFile" type="file" name="myfile" />
+        </a-col>
       </a-row>
     </div>
 
@@ -166,11 +272,10 @@
       </a-row>
       <a-row>
         <a-comment v-for="comment in dataComment" :key="comment.id" v-bind:value="comment.id">
-          <template slot="actions">
-            <span @click="editComment" v-on:click="commentEdit = !commentEdit">
+          <template slot="actions" v-if="comment.user.id == user.id">
+            <span @click="selectComment(comment.id)" v-on:click="commentEdit = !commentEdit">
               <a-icon type="edit" />Edit
             </span>
-
             <span @click="deleteComment(comment.id)"> <a-icon type="delete" /> Delete </span>
           </template>
 
@@ -182,23 +287,34 @@
             "
             alt="Han Solo"
           />
-          <p slot="content" align="left">
-            <span v-if="commentEdit == false">
+
+          <p v-if="comment.user.id == user.id" slot="content" align="left">
+            <span v-if="comment.id == selectCommentId">
+              <div v-if="commentEdit == false">
+                {{ comment.message }}
+              </div>
+              <div v-else>
+                <a-col :span="19">
+                  <a-input v-model="comment.message" />
+                </a-col>
+                <a-col :span="5">
+                  <a-button
+                    @click="editComment(comment.id, comment.message)"
+                    v-on:click="commentEdit = !commentEdit"
+                    >Done</a-button
+                  >
+                </a-col>
+              </div>
+            </span>
+            <span v-else>
               {{ comment.message }}
             </span>
-            <span v-if="commentEdit == true">
-              <a-col :span="19">
-                <a-input v-model="comment.message" />
-              </a-col>
-              <a-col :span="5">
-                <a-button
-                  @click="editComment(comment.id, comment.message)"
-                  v-on:click="commentEdit = !commentEdit"
-                  >Done</a-button
-                >
-              </a-col>
-            </span>
           </p>
+
+          <p slot="content" align="left" v-else>
+            {{ comment.message }}
+          </p>
+
           <a-tooltip slot="datetime" :title="moment().format('YYYY-MM-DD HH:mm:ss')">
             <span>{{ moment(comment.timestamp).fromNow() }}</span>
           </a-tooltip>
@@ -210,15 +326,14 @@
     <a-row
       type="flex"
       align="middle"
-      style="background-color:#E9F0FF; padding-top:10px; padding-bottom:5px;"
+      style="background-color:#E9F0FF; padding-top:10px; padding-bottom:5px;
+      position: fixed; left: 0; bottom: 0; width: 100%;"
     >
       <a-col :span="4">
-        <span
-          class="iconify"
-          data-inline="false"
-          data-icon="carbon:user-avatar-filled-alt"
-          style="color: #8f8f8f; font-size: 30px;"
-        ></span>
+        <img
+          style="border-radius:100%; width:32px;"
+          :src="user.image ? user.image.fullPath : require('../assets/user.svg')"
+        />
       </a-col>
       <a-col :span="16">
         <a-input
@@ -248,23 +363,18 @@
         </a-row>
       </a-col>
     </a-row>
+    <div style="padding-bottom:60px">
+      <!-- ระยะห่าง manu ข้างล่างกับ content -->
+    </div>
   </div>
 </template>
 
 <script>
-// function upload file
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = error => reject(error)
-  })
-}
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import moment from 'moment'
 import * as gqlQuery from '../constants/task'
 import * as gqlQueryComment from '../constants/comment'
+import * as gqlUpload from '../constants/upload'
 
 export default {
   name: 'taskDetail',
@@ -289,6 +399,7 @@ export default {
 
   data() {
     return {
+      selectedFile: null,
       commentId: '',
       dataTask: null,
       dataProject: null,
@@ -296,92 +407,84 @@ export default {
       loading: false,
       commentLoadding: false,
       isDone: false,
-      likes: 0,
-      dislikes: 0,
       action: null,
       moment,
       commentEdit: false,
-
-      // upload file
-      previewVisible: false,
-      previewImage: '',
-      fileList: [
-        {
-          uid: '-1',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://i.pinimg.com/564x/d3/7c/33/d37c33b2921a5df2fc85040e32b28f6c.jpg',
-        },
-        {
-          uid: '-2',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://i.pinimg.com/564x/c1/a5/31/c1a531fe6da91a99840858471f6e714f.jpg',
-        },
-        {
-          uid: '-3',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://i.pinimg.com/564x/ff/79/6f/ff796f70a33c46b008e1b0ec24ec4b1b.jpg',
-        },
-        {
-          uid: '-4',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://i.pinimg.com/564x/96/5c/95/965c95e230d9eefcb9e2a089a1544a1e.jpg',
-        },
-        {
-          uid: '-5',
-          name: 'image.png',
-          status: 'error',
-        },
-      ],
-
-      // add comment
       newComment: '',
-      idForComment: 2,
+      userId: 0,
+      user: '',
+      selectCommentId: 0,
     }
   },
-  computed: {
-    taskFunc() {
-      return this.$store.getters.task(parseInt(this.$route.params.id))
-    },
-  },
-  mounnted() {
-    // this.getTask()
+  mounted() {
+    this.getData()
   },
   methods: {
-    getTaskByClick() {
-      this.$apollo
-        .mutate({
-          mutation: gqlQuery.TASK_QUERY,
+    getData() {
+      const get = JSON.parse(localStorage.getItem('vuex'))
+      this.user = get.Auth.user
+      this.userId = get.Auth.user.id
+    },
+    getTaskbyFunc() {
+      this.$apollo.mutate({
+        mutation: gqlQuery.TASK_QUERY,
+        variables: {
+          taskId: parseInt(this.$route.params.id),
+        },
+        update: data => {
+          this.dataTask = data.getTaskById
+        },
+      })
+    },
+    async deleteTaskFile(fileId) {
+      try {
+        await this.$confirm({
+          title: 'Are you sure you want to delete this comment ?',
+          button: {
+            no: 'Cancel',
+            yes: 'Delete',
+          },
+          callback: confirm => {
+            if (confirm) {
+              this.$apollo.mutate({
+                mutation: gqlUpload.DELETE_TASK_FILE,
+                variables: {
+                  id: fileId,
+                },
+              })
+              this.$apollo.mutate({
+                mutation: gqlQuery.TASK_QUERY,
+                variables: {
+                  taskId: parseInt(this.$route.params.id),
+                },
+                update: data => {
+                  this.dataTask = data.getTaskById
+                },
+              })
+              this.$message.success('delete file success')
+            }
+          },
+          onCancel() {},
+        })
+      } catch (error) {
+        this.$message.error(error)
+      }
+    },
+    async uploadFile(event) {
+      try {
+        await this.$apollo.mutate({
+          mutation: gqlUpload.UPLOAD_TASK_FILE,
           variables: {
+            file: event.target.files[0],
             taskId: parseInt(this.$route.params.id),
           },
-          update: data => {
-            this.dataTask = data.getTaskById
-          },
         })
-        .then(() => {
-          this.commentLoadding = false
-          this.$message.success('sent comment success')
-        })
+        this.getTaskbyFunc()
+      } catch (error) {
+        this.$message.error(error)
+      }
     },
-    getDeleteCommentByClick() {
-      this.$apollo
-        .mutate({
-          mutation: gqlQuery.TASK_QUERY,
-          variables: {
-            taskId: parseInt(this.$route.params.id),
-          },
-          update: data => {
-            this.dataTask = data.getTaskById
-          },
-        })
-        .then(() => {
-          this.$message.success('delete comment success')
-        })
-    },
+
     handleOk() {
       this.loading = true
       setTimeout(() => {
@@ -411,22 +514,8 @@ export default {
       })
     },
 
-    // Upload file
-    handleCancel() {
-      this.previewVisible = false
-    },
-    async handlePreview(file) {
-      if (!file.url && !file.preview) {
-        file.preview = await getBase64(file.originFileObj)
-      }
-      this.previewImage = file.url || file.preview
-      this.previewVisible = true
-    },
-    handleChange({ fileList }) {
-      this.fileList = fileList
-    },
-
     async addComment() {
+      console.log(this.userId)
       if (this.newComment.trim().length == 0) {
         this.$error({
           title: 'ยังไม่ได้คอมเม้นอะไรเลยนะ',
@@ -441,10 +530,12 @@ export default {
               timestamp: moment(),
               message: this.newComment,
               taskId: parseInt(this.$route.params.id),
-              userId: 1,
+              userId: this.userId,
             },
           })
-          this.getTaskByClick()
+          this.getTaskbyFunc()
+          this.commentLoadding = false
+          this.$message.success('sent comment success')
         } catch (error) {
           console.error(error)
         }
@@ -452,7 +543,6 @@ export default {
       this.newComment = ''
     },
 
-    // delete comment
     async deleteComment(commentId) {
       try {
         await this.$confirm({
@@ -469,7 +559,16 @@ export default {
                   id: commentId,
                 },
               })
-              this.getDeleteCommentByClick()
+              this.$apollo.mutate({
+                mutation: gqlQuery.TASK_QUERY,
+                variables: {
+                  taskId: parseInt(this.$route.params.id),
+                },
+                update: data => {
+                  this.dataTask = data.getTaskById
+                },
+              })
+              this.$message.success('delete comment success')
             }
           },
           onCancel() {},
@@ -484,13 +583,14 @@ export default {
         mutation: gqlQueryComment.EDIT_COMMENT,
         variables: {
           id: id,
-          data: {
-            message: { set: message },
-          },
+          message: message,
         },
       })
     },
-    reply() {},
+
+    selectComment(id) {
+      return (this.selectCommentId = id)
+    },
   },
 }
 </script>
