@@ -3,7 +3,6 @@ import 'ant-design-vue/dist/antd.css'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
 Vue.use(VueRouter)
 Vue.use(Antd)
 
@@ -16,133 +15,148 @@ const routes = [
   {
     path: '/',
     name: 'HomeDashboard',
-    component: () => import(/* webpackChunkName: "about" */ '../views/HomeDashboard.vue'),
+    component: () => import('../views/HomeDashboard.vue'),
+  },
+  {
+    path: '/MyOverdueTask',
+    name: 'MyOverdueTask',
+    component: () => import('../views/MyOverdueTask.vue'),
+  },
+  {
+    path: '/MyDeadlineTask',
+    name: 'MyDeadlineTask',
+    component: () => import('../views/MyDeadlineTask.vue'),
+  },
+  {
+    path: '/MyTodayTask',
+    name: 'MyTodayTask',
+    component: () => import('../views/MyTodayTask.vue'),
   },
   {
     path: '/news',
-    name: 'news',
-    component: () => import(/* webpackChunkName: "about" */ '../views/news.vue'),
+    name: 'News',
+    component: () => import('../views/News.vue'),
   },
   {
     path: '/news/eventDetail/:id',
-    name: 'eventDetail',
-    component: () => import(/* webpackChunkName: "about" */ '../views/eventDetail.vue'),
+    name: 'EventDetail',
+    component: () => import('../views/EventDetail.vue'),
   },
   {
     path: '/projects/',
-    name: 'projectPage',
-    component: () => import(/* webpackChunkName: "about" */ '../views/projects.vue'),
+    name: 'Projects',
+    component: () => import('../views/Projects.vue'),
   },
   {
     path: '/projects/:id',
-    name: 'project',
-    component: () => import(/* webpackChunkName: "about" */ '../views/project.vue'),
+    name: 'Project',
+    component: () => import('../views/Project.vue'),
   },
   {
     path: '/projects/:id/editProject/:id',
-    name: 'editProject',
-    component: () => import(/* webpackChunkName: "about" */ '../views/editProject.vue'),
+    name: 'EditProject',
+    component: () => import('../views/EditProject.vue'),
   },
   {
     path: '/projects/:id/members',
-    name: 'memberInProject',
-    component: () => import(/* webpackChunkName: "about" */ '../views/memberInProject.vue'),
+    name: 'MemberInProject',
+    component: () => import('../views/MemberInProject.vue'),
   },
   {
     path: '/projects/:id/editMemberInProject',
-    name: 'editMemberInProject',
-    component: () => import(/* webpackChunkName: "about" */ '../views/editMemberInProject.vue'),
+    name: 'EditMemberInProject',
+    component: () => import('../views/EditMemberInProject.vue'),
   },
   {
     path: '/projects/:id/members/addmember',
-    name: 'addMemberToProject',
-    component: () => import(/* webpackChunkName: "about" */ '../views/addMemberToProject.vue'),
+    name: 'AddMemberToProject',
+    component: () => import('../views/AddMemberToProject.vue'),
   },
   {
     path: '/projects/:id/doneTask',
-    name: 'doneTask',
-    component: () => import(/* webpackChunkName: "about" */ '../views/doneTask.vue'),
+    name: 'DoneTask',
+    component: () => import('../views/DoneTask.vue'),
   },
   {
     path: '/projects/:id/todayTask',
-    name: 'todayTask',
-    component: () => import(/* webpackChunkName: "about" */ '../views/todayTask.vue'),
+    name: 'TodayTask',
+    component: () => import('../views/TodayTask.vue'),
   },
   {
     path: '/createProject',
-    name: 'createProject',
-    component: () => import(/* webpackChunkName: "about" */ '../views/createProject.vue'),
+    name: 'CreateProject',
+    component: () => import('../views/CreateProject.vue'),
   },
   {
     path: '/projects/:id/createTask',
-    name: 'createTask',
-    component: () => import(/* webpackChunkName: "about" */ '../views/createTask.vue'),
+    name: 'CreateTask',
+    component: () => import('../views/CreateTask.vue'),
   },
   {
     path: '/taskDetail/:id',
-    name: 'taskDetail',
-    component: () => import(/* webpackChunkName: "about" */ '../views/taskDetail.vue'),
+    name: 'TaskDetail',
+    component: () => import('../views/TaskDetail.vue'),
   },
   {
     path: '/taskDetail/:id/editMemberInTask',
-    name: 'editMemberInTask',
-    component: () => import(/* webpackChunkName: "about" */ '../views/editMemberInTask.vue'),
+    name: 'EditMemberInTask',
+    component: () => import('../views/EditMemberInTask.vue'),
   },
   {
     path: '/taskDetail/:id/addMemberToTask',
-    name: 'addMemberToTask',
-    component: () => import(/* webpackChunkName: "about" */ '../views/addMemberToTask.vue'),
+    name: 'AddMemberToTask',
+    component: () => import('../views/AddMemberToTask.vue'),
   },
   {
     path: '/taskDetail/:id/memberInTask/:id',
-    name: 'memberInTask',
-    component: () => import(/* webpackChunkName: "about" */ '../views/memberInTask.vue'),
+    name: 'MemberInTask',
+    component: () => import('../views/MemberInTask.vue'),
   },
   {
     path: '/taskDetail/:id/editTask/:id',
-    name: 'editTask',
-    component: () => import(/* webpackChunkName: "about" */ '../views/editTask.vue'),
+    name: 'EditTask',
+    component: () => import('../views/EditTask.vue'),
   },
   {
     path: '/login',
-    name: 'login',
-    component: () => import(/* webpackChunkName: "about" */ '../views/login.vue'),
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
   },
   {
     path: '/register',
-    name: 'register',
-    component: () => import(/* webpackChunkName: "about" */ '../views/register.vue'),
+    name: 'Register',
+    component: () => import('../views/Register.vue'),
   },
   {
     path: '/forgetpassword',
-    name: 'forgetpassword',
-    component: () => import(/* webpackChunkName: "about" */ '../views/forgetpassword.vue'),
+    name: 'Forgetpassword',
+    component: () => import('../views/Forgetpassword.vue'),
   },
   {
     path: '/testLogin',
-    name: 'testLogin',
-    component: () => import(/* webpackChunkName: "about" */ '../views/testLogin.vue'),
+    name: 'TestLogin',
+    component: () => import('../views/TestLogin.vue'),
   },
 
   {
     path: '/members',
-    name: 'members',
-    component: () => import(/* webpackChunkName: "about" */ '../views/members.vue'),
+    name: 'Members',
+    component: () => import('../views/Members.vue'),
   },
   {
     path: '/members/:id',
-    name: 'profileMember',
-    component: () => import(/* webpackChunkName: "about" */ '../views/profileMember.vue'),
+    name: 'ProfileMember',
+    component: () => import('../views/ProfileMember.vue'),
   },
   {
     path: '/profile',
-    name: 'profile',
-    component: () => import(/* webpackChunkName: "about" */ '../views/profile.vue'),
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
   },
   {
     path: '/editprofile',
-    name: 'editprofile',
-    component: () => import(/* webpackChunkName: "about" */ '../views/editprofile.vue'),
+    name: 'Editprofile',
+    component: () => import('../views/Editprofile.vue'),
   },
 ]
 
