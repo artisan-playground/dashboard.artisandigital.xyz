@@ -1,6 +1,27 @@
 <template>
   <div class="TaskChart">
     <vc-donut
+      v-if="task == ''"
+      hasLegend
+      :thickness="35"
+      legendPlacement="bottom"
+      :sections="[
+        { value: 0, label: 'Done Task', color: '#00ACB3' },
+        { value: 0, label: `Today's task`, color: '#FECA7A' },
+        { value: 0, label: 'Over due', color: '#D84774' },
+      ]"
+      :total="100"
+    >
+      <div style="font-size:35px; color:#134F83; font-weight:600;">
+        {{ '0.00' }}
+      </div>
+      <div>
+        Done Task
+      </div>
+    </vc-donut>
+
+    <vc-donut
+      v-else
       hasLegend
       :thickness="35"
       legendPlacement="bottom"
@@ -11,7 +32,10 @@
       ]"
       :total="task.length"
     >
-      <div style="font-size:35px; color:#134F83; font-weight:600;">
+      <div v-if="doneTask == 0" style="font-size:35px; color:#134F83; font-weight:600;">
+        {{ '0.00' }}
+      </div>
+      <div v-else style="font-size:35px; color:#134F83; font-weight:600;">
         {{ ((doneTask * 100) / task.length).toFixed(2) }}%
       </div>
       <div>
