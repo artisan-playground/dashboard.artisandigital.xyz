@@ -9,6 +9,7 @@ export const GET_ZONES = gql`
       longitude
       timestamp
       radius
+      open
     }
   }
 `
@@ -22,6 +23,7 @@ export const GET_ZONE = gql`
       longitude
       timestamp
       radius
+      open
     }
   }
 `
@@ -37,6 +39,29 @@ export const CREATE_ZONE = gql`
       longitude
       timestamp
       radius
+      open
+    }
+  }
+`
+
+export const UPDATE_ZONE = gql`
+  mutation($id: Int!, $name: String!, $latitude: String!, $longitude: String!, $radius: String!) {
+    updateOneZone(
+      where: { id: $id }
+      data: {
+        name: { set: $name }
+        latitude: { set: $latitude }
+        longitude: { set: $longitude }
+        radius: { set: $radius }
+      }
+    ) {
+      id
+      name
+      latitude
+      longitude
+      timestamp
+      radius
+      open
     }
   }
 `
@@ -50,6 +75,7 @@ export const DELETE_ZONE = gql`
       longitude
       timestamp
       radius
+      open
     }
   }
 `
