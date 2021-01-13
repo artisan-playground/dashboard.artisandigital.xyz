@@ -1,22 +1,21 @@
 import {
-  LeftOutlined,
+  EnvironmentOutlined,
   NotificationOutlined,
   ProfileOutlined,
   ProjectOutlined,
-  RightOutlined,
+  SnippetsOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { Layout, Menu, Typography } from 'antd'
-import React, { useState } from 'react'
+import { Divider, Layout, Menu, Typography } from 'antd'
+import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useStoreState } from '../store'
 
-function SideNav({ children }: any) {
+function SideNav({ children, collapsed, toggle }: any) {
   const { Text } = Typography
   const { Sider } = Layout
   const location = useLocation()
-  const [collapse, setcollapse] = useState(false)
   const user = useStoreState((s) => s.userState.user)
 
   function getSelectedKeys() {
@@ -26,41 +25,85 @@ function SideNav({ children }: any) {
       : [location.pathname]
   }
 
-  function onCollapseClick() {
-    setcollapse(!collapse)
-  }
-
   return (
     <Layout className="flex flex-row justify-center">
       <div>
         <Sider
-          trigger={
-            <div className="bg-white">
-              <Text>{collapse ? <RightOutlined /> : <LeftOutlined />}</Text>
-            </div>
-          }
-          collapsed={collapse}
+          trigger={null}
+          collapsed={collapsed}
           collapsible
-          onCollapse={onCollapseClick}
+          onCollapse={toggle}
           breakpoint={'lg'}
-          className="min-h-screen shadow-lg bg-white h-full"
+          className="min-h-screen h-full bg-white border-r"
         >
-          <Menu mode="inline" selectedKeys={getSelectedKeys()}>
-            <Menu.Item key="/" icon={<ProfileOutlined />}>
+          <div className="w-44 ml-4 my-2">
+            {collapsed ? (
+              <img
+                src={require('../assets/images/Artisan Digital_logo_mini.png')}
+                width={55}
+                alt="logo"
+              />
+            ) : (
+              <img
+                src={require('../assets/images/Artisan_Digital_logo.png')}
+                width={150}
+                alt="logo"
+              />
+            )}
+          </div>
+          <Menu mode="inline" selectedKeys={getSelectedKeys()} className="border-none">
+            {collapsed ? (
+              <Divider className="my-4" />
+            ) : (
+              <div className="my-4">
+                <Text type="secondary" className="ml-6">
+                  MANAGEMENT
+                </Text>
+              </div>
+            )}
+            <Menu.Item key="/" icon={<ProfileOutlined />} className="flex items-center">
               <NavLink to="/">Dashboard</NavLink>
             </Menu.Item>
-            <Menu.Item key="/projects" icon={<ProjectOutlined />}>
+            <Menu.Item key="/projects" icon={<ProjectOutlined />} className="flex items-center">
               <NavLink to="/projects">Projects</NavLink>
             </Menu.Item>
-            <Menu.Item key="/news" icon={<NotificationOutlined />}>
+            <Menu.Item key="/news" icon={<NotificationOutlined />} className="flex items-center">
               <NavLink to="/news">News</NavLink>
             </Menu.Item>
-            <Menu.Item key="/member" icon={<TeamOutlined />}>
+            <Menu.Item key="/member" icon={<TeamOutlined />} className="flex items-center">
               <NavLink to="/member">Members</NavLink>
             </Menu.Item>
-            <Menu.Item key={`/profile/${user?.id}`} icon={<UserOutlined />}>
+            <Menu.Item
+              key={`/profile/${user?.id}`}
+              icon={<UserOutlined />}
+              className="flex items-center"
+            >
               <NavLink to={{ pathname: `/profile/${user?.id}` }}>Profile</NavLink>
             </Menu.Item>
+
+            {user?.role === 'ADMIN' && (
+              <>
+                {collapsed ? (
+                  <Divider className="my-4" />
+                ) : (
+                  <div className="my-4">
+                    <Text type="secondary" className="ml-6">
+                      ADMINISTRATION
+                    </Text>
+                  </div>
+                )}
+                <Menu.Item
+                  key={`/zones`}
+                  icon={<EnvironmentOutlined />}
+                  className="flex items-center"
+                >
+                  <NavLink to={{ pathname: `/zones` }}>GPS zone</NavLink>
+                </Menu.Item>
+                <Menu.Item key={`/forms`} icon={<SnippetsOutlined />} className="flex items-center">
+                  <NavLink to={{ pathname: `/forms` }}>Forms</NavLink>
+                </Menu.Item>
+              </>
+            )}
           </Menu>
         </Sider>
       </div>
