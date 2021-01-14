@@ -1,17 +1,24 @@
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
-import { Button, Col, Empty, Input, Radio, Row, Typography } from 'antd'
-import React, { useEffect, useState } from 'react'
 import {
-  LayoutDashboard,
-  LoadingComponent,
-  ProjectCard,
-  ProjectDrawer,
-} from '../components/DashboardComponent'
+  Breadcrumb,
+  Button,
+  Col,
+  Divider,
+  Empty,
+  Input,
+  PageHeader,
+  Row,
+  Select,
+  Typography,
+} from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { LayoutDashboard, LoadingComponent, ProjectCard } from '../components/DashboardComponent'
 import { PROJECT } from '../services/api/project'
 
 function ProjectList() {
-  const { Search } = Input
+  const { Option } = Select
   const { Text } = Typography
   const { loading, error, data, refetch } = useQuery(PROJECT)
   const [filteredData, setFilteredData] = useState<any[]>([])
@@ -66,76 +73,76 @@ function ProjectList() {
     setLoading(false)
   }
 
-  function closeDawer() {
-    setDrawerVisible(false)
+  function handleChange(value: any) {
+    setTypes(value)
   }
 
   return (
-    <LayoutDashboard noCard>
-      <Row className="justify-between">
-        <Row>
-          <Button
-            className="flex items-center justify-center bg-primaryopacity shadow-md hover:shadow-lg hover:bg-primary transition duration-200 ease-in outline-none border-0 "
-            type="primary"
-            size="large"
-            shape="round"
-            onClick={() => setDrawerVisible(true)}
-          >
-            <PlusCircleOutlined className="hover:scale-150 " />
-            <Text className="hidden hover:block text-white">Create</Text>
-          </Button>
-          <ProjectDrawer
-            visibillity={drawerVisible}
-            onCloseDrawer={closeDawer}
-            refetch={() => refetch()}
-          />
-        </Row>
+    <LayoutDashboard>
+      <Breadcrumb className="pl-6 pt-4">
+        <Breadcrumb.Item>Projects</Breadcrumb.Item>
+      </Breadcrumb>
+      <PageHeader className="site-page-header" title="Projects" />
+      <Divider />
+      <div className="px-8">
+        <Row className="justify-between mb-8">
+          <Row>
+            <Link to={{ pathname: `/new-zone` }}>
+              <Button
+                className="flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
+                type="primary"
+              >
+                <PlusOutlined />
+                Create
+              </Button>
+            </Link>
+          </Row>
 
-        <Row>
-          <Row className="justify-end">
-            <Search
-              placeholder="input search loading default"
+          <Row>
+            <Input
+              placeholder="Search Projects"
               value={keyword}
               onChange={handleKeywordChange}
-              loading={filterloading}
+              suffix={<SearchOutlined type="secondary" />}
+              className="w-96"
             />
-            <Radio.Group className="my-4" value={types} onChange={(e) => setTypes(e.target.value)}>
-              <Radio.Button value="all">All</Radio.Button>
-              <Radio.Button value="undone">WIP</Radio.Button>
-              <Radio.Button value="done">Closed</Radio.Button>
-            </Radio.Group>
+            <Select defaultValue={types} className="w-20" onChange={handleChange}>
+              <Option value="all">All</Option>
+              <Option value="done">Done</Option>
+              <Option value="undone">WIP</Option>
+            </Select>
           </Row>
         </Row>
-      </Row>
-      {loading || error ? (
-        <LoadingComponent project />
-      ) : (
-        <div className="site-card-wrapper">
-          <Row gutter={[8, 24]}>
-            {filteredData && !error && !loading ? (
-              filteredData.length !== 0 ? (
-                filteredData.map((items) => (
-                  <Col span={24} key={items.id}>
-                    <ProjectCard data={items} />
-                  </Col>
-                ))
+        {loading || error ? (
+          <LoadingComponent project />
+        ) : (
+          <div className="site-card-wrapper">
+            <Row gutter={[8, 24]}>
+              {filteredData && !error && !loading ? (
+                filteredData.length !== 0 ? (
+                  filteredData.map((items) => (
+                    <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
+                      <ProjectCard data={items} refetch={() => refetch()} />
+                    </Col>
+                  ))
+                ) : (
+                  <div className="flex w-full justify-center my-8">
+                    <Empty
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                      description={<Text disabled>No project Found</Text>}
+                    />
+                  </div>
+                )
               ) : (
                 <div className="flex w-full justify-center my-8">
-                  <Empty
-                    image={Empty.PRESENTED_IMAGE_SIMPLE}
-                    description={<Text disabled>No Projects Found</Text>}
-                  />
+                  <Text disabled>Error</Text>
+                  <Text disabled>{error} </Text>
                 </div>
-              )
-            ) : (
-              <div className="flex w-full justify-center my-8">
-                <Text disabled>Error</Text>
-                <Text disabled>{error} </Text>
-              </div>
-            )}
-          </Row>
-        </div>
-      )}
+              )}
+            </Row>
+          </div>
+        )}
+      </div>
     </LayoutDashboard>
   )
 }
