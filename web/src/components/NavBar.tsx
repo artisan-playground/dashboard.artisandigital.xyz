@@ -47,18 +47,7 @@ function NavBar({ toggle, collapsed }: any) {
       </Menu.Item>
     </Menu>
   )
-  console.log(notification)
 
-  const datas = [
-    {
-      message: '70 new employees are shifted',
-      timestamp: 1596119688264,
-    },
-    {
-      message: 'Time to take a Break, TADA!!!',
-      timestamp: 1596119686811,
-    },
-  ]
   return (
     <Header className="bg-white h-16 px-0 py-0 min-w-full shadow-lg border-b">
       <div className="flex flex-row justify-between">

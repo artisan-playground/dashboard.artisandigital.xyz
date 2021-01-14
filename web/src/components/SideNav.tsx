@@ -1,8 +1,8 @@
 import {
   EnvironmentOutlined,
-  NotificationOutlined,
   ProfileOutlined,
   ProjectOutlined,
+  ReadOutlined,
   SnippetsOutlined,
   TeamOutlined,
   UserOutlined,
@@ -67,11 +67,11 @@ function SideNav({ children, collapsed, toggle }: any) {
             <Menu.Item key="/projects" icon={<ProjectOutlined />} className="flex items-center">
               <NavLink to="/projects">Projects</NavLink>
             </Menu.Item>
-            <Menu.Item key="/news" icon={<NotificationOutlined />} className="flex items-center">
+            <Menu.Item key="/news" icon={<ReadOutlined />} className="flex items-center">
               <NavLink to="/news">News</NavLink>
             </Menu.Item>
-            <Menu.Item key="/member" icon={<TeamOutlined />} className="flex items-center">
-              <NavLink to="/member">Members</NavLink>
+            <Menu.Item key="/employees" icon={<TeamOutlined />} className="flex items-center">
+              <NavLink to="/employees">Employees</NavLink>
             </Menu.Item>
             <Menu.Item
               key={`/profile/${user?.id}`}
