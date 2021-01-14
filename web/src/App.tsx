@@ -20,6 +20,7 @@ import ProjectDetail from './pages/ProjectDetail'
 import ProjectList from './pages/ProjectList'
 import TaskDetail from './pages/TaskDetail'
 import Zone from './pages/Zone'
+import ZoneDetail from './pages/ZoneDetail'
 import { client } from './services/api'
 import store from './store'
 import './styles/main.css'
@@ -31,21 +32,22 @@ function App() {
       <ApolloProvider client={client}>
         <Router>
           <Switch>
+            <Route path="/login" exact component={Login} />
             <AuthorizedRoute path="/content/:id" exact component={ContentDetail} />
             <AuthorizedRoute path="/create-content" exact component={CreateContent} />
             <AuthorizedRoute path="/new-form" exact component={CreateForm} />
             <AuthorizedRoute path="/new-zone" exact component={CreateZone} />
             <AuthorizedRoute path="/" exact component={Dashboard} />
-            <AuthorizedRoute path="/employee" exact component={Employee} />
+            <AuthorizedRoute path="/employees" exact component={Employee} />
             <AuthorizedRoute path="/forms" exact component={Form} />
-            <Route path="/login" exact component={Login} />
             <AuthorizedRoute path="/members/:projectId" exact component={Member} />
             <AuthorizedRoute path="/news" exact component={News} />
             <AuthorizedRoute path="/profile/:id" exact component={Profile} />
             <AuthorizedRoute path="/projects/:projectId" exact component={ProjectDetail} />
             <AuthorizedRoute path="/projects" exact component={ProjectList} />
             <AuthorizedRoute path="/task/:id" exact component={TaskDetail} />
-            <AuthorizedRoute path="/zone" exact component={Zone} />
+            <AuthorizedRoute path="/zones" exact component={Zone} />
+            <AuthorizedRoute path="/zones/:id" exact component={ZoneDetail} />
             <Redirect to="/" />
           </Switch>
         </Router>
