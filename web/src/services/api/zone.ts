@@ -66,6 +66,20 @@ export const UPDATE_ZONE = gql`
   }
 `
 
+export const UPDATE_SHOW_ZONE = gql`
+  mutation($id: Int!, $open: Boolean!) {
+    updateOneZone(where: { id: $id }, data: { open: { set: $open } }) {
+      id
+      name
+      latitude
+      longitude
+      timestamp
+      radius
+      open
+    }
+  }
+`
+
 export const DELETE_ZONE = gql`
   mutation($id: Int!) {
     deleteOneZone(where: { id: $id }) {

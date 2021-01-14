@@ -40,7 +40,7 @@ function Zone() {
   }
 
   return (
-    <LayoutDashboard noCard>
+    <LayoutDashboard>
       <Breadcrumb className="pl-6 pt-4">
         <Breadcrumb.Item>GPS Zone</Breadcrumb.Item>
       </Breadcrumb>
@@ -77,7 +77,7 @@ function Zone() {
               {filteredData && !error && !loading ? (
                 filteredData.length !== 0 ? (
                   filteredData.map((items) => (
-                    <Col xs={24} xl={10} key={items.id} className="w-full px-2 py-2">
+                    <Col xs={24} xl={12} key={items.id} className="w-full px-2 py-2">
                       <ZoneCard data={items} refetch={() => refetch()} />
                     </Col>
                   ))
