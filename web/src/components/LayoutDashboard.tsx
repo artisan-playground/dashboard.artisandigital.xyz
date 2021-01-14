@@ -12,9 +12,9 @@ function LayoutDashboard({ children }: any) {
   }
 
   return (
-    <Layout className="w-full min-h-screen">
+    <Layout className="w-full">
       <SideNav toggle={toggle} collapsed={collapsed}>
-        <Layout className="site-layout">
+        <Layout className="min-h-screen">
           <NavBar toggle={toggle} collapsed={collapsed} />
           <Content className="bg-white w-full">{children}</Content>
         </Layout>

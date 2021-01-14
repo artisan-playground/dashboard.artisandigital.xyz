@@ -103,10 +103,10 @@ function CreateZone() {
 
   return (
     filteredData && (
-      <LayoutDashboard noCard>
+      <LayoutDashboard>
         <Breadcrumb className="pl-6 pt-4">
           <Breadcrumb.Item>
-            <Link to={{ pathname: `/zone` }}>GPS Zone</Link>
+            <Link to={{ pathname: `/zones` }}>GPS Zone</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>New GPS zone</Breadcrumb.Item>
         </Breadcrumb>
