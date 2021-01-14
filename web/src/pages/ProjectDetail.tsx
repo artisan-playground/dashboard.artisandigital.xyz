@@ -1,12 +1,27 @@
 import {
+  CalendarOutlined,
   FileDoneOutlined,
-  PlusCircleOutlined,
+  PlusOutlined,
   ProfileOutlined,
-  ScheduleOutlined,
-  SmileOutlined,
+  SearchOutlined,
+  UsergroupAddOutlined,
 } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
-import { Avatar, Button, Card, Col, Empty, List, Modal, Row, Spin, Typography } from 'antd'
+import {
+  Breadcrumb,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Empty,
+  Input,
+  Modal,
+  PageHeader,
+  Row,
+  Spin,
+  Typography,
+} from 'antd'
+import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
@@ -15,21 +30,24 @@ import {
   LogList,
   ProjectContent,
   TaskCard,
-  TaskDrawer,
 } from '../components/DashboardComponent'
 import { GET_PROJECT_BY_ID } from '../services/api/project'
 import { TASKS_BY_ID } from '../services/api/task'
 
 function ProjectDetail() {
-  const { Title, Text } = Typography
+  const { Text } = Typography
   const { projectId }: any = useParams()
   const { loading, error, data, refetch } = useQuery(TASKS_BY_ID, {
     variables: { id: Number(projectId) },
     notifyOnNetworkStatusChange: true,
   })
-  const [filteredTasks, setFilteredTasks] = useState([])
+  const [filteredTasks, setFilteredTasks] = useState<any[]>([])
+  const [filteredTodayTasks, setFilteredTodayTasks] = useState<any[]>([])
+  const [filteredDoneTasks, setFilteredDoneTasks] = useState<any[]>([])
   const [filteredLog, setFilteredLog] = useState([])
-  const [drawerVisible, setDrawerVisible] = useState(false)
+  const [keyword, setKeyword] = useState('')
+  const [keywordTodayTask, setKeywordTodayTask] = useState('')
+  const [keywordDoneTask, setKeywordDoneTask] = useState('')
   const [filteredData, setFilteredData] = useState<any>()
   const {
     loading: projectLoading,
@@ -37,10 +55,9 @@ function ProjectDetail() {
     data: projectData,
     refetch: projectRefetch,
   } = useQuery(GET_PROJECT_BY_ID, { variables: { id: Number(projectId) } })
-
-  const [developerVisible, setDeveloperVisible] = useState(false)
   const [todayTaskVisible, setTodayTaskVisible] = useState(false)
   const [doneTaskVisible, setDoneTaskVisible] = useState(false)
+  const [filterloading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!error && !loading && !projectLoading && !projectError) {
@@ -49,17 +66,59 @@ function ProjectDetail() {
         .filter((filteredStatus: any) => filteredStatus.isDone === true)
 
       setFilteredTasks(data.getTaskByProjectId)
+      setFilteredTodayTasks(data.getTaskByProjectId)
+      setFilteredDoneTasks(data.getTaskByProjectId)
       setFilteredLog(data.getTaskByProjectId)
       setFilteredData(projectData.project)
     }
   }, [projectId, loading, error, projectLoading, projectError, data, projectData])
 
-  function closeDawer() {
-    setDrawerVisible(false)
+  function handleKeywordChange(e: any) {
+    setLoading(true)
+    setKeyword(e.target.value)
+    if (e.target.value === '') {
+      setFilteredTasks(data.getTaskByProjectId)
+      setLoading(false)
+    } else {
+      const kw: any[] = data.getTaskByProjectId.filter((item: any) =>
+        item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+      setFilteredTasks(kw)
+      setLoading(false)
+    }
+    setLoading(false)
   }
 
-  function showModalDeveloper() {
-    setDeveloperVisible(true)
+  function handleKeywordTodayTaskChange(e: any) {
+    setLoading(true)
+    setKeywordTodayTask(e.target.value)
+    if (e.target.value === '') {
+      setFilteredTodayTasks(data.getTaskByProjectId)
+      setLoading(false)
+    } else {
+      const kw: any[] = data.getTaskByProjectId.filter((item: any) =>
+        item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+      setFilteredTodayTasks(kw)
+      setLoading(false)
+    }
+    setLoading(false)
+  }
+
+  function handleKeywordDoneTaskChange(e: any) {
+    setLoading(true)
+    setKeywordDoneTask(e.target.value)
+    if (e.target.value === '') {
+      setFilteredDoneTasks(data.getTaskByProjectId)
+      setLoading(false)
+    } else {
+      const kw: any[] = data.getTaskByProjectId.filter((item: any) =>
+        item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+      setFilteredDoneTasks(kw)
+      setLoading(false)
+    }
+    setLoading(false)
   }
 
   function showModalTodayTask() {
@@ -71,20 +130,32 @@ function ProjectDetail() {
   }
 
   function handleCancel() {
-    setDeveloperVisible(false)
     setTodayTaskVisible(false)
     setDoneTaskVisible(false)
   }
 
   return projectLoading || !filteredData ? (
-    <LayoutDashboard noCard>
-      <Spin size="large" className="flex justify-center" />
+    <LayoutDashboard>
+      <Spin size="large" className="flex justify-center pt-4" />
     </LayoutDashboard>
   ) : (
-    <LayoutDashboard noCard>
-      <Row className="w-full">
+    <LayoutDashboard>
+      <Breadcrumb className="pl-6 pt-4">
+        <Breadcrumb.Item>
+          <Link to={{ pathname: `/projects` }}>Projects</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>{filteredData.projectName}</Breadcrumb.Item>
+      </Breadcrumb>
+      <PageHeader
+        className="site-page-header"
+        title={filteredData.projectName}
+        onBack={() => window.history.back()}
+      />
+      <Divider />
+
+      <Row className="w-full mb-8 px-8">
         <Row className="w-full">
-          <Col span={24}>
+          <Col xs={24}>
             <ProjectContent data={filteredData} refetch={() => projectRefetch()} />
           </Col>
         </Row>
@@ -92,122 +163,147 @@ function ProjectDetail() {
           <Col xl={6} lg={6} md={12} className="py-8 px-4">
             <div className="flex flex-col sm:flex-row lg:flex-col ">
               <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card hoverable className="min-w-full rounded-lg min-h-full">
+                <Card hoverable className="min-w-full min-h-full">
                   <div className="flex flex-col justify-center items-center">
-                    <ScheduleOutlined
-                      style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
-                    />
-                    <Title level={3} className="text-center">
-                      {new Date(filteredData.dueDate).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
-                    </Title>
-                    <Text disabled className="text-md -mt-2 text-center">
+                    <CalendarOutlined className="text-blue-700 text-4xl" />
+                    <Text className="text-center font-bold text-lg">
+                      {dayjs(filteredData.dueDate).format('DD MMM YYYY')}
+                    </Text>
+                    <Text type="secondary" className="text-center">
                       Release Date
                     </Text>
                   </div>
                 </Card>
               </Col>
               <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card hoverable className="min-w-full rounded-lg min-h-full">
-                  <div
-                    className="flex flex-col justify-center items-center"
-                    onClick={showModalDeveloper}
-                  >
-                    <SmileOutlined
-                      style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
-                    />
-                    <Title level={3} className="text-center">
+                <Card hoverable className="min-w-full min-h-full">
+                  <div className="flex flex-col justify-center items-center">
+                    <UsergroupAddOutlined className="text-blue-700 text-4xl" />
+                    <Text className="text-center font-bold text-lg">
                       {filteredData.members.length}
-                    </Title>
-                    <Text disabled className="text-md -mt-2 text-center">
-                      Developer
+                    </Text>
+                    <Text type="secondary" className="text-center">
+                      Members
                     </Text>
                   </div>
-                  <Modal visible={developerVisible} onCancel={handleCancel} footer={null}>
-                    <List
-                      itemLayout="horizontal"
-                      dataSource={filteredData.members}
-                      renderItem={(item: any) => (
-                        <Link to={`/profile/${item.id}`}>
-                          <List.Item>
-                            <List.Item.Meta
-                              avatar={
-                                <Avatar
-                                  src={
-                                    item.image
-                                      ? item.image.fullPath
-                                      : require('../assets/images/logo5.png')
-                                  }
-                                />
-                              }
-                              title={<Text>{item.name}</Text>}
-                            />
-                          </List.Item>
-                        </Link>
-                      )}
-                    />
-                  </Modal>
                 </Card>
               </Col>
               <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card hoverable className="min-w-full rounded-lg min-h-full">
+                <Card hoverable className="min-w-full min-h-full">
                   <div
                     className="flex flex-col justify-center items-center"
                     onClick={showModalTodayTask}
                   >
-                    <ProfileOutlined
-                      style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
-                    />
-                    <Title level={3} className="text-center">
+                    <ProfileOutlined className="text-blue-700 text-4xl" />
+                    <Text className="text-center font-bold text-lg">
                       {filteredTasks &&
                         filteredTasks.filter((item: any) => item.isDone === false).length}
-                    </Title>
-                    <Text disabled className="text-md -mt-2 text-center">
+                    </Text>
+                    <Text type="secondary" className="text-center">
                       Today's tasks
                     </Text>
                   </div>
-                  <Modal visible={todayTaskVisible} onCancel={handleCancel} footer={null}>
-                    <List
-                      itemLayout="horizontal"
-                      dataSource={filteredTasks.filter((item: any) => item.isDone === false)}
-                      renderItem={(item: any) => (
-                        <List.Item>
-                          <List.Item.Meta title={<Text>{item.taskName}</Text>} />
-                        </List.Item>
+                  <Modal
+                    visible={todayTaskVisible}
+                    width={'80%'}
+                    title={<Text className="font-bold">Today's tasks</Text>}
+                    onCancel={handleCancel}
+                    footer={null}
+                  >
+                    <Row justify="end" className="mb-4">
+                      <Input
+                        placeholder="Search Today's Tasks"
+                        value={keywordTodayTask}
+                        onChange={handleKeywordTodayTaskChange}
+                        suffix={<SearchOutlined type="secondary" />}
+                        className="w-96"
+                      />
+                    </Row>
+                    <Col className="px-24 w-full">
+                      {filteredTodayTasks && !loading ? (
+                        filteredTodayTasks.filter((item: any) => item.isDone === false).length !==
+                        0 ? (
+                          filteredTodayTasks
+                            .filter((item: any) => item.isDone === false)
+                            .map((item: any) => (
+                              <TaskCard
+                                key={item.id}
+                                data={item}
+                                project={filteredData}
+                                refetch={() => refetch()}
+                              />
+                            ))
+                        ) : (
+                          <div className="flex justify-center items-center p-8">
+                            <Empty
+                              image={Empty.PRESENTED_IMAGE_SIMPLE}
+                              description={<Text type="secondary">No Tasks</Text>}
+                            />
+                          </div>
+                        )
+                      ) : (
+                        <LoadingComponent task />
                       )}
-                    />
+                    </Col>
                   </Modal>
                 </Card>
               </Col>
               <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card hoverable className="min-w-full rounded-lg min-h-full">
+                <Card hoverable className="min-w-full min-h-full">
                   <div
                     className="flex flex-col justify-center items-center"
                     onClick={showModalDoneTask}
                   >
-                    <FileDoneOutlined
-                      style={{ color: '#105EFC', fontSize: '2.5rem', marginBottom: 8 }}
-                    />
-                    <Title level={3} className="text-center">
+                    <FileDoneOutlined className="text-blue-700 text-4xl" />
+                    <Text className="text-center font-bold text-lg">
                       {filteredTasks && filteredTasks.filter((item: any) => item.isDone).length}
-                    </Title>
-                    <Text disabled className="text-md -mt-2 text-center">
+                    </Text>
+                    <Text type="secondary" className="text-center">
                       Done tasks
                     </Text>
                   </div>
-                  <Modal visible={doneTaskVisible} onCancel={handleCancel} footer={null}>
-                    <List
-                      itemLayout="horizontal"
-                      dataSource={filteredTasks.filter((item: any) => item.isDone === true)}
-                      renderItem={(item: any) => (
-                        <List.Item>
-                          <List.Item.Meta title={<Text>{item.taskName}</Text>} />
-                        </List.Item>
+                  <Modal
+                    visible={doneTaskVisible}
+                    width={'80%'}
+                    title={<Text className="font-bold">Done tasks</Text>}
+                    onCancel={handleCancel}
+                    footer={null}
+                  >
+                    <Row justify="end" className="mb-4">
+                      <Input
+                        placeholder="Search Done Tasks"
+                        value={keywordDoneTask}
+                        onChange={handleKeywordDoneTaskChange}
+                        suffix={<SearchOutlined type="secondary" />}
+                        className="w-96"
+                      />
+                    </Row>
+                    <Col className="px-24 w-full">
+                      {filteredDoneTasks && !loading ? (
+                        filteredDoneTasks.filter((item: any) => item.isDone === true).length !==
+                        0 ? (
+                          filteredDoneTasks
+                            .filter((item: any) => item.isDone === true)
+                            .map((item: any) => (
+                              <TaskCard
+                                key={item.id}
+                                data={item}
+                                project={filteredData}
+                                refetch={() => refetch()}
+                              />
+                            ))
+                        ) : (
+                          <div className="flex justify-center items-center p-8">
+                            <Empty
+                              image={Empty.PRESENTED_IMAGE_SIMPLE}
+                              description={<Text type="secondary">No Tasks</Text>}
+                            />
+                          </div>
+                        )
+                      ) : (
+                        <LoadingComponent task />
                       )}
-                    />
+                    </Col>
                   </Modal>
                 </Card>
               </Col>
@@ -216,25 +312,23 @@ function ProjectDetail() {
           <Col xl={18} lg={18} md={24}>
             <div className="py-8 px-4">
               <Row justify="space-between">
-                <div className="font-bold text-2xl mb-4">Tasks</div>
-                <div>
-                  <Button
-                    className="flex items-center justify-center bg-primaryopacity shadow-md hover:shadow-lg hover:bg-primary transition duration-200 ease-in outline-none border-0 "
-                    type="primary"
-                    size="large"
-                    shape="round"
-                    onClick={() => setDrawerVisible(true)}
-                  >
-                    <PlusCircleOutlined className="hover:scale-150 " />
-                    <Text className="hidden hover:block text-white">Create</Text>
-                  </Button>
-                  <TaskDrawer
-                    visibillity={drawerVisible}
-                    onCloseDrawer={closeDawer}
-                    project={filteredData}
-                    refetch={() => refetch()}
+                <Text className="font-bold text-lg mb-4">Tasks</Text>
+                <Row>
+                  <Input
+                    placeholder="Search Tasks"
+                    value={keyword}
+                    onChange={handleKeywordChange}
+                    suffix={<SearchOutlined type="secondary" />}
+                    className="w-96 h-8"
                   />
-                </div>
+                  <Button
+                    className="flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
+                    type="primary"
+                  >
+                    <PlusOutlined />
+                    Create
+                  </Button>
+                </Row>
               </Row>
 
               {filteredTasks && !loading ? (
@@ -251,7 +345,7 @@ function ProjectDetail() {
                   <div className="flex justify-center items-center p-8">
                     <Empty
                       image={Empty.PRESENTED_IMAGE_SIMPLE}
-                      description={<Text disabled>No Tasks</Text>}
+                      description={<Text type="secondary">No Tasks</Text>}
                     />
                   </div>
                 )
@@ -263,11 +357,11 @@ function ProjectDetail() {
         </Row>
         <Row className="w-full px-2">
           <Col span={24}>
-            <div className="font-bold text-2xl mb-4">Recent Activity</div>
+            <Text className="font-bold text-lg">Recent Activity</Text>
             <div className="h-64">
               {filteredLog.length === 0 ? (
                 <div className="flex justify-center items-center p-8">
-                  <Text disabled>No recent activity</Text>
+                  <Text type="secondary">No recent activity</Text>
                 </div>
               ) : (
                 <LogList data={filteredLog} />
