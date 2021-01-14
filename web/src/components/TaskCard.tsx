@@ -1,63 +1,21 @@
 import {
   CheckCircleOutlined,
   CommentOutlined,
-  DeleteOutlined,
-  ExclamationCircleOutlined,
-  MoreOutlined,
   PaperClipOutlined,
+  UserOutlined,
+  WarningOutlined,
 } from '@ant-design/icons'
-import { useMutation } from '@apollo/client'
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  Dropdown,
-  Menu,
-  Modal,
-  Popover,
-  Row,
-  Tooltip,
-  Typography,
-} from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Avatar, Card, Col, Popover, Row, Space, Tag, Tooltip, Typography } from 'antd'
+import dayjs from 'dayjs'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { TOGGLE_TASK_DONE } from '../services/api/task'
-import LoadingComponent from './LoadingComponent'
-import TaskOverlay from './TaskOverlay'
 
-function TaskCard({ data, project, refetch }: any) {
+function TaskCard({ data }: any) {
   const { Text } = Typography
   const showItems: any[] = []
-  const [modalVisible, setModalVisible] = useState(false)
-  const [taskData, setTaskData]: any = useState({})
-  const [toggleIsDone, { loading }] = useMutation(TOGGLE_TASK_DONE)
-  const [isDone] = useState(false)
-  const [isHovering, setIsHovering]: any = useState(false)
-  const { confirm } = Modal
-
-  useEffect(() => {
-    setTaskData(data)
-  }, [data])
-
-  function toggleModal() {
-    refetch()
-    setModalVisible(false)
-  }
-
-  function openModal() {
-    setModalVisible(true)
-  }
-
-  function onUnDoneClick() {
-    toggleIsDone({ variables: { id: data.id, isDone: isDone } })
-    refetch()
-  }
-
-  function onDoneClick() {
-    toggleIsDone({ variables: { id: data.id, isDone: !isDone } })
-    refetch()
-  }
+  dayjs.locale(navigator.languages[0].toLowerCase())
+  dayjs.extend(LocalizedFormat)
 
   function renderShowItems(item: any) {
     for (let i = 0; i < item.length; ++i) {
@@ -66,14 +24,25 @@ function TaskCard({ data, project, refetch }: any) {
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
             <Link to={{ pathname: `/profile/${item[i].id}` }}>
               <Tooltip placement="top" title={item[i].name}>
-                <Avatar
-                  key={item[i].id}
-                  src={
-                    item[i].image ? item[i].image.fullPath : require('../assets/images/logo5.png')
-                  }
-                  className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
-                  alt={item[i].name}
-                />
+                {item[i].image ? (
+                  <Avatar
+                    key={item[i].id}
+                    src={
+                      item[i].image
+                        ? item[i].image.fullPath
+                        : require('../assets/images/unknown_user.png')
+                    }
+                    className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
+                    alt={item[i].name}
+                  />
+                ) : (
+                  <Avatar
+                    key={item[i].id}
+                    icon={<UserOutlined />}
+                    className="ml-2 cursor-pointer bg-gray-300 shadow-lg bg-primary flex items-center justify-center"
+                    alt={item[i].name}
+                  />
+                )}
               </Tooltip>
             </Link>
           </Col>
@@ -89,13 +58,17 @@ function TaskCard({ data, project, refetch }: any) {
                 >
                   +{item.length - 3}
                 </div>
-                <Avatar
-                  src={
-                    item[3].image ? item[3].image.fullPath : require('../assets/images/logo5.png')
-                  }
-                  className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
-                  style={{ filter: 'brightness(0.6)' }}
-                ></Avatar>
+                {item[3].image ? (
+                  <Avatar
+                    src={item[3].image ? item[3].image.fullPath : null}
+                    className="ml-2 bg-black flex justify-center items-center cursor-pointer z-0 shadow-lg"
+                  />
+                ) : (
+                  <Avatar
+                    icon={<UserOutlined />}
+                    className="ml-2 cursor-pointer bg-gray-300 shadow-lg bg-primary flex items-center justify-center"
+                  />
+                )}
               </div>
             </Popover>
           </Col>
@@ -114,11 +87,13 @@ function TaskCard({ data, project, refetch }: any) {
             <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
               <Avatar
                 key={items.id}
-                src={items.image ? items.image.fullPath : require('../assets/images/logo5.png')}
+                src={
+                  items.image ? items.image.fullPath : require('../assets/images/unknown_user.png')
+                }
                 className="ml-2"
                 alt={items.name}
               />
-              <div className="ml-4 text-lg">{items.name}</div>
+              <div className="ml-4 text-base">{items.name}</div>
             </div>
           </Link>
         ))}
@@ -126,141 +101,65 @@ function TaskCard({ data, project, refetch }: any) {
     )
   }
 
-  function menu() {
-    return (
-      <Menu>
-        <Menu.Item
-          icon={<DeleteOutlined />}
-          className="flex flex-row px-4 items-center text-red-400 hover:bg-red-400 hover:text-white"
-          onClick={() => {
-            confirm({
-              title: 'Are you sure to delete this task?',
-              icon: <ExclamationCircleOutlined />,
-              okText: 'Yes',
-              okType: 'danger',
-              cancelText: 'No',
-            })
-          }}
-        >
-          Delete
-        </Menu.Item>
-      </Menu>
-    )
-  }
-
-  return loading || !taskData ? (
-    <LoadingComponent task />
-  ) : (
-    <Card
-      hoverable
-      className="w-full rounded-lg px-2 py-1 mb-4 cursor-pointer"
-      onClick={openModal}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      <TaskOverlay
-        onCloseModal={toggleModal}
-        visibleTask={modalVisible}
-        data={taskData}
-        project={project}
-        refetch={refetch}
-      />
-      <Row gutter={[8, 16]}>
-        <Row className="flex items-start justify-center">
-          <Col>
-            <Row className="flex items-center w-full">
-              <Row className="flex items-center space-between">
-                <Text className="font-bold text-xl ml-2">{data.taskName}</Text>
-                {data.files.length !== 0 ? (
-                  <PaperClipOutlined className="ml-2 text-gray-500" />
-                ) : (
-                  <div />
-                )}
-                {data.comments.length !== 0 ? (
-                  <CommentOutlined className="ml-2 text-gray-500" />
-                ) : (
-                  <div />
-                )}
-
-                <div>
-                  {isHovering ? (
-                    <Dropdown overlay={menu} className="flex justify-end items-end">
-                      <Button
-                        type="text"
-                        shape="circle"
-                        icon={<MoreOutlined />}
-                        className="flex items-center justify-center"
-                      />
-                    </Dropdown>
+  return (
+    <Link to={{ pathname: `/task/${data.id}` }}>
+      <Card hoverable className="min-w-full">
+        <Row className="w-full">
+          <Col xs={24}>
+            <Row justify="space-between">
+              <Col xs={21}>
+                <Space direction="horizontal" size={2}>
+                  <Text className="font-bold">{data.taskName}</Text>
+                  {data.files.length !== 0 ? (
+                    <PaperClipOutlined className="ml-2 text-gray-500" />
                   ) : (
-                    ''
+                    <div />
                   )}
-                </div>
-              </Row>
+                  {data.comments.length !== 0 ? (
+                    <CommentOutlined className="ml-2 text-gray-500" />
+                  ) : (
+                    <div />
+                  )}
+                </Space>
+              </Col>
+              <Col xs={3}>
+                {data.status === 'done' ? (
+                  <Tag
+                    color="green"
+                    className="flex items-center justify-center"
+                    icon={<CheckCircleOutlined />}
+                  >
+                    Done
+                  </Tag>
+                ) : (
+                  <Tag
+                    color="red"
+                    className="flex items-center justify-center"
+                    icon={<WarningOutlined />}
+                  >
+                    WIP
+                  </Tag>
+                )}
+              </Col>
             </Row>
-            <Col className="ml-2">
-              {data.endTime ? (
-                <Text disabled>
-                  {new Date(data.startTime || 0).toLocaleDateString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}{' '}
-                  -{' '}
-                  {new Date(data.endTime || 0).toLocaleDateString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </Text>
-              ) : (
-                <Text disabled>
-                  {new Date(data.startTime || 0).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </Text>
-              )}
-            </Col>
+
+            <Row className="mt-2">
+              <Col xs={24} lg={16}>
+                <Space direction="vertical">
+                  <Text type="secondary">{`${dayjs(data.startTime).format(
+                    'DD/MMM/YYYY LT'
+                  )} - ${dayjs(data.endTime).format('DD/MMM/YYYY LT')}`}</Text>
+                  <Text>{data.taskDetail}</Text>
+                </Space>
+              </Col>
+              <Col xs={24} lg={8}>
+                <Row className="flex justify-end items-end">{renderShowItems(data.members)}</Row>
+              </Col>
+            </Row>
           </Col>
         </Row>
-
-        <Col span={24}>
-          <Text className="text-lg">{data.taskDetail}</Text>
-        </Col>
-        <Col span={24}>
-          <Row className="justify-between">
-            <Col className=" min-h-full">
-              <Row className="justify-end items-end">{renderShowItems(data.members)}</Row>
-            </Col>
-
-            <Row className="flex items-center justify-center">
-              {taskData.isDone ? (
-                <Button
-                  className="flex items-center justify-center shadow-md hover:shadow-lg bg-green-400 focus:bg-green-600 hover:bg-red-600 transition duration-800 ease-in border-0 w-24"
-                  type="primary"
-                  shape="round"
-                  size="large"
-                  onClick={onUnDoneClick}
-                >
-                  <CheckCircleOutlined className="hover:hidden" />
-                  <Text className="hover:block hidden text-white">Done</Text>
-                </Button>
-              ) : (
-                <Button
-                  className="flex items-center justify-center shadow-md hover:shadow-lg bg-red-400 focus:bg-red-600 hover:bg-green-600 transition duration-800 ease-in border-0 w-24"
-                  type="primary"
-                  shape="round"
-                  size="large"
-                  onClick={onDoneClick}
-                >
-                  <ExclamationCircleOutlined />
-                  <Text className="hover:hidden text-white">WIP</Text>
-                </Button>
-              )}
-            </Row>
-          </Row>
-        </Col>
-      </Row>
-    </Card>
+      </Card>
+    </Link>
   )
 }
 

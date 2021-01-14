@@ -1,10 +1,10 @@
-import { CheckCircleOutlined, SyncOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Card, Col, Popover, Row, Tag, Tooltip, Typography } from 'antd'
+import { CheckCircleOutlined, UserOutlined, WarningOutlined } from '@ant-design/icons'
+import { Avatar, Card, Col, Popover, Row, Space, Tag, Tooltip, Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 function ProjectCard({ data }: any) {
-  const { Title, Text } = Typography
+  const { Text } = Typography
   const showItems: any[] = []
 
   function renderShowItems(item: any) {
@@ -18,7 +18,9 @@ function ProjectCard({ data }: any) {
                   <Avatar
                     key={item[i].id}
                     src={
-                      item[i].image ? item[i].image.fullPath : require('../assets/images/logo5.png')
+                      item[i].image
+                        ? item[i].image.fullPath
+                        : require('../assets/images/unknown_user.png')
                     }
                     className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
                     alt={item[i].name}
@@ -75,7 +77,9 @@ function ProjectCard({ data }: any) {
             <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
               <Avatar
                 key={items.id}
-                src={items.image ? items.image.fullPath : require('../assets/images/logo5.png')}
+                src={
+                  items.image ? items.image.fullPath : require('../assets/images/unknown_user.png')
+                }
                 className="ml-2"
                 alt={items.name}
               />
@@ -89,51 +93,54 @@ function ProjectCard({ data }: any) {
 
   return (
     <Link to={{ pathname: `/projects/${data.id}` }}>
-      <>
-        <Card hoverable className="min-w-full rounded-lg">
-          <Row gutter={[8, 8]} className="w-full">
-            <Col span={24}>
-              <Row className="flex justify-between">
-                <Title level={4} className="font-bold">
-                  {data.projectName}
-                </Title>
-                <div>
-                  {data.status === 'done' ? (
-                    <Tag
-                      className="rounded-full py-1 px-2 bg-successop border-0 flex items-center"
-                      icon={<CheckCircleOutlined />}
-                    >
-                      <Text className="font-bold">Done</Text>
-                    </Tag>
-                  ) : (
-                    <Tag
-                      className="rounded-full py-1 px-2 bg-progressop border-0 flex items-center"
-                      icon={<SyncOutlined />}
-                    >
-                      <Text className="font-bold">In Progress</Text>
-                    </Tag>
-                  )}
-                </div>
-              </Row>
-              <Text disabled className="text-md -">
-                {data.projectType}
-              </Text>
-              <Row>
-                <Col span={24} lg={{ span: 16 }}>
-                  <div className="mt-4">
-                    <Text className="text-lg">{data.projectDetail.split('.', 1)}</Text>
-                  </div>
-                </Col>
-                <Col span={24} lg={{ span: 8 }}>
-                  <div className="items-end">
-                    <Row className="justify-end items-end">{renderShowItems(data.members)}</Row>
-                  </div>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Card>
-      </>
+      <Card
+        hoverable
+        className="min-w-full"
+        cover={
+          <img alt="projectImage" src={data.projectImage.fullPath} className="object-cover h-48" />
+        }
+      >
+        <Row className="w-full">
+          <Col xs={24}>
+            <Row justify="space-between">
+              <Col xs={18}>
+                <Space direction="vertical" size={2}>
+                  <Text className="font-bold">{data.projectName}</Text>
+                  <Text type="secondary">{data.projectType}</Text>
+                </Space>
+              </Col>
+              <Col xs={6}>
+                {data.status === 'done' ? (
+                  <Tag
+                    color="green"
+                    className="flex items-center justify-center"
+                    icon={<CheckCircleOutlined />}
+                  >
+                    Done
+                  </Tag>
+                ) : (
+                  <Tag
+                    color="red"
+                    className="flex items-center justify-center"
+                    icon={<WarningOutlined />}
+                  >
+                    WIP
+                  </Tag>
+                )}
+              </Col>
+            </Row>
+
+            <Row className="mt-2">
+              <Col xs={24} lg={16}>
+                <Text>{data.projectDetail}</Text>
+              </Col>
+              <Col xs={24} lg={8}>
+                <Row className="flex justify-end items-end">{renderShowItems(data.members)}</Row>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Card>
     </Link>
   )
 }

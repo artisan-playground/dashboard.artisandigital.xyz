@@ -13,11 +13,13 @@ import ContentCreate from './ContentCreate'
 import EditProjectDetail from './EditProjectDetail'
 import EditTaskDetail from './EditTaskDetail'
 import EmployeeCard from './EmployeeCard'
+import FormCard from './FormCard'
 import Notify from './Notify'
 import ProjectContent from './ProjectContent'
 import ProjectCreate from './ProjectCreate'
 import TaskCreate from './TaskCreate'
 import TodayTaskCard from './TodayTaskCard'
+import ZoneCard from './ZoneCard'
 
 export {
   EventCard,
@@ -40,4 +42,6 @@ export {
   EditTaskDetail,
   ContentCard,
   ContentCreate,
+  ZoneCard,
+  FormCard,
 }

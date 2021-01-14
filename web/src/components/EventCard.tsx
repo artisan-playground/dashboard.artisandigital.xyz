@@ -60,7 +60,9 @@ function EventCard({ data }: any) {
                         <Avatar
                           key={item.id}
                           src={
-                            item.image ? item.image.fullPath : require('../assets/images/logo5.png')
+                            item.image
+                              ? item.image.fullPath
+                              : require('../assets/images/Artisan Digital_logo_mini.png')
                           }
                           alt={item.name}
                         ></Avatar>
