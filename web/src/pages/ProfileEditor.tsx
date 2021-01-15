@@ -33,13 +33,13 @@ function ProfileEditor() {
   }
 
   return loading || !userData ? (
-    <LayoutDashboard noCard>
+    <LayoutDashboard>
       <Card>
         <Spin size="large" className="flex justify-center" />
       </Card>
     </LayoutDashboard>
   ) : (
-    <LayoutDashboard noCard>
+    <LayoutDashboard>
       <Card>
         <Row>
           <Col span={14}>

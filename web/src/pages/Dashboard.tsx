@@ -92,7 +92,7 @@ function Dashboard() {
   }
 
   return (
-    <LayoutDashboard noCard>
+    <LayoutDashboard>
       <div className="px-8 py-8">
         <Row justify="space-between">
           <Col xs={15}>

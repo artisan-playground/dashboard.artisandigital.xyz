@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { Avatar, Card, Col, Row, Typography } from 'antd'
 import React, { useState } from 'react'
-import { EventCard, EventDrawer, LayoutDashboard } from '../components/DashboardComponent'
+import { EventCard, LayoutDashboard } from '../components/DashboardComponent'
 import { EVENT } from '../services/api/event'
 
 function News() {
@@ -15,13 +15,9 @@ function News() {
   }
 
   return (
-    <LayoutDashboard noCard>
+    <LayoutDashboard>
       <div className="font-bold text-2xl mb-4">Event</div>
-      <EventDrawer
-        visibillity={drawerVisible}
-        onCloseDrawer={closeDawer}
-        refetch={() => refetch()}
-      />
+
       <Row className="w-full overflow-y-auto mb-4 p-4">
         <EventCard data={data} />
       </Row>
