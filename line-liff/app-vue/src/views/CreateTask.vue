@@ -36,6 +36,28 @@
             </a-mentions-option>
           </a-mentions>
         </a-form-model-item>
+        <a-form-model-item label="Type" required prop="taskType" class="selectInput">
+          <a-select v-model="form.taskType" show-search placeholder="Select a Type" block>
+            <a-select-option value="">
+              <span style="color:#BDBDBD">Select a Type</span>
+            </a-select-option>
+            <a-select-option value="Web">
+              Web
+            </a-select-option>
+            <a-select-option value="Mobile">
+              Mobile
+            </a-select-option>
+            <a-select-option value="Design">
+              Design
+            </a-select-option>
+            <a-select-option value="Security">
+              Security
+            </a-select-option>
+            <a-select-option value="Data">
+              Data
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
         <a-form-model-item label="Date" prop="startTime">
           <a-form-model-item
             prop="startTime"
@@ -110,6 +132,7 @@ export default {
       form: {
         taskName: '',
         member: '',
+        taskType: '',
         taskDetail: '',
         startTime: '',
         endTime: '',
@@ -117,6 +140,7 @@ export default {
       rules: {
         taskName: [{ required: true, message: 'Please enter Task name', trigger: 'blur' }],
         member: [{ required: true, message: 'Please enter Task member', trigger: 'change' }],
+        taskType: [{ required: true, message: 'Please enter Project Type', trigger: 'change' }],
         startTime: [{ required: true, message: 'Please enter Task start date', trigger: 'change' }],
         endTime: [{ required: true, message: 'Please enter Task end date', trigger: 'change' }],
         taskDetail: [{ required: true, message: 'Please enter Task description', trigger: 'blur' }],
@@ -135,6 +159,7 @@ export default {
         .map(val => val.id)
       if (
         this.form.taskName !== '' &&
+        this.form.taskType !== '' &&
         this.form.taskDetail !== '' &&
         this.form.startTime !== '' &&
         this.form.endTime !== '' &&
@@ -146,6 +171,7 @@ export default {
             variables: {
               projectId: parseInt(this.$route.params.id),
               taskName: this.form.taskName,
+              taskType: this.form.taskType,
               taskDetail: this.form.taskDetail,
               startTime: this.form.startTime,
               endTime: this.form.endTime,
@@ -155,6 +181,7 @@ export default {
           })
           this.taskName = ''
           this.taskDetail = ''
+          this.taskType = ''
           this.startTime = ''
           this.endTime = ''
           this.member = ''
@@ -165,16 +192,7 @@ export default {
         }
       }
 
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          return true
-        } else {
-          return false
-        }
-      })
-    },
-    resetForm() {
-      this.$refs.ruleForm.resetFields()
+      this.$refs.ruleForm.validate(isValid => isValid)
     },
   },
 }
