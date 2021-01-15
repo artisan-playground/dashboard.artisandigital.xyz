@@ -114,6 +114,7 @@ model Zone {
   latitude  String
   timestamp DateTime?  @default(now())
   radius    String
+  open      Boolean?   @default(value: true)
 }
 
 model Content {

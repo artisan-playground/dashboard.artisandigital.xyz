@@ -9,6 +9,7 @@ const zoneObjectType = objectType({
     t.model.latitude()
     t.model.timestamp()
     t.model.radius()
+    t.model.open()
   },
 })
 
