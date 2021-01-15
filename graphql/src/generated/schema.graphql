@@ -2009,6 +2009,7 @@ type Zone {
   latitude: String!
   longitude: String!
   name: String!
+  open: Boolean
   radius: String!
   timestamp: DateTime
 }
@@ -2017,6 +2018,7 @@ input ZoneCreateInput {
   latitude: String!
   longitude: String!
   name: String!
+  open: Boolean
   radius: String!
   timestamp: DateTime
 }
@@ -2025,6 +2027,7 @@ input ZoneUpdateInput {
   latitude: StringFieldUpdateOperationsInput
   longitude: StringFieldUpdateOperationsInput
   name: StringFieldUpdateOperationsInput
+  open: NullableBoolFieldUpdateOperationsInput
   radius: StringFieldUpdateOperationsInput
   timestamp: NullableDateTimeFieldUpdateOperationsInput
 }
