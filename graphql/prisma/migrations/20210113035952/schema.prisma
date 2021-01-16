@@ -114,6 +114,7 @@ model Zone {
   latitude  String
   timestamp DateTime?  @default(now())
   radius    String
+  open      Boolean?   @default(value: false)
 }
 
 model Content {
@@ -143,6 +144,31 @@ model Notification {
   sender    User      @relation(name:"senderNotify",fields: [senderId], references: [id])
   senderId  Int
   receiver  User[]
+}
+
+model Form {
+  id        Int     @id @default(autoincrement())
+  forms      FormComponent[]
+}
+
+model FormComponent {
+  id        Int     @id @default(autoincrement())
+  label     String
+  type      String
+  timestamp DateTime?  @default(now())
+  check     Boolean?   @default(value: false)
+  option    Option[]
+  example   Example[]
+}
+
+model Option {
+  id        Int     @id @default(autoincrement())
+  message   String?
+}
+
+model Example {
+  id        Int     @id @default(autoincrement())
+  message   String?
 }
 
 enum Role {

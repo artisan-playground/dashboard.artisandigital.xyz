@@ -1,0 +1,177 @@
+generator prisma_client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+model User {
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  name          String
+  image         Image?          @relation(fields: [imageId], references: [id])
+  imageId       Int?
+  position      String?
+  department    String?
+  type          String?
+  phone         String?
+  comments      Comment[]
+  projects      Project[]
+  tasks         Task[]
+  event         Event[]
+  startDate     DateTime?        @default(now())
+  dueDate       DateTime?
+  notifications Notification[]
+  contents      Content[]
+  role          Role             @default(USER)
+}
+
+model Project {
+  id              Int             @id @default(autoincrement())
+  projectName     String?
+  projectType     String?
+  projectDetail   String?
+  projectImage    ProjectImage?   @relation(fields: [projectImageId], references: [id])
+  projectImageId  Int?
+  status          String?         @default(value: "undone")
+  createdAt        DateTime?       @default(now())
+  dueDate         DateTime?
+  members         User[]
+  tasks           Task[]
+}
+
+model Task {
+  id         Int          @id @default(autoincrement())
+  project    Project      @relation(fields: [projectId], references: [id])
+  projectId  Int
+  taskName   String?
+  startTime  DateTime?    @default(now())
+  endTime    DateTime?
+  taskDetail String?
+  taskType   String?
+  isDone     Boolean?     @default(value: false)
+  members    User[]
+  files      File[]
+  comments   Comment[]
+}
+
+model File {
+  task      Task
+  id        Int     @id @default(autoincrement())
+  fileName  String
+  fullPath  String
+  path      String
+  extension String
+  endpoint  String
+}
+
+model Comment {
+  id        Int        @id @default(autoincrement())
+  user      User       @relation(fields: [userId], references: [id])
+  userId    Int
+  task      Task       @relation(fields: [taskId], references: [id])
+  taskId    Int
+  timestamp DateTime?  @default(now())
+  message   String?
+  replyId   Int?
+  reply     Comment?   @relation("ReplyComment", fields: [replyId], references: [id])
+}
+
+model Event {
+  id        Int        @id @default(autoincrement())
+  eventDate DateTime?  @default(now())
+  endDate   DateTime?
+  eventName String
+  note      String?
+  tag       String?
+  invited   User[]
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  fileName  String
+  fullPath  String
+  path      String
+  extension String
+  endpoint  String
+}
+
+model ProjectImage {
+  id        Int     @id @default(autoincrement())
+  fileName  String
+  fullPath  String
+  path      String
+  extension String
+  endpoint  String
+}
+
+model Zone {
+  id        Int     @id @default(autoincrement())
+  name      String
+  longitude String
+  latitude  String
+  timestamp DateTime?  @default(now())
+  radius    String
+  open      Boolean?   @default(value: true)
+}
+
+model Content {
+  id            Int             @id @default(autoincrement())
+  subject       String
+  content       String
+  contentImage  ContentImage[]
+  timestamp     DateTime?       @default(now())
+  user          User            @relation(fields: [userId], references: [id])
+  userId        Int
+}
+
+model ContentImage {
+  id        Int     @id @default(autoincrement())
+  fileName  String
+  fullPath  String
+  path      String
+  extension String
+  endpoint  String
+}
+
+model Notification {
+  id        Int       @id @default(autoincrement())
+  message   String
+  timestamp DateTime? @default(now())
+  type      String
+  sender    User      @relation(name:"senderNotify",fields: [senderId], references: [id])
+  senderId  Int
+  receiver  User[]
+}
+
+model Form {
+  id        Int             @id @default(autoincrement())
+  forms     FormComponent[]
+  timestamp DateTime?       @default(now())
+}
+
+model FormComponent {
+  id        Int     @id @default(autoincrement())
+  label     String
+  type      String
+  check     Boolean?   @default(value: false)
+  option    Option[]
+  example   Example[]
+}
+
+model Option {
+  id        Int     @id @default(autoincrement())
+  message   String?
+}
+
+model Example {
+  id        Int     @id @default(autoincrement())
+  message   String?
+}
+
+enum Role {
+  ADMIN
+  USER
+}

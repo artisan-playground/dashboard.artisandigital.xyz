@@ -1,0 +1,21 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteModel",
+      "model": "Form"
+    },
+    {
+      "tag": "DeleteModel",
+      "model": "FormComponent"
+    },
+    {
+      "tag": "DeleteModel",
+      "model": "Option"
+    },
+    {
+      "tag": "DeleteModel",
+      "model": "Example"
+    }
+  ]
+}
