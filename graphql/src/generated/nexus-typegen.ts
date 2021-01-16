@@ -1614,6 +1614,7 @@ export interface NexusGenInputs {
     latitude: string; // String!
     longitude: string; // String!
     name: string; // String!
+    open?: boolean | null; // Boolean
     radius: string; // String!
     timestamp?: NexusGenScalars['DateTime'] | null; // DateTime
   }
@@ -1621,6 +1622,7 @@ export interface NexusGenInputs {
     latitude?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     longitude?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    open?: NexusGenInputs['NullableBoolFieldUpdateOperationsInput'] | null; // NullableBoolFieldUpdateOperationsInput
     radius?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     timestamp?: NexusGenInputs['NullableDateTimeFieldUpdateOperationsInput'] | null; // NullableDateTimeFieldUpdateOperationsInput
   }
@@ -2069,6 +2071,7 @@ export interface NexusGenFieldTypes {
     latitude: string; // String!
     longitude: string; // String!
     name: string; // String!
+    open: boolean | null; // Boolean
     radius: string; // String!
     timestamp: NexusGenScalars['DateTime'] | null; // DateTime
   }
@@ -2253,6 +2256,7 @@ export interface NexusGenFieldTypeNames {
     latitude: 'String'
     longitude: 'String'
     name: 'String'
+    open: 'Boolean'
     radius: 'String'
     timestamp: 'DateTime'
   }
