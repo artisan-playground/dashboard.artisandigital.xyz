@@ -103,9 +103,9 @@ function Member() {
       })
       createNotification({
         variables: {
-          update: `${user?.name} invited you to project ${data.project.name}`,
-          userId: members,
-          authorId: user?.id,
+          massage: `${user?.name} invited you to project ${data.project.name}`,
+          receiverId: members,
+          senderId: user?.id,
           type: 'invite',
         },
       })
@@ -257,7 +257,7 @@ function Member() {
   }
 
   return (
-    <LayoutDashboard noCard>
+    <LayoutDashboard>
       <Breadcrumb className="pl-6 pt-4">
         <Breadcrumb.Item>
           <Link to={{ pathname: `/projects` }}>Projects</Link>
