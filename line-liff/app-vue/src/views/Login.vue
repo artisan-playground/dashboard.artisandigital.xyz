@@ -10,16 +10,16 @@
       <div class="login_form">
         <a-form-model
           ref="ruleForm"
-          :model="ruleForm"
+          :model="form"
           :rules="rules"
           id="components-form-demo-normal-login"
           :form="form"
           class="login-form"
-          @submit.prevent="getUserByEmail(ruleForm.email)"
+          @submit.prevent="getUserByEmail(form.email)"
         >
           <a-form-model-item prop="email" style="margin-bottom: 10px;">
             <a-input
-              v-model="ruleForm.email"
+              v-model="form.email"
               autocomplete="off"
               placeholder="E-mail"
               addon-after="@artisan.co.th"
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       spinning: false,
-      ruleForm: {
+      form: {
         email: '',
       },
       rules: {
@@ -82,7 +82,6 @@ export default {
           this.$message.error('Invalid E-mail')
         }
       }
-      this.$refs.ruleForm.validate(isValid => isValid)
     },
   },
 }
