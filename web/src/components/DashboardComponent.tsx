@@ -10,8 +10,6 @@ import TaskCard from '../components/TaskCard'
 import WelcomeCard from '../components/WelcomeCard'
 import ContentCard from './ContentCard'
 import ContentCreate from './ContentCreate'
-import EditProjectDetail from './EditProjectDetail'
-import EditTaskDetail from './EditTaskDetail'
 import EmployeeCard from './EmployeeCard'
 import FormCard from './FormCard'
 import Notify from './Notify'
@@ -35,11 +33,9 @@ export {
   TaskCreate,
   ProjectCreate,
   ProjectContent,
-  EditProjectDetail,
   Notify,
   TodayTaskCard,
   EmployeeCard,
-  EditTaskDetail,
   ContentCard,
   ContentCreate,
   ZoneCard,
