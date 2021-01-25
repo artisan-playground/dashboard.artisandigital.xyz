@@ -4,17 +4,38 @@ import {
   PaperClipOutlined,
   WarningOutlined,
 } from '@ant-design/icons'
+import { useMutation } from '@apollo/client'
 import { Avatar, Card, Col, Popover, Row, Space, Tag, Tooltip, Typography } from 'antd'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { CREATE_NOTIFICATION } from '../services/api/notification'
+import { useStoreState } from '../store'
 
 function TaskCard({ data }: any) {
   const { Text } = Typography
   const showItems: any[] = []
   dayjs.locale(navigator.languages[0].toLowerCase())
   dayjs.extend(LocalizedFormat)
+  const [days, setDays] = useState(0)
+  const [hours, setHours] = useState(0)
+  const [minutes, setMinutes] = useState(0)
+  const [seconds, setSeconds] = useState(0)
+  const user = useStoreState((s) => s.userState.user)
+  const [deadlineNotify] = useMutation(CREATE_NOTIFICATION)
+
+  useEffect(() => {
+    setInterval(() => {
+      const now: any = dayjs()
+      const then: any = dayjs(data.endTime, 'YYYY-MM-DD HH:mm:ss')
+      const countdown: any = dayjs(then - now)
+      setDays(countdown.format('DD'))
+      setHours(countdown.format('HH'))
+      setMinutes(countdown.format('mm'))
+      setSeconds(countdown.format('ss'))
+    }, 1000)
+  })
 
   function renderShowItems(item: any) {
     for (let i = 0; i < item.length; ++i) {
@@ -84,9 +105,25 @@ function TaskCard({ data }: any) {
     )
   }
 
+  function deadline(item: any) {
+    deadlineNotify({
+      variables: {
+        message: `Your ${item} is almost deadline.`,
+        receiverId: Number(user?.id),
+        senderId: Number(user?.id),
+        type: 'time',
+      },
+    })
+  }
+
   return (
     <Link to={{ pathname: `/task/${data.id}` }}>
-      <Card hoverable className="min-w-full">
+      <Card hoverable className="min-w-full mb-4">
+        {days.toString() === '03' &&
+          hours.toString() === '23' &&
+          minutes.toString() === '59' &&
+          seconds.toString() === '59' &&
+          deadline(data.taskName)}
         <Row className="w-full">
           <Col xs={24}>
             <Row justify="space-between">
