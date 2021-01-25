@@ -20,6 +20,7 @@ import {
   message,
   Modal,
   PageHeader,
+  Pagination,
   Row,
   Select,
   Space,
@@ -62,6 +63,11 @@ function ProjectList() {
   const [userList, setUserList] = useState([])
   const dateFormat = 'DD MMM YYYY'
   const customFormat = (value: any) => `${value.format(dateFormat)}`
+  const [totalPage, setTotalPage] = useState(0)
+  const [current, setCurrent] = useState(1)
+  const [minIndex, setMinIndex] = useState(0)
+  const [maxIndex, setMaxIndex] = useState(0)
+  const pageSize = 8
 
   useEffect(() => {
     if (!error && !loading && !userLoading) {
@@ -81,13 +87,16 @@ function ProjectList() {
           setFilteredData(data.projects)
           break
       }
+      setUserList(userData && userData.users)
+      setImage(
+        imageData
+          ? imageData.uploadProjectImage.id
+          : imageUpdateData && imageUpdateData.updateProjectImage.id
+      )
+      setTotalPage(data.length / pageSize)
+      setMinIndex(0)
+      setMaxIndex(pageSize)
     }
-    setUserList(userData && userData.users)
-    setImage(
-      imageData
-        ? imageData.uploadProjectImage.id
-        : imageUpdateData && imageUpdateData.updateProjectImage.id
-    )
   }, [types, loading, error, data, userLoading, userData])
 
   function handleKeywordChange(e: any) {
@@ -194,6 +203,12 @@ function ProjectList() {
 
   function onChangeDate(_: any, dateString: any) {
     setDueDate(dateString[0])
+  }
+
+  function handleChangePagination(page: any) {
+    setCurrent(page)
+    setMinIndex((page - 1) * pageSize)
+    setMaxIndex(page * pageSize)
   }
 
   return (
@@ -371,11 +386,15 @@ function ProjectList() {
             <Row gutter={[8, 24]}>
               {filteredData && !error && !loading ? (
                 filteredData.length !== 0 ? (
-                  filteredData.map((items: any) => (
-                    <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
-                      <ProjectCard data={items} refetch={() => refetch()} />
-                    </Col>
-                  ))
+                  filteredData.map(
+                    (items: any, index: any) =>
+                      index >= minIndex &&
+                      index < maxIndex && (
+                        <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
+                          <ProjectCard data={items} refetch={() => refetch()} />
+                        </Col>
+                      )
+                  )
                 ) : (
                   <div className="flex w-full justify-center my-8">
                     <Empty
@@ -393,6 +412,16 @@ function ProjectList() {
             </Row>
           </div>
         )}
+
+        <div className="flex items-end justify-end">
+          <Pagination
+            pageSize={pageSize}
+            current={current}
+            total={filteredData && filteredData.length}
+            onChange={handleChangePagination}
+            hideOnSinglePage={true}
+          />
+        </div>
       </div>
     </LayoutDashboard>
   )

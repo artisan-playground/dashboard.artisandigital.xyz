@@ -1,12 +1,14 @@
 import {
   CalendarOutlined,
+  CloseCircleOutlined,
+  ExclamationCircleOutlined,
   FileDoneOutlined,
   PlusOutlined,
   ProfileOutlined,
   SearchOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import {
   Breadcrumb,
   Button,
@@ -14,14 +16,20 @@ import {
   Col,
   Divider,
   Empty,
+  Form,
   Input,
+  message,
   Modal,
   PageHeader,
+  Pagination,
   Row,
+  Select,
   Spin,
   Typography,
 } from 'antd'
-import dayjs from 'dayjs'
+import generatePicker from 'antd/es/date-picker/generatePicker'
+import dayjs, { Dayjs } from 'dayjs'
+import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
@@ -31,11 +39,14 @@ import {
   ProjectContent,
   TaskCard,
 } from '../components/DashboardComponent'
+import { CREATE_NOTIFICATION } from '../services/api/notification'
 import { GET_PROJECT_BY_ID } from '../services/api/project'
-import { TASKS_BY_ID } from '../services/api/task'
+import { ADD_TASK, TASKS_BY_ID } from '../services/api/task'
+import { useStoreState } from '../store'
 
 function ProjectDetail() {
   const { Text } = Typography
+  const { TextArea } = Input
   const { projectId }: any = useParams()
   const { loading, error, data, refetch } = useQuery(TASKS_BY_ID, {
     variables: { id: Number(projectId) },
@@ -58,6 +69,29 @@ function ProjectDetail() {
   const [todayTaskVisible, setTodayTaskVisible] = useState(false)
   const [doneTaskVisible, setDoneTaskVisible] = useState(false)
   const [filterloading, setLoading] = useState(false)
+  const [createTaskVisible, setCreateTaskVisible] = useState(false)
+  const [taskName, setTaskName] = useState()
+  const [type, setType] = useState()
+  const [member, setMember] = useState<any[]>([])
+  const [dueDate, setDueDate] = useState()
+  const [startTime, setStartTime] = useState()
+  const [description, setDescription] = useState()
+  const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
+  const dateFormat = 'DD MMM YYYY'
+  const customFormat = (value: any) => `${value.format(dateFormat)}`
+  const [createTask] = useMutation(ADD_TASK)
+  const [deadlineNotify] = useMutation(CREATE_NOTIFICATION)
+  const { RangePicker } = DatePicker
+  const [days, setDays] = useState(0)
+  const [hours, setHours] = useState(0)
+  const [minutes, setMinutes] = useState(0)
+  const [seconds, setSeconds] = useState(0)
+  const user = useStoreState((s) => s.userState.user)
+  const [totalPage, setTotalPage] = useState(0)
+  const [current, setCurrent] = useState(1)
+  const [minIndex, setMinIndex] = useState(0)
+  const [maxIndex, setMaxIndex] = useState(0)
+  const pageSize = 4
 
   useEffect(() => {
     if (!error && !loading && !projectLoading && !projectError) {
@@ -70,7 +104,19 @@ function ProjectDetail() {
       setFilteredDoneTasks(data.getTaskByProjectId)
       setFilteredLog(data.getTaskByProjectId)
       setFilteredData(projectData.project)
+      setTotalPage(data.length / pageSize)
+      setMinIndex(0)
+      setMaxIndex(pageSize)
     }
+    setInterval(() => {
+      const now: any = dayjs()
+      const then: any = dayjs('2021-01-28 08:07:17.264', 'YYYY-MM-DD HH:mm:ss')
+      const countdown: any = dayjs(then - now)
+      setDays(countdown.format('DD'))
+      setHours(countdown.format('HH'))
+      setMinutes(countdown.format('mm'))
+      setSeconds(countdown.format('ss'))
+    }, 1000)
   }, [projectId, loading, error, projectLoading, projectError, data, projectData])
 
   function handleKeywordChange(e: any) {
@@ -121,6 +167,10 @@ function ProjectDetail() {
     setLoading(false)
   }
 
+  function showCreateTask() {
+    setCreateTaskVisible(true)
+  }
+
   function showModalTodayTask() {
     setTodayTaskVisible(true)
   }
@@ -132,6 +182,54 @@ function ProjectDetail() {
   function handleCancel() {
     setTodayTaskVisible(false)
     setDoneTaskVisible(false)
+    setCreateTaskVisible(false)
+  }
+
+  function onChangeDate(_: any, dateString: any) {
+    if (dateString.length === 1) {
+      setStartTime(dateString[0])
+    } else if (dateString.length === 2) {
+      setStartTime(dateString[0])
+      setDueDate(dateString[1])
+    }
+  }
+
+  function handleCreateTask() {
+    if (taskName !== '' && type !== '' && description !== '') {
+      createTask({
+        variables: {
+          id: data.id,
+          taskName: taskName,
+          projectType: type,
+          projectDetail: description,
+        },
+      })
+        .then((res) => {
+          setTaskName(taskName)
+          setType(type)
+          setDescription(description)
+          refetch()
+        })
+        .catch((err) => {
+          message.error({
+            content: `Error : ${err}`,
+            duration: 2,
+            icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+          })
+        })
+    } else {
+      message.warning({
+        content: `Please insert all field`,
+        duration: 2,
+        icon: <ExclamationCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+      })
+    }
+  }
+
+  function handleChange(page: any) {
+    setCurrent(page)
+    setMinIndex((page - 1) * pageSize)
+    setMaxIndex(page * pageSize)
   }
 
   return projectLoading || !filteredData ? (
@@ -176,17 +274,19 @@ function ProjectDetail() {
                 </Card>
               </Col>
               <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
-                <Card hoverable className="min-w-full min-h-full">
-                  <div className="flex flex-col justify-center items-center">
-                    <UsergroupAddOutlined className="text-blue-700 text-4xl" />
-                    <Text className="text-center font-bold text-lg">
-                      {filteredData.members.length}
-                    </Text>
-                    <Text type="secondary" className="text-center">
-                      Members
-                    </Text>
-                  </div>
-                </Card>
+                <Link to={{ pathname: `/members/${filteredData.id}` }}>
+                  <Card hoverable className="min-w-full min-h-full">
+                    <div className="flex flex-col justify-center items-center">
+                      <UsergroupAddOutlined className="text-blue-700 text-4xl" />
+                      <Text className="text-center font-bold text-lg">
+                        {filteredData.members.length}
+                      </Text>
+                      <Text type="secondary" className="text-center">
+                        Members
+                      </Text>
+                    </div>
+                  </Card>
+                </Link>
               </Col>
               <Col xl={24} lg={24} md={12} className="w-full mb-4 sm:mr-4 lg:mb-4">
                 <Card hoverable className="min-w-full min-h-full">
@@ -311,7 +411,7 @@ function ProjectDetail() {
           </Col>
           <Col xl={18} lg={18} md={24}>
             <div className="py-8 px-4">
-              <Row justify="space-between">
+              <Row justify="space-between" className="mb-4">
                 <Text className="font-bold text-lg mb-4">Tasks</Text>
                 <Row>
                   <Input
@@ -324,23 +424,95 @@ function ProjectDetail() {
                   <Button
                     className="flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
                     type="primary"
+                    onClick={showCreateTask}
                   >
                     <PlusOutlined />
                     Create
                   </Button>
+                  <Modal
+                    visible={createTaskVisible}
+                    width={'80%'}
+                    title={<Text className="font-bold">Create a task</Text>}
+                    onCancel={handleCancel}
+                    footer={null}
+                  >
+                    <Row className="px-48 w-full" justify="space-between">
+                      <Col xs={24}>
+                        <Form layout="vertical">
+                          <Form.Item
+                            name="Project name"
+                            label="Project name"
+                            rules={[{ required: true, message: 'Please input project name' }]}
+                            required
+                          >
+                            <Input
+                              value={taskName}
+                              placeholder="Please input project name"
+                              onChange={(e) => e.target.value}
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            name="Type"
+                            label="Type"
+                            rules={[{ required: true, message: 'Please input project name' }]}
+                            required
+                          ></Form.Item>
+                          <Form.Item name="Members" label="Members">
+                            <Select mode="tags" value={member} tokenSeparators={[',']}></Select>
+                          </Form.Item>
+                          <Form.Item
+                            name="Due date"
+                            label="Due date"
+                            rules={[{ required: true, message: 'Please input due date' }]}
+                            required
+                          >
+                            <RangePicker
+                              showTime
+                              value={dueDate}
+                              format={customFormat}
+                              className="w-full"
+                              onChange={onChangeDate}
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            name="Description"
+                            label="Description"
+                            rules={[{ required: true, message: 'Please input project name' }]}
+                            required
+                          >
+                            <TextArea
+                              value={description}
+                              rows={4}
+                              onChange={(e) => e.target.value}
+                              placeholder="Please input description"
+                            />
+                          </Form.Item>
+                          <Form.Item>
+                            <Button type="primary" className="w-full" onClick={handleCreateTask}>
+                              Submit
+                            </Button>
+                          </Form.Item>
+                        </Form>
+                      </Col>
+                    </Row>
+                  </Modal>
                 </Row>
               </Row>
 
               {filteredTasks && !loading ? (
                 filteredTasks.length !== 0 ? (
-                  filteredTasks.map((item: any) => (
-                    <TaskCard
-                      key={item.id}
-                      data={item}
-                      project={filteredData}
-                      refetch={() => refetch()}
-                    />
-                  ))
+                  filteredTasks.map(
+                    (item: any, index: any) =>
+                      index >= minIndex &&
+                      index < maxIndex && (
+                        <TaskCard
+                          key={item.id}
+                          data={item}
+                          project={filteredData}
+                          refetch={() => refetch()}
+                        />
+                      )
+                  )
                 ) : (
                   <div className="flex justify-center items-center p-8">
                     <Empty
@@ -352,6 +524,15 @@ function ProjectDetail() {
               ) : (
                 <LoadingComponent task />
               )}
+              <div className="flex items-end justify-end">
+                <Pagination
+                  pageSize={pageSize}
+                  current={current}
+                  total={filteredTasks.length}
+                  onChange={handleChange}
+                  hideOnSinglePage={true}
+                />
+              </div>
             </div>
           </Col>
         </Row>
