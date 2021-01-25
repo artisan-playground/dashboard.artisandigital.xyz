@@ -24,28 +24,41 @@
         </a-form-model-item>
 
         <a-form-model-item label="Project Image">
-          <a-upload
-            style="float:left;"
-            name="file"
-            :multiple="true"
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          >
-            <a-input-group compact>
-              <a-row>
-                <a-col :span="20">
-                  <a-input default-value="" placeholder="Upload image" />
-                </a-col>
-                <a-col :span="4">
-                  <a-button style=" background-color:#134F83; color:white;">
-                    <a-icon type="upload"
-                  /></a-button>
-                </a-col>
-              </a-row>
-            </a-input-group>
-          </a-upload>
+          <a-row class="upload-btn-wrapper">
+            <a-col :span="20">
+              <div class="ant-input">
+                <div v-if="selectedFileName">
+                  <label for="file" style="color:#0036C7; display:flex;">
+                    {{ selectedFileName }}
+                  </label>
+                </div>
+                <div v-else>
+                  <label for="file" v-if="dataProject.projectImage" style="display:flex;">
+                    <span class="projectImgName">
+                      {{ dataProject.projectImage.fileName }}
+                    </span>
+                  </label>
+                  <label
+                    for="file"
+                    v-if="dataProject.projectImage == null"
+                    style="color:#C1C3C1; display:flex;"
+                  >
+                    Upload Image
+                  </label>
+                </div>
+              </div>
+              <input @change="onFileSelected" type="file" name="myfile" />
+            </a-col>
+            <a-col :span="4">
+              <a-button style="background-color:#134F83; color:white; width:100%;">
+                <a-icon type="upload" />
+              </a-button>
+              <input @change="onFileSelected" type="file" name="myfile" />
+            </a-col>
+          </a-row>
         </a-form-model-item>
 
-        <a-form-model-item label="Type" required prop="projectType">
+        <a-form-model-item label="Type" required prop="projectType" class="selectInput">
           <a-select v-model="dataProject.projectType" show-search placeholder="Select a Type" block>
             <a-select-option value="">
               <span style="color:#BDBDBD">Select a Type</span>
@@ -81,7 +94,7 @@
           >
           <a-card
             disabled
-            style="background-color:#EAEAEA; min-height:32px; border: 1px solid #C0C0C0; border-radius: 4px;"
+            style="background-color:#EAEAEA; min-height:32px; border: 1px solid #C0C0C0; border-radius: 2px;"
             :bodyStyle="{
               padding: '4px',
             }"
@@ -151,6 +164,7 @@
 <script>
 import ToolbarBack from '@/components/ToolbarBack'
 import * as gqlQueryProject from '../constants/project'
+import * as gqlUpload from '../constants/upload'
 import moment from 'moment'
 export default {
   name: 'editProject',
@@ -167,14 +181,18 @@ export default {
       },
       update(data) {
         this.dataProject = data.project
+        this.projectImageId = data.project.projectImage ? data.project.projectImage.id : null
       },
     },
   },
   data() {
     this.dateFormat = 'YYYY-MM-DD'
     return {
+      selectedFile: null,
+      selectedFileName: null,
       switchCheck: true,
       loading: false,
+      projectImageId: 0,
 
       dataProject: {
         projectName: '',
@@ -217,6 +235,9 @@ export default {
                     projectDetail: projectDetail,
                   },
                 })
+                if (this.selectedFile != null) {
+                  this.updatePhoto()
+                }
                 this.$router.go(-1)
                 this.$message.success('Edit project is success')
               }
@@ -227,13 +248,7 @@ export default {
         }
       }
 
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          return true
-        } else {
-          return false
-        }
-      })
+      this.$refs.ruleForm.validate(isValid => isValid)
     },
     async deleteProject() {
       try {
@@ -261,6 +276,21 @@ export default {
         this.$message.error(error)
       }
     },
+
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0]
+      this.selectedFileName = event.target.files[0].name
+    },
+
+    async updatePhoto() {
+      await this.$apollo.mutate({
+        mutation: gqlUpload.UPDATE_PROJECT_IMG,
+        variables: {
+          id: this.projectImageId,
+          file: this.selectedFile,
+        },
+      })
+    },
   },
 }
 </script>
@@ -273,5 +303,12 @@ export default {
 }
 .v-slide-group {
   display: grid;
+}
+
+.projectImgName {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
