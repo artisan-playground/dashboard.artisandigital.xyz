@@ -30,7 +30,7 @@
           >
           <a-card
             disabled
-            style="background-color:#EAEAEA; min-height:32px; border: 1px solid #C0C0C0; border-radius: 4px;"
+            style="background-color:#EAEAEA; min-height:32px; border: 1px solid #C0C0C0; border-radius: 2px;"
             :bodyStyle="{
               padding: '4px',
             }"
@@ -46,6 +46,30 @@
             </a-tag>
           </a-card>
         </a-form-model-item>
+
+        <a-form-model-item label="Type" required prop="taskType" class="selectInput">
+          <a-select v-model="dataTask.taskType" show-search placeholder="Select a Type" block>
+            <a-select-option value="">
+              <span style="color:#BDBDBD">Select a Type</span>
+            </a-select-option>
+            <a-select-option value="Web">
+              Web
+            </a-select-option>
+            <a-select-option value="Mobile">
+              Mobile
+            </a-select-option>
+            <a-select-option value="Design">
+              Design
+            </a-select-option>
+            <a-select-option value="Security">
+              Security
+            </a-select-option>
+            <a-select-option value="Data">
+              Data
+            </a-select-option>
+          </a-select>
+        </a-form-model-item>
+
         <a-form-model-item label="Date" style="height: 70px;">
           <a-form-model-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
             <a-date-picker
@@ -86,7 +110,7 @@
               v-if="switchCheck == true"
               block
               html-type="submit"
-              @click="editTask(dataTask.taskName, dataTask.taskDetail)"
+              @click="editTask(dataTask.taskName, dataTask.taskType, dataTask.taskDetail)"
               style="text-transform: capitalize; background-color: #134F83; color:white;"
               >Submit
             </a-button>
@@ -154,7 +178,7 @@ export default {
         this.loading = false
       }, 1000)
     },
-    async editTask(taskName, taskDetail) {
+    async editTask(taskName, taskType, taskDetail) {
       if (this.dataTask.taskName !== '' && this.dataTask.taskDetail !== '') {
         try {
           await this.$confirm({
@@ -170,6 +194,7 @@ export default {
                   variables: {
                     id: parseInt(this.$route.params.id),
                     taskName: taskName,
+                    taskType: taskType,
                     taskDetail: taskDetail,
                   },
                 })
@@ -183,13 +208,7 @@ export default {
         }
       }
 
-      this.$refs.ruleForm.validate(valid => {
-        if (valid) {
-          return true
-        } else {
-          return false
-        }
-      })
+      this.$refs.ruleForm.validate(isValid => isValid)
     },
     async deleteTask() {
       try {
