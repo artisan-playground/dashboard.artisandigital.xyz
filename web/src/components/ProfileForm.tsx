@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client'
 import ReactTagInput from '@pathofdev/react-tag-input'
 import { Button, Divider, Form, Input, message, Radio, Select, Typography } from 'antd'
 import React, { useState } from 'react'
-import { UPDATE_USER, UPDATE_USER_CONTACT, UPDATE_USER_SKILLS } from '../services/api/user'
+import { UPDATE_USER } from '../services/api/user'
 
 function ProfileForm({ data, refetch, loading, error }: any) {
   const { Text } = Typography
@@ -20,9 +20,7 @@ function ProfileForm({ data, refetch, loading, error }: any) {
   const [skills, setSkills] = useState(data?.skills)
   const { Option } = Select
   const [formLayout] = useState('horizontal')
-  const [updateSkills] = useMutation(UPDATE_USER_SKILLS)
   const [updateProfile] = useMutation(UPDATE_USER)
-  const [updateContact] = useMutation(UPDATE_USER_CONTACT)
 
   function handleChangePosition(value: any) {
     setPosition(value)
@@ -51,19 +49,6 @@ function ProfileForm({ data, refetch, loading, error }: any) {
         department: department,
         type: type,
       },
-    })
-    updateContact({
-      variables: {
-        id: data.id,
-        facebook: facebook,
-        twitter: twitter,
-        instagram: instagram,
-        gitlab: gitlab,
-        github: github,
-      },
-    })
-    updateSkills({
-      variables: { id: data?.id, skills: skills },
     })
       .then((res) => {
         if (res && !loading && !error) {
