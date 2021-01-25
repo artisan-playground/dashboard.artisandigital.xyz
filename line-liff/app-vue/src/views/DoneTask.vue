@@ -3,7 +3,7 @@
     <ToolbarBack msg="Done Task" />
     <br />
     <div style="margin-top:60px;">
-      <div v-if="emptyTask == 0" class="noData" style="height:500px;">
+      <div v-if="emptyTask == 0" class="noData">
         <a-empty />
       </div>
       <div v-else>
@@ -13,7 +13,7 @@
           style="margin-top:15px; margin-left:15px; margin-right:15px;"
         >
           <a-card v-if="task.isDone" :bodyStyle="{ padding: '15px' }" id="card" align="left">
-            <router-link :to="{ name: 'taskDetail', params: { id: task.id } }">
+            <router-link :to="{ name: 'TaskDetail', params: { id: task.id } }">
               <div>
                 <a-row type="flex" justify="space-between">
                   <a-col :span="18" align="left">
@@ -28,6 +28,10 @@
                     </a-row>
                     <a-row id="position">
                       {{ $dayjs(task.startTime).format('DD MMM YY ') }}
+                      <span>
+                        Time
+                        {{ $dayjs(task.startTime).format('HH:mm') }}
+                      </span>
                     </a-row>
                   </a-col>
                   <a-col :span="4" id="status">
