@@ -1,3 +1,4 @@
+import { BookOutlined } from '@ant-design/icons'
 import { Avatar, Card, Col, Empty, Row, Tag, Tooltip, Typography } from 'antd'
 import React from 'react'
 
@@ -16,7 +17,7 @@ function EventCard({ data }: any) {
       (item: any) =>
         new Date(item.endDate).toLocaleDateString('en-US') >
           new Date().toLocaleDateString('en-US') && (
-          <Card hoverable className="w-full rounded-lg mb-4" key={item.id}>
+          <Card hoverable className="w-full mb-4" key={item.id}>
             <Row className="md: justify-around">
               <div className="flex flex-col justify-center items-center border-r-2 pr-8 pl-4">
                 <Text disabled className="font-bold text-lg">
@@ -46,8 +47,12 @@ function EventCard({ data }: any) {
 
               <Col span={24} md={{ span: 4 }} className="w-full mt-4 md:mt-0 ">
                 <Row className="justify-start md:justify-end">
-                  <Tag className="rounded-full py-1 px-2 bg-progressop border-0 flex items-center">
-                    <Text className="font-bold">{item.tag}</Text>
+                  <Tag
+                    color="gold"
+                    className="flex items-center justify-center"
+                    icon={<BookOutlined />}
+                  >
+                    {item.tag}
                   </Tag>
                 </Row>
                 <Row className="absolute bottom-0 right-0">
