@@ -23,7 +23,7 @@ import Zone from './pages/Zone'
 import ZoneDetail from './pages/ZoneDetail'
 import { client } from './services/api'
 import store from './store'
-import './styles/main.css'
+import './styles/main.less'
 import './styles/tailwind-generated.css'
 
 function App() {
