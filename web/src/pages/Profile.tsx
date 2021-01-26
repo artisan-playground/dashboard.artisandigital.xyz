@@ -20,6 +20,7 @@ import {
   message,
   Modal,
   PageHeader,
+  Pagination,
   Row,
   Select,
   Space,
@@ -69,6 +70,15 @@ function Profile() {
   const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USER_BY_ID, {
     variables: { id: Number(user?.id) },
   })
+  const [totalPageProject, setTotalPageProject] = useState(0)
+  const [currentProject, setCurrentProject] = useState(1)
+  const [minIndexProject, setMinIndexProject] = useState(0)
+  const [maxIndexProject, setMaxIndexProject] = useState(0)
+  const [totalPageTask, setTotalPageTask] = useState(0)
+  const [currentTask, setCurrentTask] = useState(1)
+  const [minIndexTask, setMinIndexTask] = useState(0)
+  const [maxIndexTask, setMaxIndexTask] = useState(0)
+  const pageSize = 4
 
   useEffect(() => {
     if (!error && !loading) {
@@ -98,11 +108,17 @@ function Profile() {
           setFilteredData(userData.user)
           break
       }
+      setUserList(data && data.users)
+      setImage(
+        imageData ? imageData.uploadImage.id : imageUpdateData && imageUpdateData.updateImage.id
+      )
+      setTotalPageProject(data.length / pageSize)
+      setMinIndexProject(0)
+      setMaxIndexProject(pageSize)
+      setTotalPageTask(data.length / pageSize)
+      setMinIndexTask(0)
+      setMaxIndexTask(pageSize)
     }
-    setUserList(data && data.users)
-    setImage(
-      imageData ? imageData.uploadImage.id : imageUpdateData && imageUpdateData.updateImage.id
-    )
   }, [types, loading, error, data, loading, data])
 
   function handleKeywordChange(e: any) {
@@ -206,6 +222,18 @@ function Profile() {
 
   function onChangeDate(_: any, dateString: any) {
     setDueDate(dateString[0])
+  }
+
+  function handleChangePaginationProject(page: any) {
+    setCurrentProject(page)
+    setMinIndexProject((page - 1) * pageSize)
+    setMaxIndexProject(page * pageSize)
+  }
+
+  function handleChangePaginationTask(page: any) {
+    setCurrentTask(page)
+    setMinIndexTask((page - 1) * pageSize)
+    setMaxIndexTask(page * pageSize)
   }
 
   return (
@@ -417,14 +445,18 @@ function Profile() {
                     className="w-96"
                   />
                 </Row>
-                <Row gutter={[8, 24]}>
+                <Row>
                   {filteredData && !error && !loading ? (
                     filteredData.length !== 0 ? (
-                      filteredData.projects.map((items: any) => (
-                        <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
-                          <ProjectCard data={items} refetch={() => refetch()} />
-                        </Col>
-                      ))
+                      filteredData.projects.map(
+                        (items: any, index: any) =>
+                          index >= minIndexProject &&
+                          index < maxIndexProject && (
+                            <Col xs={24} xl={6} key={items.id} className="w-full px-2">
+                              <ProjectCard data={items} refetch={() => refetch()} />
+                            </Col>
+                          )
+                      )
                     ) : (
                       <div className="flex w-full justify-center my-8">
                         <Empty
@@ -440,6 +472,15 @@ function Profile() {
                     </div>
                   )}
                 </Row>
+                <div className="flex items-end justify-end mb-4">
+                  <Pagination
+                    pageSize={pageSize}
+                    current={currentProject}
+                    total={filteredData && filteredData.projects.length}
+                    onChange={handleChangePaginationProject}
+                    hideOnSinglePage={true}
+                  />
+                </div>
               </TabPane>
               <TabPane tab="Tasks" key="2">
                 <Row justify="end" className="w-full mb-4">
@@ -451,14 +492,18 @@ function Profile() {
                     className="w-96"
                   />
                 </Row>
-                <Row gutter={[8, 24]}>
+                <Row>
                   {filteredData && !error && !loading ? (
                     filteredData.length !== 0 ? (
-                      filteredData.tasks.map((items: any) => (
-                        <Col xs={24} xl={12} key={items.id} className="w-full px-2 py-2">
-                          <TaskCard data={items} refetch={() => refetch()} />
-                        </Col>
-                      ))
+                      filteredData.tasks.map(
+                        (items: any, index: any) =>
+                          index >= minIndexTask &&
+                          index < maxIndexTask && (
+                            <Col xs={24} xl={12} key={items.id} className="w-full px-2">
+                              <TaskCard data={items} refetch={() => refetch()} />
+                            </Col>
+                          )
+                      )
                     ) : (
                       <div className="flex w-full justify-center my-8">
                         <Empty
@@ -474,6 +519,15 @@ function Profile() {
                     </div>
                   )}
                 </Row>
+                <div className="flex items-end justify-end">
+                  <Pagination
+                    pageSize={pageSize}
+                    current={currentTask}
+                    total={filteredData && filteredData.tasks.length}
+                    onChange={handleChangePaginationTask}
+                    hideOnSinglePage={true}
+                  />
+                </div>
               </TabPane>
             </Tabs>
           </div>

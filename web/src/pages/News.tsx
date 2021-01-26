@@ -1,128 +1,164 @@
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
-import { Avatar, Card, Col, Row, Typography } from 'antd'
-import React, { useState } from 'react'
-import { EventCard, LayoutDashboard } from '../components/DashboardComponent'
+import {
+  Breadcrumb,
+  Button,
+  Col,
+  Divider,
+  Empty,
+  Input,
+  PageHeader,
+  Pagination,
+  Row,
+  Typography,
+} from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import {
+  ContentCard,
+  EventCard,
+  LayoutDashboard,
+  LoadingComponent,
+} from '../components/DashboardComponent'
+import { CONTENT } from '../services/api/content'
 import { EVENT } from '../services/api/event'
 
 function News() {
   const { Text } = Typography
-  const { Meta } = Card
-  const { data, refetch } = useQuery(EVENT)
-  const [drawerVisible, setDrawerVisible] = useState(false)
+  const { data, loading: eventLoading, error: eventError, refetch } = useQuery(EVENT)
+  const {
+    data: contentData,
+    loading: contentLoading,
+    error: contentError,
+    refetch: refetchContent,
+  } = useQuery(CONTENT)
+  const [keyword, setKeyword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [filteredData, setFilteredData] = useState<any[]>([])
+  const [totalPage, setTotalPage] = useState(0)
+  const [current, setCurrent] = useState(1)
+  const [minIndex, setMinIndex] = useState(0)
+  const [maxIndex, setMaxIndex] = useState(0)
+  const pageSize = 3
 
-  function closeDawer() {
-    setDrawerVisible(false)
+  useEffect(() => {
+    if (
+      !eventError &&
+      !eventLoading &&
+      !loading &&
+      !contentLoading &&
+      !contentError &&
+      contentData &&
+      data
+    ) {
+      setFilteredData(contentData.contents)
+      setTotalPage(data.length / pageSize)
+      setMinIndex(0)
+      setMaxIndex(pageSize)
+    }
+  }, [eventError, eventLoading, loading, contentLoading, contentError, contentData, data])
+
+  function handleKeywordChange(e: any) {
+    setLoading(true)
+    setKeyword(e.target.value)
+    if (e.target.value === '') {
+      setFilteredData(contentData.contents)
+      setLoading(false)
+    } else {
+      const kw: any[] = contentData.contents.filter((item: any) =>
+        item.subject.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+      setFilteredData(kw)
+      setLoading(false)
+    }
+    setLoading(false)
+  }
+
+  function handleChange(page: any) {
+    setCurrent(page)
+    setMinIndex((page - 1) * pageSize)
+    setMaxIndex(page * pageSize)
   }
 
   return (
     <LayoutDashboard>
-      <div className="font-bold text-2xl mb-4">Event</div>
+      <Breadcrumb className="pl-6 pt-4">
+        <Breadcrumb.Item>News</Breadcrumb.Item>
+      </Breadcrumb>
+      <PageHeader className="site-page-header" title="News" />
+      <Divider />
+      <div className="px-8">
+        <div className="font-bold mb-4">Event</div>
 
-      <Row className="w-full overflow-y-auto mb-4 p-4">
-        <EventCard data={data} />
-      </Row>
+        <Row className="w-full overflow-y-auto mb-4">
+          <EventCard data={data} />
+        </Row>
 
-      <div className="font-bold text-2xl mb-4">Paragraph #2</div>
-      <Row className="w-full  overflow-y-auto mb-4 p-4">
-        <Card hoverable className="w-full rounded-lg">
+        <Row justify="space-between">
+          <Text className="font-bold text-lg mb-4">Contents</Text>
           <Row>
-            <Col span={24} md={{ span: 10 }}>
-              <img
-                src="https://source.unsplash.com/600x600/?seal"
-                alt="kityy1"
-                className="rounded-lg"
-              />
-            </Col>
-            <Col span={24} md={{ span: 10 }} className="p-4 ml-4">
-              <Text className="font-bold text-lg">News #1</Text>
-              <br />
-              <Text>
-                Vitae auctor eu augue ut lectus arcu bibendum at varius. Ultricies lacus sed turpis
-                tincidunt id aliquet risus feugiat in. Pharetra massa massa ultricies mi quis
-                hendrerit dolor magna. Leo duis ut diam quam nulla. Commodo sed egestas egestas
-                fringilla phasellus faucibus scelerisque. Gravida neque convallis a cras semper
-                auctor neque. Viverra orci sagittis eu volutpat odio facilisis mauris sit. Justo
-                donec enim diam vulputate. Pellentesque pulvinar pellentesque habitant morbi.
-                Bibendum arcu vitae elementum curabitur vitae. Sapien nec sagittis aliquam malesuada
-                bibendum arcu vitae elementum. Risus sed vulputate odio ut enim. Habitant morbi
-                tristique senectus et netus et malesuada fames ac. Nec ullamcorper sit amet risus.
-                Nam libero justo laoreet sit amet cursus sit amet dictum. Facilisi cras fermentum
-                odio eu feugiat pretium nibh ipsum consequat.
-              </Text>
-            </Col>
+            <Input
+              placeholder="Search Contents"
+              value={keyword}
+              onChange={handleKeywordChange}
+              suffix={<SearchOutlined type="secondary" />}
+              className="w-96 h-8"
+            />
+            <Link to={{ pathname: `/create-content` }}>
+              <Button
+                className="flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
+                type="primary"
+              >
+                <PlusOutlined />
+                Create
+              </Button>
+            </Link>
           </Row>
-        </Card>
-      </Row>
+        </Row>
 
-      <div className="font-bold text-2xl mb-4">Paragraph #1</div>
-      <Row className="w-full justify-center overflow-y-auto mb-4 p-2">
-        <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
-          <Card
-            hoverable
-            className="w-full rounded-lg"
-            cover={<img src="https://source.unsplash.com/600x600/?cat" alt="kityy1" />}
-          >
-            <Meta
-              avatar={<Avatar src="https://source.unsplash.com/600x600/?user" />}
-              title="Kitty 1"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua."
-            />
-            <Row className="justify-between mt-4 pl-12">
-              <Col span={24} xl={{ span: 12 }}>
-                <Text disabled>{new Date().toLocaleDateString()}</Text>
-              </Col>
-              <Col span={24} xl={{ span: 12 }}>
-                <a href="/news">Read more</a>
-              </Col>
+        {contentLoading || contentError ? (
+          <LoadingComponent project />
+        ) : (
+          <div className="site-card-wrapper">
+            <Row gutter={[8, 24]}>
+              {filteredData && !contentError && !contentLoading ? (
+                filteredData.length !== 0 ? (
+                  filteredData.map(
+                    (items: any, index: any) =>
+                      index >= minIndex &&
+                      index < maxIndex && (
+                        <Col xs={24} xl={8} key={items.id} className="w-full px-2 py-2">
+                          <ContentCard data={items} refetch={() => refetch()} />
+                        </Col>
+                      )
+                  )
+                ) : (
+                  <div className="flex w-full justify-center my-8">
+                    <Empty
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                      description={<Text disabled>No Content Found</Text>}
+                    />
+                  </div>
+                )
+              ) : (
+                <div className="flex w-full justify-center my-8">
+                  <Text disabled>Error</Text>
+                  <Text disabled>{contentError} </Text>
+                </div>
+              )}
             </Row>
-          </Card>
-        </Col>
-        <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
-          <Card
-            hoverable
-            className="w-full rounded-lg"
-            cover={<img src="https://source.unsplash.com/600x601/?cat" alt="kityy2" />}
-          >
-            <Meta
-              avatar={<Avatar src="https://source.unsplash.com/600x601/?user" />}
-              title="Kitty 2"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua."
-            />
-            <Row className="justify-between mt-4 pl-12">
-              <Col span={24} xl={{ span: 12 }}>
-                <Text disabled>{new Date().toLocaleDateString()}</Text>
-              </Col>
-              <Col span={24} xl={{ span: 12 }}>
-                <a href="/news">Read more</a>
-              </Col>
-            </Row>
-          </Card>
-        </Col>
-        <Col span={24} md={{ span: 7 }} className="mx-2 mb-2">
-          <Card
-            hoverable
-            className="w-full rounded-lg"
-            cover={<img src="https://source.unsplash.com/601x600/?cat" alt="kityy1" />}
-          >
-            <Meta
-              avatar={<Avatar src="https://source.unsplash.com/601x600/?user" />}
-              title="Kitty 3"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua."
-            />
-            <Row className="justify-between mt-4 pl-12">
-              <Col span={24} xl={{ span: 12 }}>
-                <Text disabled>{new Date().toLocaleDateString()}</Text>
-              </Col>
-              <Col span={24} xl={{ span: 12 }}>
-                <a href="/news">Read more</a>
-              </Col>
-            </Row>
-          </Card>
-        </Col>
-      </Row>
+          </div>
+        )}
+        <div className="flex items-end justify-end mb-8">
+          <Pagination
+            pageSize={pageSize}
+            current={current}
+            total={filteredData.length}
+            onChange={handleChange}
+            hideOnSinglePage={true}
+          />
+        </div>
+      </div>
     </LayoutDashboard>
   )
 }
