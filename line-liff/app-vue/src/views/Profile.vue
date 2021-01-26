@@ -4,49 +4,28 @@
     <br />
     <div style="margin-top:60px">
       <Profile />
-      <div>
-        <a-tabs default-active-key="1">
-          <a-tab-pane key="1" tab="Project">
-            <div style="width:100%; margin-bottom:10px">
-              <div style="margin-left:18px">
-                <div align="left" style="font-size:20px; font-weight:550">Project</div>
-              </div>
-            </div>
+      <div class="tabs">
+        <div class="tab-2">
+          <label for="tab2-1"><span class="tabsTitle">Projects</span></label>
+          <input id="tab2-1" name="tabs-two" type="radio" checked="checked" />
+          <div>
             <ListProject />
-          </a-tab-pane>
-          <a-tab-pane key="2" tab="Tasks" force-render>
-            <div
-              align="left"
-              style="margin-bottom:10px; margin-left:18px; font-weight:550; font-size:20px;"
-            >
-              Today's tasks
-            </div>
+          </div>
+        </div>
+        <div class="tab-2">
+          <label for="tab2-2"><span class="tabsTitle">Tasks</span></label>
+          <input id="tab2-2" name="tabs-two" type="radio" />
+          <div>
             <Tasks />
-          </a-tab-pane>
-        </a-tabs>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <!-- <div style="margin-top:20px;">
-      <div
-        align="left"
-        style="margin-bottom:10px; margin-left:18px; font-weight:550; font-size:20px;"
-      >
-        Today's tasks
-      </div>
-      <div>
-        <Tasks />
-      </div>
-    </div> -->
-    <div id="bottom-content">
-      <!-- พื้นที่ข้างล่างของ content  -->
     </div>
     <BarRouter />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import Toolbar from '@/components/Toolbar.vue'
 import BarRouter from '@/components/BarRouter.vue'
 import Profile from '@/components/Profile.vue'
@@ -55,6 +34,11 @@ import Tasks from '@/components/Tasks.vue'
 
 export default {
   name: 'profile',
+  data() {
+    return {
+      items: ['Projects', 'Tasks'],
+    }
+  },
   components: {
     Toolbar,
     BarRouter,
@@ -66,13 +50,92 @@ export default {
 </script>
 
 <style scoped>
-#bottom-content {
-  /* พื้นที่ข้างล่างของ content */
-  margin: 0px 18px 10px 18px;
-  background-color: #ffffff;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
-  padding-bottom: 5px;
+.tabsTitle {
+  font-weight: 550;
+}
+.tabs {
+  display: block;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0;
+  overflow: hidden;
+}
+.tabs [class^='tab'] label,
+.tabs [class*=' tab'] label {
+  color: #4f4f4f;
+  cursor: pointer;
+  display: block;
+  font-size: 1.1em;
+  font-weight: 300;
+  line-height: 1em;
+  padding: 1rem 0;
+  text-align: center;
+}
+.tabs [class^='tab'] [type='radio'],
+.tabs [class*=' tab'] [type='radio'] {
+  border-bottom: 1px solid rgba(239, 237, 239, 0.5);
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.tabs [class^='tab'] [type='radio']:hover,
+.tabs [class^='tab'] [type='radio']:focus,
+.tabs [class*=' tab'] [type='radio']:hover,
+.tabs [class*=' tab'] [type='radio']:focus {
+  border-bottom: 1px solid #134f83;
+}
+.tabs [class^='tab'] [type='radio']:checked,
+.tabs [class*=' tab'] [type='radio']:checked {
+  border-bottom: 3px solid #134f83;
+}
+.tabs input:checked ~ label,
+.tabs label:hover ~ label,
+.tabs label:hover,
+.tabs input:checked ~ label:hover ~ label,
+.tabs input:checked ~ label:hover,
+.tabs label:hover ~ input:checked ~ label {
+  color: #0036c7;
+}
+.tabs [class^='tab'] [type='radio']:checked + div,
+.tabs [class*=' tab'] [type='radio']:checked + div {
+  opacity: 1;
+}
+.tabs [class^='tab'] [type='radio'] + div,
+.tabs [class*=' tab'] [type='radio'] + div {
+  display: block;
+  opacity: 0;
+  padding: 1.5rem 0 0 0;
+  width: 90%;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.tabs .tab-2 {
+  width: 50%;
+}
+.tabs .tab-2 [type='radio'] + div {
+  width: 200%;
+  margin-left: 200%;
+}
+.tabs .tab-2 [type='radio']:checked + div {
+  margin-left: 0;
+}
+.tabs .tab-2:last-child [type='radio'] + div {
+  margin-left: 100%;
+}
+.tabs .tab-2:last-child [type='radio']:checked + div {
+  margin-left: -100%;
 }
 </style>
