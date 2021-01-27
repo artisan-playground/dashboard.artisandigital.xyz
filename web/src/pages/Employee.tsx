@@ -1,14 +1,6 @@
-import {
-  CloseCircleOutlined,
-  ExclamationCircleOutlined,
-  LoadingOutlined,
-  PictureOutlined,
-  SearchOutlined,
-  UploadOutlined,
-} from '@ant-design/icons'
+import { CloseCircleOutlined, ExclamationCircleOutlined, SearchOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import {
-  Avatar,
   Breadcrumb,
   Button,
   Col,
@@ -21,7 +13,6 @@ import {
   PageHeader,
   Row,
   Select,
-  Space,
   Tabs,
   Typography,
 } from 'antd'
@@ -44,12 +35,12 @@ function Employee() {
   const [keyword, setKeyword] = useState('')
   const [filterloading, setLoading] = useState(false)
   const [createProjectVisible, setCreateProjectVisible] = useState(false)
-  const [createProject] = useMutation(CREATE_USER)
+  const [addUser] = useMutation(CREATE_USER)
   const [updateImage, { loading: loadingUpdate, data: imageUpdateData }] = useMutation(UPDATE_IMAGE)
   const [uploadImage, { loading: loadingUpload, data: imageData }] = useMutation(UPLOAD_IMAGE)
   const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
-  const [projectName, setProjectName] = useState()
-  const [type, setType] = useState()
+  const [email, setEmail] = useState()
+  const [name, setName] = useState()
   const [member, setMember] = useState<any[]>([])
   const [dueDate, setDueDate] = useState()
   const [description, setDescription] = useState()
@@ -57,6 +48,7 @@ function Employee() {
   const [userList, setUserList] = useState([])
   const dateFormat = 'DD MMM YYYY'
   const customFormat = (value: any) => `${value.format(dateFormat)}`
+  const [form] = Form.useForm()
 
   useEffect(() => {
     if (!error && !loading) {
@@ -157,20 +149,18 @@ function Employee() {
   console.log('image', image)
 
   console.log(imageData && imageData.uploadImage)
-  function handleCreateProject() {
-    if (projectName !== '' && type !== '' && description !== '') {
-      createProject({
+  function handleAddEmployee() {
+    if (email !== '' && name !== '') {
+      addUser({
         variables: {
           id: data.id,
-          projectName: projectName,
-          projectType: type,
-          projectDetail: description,
+          email: email,
+          name: name,
         },
       })
         .then((res) => {
-          setProjectName(projectName)
-          setType(type)
-          setDescription(description)
+          setEmail(email)
+          setName(name)
           refetch()
         })
         .catch((err) => {
@@ -209,145 +199,64 @@ function Employee() {
       <div className="px-8">
         <Row className="justify-between mb-8">
           <Row>
-            <Button
-              className="flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
-              type="primary"
-              onClick={showAddEmployee}
-            >
+            <Button type="primary" onClick={showAddEmployee}>
               Add Employee
             </Button>
             <Modal
               visible={createProjectVisible}
-              width={'80%'}
-              title={<Text className="font-bold">Create </Text>}
+              width={'40%'}
+              title={<Text className="font-bold">Add employee</Text>}
               onCancel={handleCancel}
               footer={null}
             >
-              <Row className="px-24 w-full" justify="space-between">
-                <Col xs={8} lg={12}>
-                  <Space direction="vertical" className="flex items-center justify-center">
-                    {image !== undefined ? (
-                      <img
-                        src={
-                          imageData
-                            ? imageData.uploadImage.fullPath
-                            : imageUpdateData && imageUpdateData.updateImage.fullPath
-                        }
-                        className="w-64 h-48"
-                      />
-                    ) : (
-                      <PictureOutlined className="text-9xl" />
-                    )}
+              <Form layout="vertical" form={form}>
+                <Form.Item
+                  name="Email"
+                  label="Email"
+                  rules={[
+                    { required: true, message: 'Please input email' },
+                    {
+                      pattern: /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@artisan([\.])co([\.])th/g,
+                      message: 'Email must be @artisan.co.th',
+                    },
+                  ]}
+                  required
+                >
+                  <Input
+                    value={email}
+                    placeholder="Please input email"
+                    onChange={(e) => e.target.value}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="Name"
+                  label="Name"
+                  rules={[{ required: true, message: 'Please input name' }]}
+                  required
+                >
+                  <Input
+                    value={name}
+                    placeholder="Please input name"
+                    onChange={(e) => e.target.value}
+                  />
+                </Form.Item>
 
-                    <label
-                      style={{
-                        height: 30,
-                        width: 90,
-                      }}
-                      className="appearance-none border border-gray-300 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300 relative"
+                <Form.Item shouldUpdate={true}>
+                  {() => (
+                    <Button
+                      type="primary"
+                      className="w-full"
+                      onClick={handleAddEmployee}
+                      disabled={
+                        !form.isFieldsTouched(true) ||
+                        !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                      }
                     >
-                      <input
-                        type="file"
-                        className="invisible"
-                        onChange={image === undefined ? onUploadImage : onChangeImage}
-                      />
-                      {loadingUpdate ? (
-                        <div className="absolute flex items-center justify-center">
-                          <LoadingOutlined className="mr-2" spin />
-                        </div>
-                      ) : (
-                        <div className="absolute flex items-center justify-center">
-                          <UploadOutlined className="mr-2" />
-                          Upload
-                        </div>
-                      )}
-                    </label>
-                  </Space>
-                </Col>
-                <Col xs={16} lg={12}>
-                  <Form layout="vertical">
-                    <Form.Item
-                      name="Project name"
-                      label="Project name"
-                      rules={[{ required: true, message: 'Please input project name' }]}
-                      required
-                    >
-                      <Input
-                        value={projectName}
-                        placeholder="Please input project name"
-                        onChange={(e) => e.target.value}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="Type"
-                      label="Type"
-                      rules={[{ required: true, message: 'Please input project name' }]}
-                      required
-                    >
-                      <Select value={type} onChange={handleChange}>
-                        <Option value="Data">Data</Option>
-                        <Option value="Design">Design</Option>
-                        <Option value="Mobile">Mobile</Option>
-                        <Option value="Security">Security</Option>
-                        <Option value="Web">Web</Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item name="Members" label="Members">
-                      <Select
-                        mode="tags"
-                        value={member}
-                        onChange={handleMember}
-                        tokenSeparators={[',']}
-                      >
-                        {(userList || []).map((value: any) => (
-                          <Row
-                            key={value.id}
-                            className="hover:bg-primary hover:text-white py-2 px-4"
-                          >
-                            <Avatar
-                              shape="circle"
-                              size="default"
-                              src={
-                                value.image
-                                  ? value.image.fullPath
-                                  : require('../assets/images/unknown_user.png')
-                              }
-                              className="mr-2"
-                            />
-                            {value.name}
-                          </Row>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item name="Due date" label="Due date">
-                      <DatePicker
-                        value={dueDate}
-                        format={customFormat}
-                        className="w-full"
-                        onChange={onChangeDate}
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="Description"
-                      label="Description"
-                      rules={[{ required: true, message: 'Please input project name' }]}
-                      required
-                    >
-                      <TextArea
-                        value={description}
-                        rows={4}
-                        onChange={(e) => e.target.value}
-                        placeholder="Please input description"
-                      />
-                    </Form.Item>
-                    <Form.Item>
-                      <Button type="primary" className="w-full" onClick={handleCreateProject}>
-                        Submit
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </Col>
-              </Row>
+                      Submit
+                    </Button>
+                  )}
+                </Form.Item>
+              </Form>
             </Modal>
           </Row>
 

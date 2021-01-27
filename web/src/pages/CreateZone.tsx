@@ -185,14 +185,10 @@ function CreateZone() {
               </Row>
 
               <Row justify="end">
-                <Button onClick={() => window.history.back()} className="w-24 mr-4">
+                <Button onClick={() => window.history.back()} className="mr-4">
                   Cancel
                 </Button>
-                <Button
-                  onClick={handleCreateZone}
-                  type="primary"
-                  className="w-24 bg-secondary hover:bg-primary border-none"
-                >
+                <Button onClick={handleCreateZone} type="primary">
                   Submit
                 </Button>
               </Row>

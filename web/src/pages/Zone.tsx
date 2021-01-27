@@ -50,12 +50,7 @@ function Zone() {
         <Row className="justify-between mb-8">
           <Row>
             <Link to={{ pathname: `/new-zone` }}>
-              <Button
-                className="flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
-                type="primary"
-              >
-                <Text className="hidden hover:block text-white">New GPS zone</Text>
-              </Button>
+              <Button type="primary">New GPS zone</Button>
             </Link>
           </Row>
 

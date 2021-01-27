@@ -105,10 +105,7 @@ function News() {
               className="w-96 h-8"
             />
             <Link to={{ pathname: `/create-content` }}>
-              <Button
-                className="flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
-                type="primary"
-              >
+              <Button type="primary">
                 <PlusOutlined />
                 Create
               </Button>

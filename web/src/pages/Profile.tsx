@@ -3,7 +3,6 @@ import {
   EditOutlined,
   ExclamationCircleOutlined,
   LoadingOutlined,
-  PictureOutlined,
   SearchOutlined,
   UploadOutlined,
 } from '@ant-design/icons'
@@ -21,9 +20,11 @@ import {
   Modal,
   PageHeader,
   Pagination,
+  Radio,
   Row,
   Select,
   Space,
+  Spin,
   Tabs,
   Typography,
 } from 'antd'
@@ -31,6 +32,8 @@ import generatePicker from 'antd/es/date-picker/generatePicker'
 import { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
+import UnknownImage from '../assets/images/unknown_image.jpg'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 import {
   LayoutDashboard,
   LoadingComponent,
@@ -38,7 +41,7 @@ import {
   TaskCard,
 } from '../components/DashboardComponent'
 import { UPDATE_IMAGE, UPLOAD_IMAGE } from '../services/api/image'
-import { CREATE_USER, GET_USERS, GET_USER_BY_ID } from '../services/api/user'
+import { GET_USERS, GET_USER_BY_ID, UPDATE_USER } from '../services/api/user'
 import { useStoreState } from '../store'
 
 function Profile() {
@@ -53,19 +56,20 @@ function Profile() {
   const [keyword, setKeyword] = useState('')
   const [filterloading, setLoading] = useState(false)
   const [createProjectVisible, setCreateProjectVisible] = useState(false)
-  const [createProject] = useMutation(CREATE_USER)
+  const [editProfile] = useMutation(UPDATE_USER)
   const [updateImage, { loading: loadingUpdate, data: imageUpdateData }] = useMutation(UPDATE_IMAGE)
   const [uploadImage, { loading: loadingUpload, data: imageData }] = useMutation(UPLOAD_IMAGE)
   const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
-  const [projectName, setProjectName] = useState()
+  const [name, setName] = useState()
+  const [email, setEmail] = useState()
+  const [postion, setPosition] = useState()
+  const [department, setDepartment] = useState()
+  const [telephone, setTelephone] = useState()
   const [type, setType] = useState()
   const [member, setMember] = useState<any[]>([])
   const [dueDate, setDueDate] = useState()
-  const [description, setDescription] = useState()
   const [image, setImage] = useState()
   const [userList, setUserList] = useState([])
-  const dateFormat = 'DD MMM YYYY'
-  const customFormat = (value: any) => `${value.format(dateFormat)}`
   const user = useStoreState((s) => s.userState.user)
   const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USER_BY_ID, {
     variables: { id: Number(user?.id) },
@@ -79,9 +83,10 @@ function Profile() {
   const [minIndexTask, setMinIndexTask] = useState(0)
   const [maxIndexTask, setMaxIndexTask] = useState(0)
   const pageSize = 4
+  const [form] = Form.useForm()
 
   useEffect(() => {
-    if (!error && !loading) {
+    if (!error && !loading && !userLoading && !userError) {
       switch (types) {
         case 'HR/Admin':
           let admin: any[] = userData.user.filter((item: any) => item.department === 'HR/Admin')
@@ -118,8 +123,14 @@ function Profile() {
       setTotalPageTask(data.length / pageSize)
       setMinIndexTask(0)
       setMaxIndexTask(pageSize)
+      setName(userData.user.name)
+      setEmail(userData.user.email)
+      setPosition(userData.user.postion)
+      setDepartment(userData.user.department)
+      setTelephone(userData.user.telephone)
+      setType(userData.user.type)
     }
-  }, [types, loading, error, data, loading, data])
+  }, [types, loading, error, data, loading, userData, userLoading, userError])
 
   function handleKeywordChange(e: any) {
     setLoading(true)
@@ -183,20 +194,21 @@ function Profile() {
       })
   }
 
-  function handleCreateProject() {
-    if (projectName !== '' && type !== '' && description !== '') {
-      createProject({
+  function handleEditProfile() {
+    if (name !== '' && email !== '') {
+      editProfile({
         variables: {
           id: data.id,
-          projectName: projectName,
-          projectType: type,
-          projectDetail: description,
+          name: name,
+          email: email,
         },
       })
         .then((res) => {
-          setProjectName(projectName)
-          setType(type)
-          setDescription(description)
+          setName(name)
+          setEmail(email)
+          setPosition(postion)
+          setDepartment(department)
+          setTelephone(telephone)
           refetch()
         })
         .catch((err) => {
@@ -213,6 +225,10 @@ function Profile() {
         icon: <ExclamationCircleOutlined style={{ fontSize: 20, top: -2 }} />,
       })
     }
+  }
+
+  function onChangeType(e: any) {
+    setType(e.target.value)
   }
 
   function handleMember(value: any) {
@@ -236,7 +252,11 @@ function Profile() {
     setMaxIndexTask(page * pageSize)
   }
 
-  return (
+  return userLoading || !filteredData ? (
+    <LayoutDashboard>
+      <Spin size="large" className="flex justify-center pt-4" />
+    </LayoutDashboard>
+  ) : (
     <LayoutDashboard>
       <Breadcrumb className="pl-6 pt-4">
         <Breadcrumb.Item>Profile</Breadcrumb.Item>
@@ -250,34 +270,25 @@ function Profile() {
               <Avatar
                 shape="circle"
                 size={150}
-                src={
-                  filteredData
-                    ? filteredData.image.fullPath
-                    : require('../assets/images/unknown_user.png')
-                }
+                src={filteredData.image ? filteredData.image.fullPath : UnknownUserImage}
+                alt="user"
                 className="mr-2"
               />
               <Space direction="vertical" size={2}>
-                <Text className="font-bold text-blue-700">{filteredData && filteredData.name}</Text>
-                <Text>{filteredData && filteredData.position}</Text>
+                <Text className="font-bold text-blue-700">{filteredData.name}</Text>
+                <Text>{filteredData.position}</Text>
               </Space>
             </Row>
           </Col>
           <Col xs={15} className="relative">
             <Divider type="vertical" className="h-full" />
             <Space direction="vertical" size={2} className="-mt-6">
+              <Text>{`Email: ${filteredData.email ? filteredData.email : '-'}`}</Text>
               <Text>
-                {`Email: ${filteredData && filteredData.email ? filteredData.email : '-'}`}
+                {`Department: ${filteredData.department ? filteredData.department : '-'}`}
               </Text>
-              <Text>
-                {`Department: ${
-                  filteredData && filteredData.department ? filteredData.department : '-'
-                }`}
-              </Text>
-              <Text>
-                {`Full-time/Intern: ${filteredData && filteredData.type ? filteredData.type : '-'}`}
-              </Text>
-              {filteredData && filteredData.type === 'Intern' && (
+              <Text>{`Full-time/Intern: ${filteredData.type ? filteredData.type : '-'}`}</Text>
+              {filteredData.type === 'Intern' && (
                 <Text>
                   {`Internship period: ${filteredData.startDate} - ${filteredData.dueDate}`}
                 </Text>
@@ -285,7 +296,7 @@ function Profile() {
             </Space>
 
             <Button
-              className="absolute top-0 right-0 flex items-center justify-center text-blue-700 hover:text-blue-700 transition duration-200 ease-in border-none"
+              className="absolute top-0 right-0 text-blue-700 hover:text-blue-700 focus:text-blue-700"
               type="text"
               shape="circle"
               onClick={showAddEmployee}
@@ -298,26 +309,25 @@ function Profile() {
             <Modal
               visible={createProjectVisible}
               width={'80%'}
-              title={<Text className="font-bold">Create </Text>}
+              title={<Text className="font-bold">Edit profile</Text>}
               onCancel={handleCancel}
               footer={null}
             >
               <Row className="px-24 w-full" justify="space-between">
                 <Col xs={8} lg={12}>
                   <Space direction="vertical" className="flex items-center justify-center">
-                    {image !== undefined ? (
+                    {
                       <img
                         src={
                           imageData
                             ? imageData.uploadImage.fullPath
-                            : imageUpdateData && imageUpdateData.updateImage.fullPath
+                            : imageUpdateData
+                            ? imageUpdateData.updateImage.fullPath
+                            : UnknownImage
                         }
                         className="w-64 h-48"
                       />
-                    ) : (
-                      <PictureOutlined className="text-9xl" />
-                    )}
-
+                    }
                     <label
                       style={{
                         height: 30,
@@ -344,85 +354,117 @@ function Profile() {
                   </Space>
                 </Col>
                 <Col xs={16} lg={12}>
-                  <Form layout="vertical">
+                  <Form layout="vertical" form={form}>
                     <Form.Item
-                      name="Project name"
-                      label="Project name"
-                      rules={[{ required: true, message: 'Please input project name' }]}
+                      name="Name"
+                      label="Name"
+                      rules={[{ required: true, message: 'Please input name' }]}
                       required
                     >
                       <Input
-                        value={projectName}
-                        placeholder="Please input project name"
+                        defaultValue={name}
+                        placeholder="Please input name"
                         onChange={(e) => e.target.value}
                       />
                     </Form.Item>
                     <Form.Item
-                      name="Type"
-                      label="Type"
-                      rules={[{ required: true, message: 'Please input project name' }]}
+                      name="Email"
+                      label="Email"
+                      rules={[{ required: true, message: 'Please input email' }]}
                       required
                     >
-                      <Select value={type} onChange={handleChange}>
-                        <Option value="Data">Data</Option>
-                        <Option value="Design">Design</Option>
-                        <Option value="Mobile">Mobile</Option>
-                        <Option value="Security">Security</Option>
-                        <Option value="Web">Web</Option>
+                      <Input
+                        defaultValue={email}
+                        placeholder="Please input email"
+                        onChange={(e) => e.target.value}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="Jop position"
+                      label="Jop position"
+                      rules={[{ required: true, message: 'Please select jop position' }]}
+                      required
+                    >
+                      <Select defaultValue={postion} onChange={handleChange}>
+                        <Option value="Account Executive">Account Executive</Option>
+                        <Option value="Accountant & Administrator">
+                          Accountant & Administrator
+                        </Option>
+                        <Option value="Back - End Developer">Back - End Developer</Option>
+                        <Option value="Community Manager">Community Manager</Option>
+                        <Option value="Content Creator">Content Creator</Option>
+                        <Option value="Course Developer">Course Developer</Option>
+                        <Option value="Creative Podcast">Creative Podcast</Option>
+                        <Option value="Digital Marketing">Digital Marketing</Option>
+                        <Option value="Filmmaker">Filmmaker</Option>
+                        <Option value="Front - End Developer">Front - End Developer</Option>
+                        <Option value="Graphic Designer">Graphic Designer</Option>
+                        <Option value="Legal Officer">Legal Officer</Option>
+                        <Option value="Mid - Level & Senior Developer">
+                          Mid - Level & Senior Developer
+                        </Option>
+                        <Option value="Mobile Developer">Mobile Developer</Option>
+                        <Option value="Secretary">Secretary</Option>
+                        <Option value="Software Business Analyst">Software Business Analyst</Option>
+                        <Option value="Software Tester">Software Tester</Option>
+                        <Option value="UX / UI Designer">UX / UI Designer</Option>
                       </Select>
                     </Form.Item>
-                    <Form.Item name="Members" label="Members">
-                      <Select
-                        mode="tags"
-                        value={member}
-                        onChange={handleMember}
-                        tokenSeparators={[',']}
-                      >
-                        {(userList || []).map((value: any) => (
-                          <Row
-                            key={value.id}
-                            className="hover:bg-primary hover:text-white py-2 px-4"
-                          >
-                            <Avatar
-                              shape="circle"
-                              size="default"
-                              src={
-                                value.image
-                                  ? value.image.fullPath
-                                  : require('../assets/images/unknown_user.png')
-                              }
-                              className="mr-2"
-                            />
-                            {value.name}
-                          </Row>
-                        ))}
+                    <Form.Item
+                      name="Department"
+                      label="Department"
+                      rules={[{ required: true, message: 'Please select department' }]}
+                      required
+                    >
+                      <Select defaultValue={department} onChange={handleChange}>
+                        <Option value="HR/Admin">HR/Admin</Option>
+                        <Option value="Development">Development</Option>
+                        <Option value="Design">Design</Option>
+                        <Option value="Digital Marketing">Digital Marketing</Option>
                       </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="Telephone"
+                      label="Telephone"
+                      rules={[{ required: true, message: 'Please input telephone number' }]}
+                      required
+                    >
+                      <Input
+                        defaultValue={telephone}
+                        addonBefore="+66"
+                        placeholder="xx-xxx-xxxx"
+                        onChange={(e) => e.target.value}
+                      />
                     </Form.Item>
                     <Form.Item name="Due date" label="Due date">
-                      <DatePicker
-                        value={dueDate}
-                        format={customFormat}
-                        className="w-full"
-                        onChange={onChangeDate}
-                      />
+                      <Radio.Group defaultValue={type} onChange={onChangeType}>
+                        <Radio value="Full-time">Full-time</Radio>
+                        <Radio value="Intern">Intern</Radio>
+                      </Radio.Group>
                     </Form.Item>
-                    <Form.Item
-                      name="Description"
-                      label="Description"
-                      rules={[{ required: true, message: 'Please input project name' }]}
-                      required
-                    >
-                      <TextArea
-                        value={description}
-                        rows={4}
-                        onChange={(e) => e.target.value}
-                        placeholder="Please input description"
-                      />
-                    </Form.Item>
-                    <Form.Item>
-                      <Button type="primary" className="w-full" onClick={handleCreateProject}>
-                        Submit
-                      </Button>
+                    {type === 'Intern' && (
+                      <Form.Item name="Due date" label="Due date">
+                        <DatePicker
+                          defaultValue={dueDate}
+                          className="w-full"
+                          onChange={onChangeDate}
+                        />
+                      </Form.Item>
+                    )}
+                    <Form.Item shouldUpdate={true}>
+                      {() => (
+                        <Button
+                          type="primary"
+                          className="w-full"
+                          onClick={handleEditProfile}
+                          disabled={
+                            !form.isFieldsTouched(true) ||
+                            !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                          }
+                        >
+                          Submit
+                        </Button>
+                      )}
                     </Form.Item>
                   </Form>
                 </Col>
@@ -476,7 +518,7 @@ function Profile() {
                   <Pagination
                     pageSize={pageSize}
                     current={currentProject}
-                    total={filteredData && filteredData.projects.length}
+                    total={filteredData.projects.length}
                     onChange={handleChangePaginationProject}
                     hideOnSinglePage={true}
                   />
@@ -523,7 +565,7 @@ function Profile() {
                   <Pagination
                     pageSize={pageSize}
                     current={currentTask}
-                    total={filteredData && filteredData.tasks.length}
+                    total={filteredData.tasks.length}
                     onChange={handleChangePaginationTask}
                     hideOnSinglePage={true}
                   />

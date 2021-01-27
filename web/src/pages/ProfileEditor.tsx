@@ -4,6 +4,7 @@ import '@pathofdev/react-tag-input/build/index.css'
 import { Card, Col, Row, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 import { LayoutDashboard, ProfileForm } from '../components/DashboardComponent'
 import { UPDATE_IMAGE } from '../services/api/image'
 import { GET_USER_BY_ID } from '../services/api/user'
@@ -50,12 +51,8 @@ function ProfileEditor() {
               {userData ? (
                 <>
                   <img
-                    src={
-                      userData?.image
-                        ? userData?.image.fullPath
-                        : require('../assets/images/logo5.png')
-                    }
-                    alt="avatar"
+                    src={userData?.image ? userData?.image.fullPath : UnknownUserImage}
+                    alt="user"
                     className="w-40 rounded-full"
                   />
                   <label className="appearance-none border border-gray-300 flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300">
