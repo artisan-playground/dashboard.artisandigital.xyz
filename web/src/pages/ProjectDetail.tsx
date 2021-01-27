@@ -92,6 +92,7 @@ function ProjectDetail() {
   const [minIndex, setMinIndex] = useState(0)
   const [maxIndex, setMaxIndex] = useState(0)
   const pageSize = 4
+  const [form] = Form.useForm()
 
   useEffect(() => {
     if (!error && !loading && !projectLoading && !projectError) {
@@ -421,11 +422,7 @@ function ProjectDetail() {
                     suffix={<SearchOutlined type="secondary" />}
                     className="w-96 h-8"
                   />
-                  <Button
-                    className="flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
-                    type="primary"
-                    onClick={showCreateTask}
-                  >
+                  <Button type="primary" onClick={showCreateTask}>
                     <PlusOutlined />
                     Create
                   </Button>
@@ -438,7 +435,7 @@ function ProjectDetail() {
                   >
                     <Row className="px-48 w-full" justify="space-between">
                       <Col xs={24}>
-                        <Form layout="vertical">
+                        <Form layout="vertical" form={form}>
                           <Form.Item
                             name="Project name"
                             label="Project name"
@@ -487,10 +484,21 @@ function ProjectDetail() {
                               placeholder="Please input description"
                             />
                           </Form.Item>
-                          <Form.Item>
-                            <Button type="primary" className="w-full" onClick={handleCreateTask}>
-                              Submit
-                            </Button>
+                          <Form.Item shouldUpdate={true}>
+                            {() => (
+                              <Button
+                                type="primary"
+                                className="w-full"
+                                onClick={handleCreateTask}
+                                disabled={
+                                  !form.isFieldsTouched(true) ||
+                                  !!form.getFieldsError().filter(({ errors }) => errors.length)
+                                    .length
+                                }
+                              >
+                                Submit
+                              </Button>
+                            )}
                           </Form.Item>
                         </Form>
                       </Col>

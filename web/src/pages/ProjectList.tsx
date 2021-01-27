@@ -2,7 +2,6 @@ import {
   CloseCircleOutlined,
   ExclamationCircleOutlined,
   LoadingOutlined,
-  PictureOutlined,
   PlusOutlined,
   SearchOutlined,
   UploadOutlined,
@@ -30,6 +29,8 @@ import generatePicker from 'antd/es/date-picker/generatePicker'
 import { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
+import UnknownImage from '../assets/images/unknown_image.jpg'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 import { LayoutDashboard, LoadingComponent, ProjectCard } from '../components/DashboardComponent'
 import { CREATE_PROJECT, PROJECT } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE, UPLOAD_PROJECT_IMAGE } from '../services/api/projectImage'
@@ -68,6 +69,7 @@ function ProjectList() {
   const [minIndex, setMinIndex] = useState(0)
   const [maxIndex, setMaxIndex] = useState(0)
   const pageSize = 8
+  const [form] = Form.useForm()
 
   useEffect(() => {
     if (!error && !loading && !userLoading) {
@@ -81,10 +83,10 @@ function ProjectList() {
           setFilteredData(closed)
           break
         case 'all':
-          setFilteredData(data.projects)
+          setFilteredData(data && data.projects)
           break
         default:
-          setFilteredData(data.projects)
+          setFilteredData(data && data.projects)
           break
       }
       setUserList(userData && userData.users)
@@ -221,11 +223,7 @@ function ProjectList() {
       <div className="px-8">
         <Row className="justify-between mb-8">
           <Row>
-            <Button
-              className="flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
-              type="primary"
-              onClick={showCreateProject}
-            >
+            <Button type="primary" onClick={showCreateProject}>
               <PlusOutlined />
               Create
             </Button>
@@ -239,18 +237,18 @@ function ProjectList() {
               <Row className="px-24 w-full" justify="space-between">
                 <Col xs={8} lg={12}>
                   <Space direction="vertical" className="flex items-center justify-center">
-                    {image !== undefined ? (
+                    {
                       <img
                         src={
                           imageData
                             ? imageData.uploadProjectImage.fullPath
-                            : imageUpdateData && imageUpdateData.updateProjectImage.fullPath
+                            : imageUpdateData
+                            ? imageUpdateData.updateProjectImage.fullPath
+                            : UnknownImage
                         }
                         className="w-64 h-48"
                       />
-                    ) : (
-                      <PictureOutlined className="text-9xl" />
-                    )}
+                    }
 
                     <label
                       style={{
@@ -278,7 +276,7 @@ function ProjectList() {
                   </Space>
                 </Col>
                 <Col xs={16} lg={12}>
-                  <Form layout="vertical">
+                  <Form form={form} layout="vertical">
                     <Form.Item
                       name="Project name"
                       label="Project name"
@@ -320,11 +318,8 @@ function ProjectList() {
                             <Avatar
                               shape="circle"
                               size="default"
-                              src={
-                                value.image
-                                  ? value.image.fullPath
-                                  : require('../assets/images/unknown_user.png')
-                              }
+                              src={value.image ? value.image.fullPath : UnknownUserImage}
+                              alt="user"
                               className="mr-2"
                             />
                             {value.name}
@@ -353,10 +348,20 @@ function ProjectList() {
                         placeholder="Please input description"
                       />
                     </Form.Item>
-                    <Form.Item>
-                      <Button type="primary" className="w-full" onClick={handleCreateProject}>
-                        Submit
-                      </Button>
+                    <Form.Item shouldUpdate={true}>
+                      {() => (
+                        <Button
+                          type="primary"
+                          className="w-full"
+                          onClick={handleCreateProject}
+                          disabled={
+                            !form.isFieldsTouched(true) ||
+                            !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                          }
+                        >
+                          Submit
+                        </Button>
+                      )}
                     </Form.Item>
                   </Form>
                 </Col>

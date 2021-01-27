@@ -18,6 +18,7 @@ import {
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 import { LayoutDashboard } from '../components/DashboardComponent'
 import { CREATE_NOTIFICATION } from '../services/api/notification'
 import {
@@ -141,9 +142,7 @@ function Member() {
       render: (text: any, item: any) => (
         <>
           <Link key={item.id} to={{ pathname: `/profile/${item.id}` }}>
-            <Avatar
-              src={item.image ? item.image.fullPath : require('../assets/images/unknown_user.png')}
-            />
+            <Avatar src={item.image ? item.image.fullPath : UnknownUserImage} alt="user" />
           </Link>
         </>
       ),
@@ -218,13 +217,7 @@ function Member() {
       render: (_: any, record: any) =>
         dataSource.length >= 1 ? (
           <>
-            <Button
-              danger
-              type="text"
-              shape="circle"
-              className="flex items-center justify-center"
-              onClick={() => handleConfirm(record)}
-            >
+            <Button danger type="text" shape="circle" onClick={() => handleConfirm(record)}>
               <DeleteOutlined />
             </Button>
           </>
@@ -278,11 +271,7 @@ function Member() {
                 Members ({dataSource ? dataSource.length : 0})
               </Text>
               <Col>
-                <Button
-                  onClick={openModal}
-                  type="primary"
-                  className="flex items-center justify-center bg-secondary hover:bg-primary border-none"
-                >
+                <Button onClick={openModal} type="primary">
                   Add member
                 </Button>
               </Col>
@@ -306,11 +295,8 @@ function Member() {
                             <Avatar
                               shape="circle"
                               size="small"
-                              src={
-                                item.image
-                                  ? item.image.fullPath
-                                  : require('../assets/images/unknown_user.png')
-                              }
+                              src={item.image ? item.image.fullPath : UnknownUserImage}
+                              alt="user"
                               className="mr-2"
                             />
                             {item.name}
@@ -320,11 +306,7 @@ function Member() {
                   </Form.Item>
                   <Form.Item>
                     <div className="flex items-end justify-end">
-                      <Button
-                        type="primary"
-                        onClick={handleAdd}
-                        className="flex items-center justify-center bg-secondary hover:bg-primary border-none"
-                      >
+                      <Button type="primary" onClick={handleAdd}>
                         Add
                       </Button>
                     </div>

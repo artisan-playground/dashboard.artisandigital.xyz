@@ -41,6 +41,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import Linkify from 'react-linkify'
 import { Link, useParams } from 'react-router-dom'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 import { LayoutDashboard } from '../components/DashboardComponent'
 import { COMMENT, DELETE_COMMENT, UPDATE_COMMENT } from '../services/api/comment'
 import { DELETE_FILE, UPLOAD_FILE } from '../services/api/file'
@@ -318,12 +319,12 @@ function TaskDetail() {
                   footer={null}
                   className="flex items-center justify-center"
                 >
-                  <img src={data.fullPath} alt="logo" />
+                  <img src={data.fullPath} alt="file" />
                 </Modal>
               </Col>
             ) : null}
           </div>
-          <img src={data.fullPath} alt="logo" />
+          <img src={data.fullPath} alt="file" />
         </Row>
       )
     } else {
@@ -452,11 +453,8 @@ function TaskDetail() {
                       <Link to={{ pathname: `/profile/${item.user.id}` }}>
                         <Avatar
                           size="large"
-                          src={
-                            item.user.image
-                              ? item.user.image.fullPath
-                              : require('../assets/images/unknown_user.png')
-                          }
+                          src={item.user.image ? item.user.image.fullPath : UnknownUserImage}
+                          alt="user"
                         />
                       </Link>
                     </Col>
@@ -524,9 +522,8 @@ function TaskDetail() {
               <Avatar
                 className="flex justify-center items-center mr-4 mt-2"
                 size="large"
-                src={
-                  user?.image ? user?.image.fullPath : require('../assets/images/unknown_user.png')
-                }
+                src={user?.image ? user?.image.fullPath : UnknownUserImage}
+                alt="user"
               />
               <Input
                 className="rounded-lg mt-4"
@@ -606,11 +603,8 @@ function TaskDetail() {
                           <Avatar
                             shape="circle"
                             size="default"
-                            src={
-                              value.image
-                                ? value.image.fullPath
-                                : require('../assets/images/unknown_user.png')
-                            }
+                            src={value.image ? value.image.fullPath : UnknownUserImage}
+                            alt="user"
                             className="mr-2"
                           />
                           {value.name}
@@ -636,12 +630,8 @@ function TaskDetail() {
                     <Row className="w-full">
                       <Avatar
                         key={items.id}
-                        src={
-                          items.image
-                            ? items.image.fullPath
-                            : require('../assets/images/unknown_user.png')
-                        }
-                        alt={items.name}
+                        src={items.image ? items.image.fullPath : UnknownUserImage}
+                        alt="user"
                       />
                       <div className="ml-4 text-lg">{items.name}</div>
                     </Row>
@@ -670,12 +660,8 @@ function TaskDetail() {
                   <div className="flex mx-0 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
                     <Avatar
                       key={items.id}
-                      src={
-                        items.image
-                          ? items.image.fullPath
-                          : require('../assets/images/unknown_user.png')
-                      }
-                      alt={items.name}
+                      src={items.image ? items.image.fullPath : UnknownUserImage}
+                      alt="user"
                     />
                     <div className="ml-4 text-lg">{items.name}</div>
                   </div>

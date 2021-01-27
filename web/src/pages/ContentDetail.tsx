@@ -32,7 +32,6 @@ import { DELETE_CONTENT, GET_CONTENT_BY_ID, UPDATE_CONTENT } from '../services/a
 
 function ContentDetail() {
   const { Text } = Typography
-  const { TextArea } = Input
   const { id }: any = useParams()
   const { loading, error, data, refetch } = useQuery(GET_CONTENT_BY_ID, {
     variables: { id: Number(id) },
@@ -143,7 +142,7 @@ function ContentDetail() {
               shape="circle"
               type="text"
               onClick={handleShowEditor}
-              className="mr-4 flex items-center justify-center text-blue-700"
+              className="mr-4 text-blue-700 hover:text-blue-700 focus:text-blue-700"
             >
               <EditOutlined />
             </Button>
@@ -151,7 +150,7 @@ function ContentDetail() {
               shape="circle"
               type="text"
               onClick={openModal}
-              className="flex items-center justify-center text-red-600"
+              className="text-red-600 hover:text-red-600 focus:text-red-600"
             >
               <DeleteOutlined />
             </Button>
@@ -168,14 +167,10 @@ function ContentDetail() {
           </Row>
         ) : (
           <Row justify="end" className="w-full mb-4">
-            <Button onClick={handleShowEditor} className="w-24 mr-4">
+            <Button onClick={handleShowEditor} className="mr-4">
               Cancel
             </Button>
-            <Button
-              type="primary"
-              onClick={handleCreateTask}
-              className="w-24 bg-secondary hover:bg-primary border-none"
-            >
+            <Button type="primary" onClick={handleCreateTask}>
               Submit
             </Button>
           </Row>
