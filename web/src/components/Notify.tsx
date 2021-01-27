@@ -17,6 +17,7 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useRef, useState } from 'react'
 // @ts-ignore
 import { reactLocalStorage } from 'reactjs-localstorage'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 
 function Notify(props: any) {
   dayjs.locale(navigator.languages[0].toLowerCase())
@@ -129,11 +130,7 @@ function Notify(props: any) {
             >
               <Col xs={4} className="relative">
                 <Avatar
-                  src={
-                    item.sender.image
-                      ? item.sender.image.fullPath
-                      : require('../assets/images/unknown_user.png')
-                  }
+                  src={item.sender.image ? item.sender.image.fullPath : UnknownUserImage}
                   className="mr-2"
                   alt="user"
                   size="large"
