@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client'
 import { Avatar, Col, Dropdown, Layout, Menu, Row, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 import { Notify } from '../components/DashboardComponent'
 import { TASKS } from '../services/api/task'
 import { GET_USER_BY_ID } from '../services/api/user'
@@ -83,9 +84,7 @@ function NavBar({ toggle, collapsed }: any) {
                   <div className="block hover:hidden">
                     <Avatar
                       src={
-                        currentUserData.image
-                          ? currentUserData.image.fullPath
-                          : require('../assets/images/unknown_user.png')
+                        currentUserData.image ? currentUserData.image.fullPath : UnknownUserImage
                       }
                       className="mr-2"
                       alt="user"
@@ -95,12 +94,7 @@ function NavBar({ toggle, collapsed }: any) {
                   </div>
                 ) : (
                   <div className="block hover:hidden">
-                    <Avatar
-                      src={require('../assets/images/unknown_user.png')}
-                      className="mr-2"
-                      alt="user"
-                      size="large"
-                    />
+                    <Avatar src={UnknownUserImage} className="mr-2" alt="user" size="large" />
                     <Text className="font-bold">{currentUserData.name}</Text>
                   </div>
                 )}

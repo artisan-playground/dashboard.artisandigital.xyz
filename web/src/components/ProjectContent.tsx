@@ -28,6 +28,7 @@ import 'antd/es/date-picker/style/index'
 import dayjs, { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
+import UnknownImage from '../assets/images/unknown_image.jpg'
 import { UPDATE_PROJECT, UPDATE_PROJECT_STATUS } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE } from '../services/api/projectImage'
 
@@ -154,11 +155,8 @@ function ProjectContent({ data, refetch }: any) {
         <Space direction="vertical">
           <Avatar
             size={125}
-            src={
-              projectData.projectImage
-                ? projectData.projectImage.fullPath
-                : require('../assets/images/Artisan Digital_logo_mini.png')
-            }
+            src={projectData.projectImage ? projectData.projectImage.fullPath : UnknownImage}
+            alt="project-image"
           />
         </Space>
       </Col>
@@ -168,7 +166,7 @@ function ProjectContent({ data, refetch }: any) {
           <Row>
             {data.status === 'done' ? (
               <Button
-                className="flex items-center justify-center bg-green-400 hover:bg-green-500 transition duration-200 ease-in border-none"
+                className="bg-green-400 hover:bg-green-500 border-none focus:bg-green-500"
                 type="primary"
                 onClick={handleUndoneStatus}
               >
@@ -177,7 +175,7 @@ function ProjectContent({ data, refetch }: any) {
               </Button>
             ) : (
               <Button
-                className="flex items-center justify-center bg-red-400 hover:bg-red-500 transition duration-200 ease-in border-none"
+                className="bg-red-400 hover:bg-red-500 border-none focus:bg-red-500"
                 type="primary"
                 onClick={handleDoneStatus}
               >
@@ -185,11 +183,7 @@ function ProjectContent({ data, refetch }: any) {
                 Mark as Done
               </Button>
             )}
-            <Button
-              className="ml-2 flex items-center justify-center bg-secondary hover:bg-primary transition duration-200 ease-in border-none"
-              type="primary"
-              onClick={showEditProject}
-            >
+            <Button type="primary" onClick={showEditProject}>
               <EditOutlined />
               Edit
             </Button>
@@ -203,7 +197,11 @@ function ProjectContent({ data, refetch }: any) {
               <Row className="px-24 w-full" justify="space-between">
                 <Col xs={8} lg={12}>
                   <Space direction="vertical" className="flex items-center justify-center">
-                    <img src={data.projectImage.fullPath} className="w-64 h-48" />
+                    <img
+                      src={data.projectImage.fullPath}
+                      className="w-64 h-48"
+                      alt="project-image"
+                    />
                     <label
                       style={{
                         height: 30,

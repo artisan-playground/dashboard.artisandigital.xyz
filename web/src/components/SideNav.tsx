@@ -10,6 +10,8 @@ import {
 import { Divider, Layout, Menu, Typography } from 'antd'
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
+import MiniLogo from '../assets/images/Artisan Digital_logo_mini.png'
+import Logo from '../assets/images/Artisan_Digital_logo.png'
 import { useStoreState } from '../store'
 
 function SideNav({ children, collapsed, toggle }: any) {
@@ -34,26 +36,22 @@ function SideNav({ children, collapsed, toggle }: any) {
           collapsible
           onCollapse={toggle}
           breakpoint={'lg'}
-          className="min-h-screen h-full bg-white border-r"
+          className="min-h-screen h-full bg-white border-r transition duration-700"
         >
-          <div className="w-44 ml-4 my-2">
+          <div className="overflow-hidden w-44 mx-3 my-2">
             {collapsed ? (
-              <img
-                src={require('../assets/images/Artisan Digital_logo_mini.png')}
-                width={55}
-                alt="logo"
-              />
+              <img src={MiniLogo} width={55} alt="logo" />
             ) : (
-              <img
-                src={require('../assets/images/Artisan_Digital_logo.png')}
-                width={150}
-                alt="logo"
-              />
+              <img src={Logo} width={150} alt="logo" />
             )}
           </div>
-          <Menu mode="inline" selectedKeys={getSelectedKeys()} className="border-none">
+          <Menu
+            mode="inline"
+            selectedKeys={getSelectedKeys()}
+            className={collapsed ? 'border-r' : 'border-none'}
+          >
             {collapsed ? (
-              <Divider className="my-4" />
+              <Divider className="my-4 border-none" />
             ) : (
               <div className="my-4">
                 <Text type="secondary" className="ml-6">

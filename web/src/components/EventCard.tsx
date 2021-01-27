@@ -1,6 +1,7 @@
 import { BookOutlined } from '@ant-design/icons'
 import { Avatar, Card, Col, Empty, Row, Tag, Tooltip, Typography } from 'antd'
 import React from 'react'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 
 function EventCard({ data }: any) {
   const { Text } = Typography
@@ -64,11 +65,7 @@ function EventCard({ data }: any) {
                       <Tooltip title={item.name} placement="top">
                         <Avatar
                           key={item.id}
-                          src={
-                            item.image
-                              ? item.image.fullPath
-                              : require('../assets/images/Artisan Digital_logo_mini.png')
-                          }
+                          src={item.image ? item.image.fullPath : UnknownUserImage}
                           alt={item.name}
                         ></Avatar>
                       </Tooltip>

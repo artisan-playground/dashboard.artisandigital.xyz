@@ -2,6 +2,7 @@ import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { Avatar, Card, Col, Popover, Row, Space, Tag, Tooltip, Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 
 function ProjectCard({ data }: any) {
   const { Text } = Typography
@@ -16,11 +17,7 @@ function ProjectCard({ data }: any) {
               <Tooltip placement="top" title={item[i].name}>
                 <Avatar
                   key={item[i].id}
-                  src={
-                    item[i].image
-                      ? item[i].image.fullPath
-                      : require('../assets/images/unknown_user.png')
-                  }
+                  src={item[i].image ? item[i].image.fullPath : UnknownUserImage}
                   className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
                   alt={item[i].name}
                 />
@@ -61,9 +58,7 @@ function ProjectCard({ data }: any) {
             <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
               <Avatar
                 key={items.id}
-                src={
-                  items.image ? items.image.fullPath : require('../assets/images/unknown_user.png')
-                }
+                src={items.image ? items.image.fullPath : UnknownUserImage}
                 className="ml-2"
                 alt={items.name}
               />
@@ -81,7 +76,7 @@ function ProjectCard({ data }: any) {
         hoverable
         className="min-w-full"
         cover={
-          <img alt="projectImage" src={data.projectImage.fullPath} className="object-cover h-48" />
+          <img src={data.projectImage.fullPath} className="object-cover h-48" alt="project-image" />
         }
       >
         <Row className="w-full">

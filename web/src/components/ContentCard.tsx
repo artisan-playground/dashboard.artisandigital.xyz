@@ -4,6 +4,7 @@ import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import parse from 'html-react-parser'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import UnknownImage from '../assets/images/unknown_user.png'
 
 function ContentCard({ data }: any) {
   const { Paragraph, Text } = Typography
@@ -20,11 +21,8 @@ function ContentCard({ data }: any) {
             <Row justify="space-between" className="p-2 flex items-center">
               <Col>
                 <Avatar
-                  src={
-                    data.user.image
-                      ? data.user.image.fullPath
-                      : require('../assets/images/unknown_user.png')
-                  }
+                  src={data.user.image ? data.user.image.fullPath : UnknownImage}
+                  alt="user"
                 />
                 <Text className="ml-2 font-bold text-blue-700">{data.user.name}</Text>
               </Col>
@@ -32,11 +30,7 @@ function ContentCard({ data }: any) {
                 <Text type="secondary">{dayjs(data.timestamp).format('DD MMM YYYY LT')}</Text>
               </Col>
             </Row>
-            <img
-              alt="projectImage"
-              src={data.contentImage[0].fullPath}
-              className="object-cover h-48"
-            />
+            <img src={data.contentImage[0].fullPath} className="object-cover h-48" alt="user" />
           </>
         }
       >

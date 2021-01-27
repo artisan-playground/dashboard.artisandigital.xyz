@@ -2,6 +2,7 @@ import { EditOutlined } from '@ant-design/icons'
 import { Avatar, Button, Card, Col, Row, Space, Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import UnknownImage from '../assets/images/unknown_user.png'
 
 function EmployeeCard({ data }: any) {
   const { Text } = Typography
@@ -16,11 +17,9 @@ function EmployeeCard({ data }: any) {
             <Col xs={24}>
               <Space direction="vertical" size={2} className="flex items-center justify-center">
                 <Avatar
-                  src={
-                    data.image ? data.image.fullPath : require('../assets/images/unknown_user.png')
-                  }
-                  className="mr-2"
+                  src={data.image ? data.image.fullPath : UnknownImage}
                   alt="user"
+                  className="mr-2"
                   size={120}
                 />
                 <Text className="font-bold text-blue-700">{data.name}</Text>
