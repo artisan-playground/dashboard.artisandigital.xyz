@@ -10,7 +10,6 @@ function ContentCard({ data }: any) {
   const { Paragraph, Text } = Typography
   dayjs.extend(LocalizedFormat)
 
-  console.log(data)
   return (
     <Link to={{ pathname: `/content/${data.id}` }}>
       <Card

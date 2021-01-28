@@ -9,13 +9,10 @@ import SideNav from '../components/SideNav'
 import TaskCard from '../components/TaskCard'
 import WelcomeCard from '../components/WelcomeCard'
 import ContentCard from './ContentCard'
-import ContentCreate from './ContentCreate'
 import EmployeeCard from './EmployeeCard'
 import FormCard from './FormCard'
 import Notify from './Notify'
 import ProjectContent from './ProjectContent'
-import ProjectCreate from './ProjectCreate'
-import TaskCreate from './TaskCreate'
 import TodayTaskCard from './TodayTaskCard'
 import ZoneCard from './ZoneCard'
 
@@ -30,14 +27,11 @@ export {
   LogList,
   TaskCard,
   LoadingComponent,
-  TaskCreate,
-  ProjectCreate,
   ProjectContent,
   Notify,
   TodayTaskCard,
   EmployeeCard,
   ContentCard,
-  ContentCreate,
   ZoneCard,
   FormCard,
 }

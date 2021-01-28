@@ -48,11 +48,7 @@ function EventCard({ data }: any) {
 
               <Col span={24} md={{ span: 4 }} className="w-full mt-4 md:mt-0 ">
                 <Row className="justify-start md:justify-end">
-                  <Tag
-                    color="gold"
-                    className="flex items-center justify-center"
-                    icon={<BookOutlined />}
-                  >
+                  <Tag color="gold" icon={<BookOutlined />}>
                     {item.tag}
                   </Tag>
                 </Row>

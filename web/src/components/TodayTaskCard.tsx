@@ -1,11 +1,6 @@
-import {
-  CheckCircleOutlined,
-  CommentOutlined,
-  PaperClipOutlined,
-  WarningOutlined,
-} from '@ant-design/icons'
+import { CheckCircleOutlined, WarningOutlined } from '@ant-design/icons'
 import { useMutation } from '@apollo/client'
-import { Avatar, Card, Col, Popover, Row, Space, Tag, Tooltip, Typography } from 'antd'
+import { Avatar, Card, Col, Popover, Row, Tag, Tooltip, Typography } from 'antd'
 import dayjs from 'dayjs'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 import React, { useEffect, useState } from 'react'
@@ -113,64 +108,34 @@ function TodayTaskCard({ data }: any) {
 
   return (
     <Link to={{ pathname: `/task/${data.id}` }}>
-      <Card hoverable className="min-w-full mb-4">
+      <Card hoverable className="mb-4">
         {days.toString() === '03' &&
           hours.toString() === '23' &&
           minutes.toString() === '59' &&
           seconds.toString() === '59' &&
           deadline(data.taskName)}
-        <Row className="w-full">
-          <Col xs={24}>
-            <Row justify="space-between">
-              <Col xs={21}>
-                <Space direction="horizontal" size={2}>
-                  <Text className="font-bold">{data.taskName}</Text>
-                  {data.files.length !== 0 ? (
-                    <PaperClipOutlined className="ml-2 text-gray-500" />
-                  ) : (
-                    <div />
-                  )}
-                  {data.comments.length !== 0 ? (
-                    <CommentOutlined className="ml-2 text-gray-500" />
-                  ) : (
-                    <div />
-                  )}
-                </Space>
-              </Col>
-              <Col xs={3}>
-                {data.status === 'done' ? (
-                  <Tag
-                    color="green"
-                    className="flex items-center justify-center"
-                    icon={<CheckCircleOutlined />}
-                  >
-                    Done
-                  </Tag>
-                ) : (
-                  <Tag
-                    color="red"
-                    className="flex items-center justify-center"
-                    icon={<WarningOutlined />}
-                  >
-                    WIP
-                  </Tag>
-                )}
-              </Col>
-            </Row>
-
-            <Row className="mt-2">
-              <Col xs={24} lg={16}>
-                <Space direction="vertical">
-                  <Text type="secondary">{`${dayjs(data.startTime).format(
-                    'DD/MMM/YYYY LT'
-                  )} - ${dayjs(data.endTime).format('DD/MMM/YYYY LT')}`}</Text>
-                  <Text>{data.taskDetail}</Text>
-                </Space>
-              </Col>
-              <Col xs={24} lg={8}>
-                <Row className="flex justify-end items-end">{renderShowItems(data.members)}</Row>
-              </Col>
-            </Row>
+        <Row justify="space-between" className="w-full items-center">
+          <Col xs={4}>
+            <Row className="flex justify-start items-start">{renderShowItems(data.members)}</Row>
+          </Col>
+          <Col xs={7}>
+            <Text className="font-bold">{data.taskName}</Text>
+          </Col>
+          <Col xs={11}>
+            <Text type="secondary">{`${dayjs(data.startTime).format('DD/MMM/YYYY LT')} - ${dayjs(
+              data.endTime
+            ).format('DD/MMM/YYYY LT')}`}</Text>
+          </Col>
+          <Col xs={2}>
+            {data.status === 'done' ? (
+              <Tag color="green" icon={<CheckCircleOutlined />}>
+                Done
+              </Tag>
+            ) : (
+              <Tag color="red" icon={<WarningOutlined />}>
+                WIP
+              </Tag>
+            )}
           </Col>
         </Row>
       </Card>

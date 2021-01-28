@@ -137,21 +137,13 @@ function TaskCard({ data }: any) {
                   )}
                 </Space>
               </Col>
-              <Col xs={3}>
+              <Col xs={3} className="flex justify-end">
                 {data.status === 'done' ? (
-                  <Tag
-                    color="green"
-                    className="flex items-center justify-center"
-                    icon={<CheckCircleOutlined />}
-                  >
+                  <Tag color="green" icon={<CheckCircleOutlined />}>
                     Done
                   </Tag>
                 ) : (
-                  <Tag
-                    color="red"
-                    className="flex items-center justify-center"
-                    icon={<WarningOutlined />}
-                  >
+                  <Tag color="red" icon={<WarningOutlined />}>
                     WIP
                   </Tag>
                 )}
@@ -167,10 +159,8 @@ function TaskCard({ data }: any) {
                   <Text>{data.taskDetail}</Text>
                 </Space>
               </Col>
-              <Col xs={24} lg={8}>
-                <Row className="flex justify-end items-end">{renderShowItems(data.members)}</Row>
-              </Col>
             </Row>
+            <Row className="flex justify-end items-end">{renderShowItems(data.members)}</Row>
           </Col>
         </Row>
       </Card>
