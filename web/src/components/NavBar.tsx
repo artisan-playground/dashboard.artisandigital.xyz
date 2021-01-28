@@ -15,7 +15,6 @@ function NavBar({ toggle, collapsed }: any) {
   const user = useStoreState((s) => s.userState.user)
   const logout = useStoreActions((a) => a.userState.logOut)
   const { loading, error, data } = useQuery(TASKS)
-  const [filteredData, setFilteredData] = useState<any[]>([])
   const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USER_BY_ID, {
     variables: { id: Number(user?.id) },
   })
@@ -24,7 +23,6 @@ function NavBar({ toggle, collapsed }: any) {
 
   useEffect(() => {
     if (!error && !loading && !userLoading && !userError) {
-      setFilteredData(data.tasks)
       setCurrentUserData(userData?.user)
       setNotification(userData?.user.notifications)
     }
