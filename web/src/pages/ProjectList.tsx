@@ -23,6 +23,7 @@ import {
   Row,
   Select,
   Space,
+  Spin,
   Typography,
 } from 'antd'
 import generatePicker from 'antd/es/date-picker/generatePicker'
@@ -53,13 +54,13 @@ function ProjectList() {
   const [uploadImage, { loading: loadingUpload, data: imageData }] = useMutation(
     UPLOAD_PROJECT_IMAGE
   )
-  const { loading: userLoading, data: userData } = useQuery(GET_USERS)
+  const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USERS)
   const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
-  const [projectName, setProjectName] = useState()
-  const [type, setType] = useState()
+  const [projectName, setProjectName] = useState<any>()
+  const [type, setType] = useState<any>()
   const [member, setMember] = useState<any[]>([])
-  const [dueDate, setDueDate] = useState()
-  const [description, setDescription] = useState()
+  const [dueDate, setDueDate] = useState<any>()
+  const [description, setDescription] = useState<any>()
   const [image, setImage] = useState()
   const [userList, setUserList] = useState([])
   const dateFormat = 'DD MMM YYYY'
@@ -72,7 +73,7 @@ function ProjectList() {
   const [form] = Form.useForm()
 
   useEffect(() => {
-    if (!error && !loading && !userLoading) {
+    if (!error && !loading && !userLoading && !userError) {
       switch (types) {
         case 'undone':
           let wip: any[] = data.projects.filter((item: any) => item.status === 'undone')
@@ -83,18 +84,13 @@ function ProjectList() {
           setFilteredData(closed)
           break
         case 'all':
-          setFilteredData(data && data.projects)
+          setFilteredData(data.projects)
           break
         default:
-          setFilteredData(data && data.projects)
+          setFilteredData(data.projects)
           break
       }
-      setUserList(userData && userData.users)
-      setImage(
-        imageData
-          ? imageData.uploadProjectImage.id
-          : imageUpdateData && imageUpdateData.updateProjectImage.id
-      )
+      setUserList(userData.users)
       setTotalPage(data.length / pageSize)
       setMinIndex(0)
       setMaxIndex(pageSize)
@@ -126,7 +122,7 @@ function ProjectList() {
   }
 
   function handleChange(value: any) {
-    setTypes(value)
+    setType(value)
   }
 
   function showCreateProject() {
@@ -143,7 +139,14 @@ function ProjectList() {
       files: [file],
     },
   }: any) {
-    if (validity.valid) uploadImage({ variables: { file: file } })
+    if (validity.valid) {
+      uploadImage({ variables: { file: file } })
+      setImage(
+        imageData
+          ? imageData.uploadProjectImage
+          : imageUpdateData && imageUpdateData.updateProjectImage
+      )
+    }
   }
 
   function onChangeImage({
@@ -152,7 +155,7 @@ function ProjectList() {
       files: [file],
     },
   }: any) {
-    if (validity.valid)
+    if (validity.valid) {
       updateImage({
         variables: {
           id: imageData
@@ -161,24 +164,35 @@ function ProjectList() {
           file: file,
         },
       })
+      setImage(
+        imageData
+          ? imageData.uploadProjectImage
+          : imageUpdateData && imageUpdateData.updateProjectImage
+      )
+    }
   }
-  console.log('image', image)
 
-  console.log(imageData && imageData.uploadProjectImage)
   function handleCreateProject() {
     if (projectName !== '' && type !== '' && description !== '') {
       createProject({
         variables: {
-          id: data.id,
           projectName: projectName,
           projectType: type,
           projectDetail: description,
+          dueDate: new Date(dueDate),
+          file: imageData
+            ? imageData.uploadProjectImage.id
+            : imageUpdateData && imageUpdateData.updateProjectImage.id,
+          members: member,
         },
       })
         .then((res) => {
           setProjectName(projectName)
           setType(type)
           setDescription(description)
+          setDueDate(new Date(dueDate))
+          setMember(member)
+          setCreateProjectVisible(false)
           refetch()
         })
         .catch((err) => {
@@ -199,9 +213,8 @@ function ProjectList() {
 
   function handleMember(value: any) {
     const val = Number(value.reverse()[0])
-    return member.push({ id: val })
+    setMember((prevState) => [...prevState, { id: val }])
   }
-  console.log(handleMember)
 
   function onChangeDate(_: any, dateString: any) {
     setDueDate(dateString[0])
@@ -237,7 +250,20 @@ function ProjectList() {
               <Row className="px-24 w-full" justify="space-between">
                 <Col xs={8} lg={12}>
                   <Space direction="vertical" className="flex items-center justify-center">
-                    {
+                    {loadingUpdate || loadingUpload ? (
+                      <Spin>
+                        <img
+                          src={
+                            imageData
+                              ? imageData.uploadProjectImage.fullPath
+                              : imageUpdateData
+                              ? imageUpdateData.updateProjectImage.fullPath
+                              : UnknownImage
+                          }
+                          className="w-64 h-48"
+                        />
+                      </Spin>
+                    ) : (
                       <img
                         src={
                           imageData
@@ -248,7 +274,7 @@ function ProjectList() {
                         }
                         className="w-64 h-48"
                       />
-                    }
+                    )}
 
                     <label
                       style={{
@@ -262,7 +288,7 @@ function ProjectList() {
                         className="invisible"
                         onChange={image === undefined ? onUploadImage : onChangeImage}
                       />
-                      {loadingUpdate ? (
+                      {loadingUpdate || loadingUpload ? (
                         <div className="absolute flex items-center justify-center">
                           <LoadingOutlined className="mr-2" spin />
                         </div>
@@ -286,13 +312,13 @@ function ProjectList() {
                       <Input
                         value={projectName}
                         placeholder="Please input project name"
-                        onChange={(e) => e.target.value}
+                        onChange={(e) => setProjectName(e.target.value)}
                       />
                     </Form.Item>
                     <Form.Item
                       name="Type"
                       label="Type"
-                      rules={[{ required: true, message: 'Please input project name' }]}
+                      rules={[{ required: true, message: 'Please select type' }]}
                       required
                     >
                       <Select value={type} onChange={handleChange}>
@@ -303,7 +329,12 @@ function ProjectList() {
                         <Option value="Web">Web</Option>
                       </Select>
                     </Form.Item>
-                    <Form.Item name="Members" label="Members">
+                    <Form.Item
+                      name="Members"
+                      label="Members"
+                      rules={[{ required: true, message: 'Please select members' }]}
+                      required
+                    >
                       <Select
                         mode="tags"
                         value={member}
@@ -327,7 +358,12 @@ function ProjectList() {
                         ))}
                       </Select>
                     </Form.Item>
-                    <Form.Item name="Due date" label="Due date">
+                    <Form.Item
+                      name="Due date"
+                      label="Due date"
+                      rules={[{ required: true, message: 'Please input due date' }]}
+                      required
+                    >
                       <DatePicker
                         value={dueDate}
                         format={customFormat}
@@ -338,13 +374,13 @@ function ProjectList() {
                     <Form.Item
                       name="Description"
                       label="Description"
-                      rules={[{ required: true, message: 'Please input project name' }]}
+                      rules={[{ required: true, message: 'Please input description' }]}
                       required
                     >
                       <TextArea
                         value={description}
                         rows={4}
-                        onChange={(e) => e.target.value}
+                        onChange={(e) => setDescription(e.target.value)}
                         placeholder="Please input description"
                       />
                     </Form.Item>
