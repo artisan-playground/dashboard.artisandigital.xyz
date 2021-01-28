@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import {
+  Avatar,
   Breadcrumb,
   Button,
   Card,
@@ -32,6 +33,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import UnknownUserImage from '../assets/images/unknown_user.png'
 import {
   LayoutDashboard,
   LoadingComponent,
@@ -39,12 +41,11 @@ import {
   ProjectContent,
   TaskCard,
 } from '../components/DashboardComponent'
-import { CREATE_NOTIFICATION } from '../services/api/notification'
 import { GET_PROJECT_BY_ID } from '../services/api/project'
 import { ADD_TASK, TASKS_BY_ID } from '../services/api/task'
-import { useStoreState } from '../store'
 
 function ProjectDetail() {
+  const { Option } = Select
   const { Text } = Typography
   const { TextArea } = Input
   const { projectId }: any = useParams()
@@ -70,29 +71,24 @@ function ProjectDetail() {
   const [doneTaskVisible, setDoneTaskVisible] = useState(false)
   const [filterloading, setLoading] = useState(false)
   const [createTaskVisible, setCreateTaskVisible] = useState(false)
-  const [taskName, setTaskName] = useState()
-  const [type, setType] = useState()
+  const [taskName, setTaskName] = useState<any>()
+  const [type, setType] = useState<any>()
   const [member, setMember] = useState<any[]>([])
-  const [dueDate, setDueDate] = useState()
-  const [startTime, setStartTime] = useState()
-  const [description, setDescription] = useState()
+  const [dueDate, setDueDate] = useState<any>()
+  const [startTime, setStartTime] = useState<any>()
+  const [description, setDescription] = useState<any>()
   const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
   const dateFormat = 'DD MMM YYYY'
   const customFormat = (value: any) => `${value.format(dateFormat)}`
   const [createTask] = useMutation(ADD_TASK)
-  const [deadlineNotify] = useMutation(CREATE_NOTIFICATION)
-  const { RangePicker } = DatePicker
-  const [days, setDays] = useState(0)
-  const [hours, setHours] = useState(0)
-  const [minutes, setMinutes] = useState(0)
-  const [seconds, setSeconds] = useState(0)
-  const user = useStoreState((s) => s.userState.user)
   const [totalPage, setTotalPage] = useState(0)
   const [current, setCurrent] = useState(1)
   const [minIndex, setMinIndex] = useState(0)
   const [maxIndex, setMaxIndex] = useState(0)
   const pageSize = 4
   const [form] = Form.useForm()
+  const [userList, setUserList] = useState([])
+  const { RangePicker } = DatePicker
 
   useEffect(() => {
     if (!error && !loading && !projectLoading && !projectError) {
@@ -108,16 +104,8 @@ function ProjectDetail() {
       setTotalPage(data.length / pageSize)
       setMinIndex(0)
       setMaxIndex(pageSize)
+      setUserList(projectData.project.members)
     }
-    setInterval(() => {
-      const now: any = dayjs()
-      const then: any = dayjs('2021-01-28 08:07:17.264', 'YYYY-MM-DD HH:mm:ss')
-      const countdown: any = dayjs(then - now)
-      setDays(countdown.format('DD'))
-      setHours(countdown.format('HH'))
-      setMinutes(countdown.format('mm'))
-      setSeconds(countdown.format('ss'))
-    }, 1000)
   }, [projectId, loading, error, projectLoading, projectError, data, projectData])
 
   function handleKeywordChange(e: any) {
@@ -199,16 +187,22 @@ function ProjectDetail() {
     if (taskName !== '' && type !== '' && description !== '') {
       createTask({
         variables: {
-          id: data.id,
+          projectId: projectData.project.id,
           taskName: taskName,
-          projectType: type,
-          projectDetail: description,
+          taskDetail: description,
+          startTime: new Date(startTime),
+          endTime: new Date(dueDate),
+          members: member,
         },
       })
         .then((res) => {
           setTaskName(taskName)
           setType(type)
           setDescription(description)
+          setStartTime(new Date(startTime))
+          setDueDate(new Date(dueDate))
+          setMember(member)
+          setCreateTaskVisible(false)
           refetch()
         })
         .catch((err) => {
@@ -231,6 +225,11 @@ function ProjectDetail() {
     setCurrent(page)
     setMinIndex((page - 1) * pageSize)
     setMaxIndex(page * pageSize)
+  }
+
+  function handleMember(value: any) {
+    const val = Number(value.reverse()[0])
+    setMember((prevState) => [...prevState, { id: val }])
   }
 
   return projectLoading || !filteredData ? (
@@ -433,29 +432,63 @@ function ProjectDetail() {
                     onCancel={handleCancel}
                     footer={null}
                   >
-                    <Row className="px-48 w-full" justify="space-between">
+                    <Row className="px-56 w-full" justify="space-between">
                       <Col xs={24}>
                         <Form layout="vertical" form={form}>
                           <Form.Item
-                            name="Project name"
-                            label="Project name"
-                            rules={[{ required: true, message: 'Please input project name' }]}
+                            name="Task name"
+                            label="Task name"
+                            rules={[{ required: true, message: 'Please input task name' }]}
                             required
                           >
                             <Input
                               value={taskName}
-                              placeholder="Please input project name"
-                              onChange={(e) => e.target.value}
+                              placeholder="Please input task name"
+                              onChange={(e) => setTaskName(e.target.value)}
                             />
                           </Form.Item>
                           <Form.Item
                             name="Type"
                             label="Type"
-                            rules={[{ required: true, message: 'Please input project name' }]}
+                            rules={[{ required: true, message: 'Please input type' }]}
                             required
-                          ></Form.Item>
-                          <Form.Item name="Members" label="Members">
-                            <Select mode="tags" value={member} tokenSeparators={[',']}></Select>
+                          >
+                            <Select value={type} onChange={handleChange}>
+                              <Option value="Data">Data</Option>
+                              <Option value="Design">Design</Option>
+                              <Option value="Mobile">Mobile</Option>
+                              <Option value="Security">Security</Option>
+                              <Option value="Web">Web</Option>
+                            </Select>
+                          </Form.Item>
+                          <Form.Item
+                            name="Members"
+                            label="Members"
+                            rules={[{ required: true, message: 'Please select members' }]}
+                            required
+                          >
+                            <Select
+                              mode="tags"
+                              value={member}
+                              onChange={handleMember}
+                              tokenSeparators={[',']}
+                            >
+                              {(userList || []).map((value: any) => (
+                                <Row
+                                  key={value.id}
+                                  className="hover:bg-primary hover:text-white py-2 px-4"
+                                >
+                                  <Avatar
+                                    shape="circle"
+                                    size="default"
+                                    src={value.image ? value.image.fullPath : UnknownUserImage}
+                                    alt="user"
+                                    className="mr-2"
+                                  />
+                                  {value.name}
+                                </Row>
+                              ))}
+                            </Select>
                           </Form.Item>
                           <Form.Item
                             name="Due date"
@@ -464,10 +497,9 @@ function ProjectDetail() {
                             required
                           >
                             <RangePicker
-                              showTime
-                              value={dueDate}
-                              format={customFormat}
                               className="w-full"
+                              showTime={{ format: 'HH:mm' }}
+                              format={customFormat}
                               onChange={onChangeDate}
                             />
                           </Form.Item>
@@ -480,7 +512,7 @@ function ProjectDetail() {
                             <TextArea
                               value={description}
                               rows={4}
-                              onChange={(e) => e.target.value}
+                              onChange={(e) => setDescription(e.target.value)}
                               placeholder="Please input description"
                             />
                           </Form.Item>

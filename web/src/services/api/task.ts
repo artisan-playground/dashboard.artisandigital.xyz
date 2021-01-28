@@ -283,8 +283,7 @@ export const ADD_TASK = gql`
     $taskDetail: String!
     $startTime: DateTime!
     $endTime: DateTime!
-    $isDone: Boolean!
-    $members: Int!
+    $members: [UserWhereUniqueInput!]
   ) {
     createOneTask(
       data: {
@@ -293,8 +292,7 @@ export const ADD_TASK = gql`
         taskDetail: $taskDetail
         startTime: $startTime
         endTime: $endTime
-        isDone: $isDone
-        members: { connect: [{ id: $members }] }
+        members: { connect: $members }
       }
     ) {
       id
