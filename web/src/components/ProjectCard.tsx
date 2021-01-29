@@ -90,19 +90,11 @@ function ProjectCard({ data }: any) {
               </Col>
               <Col xs={6}>
                 {data.status === 'done' ? (
-                  <Tag
-                    color="green"
-                    className="flex items-center justify-center"
-                    icon={<CheckCircleOutlined />}
-                  >
+                  <Tag color="green" icon={<CheckCircleOutlined />}>
                     Done
                   </Tag>
                 ) : (
-                  <Tag
-                    color="red"
-                    className="flex items-center justify-center"
-                    icon={<WarningOutlined />}
-                  >
+                  <Tag color="red" icon={<WarningOutlined />}>
                     WIP
                   </Tag>
                 )}
