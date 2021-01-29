@@ -41,6 +41,7 @@ import {
 } from '../components/DashboardComponent'
 import { UPDATE_IMAGE, UPLOAD_IMAGE } from '../services/api/image'
 import { GET_USER_BY_ID, UPDATE_USER } from '../services/api/user'
+import { useStoreState } from '../store'
 
 function Profile() {
   const { Option } = Select
@@ -85,6 +86,7 @@ function Profile() {
   const pageSize = 4
   const dateFormat = 'DD MMM YYYY HH:mm'
   const customFormat = (value: any) => `${value.format(dateFormat)}`
+  const user = useStoreState((s) => s.userState.user)
 
   useEffect(() => {
     if (!userLoading && !userError) {
@@ -305,14 +307,16 @@ function Profile() {
               )}
             </Space>
 
-            <Button
-              className="absolute top-0 right-0 text-blue-700 hover:text-blue-700 focus:text-blue-700"
-              type="text"
-              shape="circle"
-              onClick={showAddEmployee}
-            >
-              <EditOutlined />
-            </Button>
+            {String(user?.id) === id && (
+              <Button
+                className="absolute top-0 right-0 text-blue-700 hover:text-blue-700 focus:text-blue-700"
+                type="text"
+                shape="circle"
+                onClick={showAddEmployee}
+              >
+                <EditOutlined />
+              </Button>
+            )}
           </Col>
 
           <Row>
