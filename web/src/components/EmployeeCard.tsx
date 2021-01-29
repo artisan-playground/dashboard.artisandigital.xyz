@@ -232,7 +232,7 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
         <Modal
           visible={editVisible}
           width={'80%'}
-          title={<Text className="font-bold">Edit profile</Text>}
+          title={<Text className="font-bold">Edit employee</Text>}
           onCancel={handleCancel}
           footer={null}
         >
