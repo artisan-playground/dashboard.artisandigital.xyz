@@ -47,10 +47,12 @@ function Profile() {
   const { Text } = Typography
   const { TabPane } = Tabs
   const [filteredData, setFilteredData] = useState<any>()
-  const [types, setTypes] = useState('all')
-  const [keyword, setKeyword] = useState('')
+  const [filteredDataProject, setFilteredDataProject] = useState<any>()
+  const [filteredDataTask, setFilteredDataTask] = useState<any>()
+  const [projectKeyword, setProjectKeyword] = useState('')
+  const [taskKeyword, setTaskKeyword] = useState('')
   const [filterloading, setLoading] = useState(false)
-  const [createProjectVisible, setCreateProjectVisible] = useState(false)
+  const [editVisible, setEditVisible] = useState(false)
   const [editProfile] = useMutation(UPDATE_USER)
   const [updateImage, { loading: loadingUpdate, data: imageUpdateData }] = useMutation(UPDATE_IMAGE)
   const [uploadImage, { loading: loadingUpload, data: imageData }] = useMutation(UPLOAD_IMAGE)
@@ -104,28 +106,38 @@ function Profile() {
       setType(userData.user.type)
       setStartDate(userData.user.startDate)
       setDueDate(userData.user.dueDate)
+      setFilteredDataProject(userData.user.projects)
+      setFilteredDataTask(userData.user.tasks)
     }
   }, [userData, userLoading, userError])
 
-  function handleKeywordChange(e: any) {
+  function handleProjectKeywordChange(e: any) {
     setLoading(true)
-    setKeyword(e.target.value)
+    setProjectKeyword(e.target.value)
     if (e.target.value === '') {
-      setFilteredData(userData.user)
-      setTypes('HR/Admin')
+      setFilteredDataProject(userData.user.projects)
       setLoading(false)
     } else {
-      const kw: any[] = userData.user.filter((item: any) => {
-        if (types === 'HR/Admin') {
-          return item.name.toLowerCase().includes(e.target.value.toLowerCase())
-        } else {
-          return (
-            item.department === types &&
-            item.name.toLowerCase().includes(e.target.value.toLowerCase())
-          )
-        }
-      })
-      setFilteredData(kw)
+      const kw: any[] = userData.user.projects.filter((item: any) =>
+        item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+      setFilteredDataProject(kw)
+      setLoading(false)
+    }
+    setLoading(false)
+  }
+
+  function handleTaskKeywordChange(e: any) {
+    setLoading(true)
+    setTaskKeyword(e.target.value)
+    if (e.target.value === '') {
+      setFilteredDataTask(userData.user.tasks)
+      setLoading(false)
+    } else {
+      const kw: any[] = userData.user.tasks.filter((item: any) =>
+        item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+      setFilteredDataTask(kw)
       setLoading(false)
     }
     setLoading(false)
@@ -140,11 +152,11 @@ function Profile() {
   }
 
   function showAddEmployee() {
-    setCreateProjectVisible(true)
+    setEditVisible(true)
   }
 
   function handleCancel() {
-    setCreateProjectVisible(false)
+    setEditVisible(false)
   }
 
   function onUploadImage({
@@ -209,6 +221,7 @@ function Profile() {
           setType(type)
           setStartDate(new Date(startDate))
           setDueDate(new Date(dueDate))
+          setEditVisible(false)
           refetch()
         })
         .catch((err) => {
@@ -304,7 +317,7 @@ function Profile() {
 
           <Row>
             <Modal
-              visible={createProjectVisible}
+              visible={editVisible}
               width={'80%'}
               title={<Text className="font-bold">Edit profile</Text>}
               onCancel={handleCancel}
@@ -483,16 +496,16 @@ function Profile() {
                 <Row justify="end" className="w-full mb-4">
                   <Input
                     placeholder="Search project"
-                    value={keyword}
-                    onChange={handleKeywordChange}
+                    value={projectKeyword}
+                    onChange={handleProjectKeywordChange}
                     suffix={<SearchOutlined type="secondary" />}
                     className="w-96"
                   />
                 </Row>
                 <Row>
-                  {filteredData && !userError && !userLoading ? (
-                    filteredData.length !== 0 ? (
-                      filteredData.projects.map(
+                  {filteredDataProject && !userError && !userLoading ? (
+                    filteredDataProject.length !== 0 ? (
+                      filteredDataProject.map(
                         (items: any, index: any) =>
                           index >= minIndexProject &&
                           index < maxIndexProject && (
@@ -505,7 +518,7 @@ function Profile() {
                       <div className="flex w-full justify-center my-8">
                         <Empty
                           image={Empty.PRESENTED_IMAGE_SIMPLE}
-                          description={<Text disabled>No employee Found</Text>}
+                          description={<Text disabled>No project Found</Text>}
                         />
                       </div>
                     )
@@ -520,7 +533,7 @@ function Profile() {
                   <Pagination
                     pageSize={pageSize}
                     current={currentProject}
-                    total={filteredData.projects.length}
+                    total={filteredDataProject.length}
                     onChange={handleChangePaginationProject}
                     hideOnSinglePage={true}
                   />
@@ -530,16 +543,16 @@ function Profile() {
                 <Row justify="end" className="w-full mb-4">
                   <Input
                     placeholder="Search task"
-                    value={keyword}
-                    onChange={handleKeywordChange}
+                    value={taskKeyword}
+                    onChange={handleTaskKeywordChange}
                     suffix={<SearchOutlined type="secondary" />}
                     className="w-96"
                   />
                 </Row>
                 <Row>
-                  {filteredData && !userError && !userLoading ? (
-                    filteredData.length !== 0 ? (
-                      filteredData.tasks.map(
+                  {filteredDataTask && !userError && !userLoading ? (
+                    filteredDataTask.length !== 0 ? (
+                      filteredDataTask.map(
                         (items: any, index: any) =>
                           index >= minIndexTask &&
                           index < maxIndexTask && (
@@ -552,7 +565,7 @@ function Profile() {
                       <div className="flex w-full justify-center my-8">
                         <Empty
                           image={Empty.PRESENTED_IMAGE_SIMPLE}
-                          description={<Text disabled>No employee Found</Text>}
+                          description={<Text disabled>No task Found</Text>}
                         />
                       </div>
                     )
@@ -567,7 +580,7 @@ function Profile() {
                   <Pagination
                     pageSize={pageSize}
                     current={currentTask}
-                    total={filteredData.tasks.length}
+                    total={filteredDataTask.length}
                     onChange={handleChangePaginationTask}
                     hideOnSinglePage={true}
                   />
