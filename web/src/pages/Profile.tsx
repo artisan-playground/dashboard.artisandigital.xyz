@@ -1,10 +1,9 @@
 import {
+  CameraOutlined,
   CloseCircleOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
-  LoadingOutlined,
   SearchOutlined,
-  UploadOutlined,
 } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import {
@@ -29,10 +28,10 @@ import {
   Typography,
 } from 'antd'
 import generatePicker from 'antd/es/date-picker/generatePicker'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
-import UnknownImage from '../assets/images/unknown_image.jpg'
+import { useParams } from 'react-router-dom'
 import UnknownUserImage from '../assets/images/unknown_user.png'
 import {
   LayoutDashboard,
@@ -41,17 +40,13 @@ import {
   TaskCard,
 } from '../components/DashboardComponent'
 import { UPDATE_IMAGE, UPLOAD_IMAGE } from '../services/api/image'
-import { GET_USERS, GET_USER_BY_ID, UPDATE_USER } from '../services/api/user'
-import { useStoreState } from '../store'
+import { GET_USER_BY_ID, UPDATE_USER } from '../services/api/user'
 
 function Profile() {
   const { Option } = Select
-  const { TextArea } = Input
   const { Text } = Typography
   const { TabPane } = Tabs
-  const { loading, error, data, refetch } = useQuery(GET_USERS)
   const [filteredData, setFilteredData] = useState<any>()
-  const [filteredProjectData, setFilteredProjectData] = useState<any>()
   const [types, setTypes] = useState('all')
   const [keyword, setKeyword] = useState('')
   const [filterloading, setLoading] = useState(false)
@@ -60,20 +55,23 @@ function Profile() {
   const [updateImage, { loading: loadingUpdate, data: imageUpdateData }] = useMutation(UPDATE_IMAGE)
   const [uploadImage, { loading: loadingUpload, data: imageData }] = useMutation(UPLOAD_IMAGE)
   const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
-  const [name, setName] = useState()
-  const [email, setEmail] = useState()
-  const [postion, setPosition] = useState()
-  const [department, setDepartment] = useState()
-  const [telephone, setTelephone] = useState()
-  const [type, setType] = useState()
-  const [member, setMember] = useState<any[]>([])
-  const [dueDate, setDueDate] = useState()
+  const { RangePicker } = DatePicker
+  const [name, setName] = useState<any>()
+  const [email, setEmail] = useState<any>()
+  const [position, setPosition] = useState<any>()
+  const [department, setDepartment] = useState<any>()
+  const [telephone, setTelephone] = useState<any>('')
+  const [type, setType] = useState<any>()
+  const [startDate, setStartDate] = useState<any>()
+  const [dueDate, setDueDate] = useState<any>()
   const [image, setImage] = useState()
-  const [userList, setUserList] = useState([])
-  const user = useStoreState((s) => s.userState.user)
-  const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USER_BY_ID, {
-    variables: { id: Number(user?.id) },
-  })
+  const { id }: any = useParams()
+  const { loading: userLoading, error: userError, data: userData, refetch } = useQuery(
+    GET_USER_BY_ID,
+    {
+      variables: { id: Number(id) },
+    }
+  )
   const [totalPageProject, setTotalPageProject] = useState(0)
   const [currentProject, setCurrentProject] = useState(1)
   const [minIndexProject, setMinIndexProject] = useState(0)
@@ -83,54 +81,31 @@ function Profile() {
   const [minIndexTask, setMinIndexTask] = useState(0)
   const [maxIndexTask, setMaxIndexTask] = useState(0)
   const pageSize = 4
-  const [form] = Form.useForm()
+  const dateFormat = 'DD MMM YYYY HH:mm'
+  const customFormat = (value: any) => `${value.format(dateFormat)}`
 
   useEffect(() => {
-    if (!error && !loading && !userLoading && !userError) {
-      switch (types) {
-        case 'HR/Admin':
-          let admin: any[] = userData.user.filter((item: any) => item.department === 'HR/Admin')
-          setFilteredData(admin)
-          break
-        case 'Development':
-          let dev: any[] = userData.user.filter((item: any) => item.department === 'Development')
-          setFilteredData(dev)
-          break
-        case 'Design':
-          let design: any[] = userData.user.filter((item: any) => item.department === 'Design')
-          setFilteredData(design)
-          break
-        case 'Digital Marketing':
-          let market: any[] = userData.user.filter(
-            (item: any) => item.department === 'Digital Marketing'
-          )
-          setFilteredData(market)
-          break
-        case 'HR/Admin':
-          setFilteredData(userData.user)
-          break
-        default:
-          setFilteredData(userData.user)
-          break
-      }
-      setUserList(data && data.users)
+    if (!userLoading && !userError) {
       setImage(
         imageData ? imageData.uploadImage.id : imageUpdateData && imageUpdateData.updateImage.id
       )
-      setTotalPageProject(data.length / pageSize)
+      setTotalPageProject(userData.user.projects.length / pageSize)
       setMinIndexProject(0)
       setMaxIndexProject(pageSize)
-      setTotalPageTask(data.length / pageSize)
+      setTotalPageTask(userData.user.tasks.length / pageSize)
+      setFilteredData(userData.user)
       setMinIndexTask(0)
       setMaxIndexTask(pageSize)
       setName(userData.user.name)
       setEmail(userData.user.email)
-      setPosition(userData.user.postion)
+      setPosition(userData.user.position)
       setDepartment(userData.user.department)
       setTelephone(userData.user.telephone)
       setType(userData.user.type)
+      setStartDate(userData.user.startDate)
+      setDueDate(userData.user.dueDate)
     }
-  }, [types, loading, error, data, loading, userData, userLoading, userError])
+  }, [userData, userLoading, userError])
 
   function handleKeywordChange(e: any) {
     setLoading(true)
@@ -156,8 +131,12 @@ function Profile() {
     setLoading(false)
   }
 
-  function handleChange(value: any) {
-    setTypes(value)
+  function handleChangePosition(value: any) {
+    setPosition(value)
+  }
+
+  function handleChangeDepartment(value: any) {
+    setDepartment(value)
   }
 
   function showAddEmployee() {
@@ -174,7 +153,10 @@ function Profile() {
       files: [file],
     },
   }: any) {
-    if (validity.valid) uploadImage({ variables: { file: file } })
+    if (validity.valid) {
+      uploadImage({ variables: { file: file } })
+      setImage(imageData ? imageData.uploadImage : imageUpdateData && imageUpdateData.updateImage)
+    }
   }
 
   function onChangeImage({
@@ -183,7 +165,7 @@ function Profile() {
       files: [file],
     },
   }: any) {
-    if (validity.valid)
+    if (validity.valid) {
       updateImage({
         variables: {
           id: imageData
@@ -192,23 +174,41 @@ function Profile() {
           file: file,
         },
       })
+      setImage(imageData ? imageData.uploadImage : imageUpdateData && imageUpdateData.updateImage)
+    }
   }
 
   function handleEditProfile() {
     if (name !== '' && email !== '') {
       editProfile({
         variables: {
-          id: data.id,
+          id: userData.user.id,
           name: name,
           email: email,
+          position: position,
+          department: department,
+          phone: telephone ? telephone : '',
+          type: type,
+          startDate: startDate ? new Date(startDate) : new Date(),
+          dueDate: dueDate ? new Date(dueDate) : new Date(),
+          file: userData.user.image
+            ? userData.user.image.id
+            : imageData
+            ? imageData.uploadImage.id
+            : imageUpdateData
+            ? imageUpdateData.updateImage.id
+            : 0,
         },
       })
         .then((res) => {
           setName(name)
           setEmail(email)
-          setPosition(postion)
+          setPosition(position)
           setDepartment(department)
           setTelephone(telephone)
+          setType(type)
+          setStartDate(new Date(startDate))
+          setDueDate(new Date(dueDate))
           refetch()
         })
         .catch((err) => {
@@ -229,11 +229,6 @@ function Profile() {
 
   function onChangeType(e: any) {
     setType(e.target.value)
-  }
-
-  function handleMember(value: any) {
-    const val = Number(value.reverse()[0])
-    return member.push({ id: val })
   }
 
   function onChangeDate(_: any, dateString: any) {
@@ -282,7 +277,7 @@ function Profile() {
           </Col>
           <Col xs={15} className="relative">
             <Divider type="vertical" className="h-full" />
-            <Space direction="vertical" size={2} className="-mt-6">
+            <Space direction="vertical" size={4} className="absolute top-5 left-10">
               <Text>{`Email: ${filteredData.email ? filteredData.email : '-'}`}</Text>
               <Text>
                 {`Department: ${filteredData.department ? filteredData.department : '-'}`}
@@ -290,7 +285,9 @@ function Profile() {
               <Text>{`Full-time/Intern: ${filteredData.type ? filteredData.type : '-'}`}</Text>
               {filteredData.type === 'Intern' && (
                 <Text>
-                  {`Internship period: ${filteredData.startDate} - ${filteredData.dueDate}`}
+                  {`Internship period: ${dayjs(filteredData.startDate).format(
+                    'DD MMM YYYY HH:mm'
+                  )} - ${dayjs(filteredData.dueDate).format('DD MMM YYYY HH:mm')}`}
                 </Text>
               )}
             </Space>
@@ -316,45 +313,53 @@ function Profile() {
               <Row className="px-24 w-full" justify="space-between">
                 <Col xs={8} lg={12}>
                   <Space direction="vertical" className="flex items-center justify-center">
-                    {
-                      <img
-                        src={
-                          imageData
-                            ? imageData.uploadImage.fullPath
-                            : imageUpdateData
-                            ? imageUpdateData.updateImage.fullPath
-                            : UnknownImage
-                        }
-                        className="w-64 h-48"
-                      />
-                    }
-                    <label
-                      style={{
-                        height: 30,
-                        width: 90,
-                      }}
-                      className="appearance-none border border-gray-300 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300 relative"
-                    >
-                      <input
-                        type="file"
-                        className="invisible"
-                        onChange={image === undefined ? onUploadImage : onChangeImage}
-                      />
-                      {loadingUpdate ? (
-                        <div className="absolute flex items-center justify-center">
-                          <LoadingOutlined className="mr-2" spin />
-                        </div>
+                    <Col className="relative">
+                      {loadingUpdate || loadingUpload ? (
+                        <Spin>
+                          <Avatar
+                            src={
+                              userData.user.image
+                                ? userData.user.image.fullPath
+                                : imageData
+                                ? imageData.uploadImage.fullPath
+                                : imageUpdateData
+                                ? imageUpdateData.updateImage.fullPath
+                                : UnknownUserImage
+                            }
+                            className="w-56 h-56"
+                            alt="user"
+                          />
+                        </Spin>
                       ) : (
-                        <div className="absolute flex items-center justify-center">
-                          <UploadOutlined className="mr-2" />
-                          Upload
-                        </div>
+                        <Avatar
+                          src={
+                            userData.user.image
+                              ? userData.user.image.fullPath
+                              : imageData
+                              ? imageData.uploadImage.fullPath
+                              : imageUpdateData
+                              ? imageUpdateData.updateImage.fullPath
+                              : UnknownUserImage
+                          }
+                          className="w-56 h-56"
+                          alt="user"
+                        />
                       )}
-                    </label>
+                      <label className="absolute bottom-5 right-5 rounded-full h-10 w-10 flex items-center justify-center cursor-pointer transition delay-100 duration-300 text-white hover:text-white bg-secondary hover:bg-blue-900">
+                        <input
+                          type="file"
+                          className="invisible"
+                          onChange={image === undefined ? onUploadImage : onChangeImage}
+                        />
+                        <div className="absolute bottom-0 flex items-center justify-center">
+                          <CameraOutlined className="text-2xl" />
+                        </div>
+                      </label>
+                    </Col>
                   </Space>
                 </Col>
                 <Col xs={16} lg={12}>
-                  <Form layout="vertical" form={form}>
+                  <Form layout="vertical">
                     <Form.Item
                       name="Name"
                       label="Name"
@@ -364,7 +369,7 @@ function Profile() {
                       <Input
                         defaultValue={name}
                         placeholder="Please input name"
-                        onChange={(e) => e.target.value}
+                        onChange={(e) => setName(e.target.value)}
                       />
                     </Form.Item>
                     <Form.Item
@@ -376,7 +381,7 @@ function Profile() {
                       <Input
                         defaultValue={email}
                         placeholder="Please input email"
-                        onChange={(e) => e.target.value}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </Form.Item>
                     <Form.Item
@@ -385,7 +390,7 @@ function Profile() {
                       rules={[{ required: true, message: 'Please select jop position' }]}
                       required
                     >
-                      <Select defaultValue={postion} onChange={handleChange}>
+                      <Select defaultValue={position} onChange={handleChangePosition}>
                         <Option value="Account Executive">Account Executive</Option>
                         <Option value="Accountant & Administrator">
                           Accountant & Administrator
@@ -416,55 +421,52 @@ function Profile() {
                       rules={[{ required: true, message: 'Please select department' }]}
                       required
                     >
-                      <Select defaultValue={department} onChange={handleChange}>
+                      <Select defaultValue={department} onChange={handleChangeDepartment}>
                         <Option value="HR/Admin">HR/Admin</Option>
                         <Option value="Development">Development</Option>
                         <Option value="Design">Design</Option>
                         <Option value="Digital Marketing">Digital Marketing</Option>
                       </Select>
                     </Form.Item>
-                    <Form.Item
-                      name="Telephone"
-                      label="Telephone"
-                      rules={[{ required: true, message: 'Please input telephone number' }]}
-                      required
-                    >
+                    <Form.Item name="Telephone" label="Telephone">
                       <Input
                         defaultValue={telephone}
                         addonBefore="+66"
                         placeholder="xx-xxx-xxxx"
-                        onChange={(e) => e.target.value}
+                        onChange={(e) => setTelephone(e.target.value)}
                       />
                     </Form.Item>
-                    <Form.Item name="Due date" label="Due date">
+                    <Form.Item
+                      name="Full-time / Intern"
+                      label="Full-time / Intern"
+                      rules={[{ required: true, message: 'Please select type' }]}
+                      required
+                    >
                       <Radio.Group defaultValue={type} onChange={onChangeType}>
                         <Radio value="Full-time">Full-time</Radio>
                         <Radio value="Intern">Intern</Radio>
                       </Radio.Group>
                     </Form.Item>
                     {type === 'Intern' && (
-                      <Form.Item name="Due date" label="Due date">
-                        <DatePicker
-                          defaultValue={dueDate}
+                      <Form.Item
+                        name="Internship period"
+                        label="Internship period"
+                        rules={[{ required: true, message: 'Please input time period' }]}
+                        required
+                      >
+                        <RangePicker
                           className="w-full"
+                          showTime={{ format: 'HH:mm' }}
+                          defaultValue={[dayjs(startDate), dayjs(dueDate)]}
+                          format={customFormat}
                           onChange={onChangeDate}
                         />
                       </Form.Item>
                     )}
-                    <Form.Item shouldUpdate={true}>
-                      {() => (
-                        <Button
-                          type="primary"
-                          className="w-full"
-                          onClick={handleEditProfile}
-                          disabled={
-                            !form.isFieldsTouched(true) ||
-                            !!form.getFieldsError().filter(({ errors }) => errors.length).length
-                          }
-                        >
-                          Submit
-                        </Button>
-                      )}
+                    <Form.Item>
+                      <Button type="primary" className="w-full" onClick={handleEditProfile}>
+                        Submit
+                      </Button>
                     </Form.Item>
                   </Form>
                 </Col>
@@ -472,7 +474,7 @@ function Profile() {
             </Modal>
           </Row>
         </Row>
-        {loading || error ? (
+        {userLoading || userError ? (
           <LoadingComponent project />
         ) : (
           <div className="site-card-wrapper">
@@ -488,7 +490,7 @@ function Profile() {
                   />
                 </Row>
                 <Row>
-                  {filteredData && !error && !loading ? (
+                  {filteredData && !userError && !userLoading ? (
                     filteredData.length !== 0 ? (
                       filteredData.projects.map(
                         (items: any, index: any) =>
@@ -510,7 +512,7 @@ function Profile() {
                   ) : (
                     <div className="flex w-full justify-center my-8">
                       <Text disabled>Error</Text>
-                      <Text disabled>{error} </Text>
+                      <Text disabled>{userError} </Text>
                     </div>
                   )}
                 </Row>
@@ -535,7 +537,7 @@ function Profile() {
                   />
                 </Row>
                 <Row>
-                  {filteredData && !error && !loading ? (
+                  {filteredData && !userError && !userLoading ? (
                     filteredData.length !== 0 ? (
                       filteredData.tasks.map(
                         (items: any, index: any) =>
@@ -557,7 +559,7 @@ function Profile() {
                   ) : (
                     <div className="flex w-full justify-center my-8">
                       <Text disabled>Error</Text>
-                      <Text disabled>{error} </Text>
+                      <Text disabled>{userError} </Text>
                     </div>
                   )}
                 </Row>
