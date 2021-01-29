@@ -2,7 +2,7 @@
   <div style="margin-left:15px;; margin-right:15px" v-if="userId == dataUser.id">
     <div>
       <a-row style="margin-bottom:1.5rem">
-        <a-col :span="18" style="width:80%">
+        <a-col :span="18" style="width:80%" id="antInput">
           <a-input-search v-model="search" type="search" placeholder=" input search text" />
         </a-col>
         <a-col :span="6" style="width:20%">

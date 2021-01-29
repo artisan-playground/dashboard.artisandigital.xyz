@@ -33,7 +33,7 @@
 
       <a-row style="float:left; margin-bottom:40px; text-align:left;">
         <div>
-          <span style="font-size:20px; color:#0036C7; font-weight:500; text-align:left;">
+          <span class="username">
             {{ user.name }}
           </span>
         </div>
@@ -47,11 +47,7 @@
       <a-row>
         <a-col>
           <router-link to="/editprofile">
-            <a-button
-              size="large"
-              block
-              style="text-transform: capitalize; background-color: #134F83; color:white;"
-            >
+            <a-button size="large" block class="btnEditProfile">
               Edit profile
             </a-button>
           </router-link>
@@ -132,4 +128,17 @@ export default {
 }
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.btnEditProfile {
+  text-transform: capitalize;
+  background-color: #134f83;
+  color: white;
+  margin-bottom: 2px;
+}
+.username {
+  font-size: 20px;
+  color: #0036c7;
+  font-weight: 500;
+  text-align: left;
+}
+</style>
