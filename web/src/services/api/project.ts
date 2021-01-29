@@ -111,9 +111,8 @@ export const CREATE_PROJECT = gql`
     $projectName: String!
     $projectType: String!
     $projectDetail: String!
-    $createdAt: DateTime!
     $dueDate: DateTime!
-    $members: Int!
+    $members: [UserWhereUniqueInput!]
     $file: Int!
   ) {
     createOneProject(
@@ -121,10 +120,9 @@ export const CREATE_PROJECT = gql`
         projectName: $projectName
         projectType: $projectType
         projectDetail: $projectDetail
-        createdAt: $createdAt
         dueDate: $dueDate
         projectImage: { connect: { id: $file } }
-        members: { connect: [{ id: $members }] }
+        members: { connect: $members }
       }
     ) {
       id

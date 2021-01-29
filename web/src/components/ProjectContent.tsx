@@ -20,6 +20,7 @@ import {
   Select,
   Skeleton,
   Space,
+  Spin,
   Switch,
   Typography,
 } from 'antd'
@@ -29,7 +30,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
 import UnknownImage from '../assets/images/unknown_image.jpg'
-import { UPDATE_PROJECT, UPDATE_PROJECT_STATUS } from '../services/api/project'
+import { DELETE_PROJECT, UPDATE_PROJECT, UPDATE_PROJECT_STATUS } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE } from '../services/api/projectImage'
 
 function ProjectContent({ data, refetch }: any) {
@@ -41,17 +42,22 @@ function ProjectContent({ data, refetch }: any) {
   const [loading, setLoading] = useState(false)
   const [updateStatus] = useMutation(UPDATE_PROJECT_STATUS)
   const [updateProject] = useMutation(UPDATE_PROJECT)
+  const [deleteProject] = useMutation(DELETE_PROJECT)
   const [editProjectVisible, setEditProjectVisible] = useState(false)
-  const [projectName, setProjectName] = useState()
-  const [type, setType] = useState()
+  const [projectName, setProjectName] = useState<any>()
+  const [type, setType] = useState<any>()
   const [member, setMember] = useState<any[]>([])
-  const [dueDate, setDueDate] = useState()
-  const [description, setDescription] = useState()
+  const [dueDate, setDueDate] = useState<any>()
+  const [description, setDescription] = useState<any>()
   const [status, setStatus] = useState(true)
+  const [confirmVisible, setConfirmVisible] = useState(false)
+  const [deleteVisible, setDeleteVisible] = useState(false)
   const selectedName = member.map(({ name }) => name)
   const dateFormat = 'DD MMM YYYY'
   const customFormat = (value: any) => `${value.format(dateFormat)}`
-  const [updateImage, { loading: loadingUpdate }] = useMutation(UPDATE_PROJECT_IMAGE)
+  const [updateImage, { loading: loadingUpdate, data: imageData }] = useMutation(
+    UPDATE_PROJECT_IMAGE
+  )
 
   useEffect(() => {
     setProjectData(data)
@@ -60,7 +66,7 @@ function ProjectContent({ data, refetch }: any) {
     setMember(data.members)
     setDueDate(data.dueDate)
     setDescription(data.projectDetail)
-  }, [data])
+  }, [data, imageData])
 
   function handleDoneStatus() {
     setLoading(true)
@@ -94,8 +100,24 @@ function ProjectContent({ data, refetch }: any) {
     setEditProjectVisible(true)
   }
 
+  function showConfirm() {
+    setConfirmVisible(true)
+  }
+
+  function showDelete() {
+    setDeleteVisible(true)
+  }
+
   function handleCancel() {
     setEditProjectVisible(false)
+  }
+
+  function handleConfirmCancel() {
+    setConfirmVisible(false)
+  }
+
+  function handleDeleteCancel() {
+    setDeleteVisible(false)
   }
 
   function handleEditProject() {
@@ -112,6 +134,9 @@ function ProjectContent({ data, refetch }: any) {
           setProjectName(projectName)
           setType(type)
           setDescription(description)
+          setEditProjectVisible(false)
+          setConfirmVisible(false)
+          setDeleteVisible(false)
           refetch()
         })
         .catch((err) => {
@@ -130,6 +155,28 @@ function ProjectContent({ data, refetch }: any) {
     }
   }
 
+  function handleDeleteProject() {
+    deleteProject({
+      variables: {
+        projectId: data.id,
+      },
+    })
+      .then((res) => {
+        setEditProjectVisible(false)
+        setConfirmVisible(false)
+        setDeleteVisible(false)
+        window.history.back()
+        refetch()
+      })
+      .catch((err) => {
+        message.error({
+          content: `Error : ${err}`,
+          duration: 2,
+          icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+        })
+      })
+  }
+
   function handleChange(value: any) {
     setType(value)
   }
@@ -144,7 +191,7 @@ function ProjectContent({ data, refetch }: any) {
       files: [file],
     },
   }: any) {
-    if (validity.valid) updateImage({ variables: { id: data.id, file: file } })
+    if (validity.valid) updateImage({ variables: { id: data.projectImage.id, file: file } })
   }
 
   return !projectData ? (
@@ -197,11 +244,30 @@ function ProjectContent({ data, refetch }: any) {
               <Row className="px-24 w-full" justify="space-between">
                 <Col xs={8} lg={12}>
                   <Space direction="vertical" className="flex items-center justify-center">
-                    <img
-                      src={data.projectImage.fullPath}
-                      className="w-64 h-48"
-                      alt="project-image"
-                    />
+                    {loadingUpdate ? (
+                      <Spin>
+                        <img
+                          src={
+                            imageData
+                              ? imageData.updateProjectImage.fullPath
+                              : data.projectImage.fullPath
+                          }
+                          className="w-64 h-48"
+                          alt="project-image"
+                        />
+                      </Spin>
+                    ) : (
+                      <img
+                        src={
+                          imageData
+                            ? imageData.updateProjectImage.fullPath
+                            : data.projectImage.fullPath
+                        }
+                        className="w-64 h-48"
+                        alt="project-image"
+                      />
+                    )}
+
                     <label
                       style={{
                         height: 30,
@@ -234,13 +300,13 @@ function ProjectContent({ data, refetch }: any) {
                       <Input
                         defaultValue={projectName}
                         placeholder="Please input project name"
-                        onChange={(e) => e.target.value}
+                        onChange={(e) => setProjectName(e.target.value)}
                       />
                     </Form.Item>
                     <Form.Item
                       name="Type"
                       label="Type"
-                      rules={[{ required: true, message: 'Please input project name' }]}
+                      rules={[{ required: true, message: 'Please select type' }]}
                       required
                     >
                       <Select defaultValue={type} onChange={handleChange}>
@@ -270,13 +336,13 @@ function ProjectContent({ data, refetch }: any) {
                     <Form.Item
                       name="Description"
                       label="Description"
-                      rules={[{ required: true, message: 'Please input project name' }]}
+                      rules={[{ required: true, message: 'Please input description' }]}
                       required
                     >
                       <TextArea
                         defaultValue={description}
                         rows={4}
-                        onChange={(e) => e.target.value}
+                        onChange={(e) => setDescription(e.target.value)}
                         placeholder="Please input description"
                       />
                     </Form.Item>
@@ -287,10 +353,36 @@ function ProjectContent({ data, refetch }: any) {
                       </Space>
                     </Form.Item>
                     <Form.Item>
-                      <Button type="primary" className="w-full" onClick={handleEditProject}>
+                      <Button
+                        type="primary"
+                        className="w-full"
+                        onClick={status === true ? showConfirm : showDelete}
+                      >
                         Submit
                       </Button>
                     </Form.Item>
+                    <Modal
+                      visible={confirmVisible}
+                      title={
+                        <Text className="font-bold">Do you want to edit "{data.projectName}"</Text>
+                      }
+                      onCancel={handleConfirmCancel}
+                      onOk={handleEditProject}
+                    >
+                      <Text>You confirm to edit this project.</Text>
+                    </Modal>
+                    <Modal
+                      visible={deleteVisible}
+                      title={
+                        <Text className="font-bold">
+                          Do you want to delete "{data.projectName}"
+                        </Text>
+                      }
+                      onCancel={handleDeleteCancel}
+                      onOk={handleDeleteProject}
+                    >
+                      <Text>You confirm to delete this project.</Text>
+                    </Modal>
                   </Form>
                 </Col>
               </Row>
