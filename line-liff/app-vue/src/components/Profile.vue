@@ -18,16 +18,16 @@
 
         <a-col :span="6">
           <a-row>{{ projectNum }}</a-row>
-          <a-row>Project</a-row>
+          <a-row>Projects</a-row>
         </a-col>
 
         <a-col :span="6">
           <a-row>{{ doneTask }}</a-row>
-          <a-row>Done Task</a-row>
+          <a-row>Done Tasks</a-row>
         </a-col>
         <a-col :span="6">
           <a-row>{{ todayTask }}</a-row>
-          <a-row>Today’s task</a-row>
+          <a-row>Today’s tasks</a-row>
         </a-col>
       </a-row>
 

@@ -6,7 +6,7 @@
       <Profile />
       <div id="tabCusProfile">
         <a-tabs default-active-key="1" :tabBarStyle="{}">
-          <a-tab-pane key="1" tab="Project">
+          <a-tab-pane key="1" tab="Projects">
             <ListProject />
           </a-tab-pane>
           <a-tab-pane key="2" tab="Tasks" force-render>
