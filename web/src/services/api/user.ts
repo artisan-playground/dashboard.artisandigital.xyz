@@ -379,7 +379,6 @@ export const CREATE_USER = gql`
         fullPath
       }
       position
-      skills
       department
       type
       startDate
@@ -425,7 +424,6 @@ export const UPDATE_USER = gql`
         fullPath
       }
       position
-      skills
       department
       type
       startDate
