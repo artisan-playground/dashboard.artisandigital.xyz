@@ -12,8 +12,8 @@
       </router-link>
     </a-row>
     <div>
-      <a-row style="margin-top:10px;  margin-bottom:10px">
-        <a-col :span="18" style="width:80%">
+      <a-row style="margin-top:1.5rem;  margin-bottom:1.5rem">
+        <a-col :span="18" style="width:80%" id="antInput">
           <a-input-search v-model="search" type="search" placeholder=" input search text" />
         </a-col>
         <a-col :span="6" style="width:20%">
@@ -31,7 +31,7 @@
         </a-col>
       </a-row>
     </div>
-    <div class="listProject">
+    <div>
       <a-card
         id="card"
         :bodyStyle="{ padding: '15px' }"
@@ -40,7 +40,7 @@
       >
         <router-link
           style="text-decoration: none; color:black"
-          :to="{ name: 'project', params: { id: project.id } }"
+          :to="{ name: 'Project', params: { id: project.id } }"
         >
           <a-row type="flex" justify="space-between">
             <a-col :span="18" align="left">

@@ -1,7 +1,7 @@
 <template>
   <div style="margin-left:15px;; margin-right:15px">
     <div>
-      <a-row style="margin-top:10px;  margin-bottom:10px">
+      <a-row style="margin-bottom:1.5rem" id="antInput">
         <a-input-search v-model="search" type="search" placeholder=" input search text" />
       </a-row>
     </div>
