@@ -146,6 +146,14 @@ model Notification {
   receiver  User[]
 }
 
+model RecentActivity {
+  id        Int       @id @default(autoincrement())
+  message   String
+  timestamp DateTime? @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
 enum Role {
   ADMIN
   USER
