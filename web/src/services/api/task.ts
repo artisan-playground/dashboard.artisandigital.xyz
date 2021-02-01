@@ -380,8 +380,8 @@ export const UPDATE_TASK = gql`
 `
 
 export const UPDATE_TASK_MEMBER = gql`
-  mutation UpdateTaskMember($id: Int!, $members: Int!) {
-    updateOneTask(where: { id: $id }, data: { members: { connect: { id: $members } } }) {
+  mutation UpdateTaskMember($id: Int!, $members: [UserWhereUniqueInput!]) {
+    updateOneTask(where: { id: $id }, data: { members: { connect: $members } }) {
       id
       members {
         id
@@ -400,8 +400,8 @@ export const DELETE_TASK = gql`
 `
 
 export const DELETE_MEMBER_FROM_TASK = gql`
-  mutation DeleteMemberFromTask($taskId: Int!, $memberId: Int!) {
-    updateOneTask(where: { id: $taskId }, data: { members: { disconnect: [{ id: $memberId }] } }) {
+  mutation DeleteMemberFromTask($taskId: Int!, $members: Int!) {
+    updateOneTask(where: { id: $taskId }, data: { members: { disconnect: [{ id: $members }] } }) {
       id
     }
   }
