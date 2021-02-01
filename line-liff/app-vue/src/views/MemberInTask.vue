@@ -14,16 +14,16 @@
           </a-col>
 
           <a-col :span="14">
-            <div class="title">Task Member</div>
+            <div class="title">Task Members</div>
           </a-col>
 
           <a-col align="right" :span="5">
-            <div id="pictureUrl">
+            <div>
               <router-link
                 v-if="dataTask.members.length > 0"
-                :to="{ name: 'editMemberInTask', params: { id: dataTask.id } }"
+                :to="{ name: 'EditMemberInTask', params: { id: dataTask.id } }"
               >
-                <span style="color:white; margin-right:15px;">
+                <span style="color:white;">
                   Edit
                 </span>
               </router-link>
@@ -38,7 +38,7 @@
     <!-- end toolbar -->
     <br />
     <div style="margin: 60px 15px 20px 15px;">
-      <router-link :to="{ name: 'addMemberToTask', params: { id: dataTask.id } }">
+      <router-link :to="{ name: 'AddMemberToTask', params: { id: dataTask.id } }">
         <a-button
           size="large"
           block
@@ -53,13 +53,16 @@
       <div v-for="member in dataTask.members" :key="member.id">
         <router-link
           style="text-decoration: none;"
-          :to="{ name: 'profileMember', params: { id: member.id } }"
+          :to="
+            userId == member.id ? '/profile' : { name: 'ProfileMember', params: { id: member.id } }
+          "
         >
           <div id="flex-container">
             <div class="cardPicture">
               <img
                 v-bind:src="member.image ? member.image.fullPath : require('../assets/user.svg')"
                 id="imgProfile"
+                style="margin-top:5px;"
               />
             </div>
             <div class="cardInformation">
@@ -69,6 +72,7 @@
               <div id="memberposition">
                 {{ member.position }}
               </div>
+              <br />
               <div id="department">
                 Full-time/Intern :
                 <span>{{ member.type }}</span>
@@ -92,22 +96,18 @@
     <div v-else class="noData" style="height:400px;">
       <a-empty />
     </div>
-    <div style="padding-bottom:60px"></div>
-    <BarRouter />
   </div>
 </template>
 
 <script>
-import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/task'
 export default {
-  name: 'doneTask',
-  components: {
-    BarRouter,
-  },
+  name: 'taskMembers',
+  components: {},
   data() {
     return {
       dataTask: [],
+      userId: 0,
     }
   },
   apollo: {
@@ -121,6 +121,15 @@ export default {
       update(data) {
         this.dataTask = data.getTaskById
       },
+    },
+  },
+  mounted() {
+    this.getData()
+  },
+  methods: {
+    getData() {
+      const get = JSON.parse(localStorage.getItem('vuex'))
+      this.userId = get.Auth.user.id
     },
   },
 }
