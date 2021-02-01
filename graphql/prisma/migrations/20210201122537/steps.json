@@ -1479,7 +1479,7 @@
         "directive": "default"
       },
       "argument": "value",
-      "value": "false"
+      "value": "true"
     },
     {
       "tag": "CreateModel",
@@ -1885,11 +1885,11 @@
     },
     {
       "tag": "CreateModel",
-      "model": "Form"
+      "model": "RecentActivity"
     },
     {
       "tag": "CreateField",
-      "model": "Form",
+      "model": "RecentActivity",
       "field": "id",
       "type": "Int",
       "arity": "Required"
@@ -1899,7 +1899,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Form",
+          "model": "RecentActivity",
           "field": "id"
         },
         "directive": "id"
@@ -1910,7 +1910,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Form",
+          "model": "RecentActivity",
           "field": "id"
         },
         "directive": "default"
@@ -1922,7 +1922,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Form",
+          "model": "RecentActivity",
           "field": "id"
         },
         "directive": "default"
@@ -1932,75 +1932,14 @@
     },
     {
       "tag": "CreateField",
-      "model": "Form",
-      "field": "forms",
-      "type": "FormComponent",
-      "arity": "List"
-    },
-    {
-      "tag": "CreateModel",
-      "model": "FormComponent"
-    },
-    {
-      "tag": "CreateField",
-      "model": "FormComponent",
-      "field": "id",
-      "type": "Int",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "FormComponent",
-          "field": "id"
-        },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "FormComponent",
-          "field": "id"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "FormComponent",
-          "field": "id"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateField",
-      "model": "FormComponent",
-      "field": "label",
+      "model": "RecentActivity",
+      "field": "message",
       "type": "String",
       "arity": "Required"
     },
     {
       "tag": "CreateField",
-      "model": "FormComponent",
-      "field": "type",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateField",
-      "model": "FormComponent",
+      "model": "RecentActivity",
       "field": "timestamp",
       "type": "DateTime",
       "arity": "Optional"
@@ -2010,7 +1949,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "FormComponent",
+          "model": "RecentActivity",
           "field": "timestamp"
         },
         "directive": "default"
@@ -2022,7 +1961,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "FormComponent",
+          "model": "RecentActivity",
           "field": "timestamp"
         },
         "directive": "default"
@@ -2032,59 +1971,9 @@
     },
     {
       "tag": "CreateField",
-      "model": "FormComponent",
-      "field": "check",
-      "type": "Boolean",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "FormComponent",
-          "field": "check"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "FormComponent",
-          "field": "check"
-        },
-        "directive": "default"
-      },
-      "argument": "value",
-      "value": "false"
-    },
-    {
-      "tag": "CreateField",
-      "model": "FormComponent",
-      "field": "option",
-      "type": "Option",
-      "arity": "List"
-    },
-    {
-      "tag": "CreateField",
-      "model": "FormComponent",
-      "field": "example",
-      "type": "Example",
-      "arity": "List"
-    },
-    {
-      "tag": "CreateModel",
-      "model": "Option"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Option",
-      "field": "id",
-      "type": "Int",
+      "model": "RecentActivity",
+      "field": "user",
+      "type": "User",
       "arity": "Required"
     },
     {
@@ -2092,21 +1981,10 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "Option",
-          "field": "id"
+          "model": "RecentActivity",
+          "field": "user"
         },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Option",
-          "field": "id"
-        },
-        "directive": "default"
+        "directive": "relation"
       }
     },
     {
@@ -2115,74 +1993,34 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "Option",
-          "field": "id"
+          "model": "RecentActivity",
+          "field": "user"
         },
-        "directive": "default"
+        "directive": "relation"
       },
-      "argument": "",
-      "value": "autoincrement()"
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "RecentActivity",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
     },
     {
       "tag": "CreateField",
-      "model": "Option",
-      "field": "message",
-      "type": "String",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateModel",
-      "model": "Example"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Example",
-      "field": "id",
+      "model": "RecentActivity",
+      "field": "userId",
       "type": "Int",
       "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Example",
-          "field": "id"
-        },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Example",
-          "field": "id"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Example",
-          "field": "id"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Example",
-      "field": "message",
-      "type": "String",
-      "arity": "Optional"
     }
   ]
 }
