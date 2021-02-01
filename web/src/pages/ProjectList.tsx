@@ -427,15 +427,18 @@ function ProjectList() {
             <Row gutter={[8, 24]}>
               {filteredData && !error && !loading ? (
                 filteredData.length !== 0 ? (
-                  filteredData.map(
-                    (items: any, index: any) =>
-                      index >= minIndex &&
-                      index < maxIndex && (
-                        <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
-                          <ProjectCard data={items} refetch={() => refetch()} />
-                        </Col>
-                      )
-                  )
+                  filteredData
+                    .slice()
+                    .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
+                    .map(
+                      (items: any, index: any) =>
+                        index >= minIndex &&
+                        index < maxIndex && (
+                          <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
+                            <ProjectCard data={items} refetch={() => refetch()} />
+                          </Col>
+                        )
+                    )
                 ) : (
                   <div className="flex w-full justify-center my-8">
                     <Empty

@@ -153,7 +153,7 @@ function Profile() {
     setDepartment(value)
   }
 
-  function showAddEmployee() {
+  function showEditProfile() {
     setEditVisible(true)
   }
 
@@ -312,7 +312,7 @@ function Profile() {
                 className="absolute top-0 right-0 text-blue-700 hover:text-blue-700 focus:text-blue-700"
                 type="text"
                 shape="circle"
-                onClick={showAddEmployee}
+                onClick={showEditProfile}
               >
                 <EditOutlined />
               </Button>
@@ -509,15 +509,18 @@ function Profile() {
                 <Row>
                   {filteredDataProject && !userError && !userLoading ? (
                     filteredDataProject.length !== 0 ? (
-                      filteredDataProject.map(
-                        (items: any, index: any) =>
-                          index >= minIndexProject &&
-                          index < maxIndexProject && (
-                            <Col xs={24} xl={6} key={items.id} className="w-full px-2">
-                              <ProjectCard data={items} refetch={() => refetch()} />
-                            </Col>
-                          )
-                      )
+                      filteredDataProject
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
+                        .map(
+                          (items: any, index: any) =>
+                            index >= minIndexProject &&
+                            index < maxIndexProject && (
+                              <Col xs={24} xl={6} key={items.id} className="w-full px-2">
+                                <ProjectCard data={items} refetch={() => refetch()} />
+                              </Col>
+                            )
+                        )
                     ) : (
                       <div className="flex w-full justify-center my-8">
                         <Empty
@@ -556,15 +559,18 @@ function Profile() {
                 <Row>
                   {filteredDataTask && !userError && !userLoading ? (
                     filteredDataTask.length !== 0 ? (
-                      filteredDataTask.map(
-                        (items: any, index: any) =>
-                          index >= minIndexTask &&
-                          index < maxIndexTask && (
-                            <Col xs={24} xl={12} key={items.id} className="w-full px-2">
-                              <TaskCard data={items} refetch={() => refetch()} />
-                            </Col>
-                          )
-                      )
+                      filteredDataTask
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
+                        .map(
+                          (items: any, index: any) =>
+                            index >= minIndexTask &&
+                            index < maxIndexTask && (
+                              <Col xs={24} xl={12} key={items.id} className="w-full px-2">
+                                <TaskCard data={items} refetch={() => refetch()} />
+                              </Col>
+                            )
+                        )
                     ) : (
                       <div className="flex w-full justify-center my-8">
                         <Empty

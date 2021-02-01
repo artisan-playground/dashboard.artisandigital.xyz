@@ -228,6 +228,8 @@ function Employee() {
                     0 ? (
                       filteredData
                         .filter((item: any) => item.department === 'HR/Admin')
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
                           <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
                             <EmployeeCard
@@ -261,6 +263,8 @@ function Employee() {
                     0 ? (
                       filteredData
                         .filter((item: any) => item.department === 'Development')
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
                           <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
                             <EmployeeCard data={items} refetch={() => refetch()} />
@@ -289,6 +293,8 @@ function Employee() {
                     0 ? (
                       filteredData
                         .filter((item: any) => item.department === 'Design')
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
                           <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
                             <EmployeeCard data={items} refetch={() => refetch()} />
@@ -328,6 +334,8 @@ function Employee() {
                             item.department !== 'Design' &&
                             item.department !== 'Digital Marketing'
                         )
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
                           <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
                             <EmployeeCard data={items} refetch={() => refetch()} />
