@@ -26,12 +26,7 @@ import { EVENT } from '../services/api/event'
 function News() {
   const { Text } = Typography
   const { data, loading: eventLoading, error: eventError, refetch } = useQuery(EVENT)
-  const {
-    data: contentData,
-    loading: contentLoading,
-    error: contentError,
-    refetch: refetchContent,
-  } = useQuery(CONTENT)
+  const { data: contentData, loading: contentLoading, error: contentError } = useQuery(CONTENT)
   const [keyword, setKeyword] = useState('')
   const [loading, setLoading] = useState(false)
   const [filteredData, setFilteredData] = useState<any[]>([])
@@ -56,7 +51,16 @@ function News() {
       setMinIndex(0)
       setMaxIndex(pageSize)
     }
-  }, [eventError, eventLoading, loading, contentLoading, contentError, contentData, data])
+  }, [
+    eventError,
+    eventLoading,
+    loading,
+    contentLoading,
+    contentError,
+    contentData,
+    data,
+    totalPage,
+  ])
 
   function handleKeywordChange(e: any) {
     setLoading(true)

@@ -95,7 +95,7 @@ function ProjectList() {
       setMinIndex(0)
       setMaxIndex(pageSize)
     }
-  }, [types, loading, error, data, userLoading, userData])
+  }, [types, loading, error, data, userLoading, userData, userError, totalPage, filterloading])
 
   function handleKeywordChange(e: any) {
     setLoading(true)
@@ -261,6 +261,7 @@ function ProjectList() {
                               : UnknownImage
                           }
                           className="w-64 h-48"
+                          alt="user"
                         />
                       </Spin>
                     ) : (
@@ -273,6 +274,7 @@ function ProjectList() {
                             : UnknownImage
                         }
                         className="w-64 h-48"
+                        alt="user"
                       />
                     )}
 
@@ -347,8 +349,7 @@ function ProjectList() {
                             className="hover:bg-primary hover:text-white py-2 px-4"
                           >
                             <Avatar
-                              shape="circle"
-                              size="default"
+                              size="small"
                               src={value.image ? value.image.fullPath : UnknownUserImage}
                               alt="user"
                               className="mr-2"

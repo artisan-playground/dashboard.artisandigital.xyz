@@ -190,7 +190,7 @@ function Member() {
             .filter((item: any) => item.position === position)
             .map((item: any) => (
               <Link key={item.id} to={{ pathname: `/profile/${item.id}` }}>
-                <Text>{position}</Text>
+                {item.position ? <Text>{item.position}</Text> : <Text>-</Text>}
               </Link>
             ))}
         </>
@@ -293,8 +293,7 @@ function Member() {
                               className="hover:bg-primary hover:text-white py-2 px-4"
                             >
                               <Avatar
-                                shape="circle"
-                                size="default"
+                                size="small"
                                 src={item.image ? item.image.fullPath : UnknownUserImage}
                                 alt="user"
                                 className="mr-2"
