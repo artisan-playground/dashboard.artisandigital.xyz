@@ -19,6 +19,7 @@ const userObjectType = objectType({
     t.model.dueDate()
     t.model.notifications()
     t.model.contents()
+    t.model.recentActivities()
     t.model.role()
   },
 })

@@ -191,8 +191,8 @@ export const UPDATE_PROJECT_STATUS = gql`
 `
 
 export const ADD_MEMBER_TO_PROJECT = gql`
-  mutation addMember($id: Int!, $memberId: Int!) {
-    updateOneProject(where: { id: $id }, data: { members: { connect: { id: $memberId } } }) {
+  mutation addMember($id: Int!, $members: [UserWhereUniqueInput!]) {
+    updateOneProject(where: { id: $id }, data: { members: { connect: $members } }) {
       id
       members {
         id
@@ -203,10 +203,10 @@ export const ADD_MEMBER_TO_PROJECT = gql`
 `
 
 export const DELETE_MEMBER_FROM_PROJECT = gql`
-  mutation DeleteMemberFromProject($projectId: Int!, $memberId: Int!) {
+  mutation DeleteMemberFromProject($projectId: Int!, $members: Int!) {
     updateOneProject(
       where: { id: $projectId }
-      data: { members: { disconnect: [{ id: $memberId }] } }
+      data: { members: { disconnect: [{ id: $members }] } }
     ) {
       id
     }
