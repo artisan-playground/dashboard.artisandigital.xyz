@@ -213,7 +213,7 @@ function ProjectContent({ data, refetch }: any) {
           <Row>
             {data.status === 'done' ? (
               <Button
-                className="bg-green-400 hover:bg-green-500 border-none focus:bg-green-500"
+                className="mr-2 bg-green-400 hover:bg-green-500 border-none focus:bg-green-500"
                 type="primary"
                 onClick={handleUndoneStatus}
               >
@@ -222,7 +222,7 @@ function ProjectContent({ data, refetch }: any) {
               </Button>
             ) : (
               <Button
-                className="bg-red-400 hover:bg-red-500 border-none focus:bg-red-500"
+                className="mr-2 bg-red-400 hover:bg-red-500 border-none focus:bg-red-500"
                 type="primary"
                 onClick={handleDoneStatus}
               >

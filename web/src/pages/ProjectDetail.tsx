@@ -324,7 +324,10 @@ function ProjectDetail() {
                         filteredTodayTasks.filter((item: any) => item.isDone === false).length !==
                         0 ? (
                           filteredTodayTasks
+                            .slice()
+                            .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                             .filter((item: any) => item.isDone === false)
+
                             .map((item: any) => (
                               <TaskCard
                                 key={item.id}
@@ -383,7 +386,10 @@ function ProjectDetail() {
                         filteredDoneTasks.filter((item: any) => item.isDone === true).length !==
                         0 ? (
                           filteredDoneTasks
+                            .slice()
+                            .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                             .filter((item: any) => item.isDone === true)
+
                             .map((item: any) => (
                               <TaskCard
                                 key={item.id}
@@ -541,18 +547,21 @@ function ProjectDetail() {
 
               {filteredTasks && !loading ? (
                 filteredTasks.length !== 0 ? (
-                  filteredTasks.map(
-                    (item: any, index: any) =>
-                      index >= minIndex &&
-                      index < maxIndex && (
-                        <TaskCard
-                          key={item.id}
-                          data={item}
-                          project={filteredData}
-                          refetch={() => refetch()}
-                        />
-                      )
-                  )
+                  filteredTasks
+                    .slice()
+                    .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
+                    .map(
+                      (item: any, index: any) =>
+                        index >= minIndex &&
+                        index < maxIndex && (
+                          <TaskCard
+                            key={item.id}
+                            data={item}
+                            project={filteredData}
+                            refetch={() => refetch()}
+                          />
+                        )
+                    )
                 ) : (
                   <div className="flex justify-center items-center p-8">
                     <Empty

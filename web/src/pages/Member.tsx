@@ -20,24 +20,22 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import UnknownUserImage from '../assets/images/unknown_user.png'
 import { LayoutDashboard } from '../components/DashboardComponent'
-import { CREATE_NOTIFICATION } from '../services/api/notification'
 import {
   ADD_MEMBER_TO_PROJECT,
   DELETE_MEMBER_FROM_PROJECT,
   GET_PROJECT_BY_ID,
 } from '../services/api/project'
 import { GET_USERS } from '../services/api/user'
-import { useStoreState } from '../store'
 
 function Member() {
   const { Text } = Typography
-  const { Option } = Select
   const [deleteMember] = useMutation(DELETE_MEMBER_FROM_PROJECT)
   const [addMember] = useMutation(ADD_MEMBER_TO_PROJECT)
   const [userDataSource, setUserDataSource] = useState<any>()
   const [dataSource, setDataSource] = useState<any>()
   const [value, setValue] = useState('')
-  const [members, setMembers] = useState([])
+  const [members, setMembers] = useState<any[]>([])
+  const [userList, setUserList] = useState<any[]>([])
   const [visible, setVisible] = useState(false)
   const [formLayout] = useState('horizontal')
   const { projectId }: any = useParams()
@@ -46,13 +44,12 @@ function Member() {
     variables: { id: Number(projectId) },
     notifyOnNetworkStatusChange: true,
   })
-  const user = useStoreState((s) => s.userState.user)
-  const [createNotification] = useMutation(CREATE_NOTIFICATION)
 
   useEffect(() => {
     if (!error && !loading && !userLoading && !userError && userData && data) {
       setDataSource(data.project.members)
       setUserDataSource(userData.users)
+      setUserList(data.project.members)
     }
   }, [loading, error, data, deleteMember, addMember, userData, userLoading, userError])
 
@@ -71,44 +68,28 @@ function Member() {
   function handleDelete(key: any) {
     const dataTable = [...dataSource]
     if (dataSource) {
-      deleteMember({ variables: { projectId: data && data.project.id, memberId: key } }).then(
-        (res) => {
+      deleteMember({ variables: { projectId: data && data.project.id, members: key } })
+        .then((res) => {
           if (res) {
             setDataSource(dataTable.filter((item: any) => item.key !== key))
             setVisible(false)
             refetch()
           }
-        }
-      )
-      createNotification({
-        variables: {
-          update: `${user?.name} remove you from project ${data.project.name}`,
-          userId: key,
-          authorId: user?.id,
-          type: 'delete',
-        },
-      }).catch((err) => {
-        message.error({
-          content: `Error : ${err}`,
-          duration: 2,
-          icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
         })
-      })
+        .catch((err) => {
+          message.error({
+            content: `Error : ${err}`,
+            duration: 2,
+            icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+          })
+        })
     }
   }
 
   function handleAdd() {
     if (dataSource) {
       addMember({
-        variables: { id: Number(projectId), memberId: members },
-      })
-      createNotification({
-        variables: {
-          massage: `${user?.name} invited you to project ${data.project.name}`,
-          receiverId: members,
-          senderId: user?.id,
-          type: 'invite',
-        },
+        variables: { id: Number(projectId), members: members },
       })
         .then((res) => {
           if (res) {
@@ -133,6 +114,11 @@ function Member() {
 
   function openModal() {
     setVisible(true)
+  }
+
+  function handleMember(value: any) {
+    const val = Number(value.reverse()[0])
+    setMembers((prevState) => [...prevState, { id: val }])
   }
 
   const columns = [
@@ -233,10 +219,6 @@ function Member() {
         }
       : null
 
-  function onChangeMember(value: any) {
-    setMembers(value[0])
-  }
-
   function handleConfirm(record: any) {
     Modal.confirm({
       icon: <CloseCircleOutlined style={{ color: 'red' }} />,
@@ -255,7 +237,12 @@ function Member() {
         <Breadcrumb.Item>
           <Link to={{ pathname: `/projects` }}>Projects</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>{data && data?.project.projectName}</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to={{ pathname: `/projects/${projectId}` }}>
+            {data && data?.project.projectName}
+          </Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>Members</Breadcrumb.Item>
       </Breadcrumb>
       <PageHeader
         className="site-page-header"
@@ -282,26 +269,39 @@ function Member() {
                 footer={null}
               >
                 <Form className="mt-8" {...formItemLayout}>
-                  <Form.Item name="member" rules={[{ required: true, message: 'Select member' }]}>
+                  <Form.Item
+                    name="member"
+                    rules={[{ required: true, message: 'Select member' }]}
+                    required
+                  >
                     <Select
                       mode="tags"
-                      placeholder="Please select member"
-                      onChange={onChangeMember}
+                      value={userList}
+                      onChange={handleMember}
+                      tokenSeparators={[',']}
                       style={{ width: '100%' }}
                     >
                       {userDataSource &&
-                        userDataSource.map((item: any) => (
-                          <Option value={item.id}>
-                            <Avatar
-                              shape="circle"
-                              size="small"
-                              src={item.image ? item.image.fullPath : UnknownUserImage}
-                              alt="user"
-                              className="mr-2"
-                            />
-                            {item.name}
-                          </Option>
-                        ))}
+                        userDataSource
+                          .filter(
+                            (user: any) =>
+                              !userList.find((member: any) => user.name === member.name)
+                          )
+                          .map((item: any) => (
+                            <Row
+                              key={item.id}
+                              className="hover:bg-primary hover:text-white py-2 px-4"
+                            >
+                              <Avatar
+                                shape="circle"
+                                size="default"
+                                src={item.image ? item.image.fullPath : UnknownUserImage}
+                                alt="user"
+                                className="mr-2"
+                              />
+                              {item.name}
+                            </Row>
+                          ))}
                     </Select>
                   </Form.Item>
                   <Form.Item>

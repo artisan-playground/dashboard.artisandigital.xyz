@@ -43,16 +43,14 @@ function TaskCard({ data }: any) {
       if (i < 3) {
         showItems.push(
           <Col key={(new Date().getTime() + i).toString()} className="-ml-1">
-            <Link to={{ pathname: `/profile/${item[i].id}` }}>
-              <Tooltip placement="top" title={item[i].name}>
-                <Avatar
-                  key={item[i].id}
-                  src={item[i].image ? item[i].image.fullPath : UnknownUserImage}
-                  className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
-                  alt={item[i].name}
-                />
-              </Tooltip>
-            </Link>
+            <Tooltip placement="top" title={item[i].name}>
+              <Avatar
+                key={item[i].id}
+                src={item[i].image ? item[i].image.fullPath : UnknownUserImage}
+                className="ml-2 cursor-pointer bg-gray-300 shadow-lg"
+                alt={item[i].name}
+              />
+            </Tooltip>
           </Col>
         )
       } else {
@@ -84,17 +82,15 @@ function TaskCard({ data }: any) {
     return (
       <div>
         {item.map((items: any) => (
-          <Link key={items.id} to={{ pathname: `/profile/${item.id}` }}>
-            <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
-              <Avatar
-                key={items.id}
-                src={items.image ? items.image.fullPath : UnknownUserImage}
-                className="ml-2"
-                alt={items.name}
-              />
-              <div className="ml-4 text-base">{items.name}</div>
-            </div>
-          </Link>
+          <div className="flex mx-1 my-1 p-2 rounded-lg hover:bg-primary hover:text-white cursor-pointer">
+            <Avatar
+              key={items.id}
+              src={items.image ? items.image.fullPath : UnknownUserImage}
+              className="ml-2"
+              alt={items.name}
+            />
+            <div className="ml-4 text-base">{items.name}</div>
+          </div>
         ))}
       </div>
     )
@@ -138,7 +134,7 @@ function TaskCard({ data }: any) {
                 </Space>
               </Col>
               <Col xs={3} className="flex justify-end">
-                {data.status === 'done' ? (
+                {data.isDone ? (
                   <Tag color="green" icon={<CheckCircleOutlined />}>
                     Done
                   </Tag>

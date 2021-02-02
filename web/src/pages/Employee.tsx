@@ -49,12 +49,6 @@ function Employee() {
           let design: any[] = data.users.filter((item: any) => item.department === 'Design')
           setFilteredData(design)
           break
-        case 'Digital Marketing':
-          let market: any[] = data.users.filter(
-            (item: any) => item.department === 'Digital Marketing'
-          )
-          setFilteredData(market)
-          break
         case 'Others':
           let other: any[] = data.users.filter(
             (item: any) =>
@@ -234,6 +228,8 @@ function Employee() {
                     0 ? (
                       filteredData
                         .filter((item: any) => item.department === 'HR/Admin')
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
                           <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
                             <EmployeeCard
@@ -267,6 +263,8 @@ function Employee() {
                     0 ? (
                       filteredData
                         .filter((item: any) => item.department === 'Development')
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
                           <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
                             <EmployeeCard data={items} refetch={() => refetch()} />
@@ -295,6 +293,8 @@ function Employee() {
                     0 ? (
                       filteredData
                         .filter((item: any) => item.department === 'Design')
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
                           <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
                             <EmployeeCard data={items} refetch={() => refetch()} />
@@ -316,35 +316,7 @@ function Employee() {
                   )}
                 </Row>
               </TabPane>
-              <TabPane tab="Digital Marketing" key="4">
-                <Row gutter={[8, 24]}>
-                  {filteredData && !error && !loading ? (
-                    filteredData.filter((item: any) => item.department === 'Digital Marketing')
-                      .length !== 0 ? (
-                      filteredData
-                        .filter((item: any) => item.department === 'Digital Marketing')
-                        .map((items: any) => (
-                          <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
-                            <EmployeeCard data={items} refetch={() => refetch()} />
-                          </Col>
-                        ))
-                    ) : (
-                      <div className="flex w-full justify-center my-8">
-                        <Empty
-                          image={Empty.PRESENTED_IMAGE_SIMPLE}
-                          description={<Text disabled>No employee Found</Text>}
-                        />
-                      </div>
-                    )
-                  ) : (
-                    <div className="flex w-full justify-center my-8">
-                      <Text disabled>Error</Text>
-                      <Text disabled>{error} </Text>
-                    </div>
-                  )}
-                </Row>
-              </TabPane>
-              <TabPane tab="Others" key="5">
+              <TabPane tab="Others" key="4">
                 <Row gutter={[8, 24]}>
                   {filteredData && !error && !loading ? (
                     filteredData.filter(
@@ -362,6 +334,8 @@ function Employee() {
                             item.department !== 'Design' &&
                             item.department !== 'Digital Marketing'
                         )
+                        .slice()
+                        .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
                           <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
                             <EmployeeCard data={items} refetch={() => refetch()} />
