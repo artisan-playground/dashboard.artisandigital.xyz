@@ -346,9 +346,12 @@ function ProjectContent({ data, refetch }: any) {
                         placeholder="Please input description"
                       />
                     </Form.Item>
+                  </Form>
+
+                  <Form layout="horizontal">
                     <Form.Item name="Project status" label="Project status" required>
                       <Space direction="horizontal" size={2}>
-                        <Switch defaultChecked={status} onChange={onChange} />
+                        <Switch defaultChecked={status} onChange={onChange} className="mr-2" />
                         {status === true ? <Text>Active</Text> : <Text>Inactive</Text>}
                       </Space>
                     </Form.Item>
