@@ -281,6 +281,7 @@ export const ADD_TASK = gql`
     $projectId: Int!
     $taskName: String!
     $taskDetail: String!
+    $taskType: String!
     $startTime: DateTime!
     $endTime: DateTime!
     $members: [UserWhereUniqueInput!]
@@ -290,6 +291,7 @@ export const ADD_TASK = gql`
         project: { connect: { id: $projectId } }
         taskName: $taskName
         taskDetail: $taskDetail
+        taskType: $taskType
         startTime: $startTime
         endTime: $endTime
         members: { connect: $members }
