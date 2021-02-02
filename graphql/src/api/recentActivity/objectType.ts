@@ -7,6 +7,7 @@ const recentActivityObjectType = objectType({
     t.model.message()
     t.model.timestamp()
     t.model.user()
+    t.model.project()
   },
 })
 

@@ -12,6 +12,7 @@ const projectObjectType = objectType({
     t.model.dueDate()
     t.model.createdAt()
     t.model.members()
+    t.model.recentActivities()
     t.model.tasks()
   },
 })
