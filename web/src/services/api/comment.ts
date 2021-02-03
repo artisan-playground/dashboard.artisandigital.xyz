@@ -1,10 +1,9 @@
 import { gql } from '@apollo/client'
 
 export const COMMENT = gql`
-  mutation CreateComment($timestamp: DateTime!, $message: String!, $taskId: Int!, $userId: Int!) {
+  mutation CreateComment($message: String!, $taskId: Int!, $userId: Int!) {
     createOneComment(
       data: {
-        timestamp: $timestamp
         message: $message
         task: { connect: { id: $taskId } }
         user: { connect: { id: $userId } }
@@ -23,6 +22,63 @@ export const COMMENT = gql`
         }
       }
       message
+      reply {
+        id
+        task {
+          id
+        }
+        user {
+          id
+          name
+          image {
+            id
+            fullPath
+          }
+        }
+        message
+      }
+    }
+  }
+`
+
+export const REPLY_COMMENT = gql`
+  mutation CreateComment($commentId: Int!, $message: String!, $taskId: Int!, $userId: Int!) {
+    createOneComment(
+      data: {
+        message: $message
+        task: { connect: { id: $taskId } }
+        user: { connect: { id: $userId } }
+        reply: { connect: { id: $commentId } }
+      }
+    ) {
+      id
+      task {
+        id
+      }
+      user {
+        id
+        name
+        image {
+          id
+          fullPath
+        }
+      }
+      message
+      reply {
+        id
+        task {
+          id
+        }
+        user {
+          id
+          name
+          image {
+            id
+            fullPath
+          }
+        }
+        message
+      }
     }
   }
 `

@@ -64,6 +64,21 @@ export const TASKS = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }
@@ -133,6 +148,21 @@ export const TASKS_BY_ID = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }
@@ -202,6 +232,21 @@ export const TASKS_BY_TASKID = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }
@@ -271,6 +316,21 @@ export const TOGGLE_TASK_DONE = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }
@@ -358,6 +418,21 @@ export const ADD_TASK = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }
