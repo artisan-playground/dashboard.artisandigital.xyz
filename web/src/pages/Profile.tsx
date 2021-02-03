@@ -111,7 +111,16 @@ function Profile() {
       setFilteredDataProject(userData.user.projects)
       setFilteredDataTask(userData.user.tasks)
     }
-  }, [userData, userLoading, userError])
+  }, [
+    userData,
+    userLoading,
+    userError,
+    filterloading,
+    totalPageProject,
+    totalPageTask,
+    imageData,
+    imageUpdateData,
+  ])
 
   function handleProjectKeywordChange(e: any) {
     setLoading(true)

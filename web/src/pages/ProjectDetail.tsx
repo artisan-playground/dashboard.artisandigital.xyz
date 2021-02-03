@@ -42,7 +42,9 @@ import {
   TaskCard,
 } from '../components/DashboardComponent'
 import { GET_PROJECT_BY_ID } from '../services/api/project'
+import { ADD_RECENT_ACTIVITY } from '../services/api/recentActivity'
 import { ADD_TASK, TASKS_BY_ID } from '../services/api/task'
+import { useStoreState } from '../store'
 
 function ProjectDetail() {
   const { Option } = Select
@@ -78,9 +80,10 @@ function ProjectDetail() {
   const [startTime, setStartTime] = useState<any>()
   const [description, setDescription] = useState<any>()
   const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
-  const dateFormat = 'DD MMM YYYY'
+  const dateFormat = 'DD MMM YYYY HH:mm'
   const customFormat = (value: any) => `${value.format(dateFormat)}`
   const [createTask] = useMutation(ADD_TASK)
+  const [addRecentActivity] = useMutation(ADD_RECENT_ACTIVITY)
   const [totalPage, setTotalPage] = useState(0)
   const [current, setCurrent] = useState(1)
   const [minIndex, setMinIndex] = useState(0)
@@ -89,6 +92,7 @@ function ProjectDetail() {
   const [form] = Form.useForm()
   const [userList, setUserList] = useState([])
   const { RangePicker } = DatePicker
+  const user = useStoreState((s) => s.userState.user)
 
   useEffect(() => {
     if (!error && !loading && !projectLoading && !projectError) {
@@ -106,7 +110,17 @@ function ProjectDetail() {
       setMaxIndex(pageSize)
       setUserList(projectData.project.members)
     }
-  }, [projectId, loading, error, projectLoading, projectError, data, projectData])
+  }, [
+    projectId,
+    loading,
+    error,
+    projectLoading,
+    projectError,
+    data,
+    projectData,
+    filterloading,
+    totalPage,
+  ])
 
   function handleKeywordChange(e: any) {
     setLoading(true)
@@ -190,9 +204,17 @@ function ProjectDetail() {
           projectId: projectData.project.id,
           taskName: taskName,
           taskDetail: description,
+          taskType: type,
           startTime: new Date(startTime),
           endTime: new Date(dueDate),
           members: member,
+        },
+      })
+      addRecentActivity({
+        variables: {
+          message: `Create task ${taskName}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      `,
+          userId: user?.id,
+          projectId: projectData.project.id,
         },
       })
         .then((res) => {
@@ -230,6 +252,10 @@ function ProjectDetail() {
   function handleMember(value: any) {
     const val = Number(value.reverse()[0])
     setMember((prevState) => [...prevState, { id: val }])
+  }
+
+  function handleChangeType(value: any) {
+    setType(value)
   }
 
   return projectLoading || !filteredData ? (
@@ -459,7 +485,7 @@ function ProjectDetail() {
                             rules={[{ required: true, message: 'Please input type' }]}
                             required
                           >
-                            <Select value={type} onChange={handleChange}>
+                            <Select value={type} onChange={handleChangeType}>
                               <Option value="Data">Data</Option>
                               <Option value="Design">Design</Option>
                               <Option value="Mobile">Mobile</Option>
@@ -485,8 +511,7 @@ function ProjectDetail() {
                                   className="hover:bg-primary hover:text-white py-2 px-4"
                                 >
                                   <Avatar
-                                    shape="circle"
-                                    size="default"
+                                    size="small"
                                     src={value.image ? value.image.fullPath : UnknownUserImage}
                                     alt="user"
                                     className="mr-2"

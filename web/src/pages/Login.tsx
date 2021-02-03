@@ -41,7 +41,7 @@ function Login() {
       <Row justify="space-around" className="w-full items-center jestify-center">
         <Col xs={16} className="-ml-16">
           <div className="flex justify-center items-center">
-            <img src={LoginPageImage} className="w-full" alt="login-image" />
+            <img src={LoginPageImage} className="w-full" alt="login" />
           </div>
         </Col>
         <Col xs={7} className="mr-16">
