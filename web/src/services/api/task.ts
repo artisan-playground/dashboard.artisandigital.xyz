@@ -64,6 +64,21 @@ export const TASKS = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }
@@ -133,6 +148,21 @@ export const TASKS_BY_ID = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }
@@ -202,6 +232,21 @@ export const TASKS_BY_TASKID = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }
@@ -271,6 +316,21 @@ export const TOGGLE_TASK_DONE = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }
@@ -281,6 +341,7 @@ export const ADD_TASK = gql`
     $projectId: Int!
     $taskName: String!
     $taskDetail: String!
+    $taskType: String!
     $startTime: DateTime!
     $endTime: DateTime!
     $members: [UserWhereUniqueInput!]
@@ -290,6 +351,7 @@ export const ADD_TASK = gql`
         project: { connect: { id: $projectId } }
         taskName: $taskName
         taskDetail: $taskDetail
+        taskType: $taskType
         startTime: $startTime
         endTime: $endTime
         members: { connect: $members }
@@ -356,6 +418,21 @@ export const ADD_TASK = gql`
         }
         timestamp
         message
+        reply {
+          id
+          task {
+            id
+          }
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+          message
+        }
       }
     }
   }

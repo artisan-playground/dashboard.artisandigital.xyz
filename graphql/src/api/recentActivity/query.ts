@@ -17,6 +17,13 @@ const recentActivityQuery = extendType({
         return ctx.prisma.recentActivity.findMany()
       },
     })
+
+    t.list.field('getRecentActivityByProjectId', {
+      type: 'RecentActivity',
+      args: { id: intArg({ required: true }) },
+      resolve: (_, args, ctx): any =>
+        ctx.prisma.recentActivity.findMany({ where: { projectId: args.id } }),
+    })
   },
 })
 
