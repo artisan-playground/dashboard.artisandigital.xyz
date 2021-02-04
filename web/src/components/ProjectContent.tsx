@@ -32,8 +32,10 @@ import React, { useEffect, useState } from 'react'
 import UnknownImage from '../assets/images/unknown_image.jpg'
 import { DELETE_PROJECT, UPDATE_PROJECT, UPDATE_PROJECT_STATUS } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE } from '../services/api/projectImage'
+import { ADD_RECENT_ACTIVITY } from '../services/api/recentActivity'
+import { useStoreState } from '../store'
 
-function ProjectContent({ data, refetch }: any) {
+function ProjectContent({ data, refetch, recentRefetch }: any) {
   const { Text } = Typography
   const { Option } = Select
   const { TextArea } = Input
@@ -58,6 +60,8 @@ function ProjectContent({ data, refetch }: any) {
   const [updateImage, { loading: loadingUpdate, data: imageData }] = useMutation(
     UPDATE_PROJECT_IMAGE
   )
+  const [addRecentActivity] = useMutation(ADD_RECENT_ACTIVITY)
+  const user = useStoreState((s) => s.userState.user)
 
   useEffect(() => {
     setProjectData(data)
@@ -76,9 +80,17 @@ function ProjectContent({ data, refetch }: any) {
         status: 'done',
       },
     })
+    addRecentActivity({
+      variables: {
+        message: `Marked project as done`,
+        userId: user?.id,
+        projectId: data.id,
+      },
+    })
     setTimeout(() => {
       setLoading(false)
     }, 1000)
+    recentRefetch()
     refetch()
   }
 
@@ -90,9 +102,17 @@ function ProjectContent({ data, refetch }: any) {
         status: 'undone',
       },
     })
+    addRecentActivity({
+      variables: {
+        message: `Marked project as undone`,
+        userId: user?.id,
+        projectId: data.id,
+      },
+    })
     setTimeout(() => {
       setLoading(false)
     }, 1000)
+    recentRefetch()
     refetch()
   }
 
@@ -130,6 +150,13 @@ function ProjectContent({ data, refetch }: any) {
           projectDetail: description,
         },
       })
+      addRecentActivity({
+        variables: {
+          message: `Update project detail`,
+          userId: user?.id,
+          projectId: data.id,
+        },
+      })
         .then((res) => {
           setProjectName(projectName)
           setType(type)
@@ -137,6 +164,7 @@ function ProjectContent({ data, refetch }: any) {
           setEditProjectVisible(false)
           setConfirmVisible(false)
           setDeleteVisible(false)
+          recentRefetch()
           refetch()
         })
         .catch((err) => {
@@ -191,7 +219,16 @@ function ProjectContent({ data, refetch }: any) {
       files: [file],
     },
   }: any) {
-    if (validity.valid) updateImage({ variables: { id: data.projectImage.id, file: file } })
+    if (validity.valid) {
+      updateImage({ variables: { id: data.projectImage.id, file: file } })
+      addRecentActivity({
+        variables: {
+          message: `Update project image`,
+          userId: user?.id,
+          projectId: data.id,
+        },
+      })
+    }
   }
 
   return !projectData ? (
