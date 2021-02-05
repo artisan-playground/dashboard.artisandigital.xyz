@@ -30,6 +30,7 @@ function News() {
   const [keyword, setKeyword] = useState('')
   const [loading, setLoading] = useState(false)
   const [filteredData, setFilteredData] = useState<any[]>([])
+  const [filteredEventData, setFilteredEventData] = useState<any[]>([])
   const [totalPage, setTotalPage] = useState(0)
   const [current, setCurrent] = useState(1)
   const [minIndex, setMinIndex] = useState(0)
@@ -47,9 +48,10 @@ function News() {
       data
     ) {
       setFilteredData(contentData.contents)
-      setTotalPage(data.length / pageSize)
+      setTotalPage(contentData.length / pageSize)
       setMinIndex(0)
       setMaxIndex(pageSize)
+      setFilteredEventData(data.events)
     }
   }, [
     eventError,
@@ -92,10 +94,29 @@ function News() {
       <PageHeader className="site-page-header" title="News" />
       <Divider />
       <div className="px-8">
-        <div className="font-bold mb-4">Event</div>
-
+        <Text className="font-bold text-lg mb-4">Event</Text>
         <Row className="w-full overflow-y-auto mb-4">
-          <EventCard data={data} />
+          {filteredEventData && !eventError && !eventLoading ? (
+            filteredEventData.length !== 0 ? (
+              filteredEventData.map((items: any) => (
+                <Col xs={24} key={items.id} className="w-full px-2 py-2">
+                  <EventCard data={items} />
+                </Col>
+              ))
+            ) : (
+              <div className="flex w-full justify-center my-8">
+                <Empty
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  description={<Text disabled>No Nearly Event</Text>}
+                />
+              </div>
+            )
+          ) : (
+            <div className="flex w-full justify-center my-8">
+              <Text disabled>Error</Text>
+              <Text disabled>{eventError} </Text>
+            </div>
+          )}
         </Row>
 
         <Row justify="space-between">
