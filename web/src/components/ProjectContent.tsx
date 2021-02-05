@@ -30,8 +30,10 @@ import dayjs, { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
 import UnknownImage from '../assets/images/unknown_image.jpg'
+import { CREATE_NOTIFICATION } from '../services/api/notification'
 import { DELETE_PROJECT, UPDATE_PROJECT, UPDATE_PROJECT_STATUS } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE } from '../services/api/projectImage'
+import { useStoreState } from '../store'
 
 function ProjectContent({ data, refetch }: any) {
   const { Text } = Typography
@@ -58,6 +60,8 @@ function ProjectContent({ data, refetch }: any) {
   const [updateImage, { loading: loadingUpdate, data: imageData }] = useMutation(
     UPDATE_PROJECT_IMAGE
   )
+  const [notify] = useMutation(CREATE_NOTIFICATION)
+  const user = useStoreState((s) => s.userState.user)
 
   useEffect(() => {
     setProjectData(data)
@@ -74,6 +78,16 @@ function ProjectContent({ data, refetch }: any) {
       variables: {
         id: data.id,
         status: 'done',
+      },
+    })
+    notify({
+      variables: {
+        message: `marked project ${projectName} as done`,
+        senderId: user?.id,
+        receiver: member
+          .filter((item) => item.id !== user?.id)
+          .map((member) => ({ id: member.id })),
+        type: 'edit',
       },
     })
     setTimeout(() => {
@@ -130,6 +144,16 @@ function ProjectContent({ data, refetch }: any) {
           projectDetail: description,
         },
       })
+      notify({
+        variables: {
+          message: `edited project ${projectName} detail`,
+          senderId: user?.id,
+          receiver: member
+            .filter((item) => item.id !== user?.id)
+            .map((member) => ({ id: member.id })),
+          type: 'edit',
+        },
+      })
         .then((res) => {
           setProjectName(projectName)
           setType(type)
@@ -159,6 +183,16 @@ function ProjectContent({ data, refetch }: any) {
     deleteProject({
       variables: {
         projectId: data.id,
+      },
+    })
+    notify({
+      variables: {
+        message: `deleted project ${projectName}`,
+        senderId: user?.id,
+        receiver: member
+          .filter((item) => item.id !== user?.id)
+          .map((member) => ({ id: member.id })),
+        type: 'delete',
       },
     })
       .then((res) => {

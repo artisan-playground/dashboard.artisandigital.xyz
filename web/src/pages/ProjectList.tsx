@@ -33,9 +33,11 @@ import React, { useEffect, useState } from 'react'
 import UnknownImage from '../assets/images/unknown_image.jpg'
 import UnknownUserImage from '../assets/images/unknown_user.png'
 import { LayoutDashboard, LoadingComponent, ProjectCard } from '../components/DashboardComponent'
+import { CREATE_NOTIFICATION } from '../services/api/notification'
 import { CREATE_PROJECT, PROJECT } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE, UPLOAD_PROJECT_IMAGE } from '../services/api/projectImage'
 import { GET_USERS } from '../services/api/user'
+import { useStoreState } from '../store'
 
 function ProjectList() {
   const { Option } = Select
@@ -48,13 +50,14 @@ function ProjectList() {
   const [filterloading, setLoading] = useState(false)
   const [createProjectVisible, setCreateProjectVisible] = useState(false)
   const [createProject] = useMutation(CREATE_PROJECT)
+  const [notify] = useMutation(CREATE_NOTIFICATION)
   const [updateImage, { loading: loadingUpdate, data: imageUpdateData }] = useMutation(
     UPDATE_PROJECT_IMAGE
   )
   const [uploadImage, { loading: loadingUpload, data: imageData }] = useMutation(
     UPLOAD_PROJECT_IMAGE
   )
-  const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USERS)
+  const { loading: userLoading, error: userError, data: usersData } = useQuery(GET_USERS)
   const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
   const [projectName, setProjectName] = useState<any>()
   const [type, setType] = useState<any>()
@@ -62,7 +65,6 @@ function ProjectList() {
   const [dueDate, setDueDate] = useState<any>()
   const [description, setDescription] = useState<any>()
   const [image, setImage] = useState()
-  const [userList, setUserList] = useState([])
   const dateFormat = 'DD MMM YYYY'
   const customFormat = (value: any) => `${value.format(dateFormat)}`
   const [totalPage, setTotalPage] = useState(0)
@@ -71,6 +73,7 @@ function ProjectList() {
   const [maxIndex, setMaxIndex] = useState(0)
   const pageSize = 8
   const [form] = Form.useForm()
+  const user = useStoreState((s) => s.userState.user)
 
   useEffect(() => {
     if (!error && !loading && !userLoading && !userError) {
@@ -90,12 +93,11 @@ function ProjectList() {
           setFilteredData(data.projects)
           break
       }
-      setUserList(userData.users)
       setTotalPage(data.length / pageSize)
       setMinIndex(0)
       setMaxIndex(pageSize)
     }
-  }, [types, loading, error, data, userLoading, userData, userError, totalPage, filterloading])
+  }, [types, loading, error, data, userLoading, userError, totalPage, filterloading])
 
   function handleKeywordChange(e: any) {
     setLoading(true)
@@ -184,6 +186,14 @@ function ProjectList() {
             ? imageData.uploadProjectImage.id
             : imageUpdateData && imageUpdateData.updateProjectImage.id,
           members: member,
+        },
+      })
+      notify({
+        variables: {
+          message: `invited you to project ${projectName}`,
+          senderId: user?.id,
+          receiver: member,
+          type: 'invite',
         },
       })
         .then((res) => {
@@ -343,7 +353,7 @@ function ProjectList() {
                         onChange={handleMember}
                         tokenSeparators={[',']}
                       >
-                        {(userList || []).map((value: any) => (
+                        {((usersData && usersData.users) || []).map((value: any) => (
                           <Row
                             key={value.id}
                             className="hover:bg-primary hover:text-white py-2 px-4"
