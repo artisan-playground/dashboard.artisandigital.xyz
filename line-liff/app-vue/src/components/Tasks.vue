@@ -1,29 +1,58 @@
 <template>
-  <div style="margin-left:15px;; margin-right:15px">
+  <div class="space-right-bottom-left">
     <div>
       <a-row style="margin-bottom:1.5rem" id="antInput">
-        <a-input-search v-model="search" type="search" placeholder=" input search text" />
+        <a-col :span="18" style="width:80%" id="antInput">
+          <a-input-search v-model="search" type="search" placeholder=" input search text" />
+        </a-col>
+        <a-col :span="6" style="width:20%">
+          <a-select style="width:100%" v-model="currentFilter">
+            <a-select-option value="">
+              <span style="font-size:10px">All</span>
+            </a-select-option>
+            <a-select-option value="undone">
+              <span style="font-size:10px">WIP</span>
+            </a-select-option>
+            <a-select-option value="done">
+              <span style="font-size:10px">Done</span>
+            </a-select-option>
+          </a-select>
+        </a-col>
       </a-row>
     </div>
-
-    <div v-if="emptyTask == 0" class="noData" style="height:200px;">
+    <div
+      v-if="
+        taskFilter.length == 0 ||
+          (currentFilter == 'done' && taskFilterDone.length == 0) ||
+          (currentFilter == 'undone' && taskFilterUndone.length == 0)
+      "
+      class="noData"
+      style="height:200px;"
+    >
       <a-empty />
     </div>
     <div v-else>
-      <div v-for="task in taskFilter" :key="task.id">
-        <a-card v-if="task.isDone == false" :bodyStyle="{ padding: '15px' }" id="card" align="left">
+      <div
+        v-for="task in currentFilter == ''
+          ? taskFilter
+          : currentFilter == 'done'
+          ? taskFilterDone
+          : taskFilterUndone"
+        :key="task.id"
+      >
+        <a-card :bodyStyle="{ padding: '15px' }" id="card" align="left">
           <router-link :to="{ name: 'TaskDetail', params: { id: task.id } }">
             <div>
               <a-row type="flex" justify="space-between">
                 <a-col :span="18" align="left">
                   <a-row>
-                    <b class="taskFont" style="color:#333333;">
+                    <b class="taskNameFont">
                       {{ task.taskName }}
                       <span v-if="task.files.length > 0">
-                        <a-icon style="color:#105EFB" type="paper-clip" />
+                        <a-icon id="iconTask" type="paper-clip" />
                       </span>
                       <span v-if="task.comments.length > 0">
-                        <a-icon style="color:#105EFB" type="message" />
+                        <a-icon id="iconTask" type="message" />
                       </span>
                     </b>
                   </a-row>
@@ -36,11 +65,7 @@
                   </a-row>
                 </a-col>
                 <a-col :span="4" id="status">
-                  <a-tag
-                    color="red"
-                    style="float:right; margin-right:0px;"
-                    v-if="task.isDone == false"
-                  >
+                  <a-tag color="red" class="status-tag" v-if="task.isDone == false">
                     <span
                       id="iconStatus"
                       class="iconify"
@@ -61,27 +86,33 @@
                 </a-col>
               </a-row>
               <a-row>
-                <div style="color:#333333;" class="content">{{ task.taskDetail }}</div>
+                <div class="content">{{ task.taskDetail }}</div>
               </a-row>
 
               <!-- list members -->
               <a-row>
                 <a-col>
-                  <div style="float:right">
-                    <vs-avatar-group float max="4">
-                      <vs-avatar
-                        v-for="member in task.members"
-                        :key="member.id"
-                        style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
-                      >
-                        <img
-                          style="z-index:1;"
+                  <div class="listMember">
+                    <div v-for="member in task.members.slice(0, 3)" :key="member.id">
+                      <a-avatar
+                        v-bind:src="
+                          member.image ? member.image.fullPath : require('../assets/user.svg')
+                        "
+                      />
+                    </div>
+
+                    <div v-if="task.members.length >= 4">
+                      <div v-for="member in task.members.slice(3, 4)" :key="member.id">
+                        <a-avatar class="avatar-plus">
+                          <a-icon slot="icon" type="plus" />
+                        </a-avatar>
+                        <a-avatar
                           v-bind:src="
                             member.image ? member.image.fullPath : require('../assets/user.svg')
                           "
                         />
-                      </vs-avatar>
-                    </vs-avatar-group>
+                      </div>
+                    </div>
                   </div>
                 </a-col>
               </a-row>
@@ -90,8 +121,6 @@
         </a-card>
       </div>
     </div>
-
-    <div style="padding-bottom:60px"></div>
   </div>
 </template>
 
@@ -117,6 +146,7 @@ export default {
       userId: 0,
       dataTask: [],
       search: '',
+      currentFilter: '',
     }
   },
   mounted() {
@@ -138,12 +168,25 @@ export default {
         )
       })
     },
-    emptyTask() {
-      let statusTask = 0
-      return this.dataTask.filter(value => {
-        if (value.isDone == false) {
-          statusTask += 1
-          return statusTask
+    taskFilterDone() {
+      let text = this.search.trim()
+      return this.dataTask.filter(item => {
+        if (item.isDone == true) {
+          return (
+            item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+          )
+        }
+      })
+    },
+    taskFilterUndone() {
+      let text = this.search.trim()
+      return this.dataTask.filter(item => {
+        if (item.isDone == false) {
+          return (
+            item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+          )
         }
       })
     },
