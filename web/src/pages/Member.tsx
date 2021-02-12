@@ -25,7 +25,9 @@ import {
   DELETE_MEMBER_FROM_PROJECT,
   GET_PROJECT_BY_ID,
 } from '../services/api/project'
+import { ADD_RECENT_ACTIVITY } from '../services/api/recentActivity'
 import { GET_USERS } from '../services/api/user'
+import { useStoreState } from '../store'
 
 function Member() {
   const { Text } = Typography
@@ -38,12 +40,15 @@ function Member() {
   const [userList, setUserList] = useState<any[]>([])
   const [visible, setVisible] = useState(false)
   const [formLayout] = useState('horizontal')
+  const [memberName, setMemberName] = useState<any[]>([])
   const { projectId }: any = useParams()
   const { loading: userLoading, data: userData, error: userError } = useQuery(GET_USERS)
   const { loading, error, data, refetch } = useQuery(GET_PROJECT_BY_ID, {
     variables: { id: Number(projectId) },
     notifyOnNetworkStatusChange: true,
   })
+  const user = useStoreState((s) => s.userState.user)
+  const [addRecentActivity] = useMutation(ADD_RECENT_ACTIVITY)
 
   useEffect(() => {
     if (!error && !loading && !userLoading && !userError && userData && data) {
@@ -65,24 +70,31 @@ function Member() {
     }
   }
 
-  function handleDelete(key: any) {
+  function handleDelete(key: any, memberName: any) {
     const dataTable = [...dataSource]
     if (dataSource) {
-      deleteMember({ variables: { projectId: data && data.project.id, members: key } })
-        .then((res) => {
+      deleteMember({ variables: { projectId: data && data.project.id, members: key } }).then(
+        (res) => {
           if (res) {
             setDataSource(dataTable.filter((item: any) => item.key !== key))
             setVisible(false)
             refetch()
           }
+        }
+      )
+      addRecentActivity({
+        variables: {
+          message: `Removed ${memberName} from project`,
+          userId: user?.id,
+          projectId: Number(projectId),
+        },
+      }).catch((err) => {
+        message.error({
+          content: `Error : ${err}`,
+          duration: 2,
+          icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
         })
-        .catch((err) => {
-          message.error({
-            content: `Error : ${err}`,
-            duration: 2,
-            icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
-          })
-        })
+      })
     }
   }
 
@@ -90,6 +102,13 @@ function Member() {
     if (dataSource) {
       addMember({
         variables: { id: Number(projectId), members: members },
+      })
+      addRecentActivity({
+        variables: {
+          message: `Invited ${memberName} to project`,
+          userId: user?.id,
+          projectId: Number(projectId),
+        },
       })
         .then((res) => {
           if (res) {
@@ -118,7 +137,10 @@ function Member() {
 
   function handleMember(value: any) {
     const val = Number(value.reverse()[0])
+    const memberName = userDataSource.find((item: any) => item.id === val)
+    const name = memberName.name
     setMembers((prevState) => [...prevState, { id: val }])
+    setMemberName((prevState) => [...prevState, name])
   }
 
   const columns = [
@@ -226,7 +248,7 @@ function Member() {
       content: <Text>Do you want to delete “{record.name}" from this project?</Text>,
       okText: 'Yes',
       onOk: () => {
-        handleDelete(record.id)
+        handleDelete(record.id, record.name)
       },
     })
   }
@@ -278,7 +300,7 @@ function Member() {
                       mode="tags"
                       value={userList}
                       onChange={handleMember}
-                      tokenSeparators={[',']}
+                      tokenSeparators={[', ']}
                       style={{ width: '100%' }}
                     >
                       {userDataSource &&
