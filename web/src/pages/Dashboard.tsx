@@ -169,7 +169,26 @@ function Dashboard() {
                 </Col>
 
                 <Col className="w-full mt-8">
-                  <Text className="font-bold text-lg">Today’s task</Text>
+                  {taskData && !error && !loading && taskData.length !== 0 && (
+                    <>
+                      <Text className="font-bold text-lg">Today’s task</Text>
+                      <Row justify="space-between" className="w-full mb-4 mt-4">
+                        <Col xs={4} className="flex justify-center">
+                          <Text className="font-bold">Members</Text>
+                        </Col>
+                        <Col xs={7} className="flex justify-center">
+                          <Text className="font-bold">Task name</Text>
+                        </Col>
+                        <Col xs={11} className="flex justify-center">
+                          <Text className="font-bold">Date</Text>
+                        </Col>
+                        <Col xs={2}>
+                          <Text className="font-bold">Status</Text>
+                        </Col>
+                      </Row>
+                    </>
+                  )}
+
                   {taskData && !error && !loading ? (
                     taskData.length !== 0 ? (
                       taskData.tasks

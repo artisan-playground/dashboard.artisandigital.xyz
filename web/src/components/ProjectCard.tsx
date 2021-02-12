@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import UnknownUserImage from '../assets/images/unknown_user.png'
 
 function ProjectCard({ data }: any) {
-  const { Text } = Typography
+  const { Text, Paragraph } = Typography
   const showItems: any[] = []
 
   function renderShowItems(item: any) {
@@ -78,7 +78,7 @@ function ProjectCard({ data }: any) {
 
             <Row className="my-2">
               <Col xs={24} lg={16}>
-                <Text>{data.projectDetail}</Text>
+                <Paragraph ellipsis={{ rows: 3 }}>{data.projectDetail}</Paragraph>
               </Col>
             </Row>
             <Row className="w-full" justify="end">

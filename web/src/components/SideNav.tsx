@@ -59,23 +59,19 @@ function SideNav({ children, collapsed, toggle }: any) {
                 </Text>
               </div>
             )}
-            <Menu.Item key="/" icon={<ProfileOutlined />} className="flex items-center">
+            <Menu.Item key="/" icon={<ProfileOutlined />}>
               <NavLink to="/">Dashboard</NavLink>
             </Menu.Item>
-            <Menu.Item key="/projects" icon={<ProjectOutlined />} className="flex items-center">
+            <Menu.Item key="/projects" icon={<ProjectOutlined />}>
               <NavLink to="/projects">Projects</NavLink>
             </Menu.Item>
-            <Menu.Item key="/news" icon={<ReadOutlined />} className="flex items-center">
+            <Menu.Item key="/news" icon={<ReadOutlined />}>
               <NavLink to="/news">News</NavLink>
             </Menu.Item>
-            <Menu.Item key="/employees" icon={<TeamOutlined />} className="flex items-center">
+            <Menu.Item key="/employees" icon={<TeamOutlined />}>
               <NavLink to="/employees">Employees</NavLink>
             </Menu.Item>
-            <Menu.Item
-              key={`/profile/${user?.id}`}
-              icon={<UserOutlined />}
-              className="flex items-center"
-            >
+            <Menu.Item key={`/profile/${user?.id}`} icon={<UserOutlined />}>
               <NavLink to={{ pathname: `/profile/${user?.id}` }}>Profile</NavLink>
             </Menu.Item>
 
@@ -90,15 +86,11 @@ function SideNav({ children, collapsed, toggle }: any) {
                     </Text>
                   </div>
                 )}
-                <Menu.Item
-                  key={`/zones`}
-                  icon={<EnvironmentOutlined />}
-                  className="flex items-center"
-                >
-                  <NavLink to={{ pathname: `/zones` }}>GPS zone</NavLink>
+                <Menu.Item key="/zones" icon={<EnvironmentOutlined />}>
+                  <NavLink to="/zones">GPS zone</NavLink>
                 </Menu.Item>
-                <Menu.Item key={`/forms`} icon={<SnippetsOutlined />} className="flex items-center">
-                  <NavLink to={{ pathname: `/forms` }}>Forms</NavLink>
+                <Menu.Item key="/forms" icon={<SnippetsOutlined />}>
+                  <NavLink to="/forms">Forms</NavLink>
                 </Menu.Item>
               </>
             )}
