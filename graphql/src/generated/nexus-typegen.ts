@@ -2264,6 +2264,7 @@ export interface NexusGenFieldTypes {
     getImageById: NexusGenRootTypes['Image'] | null; // Image
     getProjectImageById: NexusGenRootTypes['ProjectImage'] | null; // ProjectImage
     getRecentActivityById: NexusGenRootTypes['RecentActivity'] | null; // RecentActivity
+    getRecentActivityByProjectId: Array<NexusGenRootTypes['RecentActivity'] | null> | null; // [RecentActivity]
     getTaskById: NexusGenRootTypes['Task'] | null; // Task
     getTaskByProjectId: Array<NexusGenRootTypes['Task'] | null> | null; // [Task]
     getUserByEmail: NexusGenRootTypes['User'] | null; // User
@@ -2463,6 +2464,7 @@ export interface NexusGenFieldTypeNames {
     getImageById: 'Image'
     getProjectImageById: 'ProjectImage'
     getRecentActivityById: 'RecentActivity'
+    getRecentActivityByProjectId: 'RecentActivity'
     getTaskById: 'Task'
     getTaskByProjectId: 'Task'
     getUserByEmail: 'User'
@@ -2752,6 +2754,9 @@ export interface NexusGenArgTypes {
       id: number; // Int!
     }
     getRecentActivityById: { // args
+      id: number; // Int!
+    }
+    getRecentActivityByProjectId: { // args
       id: number; // Int!
     }
     getTaskById: { // args

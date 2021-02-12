@@ -1231,6 +1231,7 @@ type Query {
   getImageById(id: Int!): Image
   getProjectImageById(id: Int!): ProjectImage
   getRecentActivityById(id: Int!): RecentActivity
+  getRecentActivityByProjectId(id: Int!): [RecentActivity]
   getTaskById(id: Int!): Task
   getTaskByProjectId(id: Int!): [Task]
   getUserByEmail(email: String!): User
