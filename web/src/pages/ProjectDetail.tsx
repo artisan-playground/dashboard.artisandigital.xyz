@@ -43,7 +43,7 @@ import {
 } from '../components/DashboardComponent'
 import { CREATE_NOTIFICATION } from '../services/api/notification'
 import { GET_PROJECT_BY_ID } from '../services/api/project'
-import { ADD_RECENT_ACTIVITY } from '../services/api/recentActivity'
+import { ADD_RECENT_ACTIVITY, RECENT_ACTIVITY_BY_PROJECT_ID } from '../services/api/recentActivity'
 import { ADD_TASK, TASKS_BY_ID } from '../services/api/task'
 import { useStoreState } from '../store'
 
@@ -53,6 +53,15 @@ function ProjectDetail() {
   const { TextArea } = Input
   const { projectId }: any = useParams()
   const { loading, error, data, refetch } = useQuery(TASKS_BY_ID, {
+    variables: { id: Number(projectId) },
+    notifyOnNetworkStatusChange: true,
+  })
+  const {
+    loading: recentActivityLoading,
+    error: recentActivityError,
+    data: recentActivityData,
+    refetch: recentActivityRefetch,
+  } = useQuery(RECENT_ACTIVITY_BY_PROJECT_ID, {
     variables: { id: Number(projectId) },
     notifyOnNetworkStatusChange: true,
   })
@@ -97,7 +106,14 @@ function ProjectDetail() {
   const [notify] = useMutation(CREATE_NOTIFICATION)
 
   useEffect(() => {
-    if (!error && !loading && !projectLoading && !projectError) {
+    if (
+      !error &&
+      !loading &&
+      !projectLoading &&
+      !projectError &&
+      !recentActivityLoading &&
+      !recentActivityError
+    ) {
       data.getTaskByProjectId
         .filter((filteredId: any) => filteredId.project.id === projectId.id)
         .filter((filteredStatus: any) => filteredStatus.isDone === true)
@@ -105,7 +121,7 @@ function ProjectDetail() {
       setFilteredTasks(data.getTaskByProjectId)
       setFilteredTodayTasks(data.getTaskByProjectId)
       setFilteredDoneTasks(data.getTaskByProjectId)
-      setFilteredLog(data.getTaskByProjectId)
+      setFilteredLog(recentActivityData.getRecentActivityByProjectId)
       setFilteredData(projectData.project)
       setTotalPage(data.length / pageSize)
       setMinIndex(0)
@@ -122,6 +138,9 @@ function ProjectDetail() {
     projectData,
     filterloading,
     totalPage,
+    recentActivityLoading,
+    recentActivityError,
+    recentActivityData,
   ])
 
   function handleKeywordChange(e: any) {
@@ -222,7 +241,7 @@ function ProjectDetail() {
       })
       addRecentActivity({
         variables: {
-          message: `Create task ${taskName}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      `,
+          message: `Created task ${taskName}`,
           userId: user?.id,
           projectId: projectData.project.id,
         },
@@ -235,6 +254,7 @@ function ProjectDetail() {
           setDueDate(new Date(dueDate))
           setMember(member)
           setCreateTaskVisible(false)
+          recentActivityRefetch()
           refetch()
         })
         .catch((err) => {
@@ -290,7 +310,11 @@ function ProjectDetail() {
       <Row className="w-full mb-8 px-8">
         <Row className="w-full">
           <Col xs={24}>
-            <ProjectContent data={filteredData} refetch={() => projectRefetch()} />
+            <ProjectContent
+              data={filteredData}
+              refetch={() => projectRefetch()}
+              recentRefetch={() => recentActivityRefetch()}
+            />
           </Col>
         </Row>
         <Row className="w-full">
@@ -623,15 +647,23 @@ function ProjectDetail() {
         <Row className="w-full px-2">
           <Col span={24}>
             <Text className="font-bold text-lg">Recent Activity</Text>
-            <div className="h-64">
-              {filteredLog.length === 0 ? (
-                <div className="flex justify-center items-center p-8">
-                  <Text type="secondary">No recent activity</Text>
-                </div>
-              ) : (
-                <LogList data={filteredLog} />
-              )}
-            </div>
+            {filteredLog.length === 0 ? (
+              <Row className="w-full flex justify-center items-center p-8">
+                <Text type="secondary">No recent activity</Text>
+              </Row>
+            ) : (
+              <LogList
+                data={filteredLog
+                  .filter(
+                    (item: any) =>
+                      dayjs().isSame(dayjs(item.timestamp), 'day') &&
+                      dayjs().isSame(dayjs(item.timestamp), 'month') &&
+                      dayjs().isSame(dayjs(item.timestamp), 'year')
+                  )
+                  .slice()
+                  .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))}
+              />
+            )}
           </Col>
         </Row>
       </Row>

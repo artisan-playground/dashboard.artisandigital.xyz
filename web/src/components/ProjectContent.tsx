@@ -33,9 +33,10 @@ import UnknownImage from '../assets/images/unknown_image.jpg'
 import { CREATE_NOTIFICATION } from '../services/api/notification'
 import { DELETE_PROJECT, UPDATE_PROJECT, UPDATE_PROJECT_STATUS } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE } from '../services/api/projectImage'
+import { ADD_RECENT_ACTIVITY } from '../services/api/recentActivity'
 import { useStoreState } from '../store'
 
-function ProjectContent({ data, refetch }: any) {
+function ProjectContent({ data, refetch, recentRefetch }: any) {
   const { Text } = Typography
   const { Option } = Select
   const { TextArea } = Input
@@ -61,6 +62,7 @@ function ProjectContent({ data, refetch }: any) {
     UPDATE_PROJECT_IMAGE
   )
   const [notify] = useMutation(CREATE_NOTIFICATION)
+  const [addRecentActivity] = useMutation(ADD_RECENT_ACTIVITY)
   const user = useStoreState((s) => s.userState.user)
 
   useEffect(() => {
@@ -93,6 +95,7 @@ function ProjectContent({ data, refetch }: any) {
     setTimeout(() => {
       setLoading(false)
     }, 1000)
+    recentRefetch()
     refetch()
   }
 
@@ -104,9 +107,17 @@ function ProjectContent({ data, refetch }: any) {
         status: 'undone',
       },
     })
+    addRecentActivity({
+      variables: {
+        message: `Marked project as undone`,
+        userId: user?.id,
+        projectId: data.id,
+      },
+    })
     setTimeout(() => {
       setLoading(false)
     }, 1000)
+    recentRefetch()
     refetch()
   }
 
@@ -161,6 +172,7 @@ function ProjectContent({ data, refetch }: any) {
           setEditProjectVisible(false)
           setConfirmVisible(false)
           setDeleteVisible(false)
+          recentRefetch()
           refetch()
         })
         .catch((err) => {
@@ -225,7 +237,16 @@ function ProjectContent({ data, refetch }: any) {
       files: [file],
     },
   }: any) {
-    if (validity.valid) updateImage({ variables: { id: data.projectImage.id, file: file } })
+    if (validity.valid) {
+      updateImage({ variables: { id: data.projectImage.id, file: file } })
+      addRecentActivity({
+        variables: {
+          message: `Update project image`,
+          userId: user?.id,
+          projectId: data.id,
+        },
+      })
+    }
   }
 
   return !projectData ? (

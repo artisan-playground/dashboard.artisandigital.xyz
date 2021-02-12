@@ -24,13 +24,13 @@
       </a-page-header>
     </div>
     <br />
-    <div style="margin:60px 15px 0px 15px;">
+    <div id="antInput" style="margin:60px 15px 0px 15px;">
       <a-input-search v-model="search" placeholder=" input search text" block />
       <div style="margin-top:20px;">
         <a-row>
           <a-col :span="20" align="left">
-            <router-link :to="{ name: 'addMemberToProject', params: { id: dataProject.id } }">
-              <a-button shape="circle" icon="plus" style="color:#333333" />
+            <router-link :to="{ name: 'AddMemberToProject', params: { id: dataProject.id } }">
+              <a-button shape="circle" icon="plus" style="color:#333333; border-radius:100%;" />
               <span style="margin-left:10px; color:black;">Invite members</span>
             </router-link>
           </a-col>
@@ -40,14 +40,14 @@
               v-if="deleteButton == false"
               shape="circle"
               icon="delete"
-              style="color:white; background-color:#FF7875;"
+              style="color:white; background-color:#FF7875; border-radius:100%;"
               @click="deleteButton = !deleteButton"
             />
             <a-button
               v-if="deleteButton == true"
               shape="circle"
               icon="check"
-              style="color:white; background-color:#73D13D;"
+              style="color:white; background-color:#73D13D; border-radius:100%;"
               @click="deleteButton = !deleteButton"
             />
           </a-col>
