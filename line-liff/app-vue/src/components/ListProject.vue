@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-left:15px;; margin-right:15px" v-if="userId == dataUser.id">
+  <div class="space-right-bottom-left" v-if="userId == dataUser.id">
     <div>
       <a-row style="margin-bottom:1.5rem">
         <a-col :span="18" style="width:80%" id="antInput">
@@ -21,14 +21,25 @@
       </a-row>
     </div>
 
-    <div v-if="dataUser.projects.length == 0" class="noData">
+    <div
+      v-if="
+        projectFilter.length == 0 ||
+          (currentFilter == 'done' && projectFilterDone.length == 0) ||
+          (currentFilter == 'undone' && projectFilterUndone.length == 0)
+      "
+      class="noData"
+    >
       <a-empty />
     </div>
     <div v-else>
       <a-card
         id="card"
         :bodyStyle="{ padding: '15px' }"
-        v-for="project in searchFilter"
+        v-for="project in currentFilter == ''
+          ? projectFilter
+          : currentFilter == 'done'
+          ? projectFilterDone
+          : projectFilterUndone"
         :key="project.id"
       >
         <router-link
@@ -43,12 +54,7 @@
               <div id="position">{{ project.projectType }}</div>
             </a-col>
             <a-col :span="4" id="statusProject">
-              <a-tag
-                style="float:right; margin-right:0px;"
-                color="red"
-                md-clickable
-                v-if="project.status == 'undone'"
-              >
+              <a-tag class="status-tag" color="red" v-if="project.status == 'undone'">
                 <span
                   id="iconStatus"
                   class="iconify"
@@ -57,11 +63,7 @@
                 ></span>
                 WIP
               </a-tag>
-              <a-tag
-                color="green"
-                v-if="project.status == 'done'"
-                style="float:right; margin-right:0px;"
-              >
+              <a-tag color="green" v-if="project.status == 'done'" class="status-tag">
                 <span
                   id="iconStatus"
                   class="iconify"
@@ -80,29 +82,33 @@
 
           <a-row>
             <a-col>
-              <div style="float:right">
-                <vs-avatar-group float max="4">
-                  <vs-avatar
-                    v-for="member in project.members"
-                    :key="member.id"
-                    style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
-                  >
-                    <img
+              <div class="listMember">
+                <div v-for="member in project.members.slice(0, 3)" :key="member.id">
+                  <a-avatar
+                    v-bind:src="
+                      member.image ? member.image.fullPath : require('../assets/user.svg')
+                    "
+                  />
+                </div>
+
+                <div v-if="project.members.length >= 4">
+                  <div v-for="member in project.members.slice(3, 4)" :key="member.id">
+                    <a-avatar class="avatar-plus">
+                      <a-icon slot="icon" type="plus" />
+                    </a-avatar>
+                    <a-avatar
                       v-bind:src="
                         member.image ? member.image.fullPath : require('../assets/user.svg')
                       "
-                      :alt="member.name"
                     />
-                  </vs-avatar>
-                </vs-avatar-group>
+                  </div>
+                </div>
               </div>
             </a-col>
           </a-row>
         </router-link>
       </a-card>
     </div>
-
-    <div style="padding-bottom:60px"></div>
   </div>
 </template>
 
@@ -141,20 +147,32 @@ export default {
     },
   },
   computed: {
-    searchFilter() {
+    projectFilter() {
       let text = this.search.trim()
-      let filterStatus = this.currentFilter.trim()
       return this.dataUser.projects.filter(item => {
-        let filtered = true
-        if (filterStatus && filterStatus.length > 0) {
-          filtered = item.status == filterStatus
+        return (
+          item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+          item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+          item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+        )
+      })
+    },
+    projectFilterDone() {
+      let text = this.search.trim()
+      return this.dataUser.projects.filter(item => {
+        if (item.status == 'done') {
           return (
-            filtered &&
-            (item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-              item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-              item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
+            item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
           )
-        } else {
+        }
+      })
+    },
+    projectFilterUndone() {
+      let text = this.search.trim()
+      return this.dataUser.projects.filter(item => {
+        if (item.status == 'undone') {
           return (
             item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
             item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
