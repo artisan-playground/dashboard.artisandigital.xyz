@@ -30,6 +30,7 @@ import dayjs, { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
 import UnknownImage from '../assets/images/unknown_image.jpg'
+import { CREATE_NOTIFICATION } from '../services/api/notification'
 import { DELETE_PROJECT, UPDATE_PROJECT, UPDATE_PROJECT_STATUS } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE } from '../services/api/projectImage'
 import { ADD_RECENT_ACTIVITY } from '../services/api/recentActivity'
@@ -60,6 +61,7 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
   const [updateImage, { loading: loadingUpdate, data: imageData }] = useMutation(
     UPDATE_PROJECT_IMAGE
   )
+  const [notify] = useMutation(CREATE_NOTIFICATION)
   const [addRecentActivity] = useMutation(ADD_RECENT_ACTIVITY)
   const user = useStoreState((s) => s.userState.user)
 
@@ -80,11 +82,14 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
         status: 'done',
       },
     })
-    addRecentActivity({
+    notify({
       variables: {
-        message: `Marked project as done`,
-        userId: user?.id,
-        projectId: data.id,
+        message: `marked project ${projectName} as done`,
+        senderId: user?.id,
+        receiver: member
+          .filter((item) => item.id !== user?.id)
+          .map((member) => ({ id: member.id })),
+        type: 'edit',
       },
     })
     setTimeout(() => {
@@ -150,11 +155,14 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
           projectDetail: description,
         },
       })
-      addRecentActivity({
+      notify({
         variables: {
-          message: `Update project detail`,
-          userId: user?.id,
-          projectId: data.id,
+          message: `edited project ${projectName} detail`,
+          senderId: user?.id,
+          receiver: member
+            .filter((item) => item.id !== user?.id)
+            .map((member) => ({ id: member.id })),
+          type: 'edit',
         },
       })
         .then((res) => {
@@ -187,6 +195,16 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
     deleteProject({
       variables: {
         projectId: data.id,
+      },
+    })
+    notify({
+      variables: {
+        message: `deleted project ${projectName}`,
+        senderId: user?.id,
+        receiver: member
+          .filter((item) => item.id !== user?.id)
+          .map((member) => ({ id: member.id })),
+        type: 'delete',
       },
     })
       .then((res) => {

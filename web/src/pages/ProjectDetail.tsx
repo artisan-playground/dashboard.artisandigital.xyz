@@ -41,6 +41,7 @@ import {
   ProjectContent,
   TaskCard,
 } from '../components/DashboardComponent'
+import { CREATE_NOTIFICATION } from '../services/api/notification'
 import { GET_PROJECT_BY_ID } from '../services/api/project'
 import { ADD_RECENT_ACTIVITY, RECENT_ACTIVITY_BY_PROJECT_ID } from '../services/api/recentActivity'
 import { ADD_TASK, TASKS_BY_ID } from '../services/api/task'
@@ -102,6 +103,7 @@ function ProjectDetail() {
   const [userList, setUserList] = useState([])
   const { RangePicker } = DatePicker
   const user = useStoreState((s) => s.userState.user)
+  const [notify] = useMutation(CREATE_NOTIFICATION)
 
   useEffect(() => {
     if (
@@ -227,6 +229,14 @@ function ProjectDetail() {
           startTime: new Date(startTime),
           endTime: new Date(dueDate),
           members: member,
+        },
+      })
+      notify({
+        variables: {
+          message: `invited you to task ${taskName}`,
+          senderId: user?.id,
+          receiver: member,
+          type: 'invite',
         },
       })
       addRecentActivity({
