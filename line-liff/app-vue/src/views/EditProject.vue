@@ -8,33 +8,37 @@
     <div id="modal" class="modal-delete" v-else>
       <vue-confirm-dialog></vue-confirm-dialog>
     </div>
-
-    <div class="create-form" style="margin: 60px 18px 0px 18px;" v-if="dataProject">
-      <a-form-model class="label-form" ref="ruleForm" :model="dataProject" :rules="rules">
-        <a-form-model-item ref="projectName" label="Project name" prop="projectName">
+    <div id="antInput" class="create-form" style="margin: 60px 18px 0px 18px;" v-if="dataProject">
+      <a-form :form="form" @submit="handleSubmit">
+        <a-form-item v-bind="formItemLayout" label="Project name">
           <a-input
-            v-model="dataProject.projectName"
             placeholder="Project name"
-            @blur="
-              () => {
-                $refs.projectName.onFieldBlur()
-              }
-            "
+            v-decorator="[
+              'projectName',
+              {
+                rules: [
+                  { required: true, message: 'Please enter Project name!', whitespace: true },
+                ],
+              },
+            ]"
           />
-        </a-form-model-item>
-
-        <a-form-model-item label="Project Image">
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="Project Image">
           <a-row class="upload-btn-wrapper">
-            <a-col :span="20">
+            <a-col :xs="{ span: 20 }" :sm="{ span: 22 }" :xl="{ span: 23 }">
               <div class="ant-input">
                 <div v-if="selectedFileName">
-                  <label for="file" style="color:#0036C7; display:flex;">
+                  <label
+                    for="file"
+                    align="left"
+                    style="color:#0036C7; display:flex; overflow: hidden;"
+                  >
                     {{ selectedFileName }}
                   </label>
                 </div>
                 <div v-else>
                   <label for="file" v-if="dataProject.projectImage" style="display:flex;">
-                    <span class="projectImgName">
+                    <span class="projectImgName" align="left">
                       {{ dataProject.projectImage.fileName }}
                     </span>
                   </label>
@@ -49,20 +53,22 @@
               </div>
               <input @change="onFileSelected" type="file" name="myfile" />
             </a-col>
-            <a-col :span="4">
+            <a-col :xs="{ span: 4 }" :sm="{ span: 2 }" :xl="{ span: 1 }">
               <a-button style="background-color:#134F83; color:white; width:100%;">
                 <a-icon type="upload" />
               </a-button>
               <input @change="onFileSelected" type="file" name="myfile" />
             </a-col>
           </a-row>
-        </a-form-model-item>
-
-        <a-form-model-item label="Type" required prop="projectType" class="selectInput">
-          <a-select v-model="dataProject.projectType" show-search placeholder="Select a Type" block>
-            <a-select-option value="">
-              <span style="color:#BDBDBD">Select a Type</span>
-            </a-select-option>
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="Type">
+          <a-select
+            v-decorator="[
+              'projectType',
+              { rules: [{ required: true, message: 'Please select type of project!' }] },
+            ]"
+            placeholder="Please select type of project"
+          >
             <a-select-option value="Web App">
               Web App
             </a-select-option>
@@ -76,22 +82,15 @@
               Desktop Web
             </a-select-option>
           </a-select>
-        </a-form-model-item>
-
-        <a-form-model-item label="Due Date" prop="dueDate">
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="Due Date">
           <a-date-picker
-            disabled
-            style="width:100%"
+            style="width: 100%"
             :default-value="moment(dataProject.dueDate, dateFormat)"
+            disabled
           />
-        </a-form-model-item>
-
-        <a-form-model-item>
-          <span
-            class="ant-form-item-label"
-            style="color:#262626; display:flex; padding-bottom:13px;"
-            >Members</span
-          >
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="Members">
           <a-card
             disabled
             style="background-color:#EAEAEA; min-height:32px; border: 1px solid #C0C0C0; border-radius: 2px;"
@@ -109,65 +108,55 @@
               {{ user.name }}
             </a-tag>
           </a-card>
-        </a-form-model-item>
-        <a-form-model-item label="Description" prop="projectDetail">
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="Description">
           <a-textarea
-            v-model="dataProject.projectDetail"
+            v-decorator="[
+              'projectDetail',
+              {
+                rules: [{ required: true, message: 'Please input project detail!' }],
+              },
+            ]"
             :rows="4"
-            placeholder="please enter task description"
+            placeholder="please enter project description"
           />
-        </a-form-model-item>
-        <div class="label-inline">
-          <a-form-model-item align="left" label="Task status">
-            <a-switch
-              default-checked
-              v-model="switchCheck"
-              :loading="loading"
-              @change="onChange(switchCheck)"
-            />
-            <span v-if="switchCheck == true"> Active</span>
-            <span v-else> Inactive</span>
-          </a-form-model-item>
-          <a-form-model-item>
-            <a-button
-              size="large"
-              v-if="switchCheck == true"
-              block
-              html-type="submit"
-              @click="
-                editProject(
-                  dataProject.projectName,
-                  dataProject.projectType,
-                  dataProject.projectDetail
-                )
-              "
-              style="text-transform: capitalize; background-color: #134F83; color:white;"
-              >Submit
-            </a-button>
-
-            <a-button
-              size="large"
-              v-if="switchCheck == false"
-              block
-              html-type="submit"
-              @click="deleteProject()"
-              style="text-transform: capitalize; background-color: #134F83; color:white;"
-              >Submit
-            </a-button>
-          </a-form-model-item>
-        </div>
-      </a-form-model>
+        </a-form-item>
+        <a-form-item
+          v-bind="formItemLayout"
+          label="Task status"
+          align="left"
+          class="switchCustomize"
+        >
+          <a-switch
+            default-checked
+            v-model="switchCheck"
+            :loading="loading"
+            @change="onChange(switchCheck)"
+          />
+          <span v-if="switchCheck == true"> Active</span>
+          <span v-else> Inactive</span>
+        </a-form-item>
+        <a-form-item v-bind="tailFormItemLayout">
+          <a-button
+            block
+            style="text-transform: capitalize; background-color: #134F83; color:white;"
+            html-type="submit"
+          >
+            Submit
+          </a-button>
+        </a-form-item>
+      </a-form>
     </div>
-    <div style="padding-bottom:60px"></div>
   </div>
 </template>
+
 <script>
 import ToolbarBack from '@/components/ToolbarBack'
 import * as gqlQueryProject from '../constants/project'
 import * as gqlUpload from '../constants/upload'
 import moment from 'moment'
+import * as gqlQueryRecent from '../constants/recentActivity'
 export default {
-  name: 'editProject',
   components: {
     ToolbarBack,
   },
@@ -193,19 +182,45 @@ export default {
       switchCheck: true,
       loading: false,
       projectImageId: 0,
-
+      userId: 0,
       dataProject: {
         projectName: '',
         projectDetail: '',
       },
-
-      rules: {
-        projectName: [{ required: true, message: 'Please enter Project name', trigger: 'blur' }],
-        projectDetail: [
-          { required: true, message: 'Please enter Project description', trigger: 'blur' },
-        ],
+      formItemLayout: {
+        labelCol: {
+          xs: { span: 24 },
+          sm: { span: 8 },
+          md: { span: 3 },
+          lg: { span: 2 },
+        },
+        wrapperCol: {
+          xs: { span: 24 },
+          sm: { span: 16 },
+          md: { span: 21 },
+          lg: { span: 22 },
+        },
+      },
+      tailFormItemLayout: {
+        wrapperCol: {
+          xs: {
+            span: 24,
+            offset: 0,
+          },
+          sm: {
+            span: 16,
+            offset: 8,
+          },
+          md: {
+            span: 21,
+            offset: 3,
+          },
+        },
       },
     }
+  },
+  beforeCreate() {
+    this.form = this.$form.createForm(this, { name: 'submit' })
   },
   methods: {
     moment,
@@ -215,7 +230,23 @@ export default {
         this.loading = false
       }, 1000)
     },
+    getData() {
+      const get = JSON.parse(localStorage.getItem('vuex'))
+      this.user = get.Auth.user
+      this.userId = get.Auth.user.id
+    },
+    createRecent(val) {
+      this.$apollo.mutate({
+        mutation: gqlQueryRecent.CREATE_RECENT,
+        variables: {
+          message: `${val}`,
+          userId: this.userId,
+          projectId: parseInt(this.$route.params.id),
+        },
+      })
+    },
     async editProject(projectName, projectType, projectDetail) {
+      const val = 'Update project'
       if (this.dataProject.projectName !== '' && this.dataProject.projectDetail !== '') {
         try {
           await this.$confirm({
@@ -238,6 +269,7 @@ export default {
                 if (this.selectedFile != null) {
                   this.updatePhoto()
                 }
+                this.createRecent(val)
                 this.$router.go(-1)
                 this.$message.success('Edit project is success')
               }
@@ -276,7 +308,6 @@ export default {
         this.$message.error(error)
       }
     },
-
     onFileSelected(event) {
       this.selectedFile = event.target.files[0]
       this.selectedFileName = event.target.files[0].name
@@ -291,20 +322,28 @@ export default {
         },
       })
     },
+    handleSubmit(e) {
+      e.preventDefault()
+      this.form.validateFieldsAndScroll((err, values) => {
+        if (!err) {
+          this.switchCheck == true
+            ? this.editProject(values.projectName, values.projectType, values.projectDetail)
+            : this.deleteProject()
+        }
+      })
+    },
+  },
+  mounted() {
+    this.getData()
+    this.form.setFieldsValue({
+      projectName: this.dataProject.projectName,
+      projectType: this.dataProject.projectType ? this.dataProject.projectType : undefined,
+      projectDetail: this.dataProject.projectDetail,
+    })
   },
 }
 </script>
 <style>
-.basil {
-  background-color: #fffbe6 !important;
-}
-.basil--text {
-  color: #105efb !important;
-}
-.v-slide-group {
-  display: grid;
-}
-
 .projectImgName {
   display: -webkit-box;
   -webkit-line-clamp: 1;

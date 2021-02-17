@@ -8,26 +8,20 @@
     <div id="modal" class="modal-delete" v-else>
       <vue-confirm-dialog></vue-confirm-dialog>
     </div>
-
-    <div class="create-form" style="margin: 60px 18px 0px 18px;" v-if="dataTask">
-      <a-form-model class="label-form" ref="ruleForm" :model="dataTask" :rules="rules">
-        <a-form-model-item ref="taskName" label="Task name" prop="taskName">
+    <div id="antInput" class="create-form" style="margin: 60px 18px 0px 18px;" v-if="dataTask">
+      <a-form :form="form" @submit="handleSubmit">
+        <a-form-item v-bind="formItemLayout" label="Task name">
           <a-input
-            v-model="dataTask.taskName"
             placeholder="Task name"
-            @blur="
-              () => {
-                $refs.taskName.onFieldBlur()
-              }
-            "
+            v-decorator="[
+              'taskName',
+              {
+                rules: [{ required: true, message: 'Please enter Task name!', whitespace: true }],
+              },
+            ]"
           />
-        </a-form-model-item>
-        <a-form-model-item>
-          <span
-            class="ant-form-item-label"
-            style="color:#262626; display:flex; padding-bottom:13px;"
-            >Members</span
-          >
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="Members">
           <a-card
             disabled
             style="background-color:#EAEAEA; min-height:32px; border: 1px solid #C0C0C0; border-radius: 2px;"
@@ -45,13 +39,15 @@
               {{ user.name }}
             </a-tag>
           </a-card>
-        </a-form-model-item>
-
-        <a-form-model-item label="Type" required prop="taskType" class="selectInput">
-          <a-select v-model="dataTask.taskType" show-search placeholder="Select a Type" block>
-            <a-select-option value="">
-              <span style="color:#BDBDBD">Select a Type</span>
-            </a-select-option>
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="Type">
+          <a-select
+            v-decorator="[
+              'taskType',
+              { rules: [{ required: true, message: 'Please select type of task!' }] },
+            ]"
+            placeholder="Please select type of task"
+          >
             <a-select-option value="Web">
               Web
             </a-select-option>
@@ -68,75 +64,70 @@
               Data
             </a-select-option>
           </a-select>
-        </a-form-model-item>
-
-        <a-form-model-item label="Date" style="height: 70px;">
-          <a-form-model-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="Date">
+          <a-form-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
             <a-date-picker
               style="width: 100%"
               :default-value="moment(dataTask.startTime, dateFormat)"
               disabled
             />
-          </a-form-model-item>
-          <a-form-model-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
+          </a-form-item>
+          <a-form-item :style="{ display: 'inline-block', width: 'calc(50%)' }">
             <a-date-picker
               style="width: 100%"
               :default-value="moment(dataTask.endTime, dateFormat)"
               disabled
             />
-          </a-form-model-item>
-        </a-form-model-item>
-        <a-form-model-item label="Description" prop="taskDetail">
+          </a-form-item>
+        </a-form-item>
+        <a-form-item v-bind="formItemLayout" label="Description">
           <a-textarea
-            v-model="dataTask.taskDetail"
+            v-decorator="[
+              'taskDetail',
+              {
+                rules: [{ required: true, message: 'Please input task detail!' }],
+              },
+            ]"
             :rows="4"
             placeholder="please enter task description"
           />
-        </a-form-model-item>
-        <div class="label-inline">
-          <a-form-model-item align="left" label="Task status">
-            <a-switch
-              default-checked
-              v-model="switchCheck"
-              :loading="loading"
-              @change="onChange(switchCheck)"
-            />
-            <span v-if="switchCheck == true"> Active</span>
-            <span v-else> Inactive</span>
-          </a-form-model-item>
-          <a-form-model-item>
-            <a-button
-              size="large"
-              v-if="switchCheck == true"
-              block
-              html-type="submit"
-              @click="editTask(dataTask.taskName, dataTask.taskType, dataTask.taskDetail)"
-              style="text-transform: capitalize; background-color: #134F83; color:white;"
-              >Submit
-            </a-button>
-
-            <a-button
-              size="large"
-              v-if="switchCheck == false"
-              block
-              html-type="submit"
-              @click="deleteTask()"
-              style="text-transform: capitalize; background-color: #134F83; color:white;"
-              >Submit
-            </a-button>
-          </a-form-model-item>
-        </div>
-      </a-form-model>
+        </a-form-item>
+        <a-form-item
+          v-bind="formItemLayout"
+          label="Task status"
+          align="left"
+          class="switchCustomize"
+        >
+          <a-switch
+            default-checked
+            v-model="switchCheck"
+            :loading="loading"
+            @change="onChange(switchCheck)"
+          />
+          <span v-if="switchCheck == true"> Active</span>
+          <span v-else> Inactive</span>
+        </a-form-item>
+        <a-form-item v-bind="tailFormItemLayout">
+          <a-button
+            block
+            style="text-transform: capitalize; background-color: #134F83; color:white;"
+            html-type="submit"
+          >
+            Submit
+          </a-button>
+        </a-form-item>
+      </a-form>
     </div>
-    <div style="padding-bottom:60px"></div>
   </div>
 </template>
+
 <script>
 import ToolbarBack from '@/components/ToolbarBack'
 import * as gqlQueryTask from '../constants/task'
+import * as gqlQueryRecent from '../constants/recentActivity'
 import moment from 'moment'
 export default {
-  name: 'editTask',
   components: {
     ToolbarBack,
   },
@@ -158,17 +149,46 @@ export default {
     return {
       switchCheck: true,
       loading: false,
-
       dataTask: {
         taskName: '',
         taskDetail: '',
+        startTime: undefined,
+        endTime: undefined,
       },
-
-      rules: {
-        taskName: [{ required: true, message: 'Please enter Task name', trigger: 'blur' }],
-        taskDetail: [{ required: true, message: 'Please enter Task description', trigger: 'blur' }],
+      formItemLayout: {
+        labelCol: {
+          xs: { span: 24 },
+          sm: { span: 8 },
+          md: { span: 3 },
+          lg: { span: 2 },
+        },
+        wrapperCol: {
+          xs: { span: 24 },
+          sm: { span: 16 },
+          md: { span: 21 },
+          lg: { span: 22 },
+        },
+      },
+      tailFormItemLayout: {
+        wrapperCol: {
+          xs: {
+            span: 24,
+            offset: 0,
+          },
+          sm: {
+            span: 16,
+            offset: 8,
+          },
+          md: {
+            span: 21,
+            offset: 3,
+          },
+        },
       },
     }
+  },
+  beforeCreate() {
+    this.form = this.$form.createForm(this, { name: 'submit' })
   },
   methods: {
     moment,
@@ -178,7 +198,23 @@ export default {
         this.loading = false
       }, 1000)
     },
+    getData() {
+      const get = JSON.parse(localStorage.getItem('vuex'))
+      this.user = get.Auth.user
+      this.userId = get.Auth.user.id
+    },
+    createRecent(val) {
+      this.$apollo.mutate({
+        mutation: gqlQueryRecent.CREATE_RECENT,
+        variables: {
+          message: `${val}`,
+          userId: this.userId,
+          projectId: this.dataTask.project.id,
+        },
+      })
+    },
     async editTask(taskName, taskType, taskDetail) {
+      const val = `Updated ${this.dataTask.taskName}`
       if (this.dataTask.taskName !== '' && this.dataTask.taskDetail !== '') {
         try {
           await this.$confirm({
@@ -198,6 +234,7 @@ export default {
                     taskDetail: taskDetail,
                   },
                 })
+                this.createRecent(val)
                 this.$router.go(-1)
                 this.$message.success('Edit task is success')
               }
@@ -211,6 +248,7 @@ export default {
       this.$refs.ruleForm.validate(isValid => isValid)
     },
     async deleteTask() {
+      const val = `Deleted ${this.dataTask.taskName}`
       try {
         await this.$confirm({
           title: 'Are you sure you want to delete this task ?',
@@ -226,6 +264,7 @@ export default {
                   id: parseInt(this.$route.params.id),
                 },
               })
+              this.createRecent(val)
               this.$router.go(-2)
               this.$message.success('Delete task is success')
             }
@@ -236,17 +275,24 @@ export default {
         this.$message.error(error)
       }
     },
+    handleSubmit(e) {
+      e.preventDefault()
+      this.form.validateFieldsAndScroll((err, values) => {
+        if (!err) {
+          this.switchCheck == true
+            ? this.editTask(values.taskName, values.taskType, values.taskDetail)
+            : this.deleteTask()
+        }
+      })
+    },
+  },
+  mounted() {
+    this.getData()
+    this.form.setFieldsValue({
+      taskName: this.dataTask.taskName,
+      taskType: this.dataTask.taskType ? this.dataTask.taskType : undefined,
+      taskDetail: this.dataTask.taskDetail,
+    })
   },
 }
 </script>
-<style>
-.basil {
-  background-color: #fffbe6 !important;
-}
-.basil--text {
-  color: #105efb !important;
-}
-.v-slide-group {
-  display: grid;
-}
-</style>
