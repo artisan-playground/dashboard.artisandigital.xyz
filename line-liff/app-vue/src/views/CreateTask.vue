@@ -24,7 +24,7 @@
               style="width: 100%"
               @change="handleChange"
             >
-              <a-select-option v-for="user in filteredOptions" :key="user.id" :value="user.id">
+              <a-select-option v-for="user in filteredOptions" :key="user.id" :value="user.name">
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-select-option>
             </a-select>
@@ -148,7 +148,7 @@ export default {
       endOpen: false,
       rules: {
         taskName: [{ required: true, message: 'Please enter Task name', trigger: 'blur' }],
-        member: [{ required: true, message: 'Please enter Task member', trigger: 'change' }],
+        member: [{ required: true, message: 'Please enter Task member', trigger: 'blur' }],
         taskType: [{ required: true, message: 'Please enter Project Type', trigger: 'change' }],
         startTime: [{ required: true, message: 'Please enter Task start date', trigger: 'change' }],
         endTime: [{ required: true, message: 'Please enter Task end date', trigger: 'change' }],
@@ -161,9 +161,13 @@ export default {
       this.selectedItems = selectedItems
     },
     async createTask(value) {
-      const res = value.map(data => {
+      const members = this.filteredOptions.filter(item => value.includes(item.name))
+      const memId = members.map(data => data.id)
+      const res = memId.map(data => {
         return { id: data }
       })
+      console.log(res)
+
       if (
         this.form.taskName !== '' &&
         this.form.taskType !== '' &&
