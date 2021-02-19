@@ -70,7 +70,7 @@
               style="width: 100%"
               @change="handleChange"
             >
-              <a-select-option v-for="user in filteredOptions" :key="user.id" :value="user.id">
+              <a-select-option v-for="user in filteredOptions" :key="user.id" :value="user.name">
                 <span style="float:left; margin-left:5px">{{ user.name }}</span>
               </a-select-option>
             </a-select>
@@ -141,7 +141,7 @@ export default {
         projectName: [{ required: true, message: 'Please enter Project name', trigger: 'blur' }],
         projectImg: [{ required: true, message: 'Please enter Project Image', trigger: 'change' }],
         projectType: [{ required: true, message: 'Please enter Project Type', trigger: 'change' }],
-        member: [{ required: true, message: 'Please enter Project member', trigger: 'change' }],
+        member: [{ required: true, message: 'Please enter Project member', trigger: 'blur' }],
         dueDate: [{ required: true, message: 'Please enter Project due date', trigger: 'change' }],
         projectDetail: [
           { required: true, message: 'Please enter url description', trigger: 'blur' },
@@ -154,7 +154,9 @@ export default {
       this.selectedItems = selectedItems
     },
     async createProject(value) {
-      const res = value.map(data => {
+      const members = this.filteredOptions.filter(item => value.includes(item.name))
+      const memId = members.map(data => data.id)
+      const res = memId.map(data => {
         return { id: data }
       })
       if (

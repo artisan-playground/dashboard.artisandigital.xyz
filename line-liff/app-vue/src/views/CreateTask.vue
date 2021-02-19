@@ -166,8 +166,6 @@ export default {
       const res = memId.map(data => {
         return { id: data }
       })
-      console.log(res)
-
       if (
         this.form.taskName !== '' &&
         this.form.taskType !== '' &&
