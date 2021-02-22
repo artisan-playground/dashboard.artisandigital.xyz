@@ -13,8 +13,8 @@
           v-if="dataTask.isDone == false"
           block
           v-model="isDone"
-          style="background-color:#FF4D4F; color:white; border: none; border-radius:2px;"
-          v-on:click="toggleStatus()"
+          id="doneBtn"
+          v-on:click="toggleStatus(true)"
           :loading="loading"
           @click="handleOk"
         >
@@ -28,8 +28,8 @@
           v-if="dataTask.isDone == true"
           block
           v-model="isDone"
-          style="background-color:#73D13D; color:white; border: none; border-radius:2px;"
-          v-on:click="toggleStatus()"
+          id="wipBtn"
+          v-on:click="toggleStatus(false)"
           :loading="loading"
           @click="handleOk"
         >
@@ -42,8 +42,9 @@
       <div>
         <div>
           <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
-            <a-col :span="12" :xs="12">
+            <a-col :span="11" :xs="11">
               <a-card
+                style="border:none;"
                 :bodyStyle="{
                   padding: '5px',
                 }"
@@ -57,9 +58,12 @@
                 <div id="position" style="padding-bottom:10px">Project name</div>
               </a-card>
             </a-col>
-
-            <a-col :span="12" :xs="12">
+            <a-col :span="2" :xs="2">
+              <a-divider type="vertical" style="height:100px" />
+            </a-col>
+            <a-col :span="11" :xs="11">
               <a-card
+                style="border:none;"
                 :bodyStyle="{
                   padding: '5px',
                 }"
@@ -130,9 +134,9 @@
       </div>
 
       <!-- Detail of Task -->
-      <a-row style="margin-left:15px; margin-right:15px;">
+      <a-row class="titleSpace">
         <a-col align="left" :span="20"
-          ><span style="float:left; font-size:20px; font-weight:550">{{ dataTask.taskName }}</span>
+          ><b class="titleName">{{ dataTask.taskName }}</b>
         </a-col>
         <a-col align="right" :span="4" style="padding-right:3px;">
           <router-link :to="{ name: 'EditTask', params: { id: dataTask.id } }">
@@ -145,115 +149,86 @@
       </div>
 
       <!-- Clipboard -->
-      <a-row style="margin:12px 18px;">
+      <a-row class="titleSpace">
         <a-col style="padding-bottom: 0px;">
           <a-icon type="paper-clip" class="iconClipboard" />
-          <b style="float: left; font-size:16px">Attachments</b>
+          <b class="titleName">Attachments</b>
         </a-col>
       </a-row>
 
       <!-- upload file -->
       <div class="clearfix">
-        <a-row style="margin: 0px 15px 15px;" :gutter="[8, 8]">
+        <a-row style="margin: 0px 15px;" :gutter="[8, 8]">
           <div v-for="file in dataTask.files" :key="file.id">
             <a-col :xs="{ span: 8 }" :sm="{ span: 4 }" :md="{ span: 4 }" :lg="{ span: 2 }">
               <div
                 style="border: 1px solid #d9d9d9; border-radius: 2px; width: 105px;"
                 class="taskFile"
               >
-                <div v-if="file.extension == 'text/plain'" class="flexBox-file">
-                  <a-icon type="file-text" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.txt</span>
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
+                <div class="flexBox-file">
+                  <div
+                    v-if="
+                      file.extension == 'image/png' ||
+                        file.extension == 'image/jpg' ||
+                        file.extension == 'image/jpeg' ||
+                        file.extension == 'image/svg+xml'
+                    "
+                  >
+                    <img :src="file.fullPath" alt="" class="img-task" />
                   </div>
-                </div>
+                  <div v-else>
+                    <a-icon
+                      :type="
+                        file.extension == 'text/plain'
+                          ? 'file-text'
+                          : file.extension == 'application/pdf'
+                          ? 'file-pdf'
+                          : file.extension == 'text/javascript'
+                          ? 'file'
+                          : file.extension ==
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                          ? 'file-word'
+                          : file.extension == 'application/x-zip-compressed' ||
+                            'application/octet-stream'
+                          ? 'file-zip'
+                          : 'file'
+                      "
+                      style="font-size:30px; color:#0036C7"
+                    />
+                    <span class="taskFileName"> {{ file.fileName }} </span>
+                    <span v-if="file.extension == 'text/plain'">.txt</span>
+                    <span v-if="file.extension == 'text/javascript'">.js</span>
+                    <span
+                      v-if="
+                        file.extension ==
+                          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                      "
+                      >.docx</span
+                    >
+                    <span v-if="file.extension == 'application/x-zip-compressed'">.zip</span>
+                    <span v-if="file.extension == 'application/octet-stream'">.rar</span>
+                  </div>
 
-                <div v-if="file.extension == 'application/pdf'" class="flexBox-file">
-                  <a-icon type="file-pdf" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.pdf</span>
                   <div class="overlay">
                     <div class="flexbox-delFileTask">
                       <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
+                        v-if="
+                          file.extension == 'image/png' ||
+                            file.extension == 'image/jpg' ||
+                            file.extension == 'image/jpeg' ||
+                            file.extension == 'image/svg+xml'
+                        "
+                        type="eye"
+                        class="icon-delete-view"
+                        @click="openModal(file)"
                       />
-                    </div>
-                  </div>
-                </div>
+                      <a v-else :href="file.fullPath" download>
+                        <a-icon type="download" class="icon-delete-view" />
+                      </a>
 
-                <div v-if="file.extension == 'text/javascript'" class="flexBox-file">
-                  <a-icon type="file" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.js</span>
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
                       <a-icon
                         type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div v-if="file.extension == 'application/x-zip-compressed'" class="flexBox-file">
-                  <a-icon type="file-zip" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.zip</span>
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  v-if="
-                    file.extension ==
-                      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                  "
-                  class="flexBox-file"
-                >
-                  <a-icon type="file-word" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.docx</span>
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  id="taskFile"
-                  v-if="
-                    file.extension == 'image/png' ||
-                      file.extension == 'image/jpg' ||
-                      file.extension == 'image/jpeg' ||
-                      file.extension == 'image/svg+xml'
-                  "
-                >
-                  <img :src="file.fullPath" alt="" class="img-task" />
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
+                        class="icon-delete-view"
                         @click="deleteTaskFile(file.id)"
                       />
                     </div>
@@ -282,18 +257,36 @@
         </a-row>
       </div>
 
+      <div>
+        <a-modal
+          :visible="visible"
+          :footer="null"
+          :centered="true"
+          @cancel="hideModal"
+          :bodyStyle="{
+            padding: 0,
+          }"
+        >
+          <img :src="item.fullPath" style="width:100%;" alt="" />
+        </a-modal>
+      </div>
+
       <!-- Comment -->
-      <div style="margin: 12px 15px;">
+      <div class="titleSpace">
         <a-row style="display:flex;" v-if="dataComment.length >= 1">
           <a-icon type="message" class="iconMessage" />
-          <span>Comment</span>
+          <b class="titleName">Comment</b>
         </a-row>
-        <a-row>
+        <a-row class="cus-comment">
           <a-comment v-for="comment in dataComment" :key="comment.id" v-bind:value="comment.id">
             <template slot="actions" v-if="comment.user.id == user.id">
               <span @click="selectComment(comment.id)" v-on:click="commentEdit = !commentEdit">
                 <a-icon type="edit" />Edit
               </span>
+              <span @click="deleteComment(comment.id)"> <a-icon type="delete" /> Delete </span>
+            </template>
+
+            <template slot="actions" v-if="comment.user.id !== user.id && user.role == 'ADMIN'">
               <span @click="deleteComment(comment.id)"> <a-icon type="delete" /> Delete </span>
             </template>
 
@@ -353,7 +346,7 @@
             :src="userProfile ? userProfile.fullPath : require('../assets/user.svg')"
           />
         </a-col>
-        <a-col :span="16">
+        <a-col :span="16" id="antInput">
           <a-input class="inputComment" placeholder="Say something" v-model="newComment" />
         </a-col>
         <a-col :span="4">
@@ -423,6 +416,7 @@ export default {
 
   data() {
     return {
+      visible: false,
       spinning: false,
       selectedFile: null,
       commentId: '',
@@ -440,12 +434,20 @@ export default {
       user: '',
       selectCommentId: 0,
       userProfile: null,
+      item: [],
     }
   },
   mounted() {
     this.getData()
   },
   methods: {
+    openModal(value) {
+      this.visible = true
+      this.item = value
+    },
+    hideModal() {
+      this.visible = false
+    },
     getData() {
       const get = JSON.parse(localStorage.getItem('vuex'))
       this.user = get.Auth.user
@@ -536,9 +538,9 @@ export default {
         this.loading = false
       }, 1000)
     },
-    toggleStatus() {
+    toggleStatus(status) {
       let val
-      if (this.isDone == false) {
+      if (status == true) {
         val = ` ${this.dataTask.taskName} marked as done`
       } else {
         val = `${this.dataTask.taskName} marked as undone `
@@ -549,7 +551,7 @@ export default {
           variables: {
             id: parseInt(this.$route.params.id),
             data: {
-              isDone: { set: (this.isDone = !this.isDone) },
+              isDone: { set: status },
             },
           },
         })
@@ -684,5 +686,10 @@ export default {
   background-color: white;
   border-radius: 2px;
   height: 32px;
+}
+.icon-delete-view {
+  font-size: 20px;
+  color: white;
+  margin: 0 4px;
 }
 </style>

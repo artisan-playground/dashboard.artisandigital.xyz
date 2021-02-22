@@ -1,5 +1,10 @@
 <template>
-  <div style="margin-left:15px;; margin-right:15px">
+  <div class="space-left-right">
+    <div>
+      <a-row style="margin-bottom:1.5rem" id="antInput">
+        <a-input-search v-model="search" type="search" placeholder=" input search text" />
+      </a-row>
+    </div>
     <div v-if="overDueFunc.length == 0" class="noData" style="height:200px;">
       <a-empty />
     </div>
@@ -11,13 +16,13 @@
               <a-row type="flex" justify="space-between">
                 <a-col :span="18" align="left">
                   <a-row>
-                    <b class="taskFont" style="color:#CF1322;">
+                    <b class="taskNameFont">
                       {{ task.taskName }}
                       <span v-if="task.files.length > 0">
-                        <a-icon style="color:#105EFB" type="paper-clip" />
+                        <a-icon id="iconTask" type="paper-clip" />
                       </span>
                       <span v-if="task.comments.length > 0">
-                        <a-icon style="color:#105EFB" type="message" />
+                        <a-icon id="iconTask" type="message" />
                       </span>
                     </b>
                   </a-row>
@@ -30,11 +35,7 @@
                   </a-row>
                 </a-col>
                 <a-col :span="4" id="status">
-                  <a-tag
-                    color="red"
-                    style="float:right; margin-right:0px;"
-                    v-if="task.isDone == false"
-                  >
+                  <a-tag color="red" class="status-tag" v-if="task.isDone == false">
                     <span
                       id="iconStatus"
                       class="iconify"
@@ -43,39 +44,43 @@
                     ></span>
                     WIP
                   </a-tag>
-                  <a-tag color="green" style="margin-right: 0px;" v-if="task.isDone == true">
-                    <span
-                      id="iconStatus"
-                      class="iconify"
-                      data-inline="false"
-                      data-icon="octicon:check-circle-24"
-                    ></span>
-                    Done
-                  </a-tag>
                 </a-col>
               </a-row>
               <a-row>
-                <div style="color:#333333;" class="content">{{ task.taskDetail }}</div>
+                <div class="content">{{ task.taskDetail }}</div>
               </a-row>
 
               <!-- list members -->
               <a-row>
                 <a-col>
-                  <div style="float:right">
-                    <vs-avatar-group float max="4">
-                      <vs-avatar
-                        v-for="member in task.members"
+                  <div class="listMember">
+                    <div
+                      v-for="member in task.members.slice(0, 3)"
+                      :key="member.id"
+                      style="display:inline; margin: 0 2px;"
+                    >
+                      <a-avatar
+                        v-bind:src="
+                          member.image ? member.image.fullPath : require('../assets/user.svg')
+                        "
+                      />
+                    </div>
+                    <div v-if="task.members.length >= 4" style="display:inline;">
+                      <div
+                        v-for="member in task.members.slice(3, 4)"
                         :key="member.id"
-                        style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
+                        style="display:inline; margin: 0 2px;"
                       >
-                        <img
-                          style="z-index:1;"
+                        <a-avatar class="avatar-plus">
+                          <a-icon slot="icon" type="plus" />
+                        </a-avatar>
+                        <a-avatar
                           v-bind:src="
                             member.image ? member.image.fullPath : require('../assets/user.svg')
                           "
                         />
-                      </vs-avatar>
-                    </vs-avatar-group>
+                      </div>
+                    </div>
                   </div>
                 </a-col>
               </a-row>
@@ -84,8 +89,6 @@
         </a-card>
       </div>
     </div>
-
-    <div style="padding-bottom:60px"></div>
   </div>
 </template>
 
@@ -128,11 +131,15 @@ export default {
   },
   computed: {
     overDueFunc() {
+      let text = this.search.trim()
       const currentDate = new Date(this.currentDate)
       return this.dataTask.filter(value => {
         let endDate = new Date(value.endTime)
         if (value.isDone == false && endDate < currentDate) {
-          return value
+          return (
+            value.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            value.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+          )
         }
       })
     },
