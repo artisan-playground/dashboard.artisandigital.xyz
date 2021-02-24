@@ -70,7 +70,7 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
       setStartDate(data.startDate)
       setDueDate(data.dueDate)
     }
-  }, [data, loading, error])
+  }, [data, loading, error, imageData, imageUpdateData])
 
   function handleChangePosition(value: any) {
     setPosition(value)
@@ -235,6 +235,7 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
           title={<Text className="font-bold">Edit employee</Text>}
           onCancel={handleCancel}
           footer={null}
+          centered={true}
         >
           <Row className="px-24 w-full" justify="space-between">
             <Col xs={8} lg={12}>

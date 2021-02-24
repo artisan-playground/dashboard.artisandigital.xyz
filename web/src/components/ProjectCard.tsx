@@ -50,9 +50,7 @@ function ProjectCard({ data }: any) {
       <Card
         hoverable
         className="min-w-full mb-4"
-        cover={
-          <img src={data.projectImage.fullPath} className="object-cover h-48" alt="project-image" />
-        }
+        cover={<img src={data.projectImage.fullPath} className="object-cover h-48" alt="project" />}
       >
         <Row className="w-full">
           <Col xs={24}>
