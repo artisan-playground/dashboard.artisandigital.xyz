@@ -161,6 +161,7 @@ function ContentDetail() {
               visible={showDeleteModal}
               onOk={handleOk}
               onCancel={handleCancel}
+              centered={true}
             >
               <Text>You confirm to delete this content.</Text>
             </Modal>
@@ -179,7 +180,7 @@ function ContentDetail() {
         <Row className="w-full flex items-center justify-center">
           {filteredData.contentImage.map((image: any, index: any) => (
             <Col key={index} className="mr-2 mb-4 flex items-center justify-center">
-              <img src={image.fullPath} className="h-56" />
+              <img src={image.fullPath} className="h-56" alt="content" />
             </Col>
           ))}
         </Row>

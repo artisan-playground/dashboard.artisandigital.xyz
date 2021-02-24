@@ -543,6 +543,7 @@ function TaskDetail() {
                 visible={modalFileVisible}
                 onCancel={closeModal}
                 footer={null}
+                centered={true}
                 className="flex items-center justify-center"
               >
                 <img src={imageData && imageData.fullPath} alt="file" />
@@ -588,7 +589,7 @@ function TaskDetail() {
                 type="text"
                 shape="circle"
               >
-                <a href={data.fullPath} download target="_blank">
+                <a href={data.fullPath} download target="_blank" rel="noreferrer">
                   <DownloadOutlined />
                 </a>
               </Button>
@@ -950,6 +951,7 @@ function TaskDetail() {
             title={<Text className="font-bold">Edit a task</Text>}
             onCancel={handleCancel}
             footer={null}
+            centered={true}
           >
             <Row className="px-56 w-full" justify="space-between">
               <Col xs={24}>
@@ -1037,6 +1039,7 @@ function TaskDetail() {
                     }
                     onCancel={handleConfirmCancel}
                     onOk={handleEditTask}
+                    centered={true}
                   >
                     <Text>You confirm to edit this task.</Text>
                   </Modal>
@@ -1049,6 +1052,7 @@ function TaskDetail() {
                     }
                     onCancel={handleDeleteCancel}
                     onOk={handleDeleteTask}
+                    centered={true}
                   >
                     <Text>You confirm to delete this task.</Text>
                   </Modal>
@@ -1090,7 +1094,7 @@ function TaskDetail() {
               />
             </Col>
 
-            <Modal visible={visibleMember} onCancel={handleCancel} footer={null}>
+            <Modal visible={visibleMember} onCancel={handleCancel} footer={null} centered={true}>
               <Form className="mt-8">
                 <Form.Item name="Member">
                   <Input.Group compact>

@@ -369,6 +369,7 @@ function ProjectDetail() {
                     title={<Text className="font-bold">Today's tasks</Text>}
                     onCancel={handleCancel}
                     footer={null}
+                    centered={true}
                   >
                     <Row justify="end" className="mb-4">
                       <Input
@@ -431,6 +432,7 @@ function ProjectDetail() {
                     title={<Text className="font-bold">Done tasks</Text>}
                     onCancel={handleCancel}
                     footer={null}
+                    centered={true}
                   >
                     <Row justify="end" className="mb-4">
                       <Input
@@ -497,6 +499,7 @@ function ProjectDetail() {
                     title={<Text className="font-bold">Create a task</Text>}
                     onCancel={handleCancel}
                     footer={null}
+                    centered={true}
                   >
                     <Row className="px-56 w-full" justify="space-between">
                       <Col xs={24}>
