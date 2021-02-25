@@ -3,7 +3,7 @@
     <a-spin :spinning="spinning">
       <ToolbarBack :msg="dataTask.taskName" />
       <br />
-      <div style="margin :60px 15px 15px 15px">
+      <a-row style="margin :60px 15px 15px 15px">
         <div class="modal-delete" id="modal">
           <vue-confirm-dialog></vue-confirm-dialog>
         </div>
@@ -36,102 +36,98 @@
           <a-icon type="close" />
           Mark as Undone
         </a-button>
-      </div>
+      </a-row>
 
       <!-- Dashboard -->
-      <div>
-        <div>
-          <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
-            <a-col :span="11" :xs="11">
-              <a-card
-                style="border:none;"
-                :bodyStyle="{
-                  padding: '5px',
-                }"
-              >
-                <div class="iconCus-task">
-                  <a-icon type="fund" />
-                </div>
-                <div>
-                  <b>{{ dataProject.projectName }}</b>
-                </div>
-                <div id="position" style="padding-bottom:10px">Project name</div>
-              </a-card>
-            </a-col>
-            <a-col :span="2" :xs="2">
-              <a-divider type="vertical" style="height:100px" />
-            </a-col>
-            <a-col :span="11" :xs="11">
-              <a-card
-                style="border:none;"
-                :bodyStyle="{
-                  padding: '5px',
-                }"
-              >
-                <div class="iconCus-task">
-                  <a-icon type="clock-circle" />
-                </div>
-                <div>
-                  <b>{{ $dayjs(dataTask.endTime).format('DD MMM YYYY') }}</b>
-                </div>
-                <div id="position" style="padding-bottom:10px">Due date</div>
-              </a-card>
-            </a-col>
-          </a-row>
-        </div>
+      <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
+        <a-col :span="11" :xs="11">
+          <a-card
+            style="border:none;"
+            :bodyStyle="{
+              padding: '5px',
+            }"
+          >
+            <div class="iconCus-task">
+              <a-icon type="fund" />
+            </div>
+            <div>
+              <b>{{ dataProject.projectName }}</b>
+            </div>
+            <div id="position" style="padding-bottom:10px">Project name</div>
+          </a-card>
+        </a-col>
+        <a-col :span="2" :xs="2">
+          <a-divider type="vertical" style="height:100px" />
+        </a-col>
+        <a-col :span="11" :xs="11">
+          <a-card
+            style="border:none;"
+            :bodyStyle="{
+              padding: '5px',
+            }"
+          >
+            <div class="iconCus-task">
+              <a-icon type="clock-circle" />
+            </div>
+            <div>
+              <b>{{ $dayjs(dataTask.endTime).format('DD MMM YYYY') }}</b>
+            </div>
+            <div id="position" style="padding-bottom:10px">Due date</div>
+          </a-card>
+        </a-col>
+      </a-row>
 
-        <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
-          <a-col>
-            <router-link :to="{ name: 'MemberInTask', params: { id: dataTask.id } }">
-              <a-card
-                :bodyStyle="{
-                  padding: '5px',
-                }"
-              >
-                <div style="padding-top:10px">
-                  <span
-                    class="iconify"
-                    data-inline="false"
-                    data-icon="clarity:users-line"
-                    style="color: #0036c7; font-size: 22px;"
-                  ></span>
+      <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
+        <a-col>
+          <router-link :to="{ name: 'MemberInTask', params: { id: dataTask.id } }">
+            <a-card
+              :bodyStyle="{
+                padding: '5px',
+              }"
+            >
+              <div style="padding-top:10px">
+                <span
+                  class="iconify"
+                  data-inline="false"
+                  data-icon="clarity:users-line"
+                  style="color: #0036c7; font-size: 22px;"
+                ></span>
+              </div>
+              <div class="center con-avatars">
+                <div
+                  v-for="member in dataTask.members.slice(0, 5)"
+                  :key="member.id"
+                  style="display:inline; margin: 0 2px;"
+                >
+                  <a-avatar
+                    v-bind:src="
+                      member.image ? member.image.fullPath : require('../assets/user.svg')
+                    "
+                  />
                 </div>
-                <div class="center con-avatars">
+
+                <div v-if="dataTask.members.length >= 5" style="display:inline;">
                   <div
-                    v-for="member in dataTask.members.slice(0, 5)"
+                    v-for="member in dataTask.members.slice(4, 5)"
                     :key="member.id"
                     style="display:inline; margin: 0 2px;"
                   >
+                    <a-avatar class="avatar-plus">
+                      <a-icon slot="icon" type="plus" />
+                    </a-avatar>
                     <a-avatar
                       v-bind:src="
                         member.image ? member.image.fullPath : require('../assets/user.svg')
                       "
                     />
                   </div>
-
-                  <div v-if="dataTask.members.length >= 5" style="display:inline;">
-                    <div
-                      v-for="member in dataTask.members.slice(4, 5)"
-                      :key="member.id"
-                      style="display:inline; margin: 0 2px;"
-                    >
-                      <a-avatar class="avatar-plus">
-                        <a-icon slot="icon" type="plus" />
-                      </a-avatar>
-                      <a-avatar
-                        v-bind:src="
-                          member.image ? member.image.fullPath : require('../assets/user.svg')
-                        "
-                      />
-                    </div>
-                  </div>
                 </div>
-                <div id="position" style="padding-bottom:10px">Team</div>
-              </a-card>
-            </router-link>
-          </a-col>
-        </a-row>
-      </div>
+              </div>
+              <div id="position" style="padding-bottom:10px">Team</div>
+            </a-card>
+          </router-link>
+        </a-col>
+      </a-row>
 
       <!-- Detail of Task -->
       <a-row class="titleSpace">
@@ -157,119 +153,122 @@
       </a-row>
 
       <!-- upload file -->
-      <div class="clearfix">
-        <a-row style="margin: 0px 15px;" :gutter="[8, 8]">
-          <div v-for="file in dataTask.files" :key="file.id">
-            <a-col :xs="{ span: 8 }" :sm="{ span: 4 }" :md="{ span: 4 }" :lg="{ span: 2 }">
-              <div
-                style="border: 1px solid #d9d9d9; border-radius: 2px; width: 105px;"
-                class="taskFile"
-              >
-                <div class="flexBox-file">
-                  <div
-                    v-if="
-                      file.extension == 'image/png' ||
-                        file.extension == 'image/jpg' ||
-                        file.extension == 'image/jpeg' ||
-                        file.extension == 'image/svg+xml'
-                    "
-                  >
-                    <img :src="file.fullPath" alt="" class="img-task" />
-                  </div>
-                  <div v-else>
-                    <a-icon
-                      :type="
-                        file.extension == 'text/plain'
-                          ? 'file-text'
-                          : file.extension == 'application/pdf'
-                          ? 'file-pdf'
-                          : file.extension == 'text/javascript'
-                          ? 'file'
-                          : file.extension ==
-                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                          ? 'file-word'
-                          : file.extension == 'application/x-zip-compressed' ||
-                            'application/octet-stream'
-                          ? 'file-zip'
-                          : 'file'
-                      "
-                      style="font-size:30px; color:#0036C7"
-                    />
-                    <span class="taskFileName"> {{ file.fileName }} </span>
-                    <span v-if="file.extension == 'text/plain'">.txt</span>
-                    <span v-if="file.extension == 'text/javascript'">.js</span>
-                    <span
-                      v-if="
-                        file.extension ==
-                          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                      "
-                      >.docx</span
-                    >
-                    <span v-if="file.extension == 'application/x-zip-compressed'">.zip</span>
-                    <span v-if="file.extension == 'application/octet-stream'">.rar</span>
-                  </div>
-
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        v-if="
-                          file.extension == 'image/png' ||
-                            file.extension == 'image/jpg' ||
-                            file.extension == 'image/jpeg' ||
-                            file.extension == 'image/svg+xml'
-                        "
-                        type="eye"
-                        class="icon-delete-view"
-                        @click="openModal(file)"
-                      />
-                      <a v-else :href="file.fullPath" download>
-                        <a-icon type="download" class="icon-delete-view" />
-                      </a>
-
-                      <a-icon
-                        type="delete"
-                        class="icon-delete-view"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a-col>
-          </div>
+      <a-row style="margin: 0px 15px;" :gutter="[8, 8]">
+        <div v-for="file in dataTask.files" :key="file.id">
           <a-col
-            class="upload-btn-wrapper"
             :xs="{ span: 8 }"
             :sm="{ span: 4 }"
             :md="{ span: 4 }"
-            :lg="{ span: 2 }"
+            :lg="{ span: 3 }"
+            :xl="{ span: 2 }"
+            :xxl="{ span: 1 }"
           >
-            <a-button
-              style="border: 1px dashed #d9d9d9; border-radius: 2px; width: 105px; height: 102px; background-color:#FAFAFA"
+            <div
+              style="border: 1px solid #d9d9d9; border-radius: 2px; width: 105px;"
+              class="taskFile"
             >
-              <a-icon type="plus" style="color:#585858; font-size:20px; margin-bottom:10px;" />
-              <div>
-                Upload
-              </div>
-            </a-button>
-            <input @change="uploadFile" type="file" name="myfile" />
-          </a-col>
-        </a-row>
-      </div>
+              <div class="flexBox-file">
+                <div
+                  v-if="
+                    file.extension == 'image/png' ||
+                      file.extension == 'image/jpg' ||
+                      file.extension == 'image/jpeg' ||
+                      file.extension == 'image/svg+xml'
+                  "
+                >
+                  <img :src="file.fullPath" alt="" class="img-task" />
+                </div>
+                <div v-else>
+                  <a-icon
+                    :type="
+                      file.extension == 'text/plain'
+                        ? 'file-text'
+                        : file.extension == 'application/pdf'
+                        ? 'file-pdf'
+                        : file.extension == 'text/javascript'
+                        ? 'file'
+                        : file.extension ==
+                          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                        ? 'file-word'
+                        : file.extension == 'application/x-zip-compressed' ||
+                          'application/octet-stream'
+                        ? 'file-zip'
+                        : 'file'
+                    "
+                    style="font-size:30px; color:#0036C7"
+                  />
+                  <span class="taskFileName" style="width: 70px;"> {{ file.fileName }} </span>
+                  <span v-if="file.extension == 'text/plain'">.txt</span>
+                  <span v-if="file.extension == 'text/javascript'">.js</span>
+                  <span
+                    v-if="
+                      file.extension ==
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                    "
+                    >.docx</span
+                  >
+                  <span v-if="file.extension == 'application/x-zip-compressed'">.zip</span>
+                  <span v-if="file.extension == 'application/octet-stream'">.rar</span>
+                </div>
 
-      <div>
-        <a-modal
-          :visible="visible"
-          :footer="null"
-          :centered="true"
-          @cancel="hideModal"
-          :bodyStyle="{
-            padding: 0,
-          }"
+                <div class="overlay">
+                  <div class="flexbox-delFileTask">
+                    <a-icon
+                      v-if="
+                        file.extension == 'image/png' ||
+                          file.extension == 'image/jpg' ||
+                          file.extension == 'image/jpeg' ||
+                          file.extension == 'image/svg+xml'
+                      "
+                      type="eye"
+                      class="icon-delete-view"
+                      @click="openModal(file)"
+                    />
+                    <a v-else :href="file.fullPath" download>
+                      <a-icon type="download" class="icon-delete-view" />
+                    </a>
+
+                    <a-icon
+                      type="delete"
+                      class="icon-delete-view"
+                      @click="deleteTaskFile(file.id)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a-col>
+        </div>
+        <a-col
+          class="upload-btn-wrapper"
+          :xs="{ span: 8 }"
+          :sm="{ span: 4 }"
+          :md="{ span: 4 }"
+          :lg="{ span: 3 }"
+          :xl="{ span: 2 }"
+          :xxl="{ span: 1 }"
         >
-          <img :src="item.fullPath" style="width:100%;" alt="" />
-        </a-modal>
-      </div>
+          <a-button class="btn-upload">
+            <a-icon type="plus" style="color:#585858; font-size:20px; margin-bottom:10px;" />
+            <div>
+              Upload
+            </div>
+          </a-button>
+          <input @change="uploadFile" type="file" name="myfile" />
+        </a-col>
+      </a-row>
+
+      <a-modal
+        :visible="visible"
+        :footer="null"
+        :centered="true"
+        @cancel="hideModal"
+        :bodyStyle="{
+          padding: 0,
+        }"
+      >
+        <img :src="item.fullPath" style="width:100%;" alt="" />
+      </a-modal>
 
       <!-- Comment -->
       <div class="titleSpace">
@@ -691,5 +690,13 @@ export default {
   font-size: 20px;
   color: white;
   margin: 0 4px;
+}
+.btn-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 2px;
+  width: 105px;
+  height: 102px;
+  background-color: #fafafa;
+  float: left;
 }
 </style>

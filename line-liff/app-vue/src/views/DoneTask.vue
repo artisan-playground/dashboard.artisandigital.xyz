@@ -135,8 +135,8 @@ export default {
       let text = this.search.trim()
       return this.dataTask.filter(item => {
         return (
-          item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-          item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+          (item.taskName && item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+          (item.taskDetail && item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
         )
       })
     },

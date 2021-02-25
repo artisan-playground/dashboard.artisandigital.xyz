@@ -8,7 +8,7 @@
         :sm="{ span: 6 }"
         :md="{ span: 4 }"
         :lg="{ span: 3 }"
-        style="padding: 0px 0px 0px 0px; display:flex;"
+        class="col-img"
       >
         <img
           id="imgProject"
@@ -24,7 +24,7 @@
         :sm="{ span: 18 }"
         :md="{ span: 20 }"
         :lg="{ span: 21 }"
-        style="vertical-align: middle; font-size:16px;"
+        class="col-info"
         align="left"
       >
         <a-row>
@@ -37,23 +37,34 @@
             </router-link>
           </a-col>
         </a-row>
-        <a-row id="position" style="">
+        <a-row id="position">
           {{ dataProject.projectType }}
         </a-row>
-        <a-row style="padding-top: 8px; font-size:14px">
-          {{ dataProject.projectDetail }}
+        <a-row class="projectDetail" v-if="dataProject.projectDetail">
+          <div>
+            <span class="content" v-if="readDetailProject == false">
+              {{ dataProject.projectDetail }}
+            </span>
+            <span v-else>
+              {{ dataProject.projectDetail }}
+            </span>
+          </div>
+          <div class="readMore-btn" @click="readDetailProject = !readDetailProject">
+            <span v-if="readDetailProject" class="primaryColor">Read less</span>
+            <span v-else class="primaryColor">Read more</span>
+          </div>
         </a-row>
       </a-col>
     </a-row>
 
-    <a-row style="margin: 15px 15px 0px 15px">
+    <a-row class="space-top-left-right2">
       <!-- Done button -->
       <a-button
         size="large"
         v-if="dataStatus == 'undone'"
         block
         v-model="isDone"
-        style="background-color:#FF4D4F; color:white; border: none; border-radius:2px;"
+        id="doneBtn"
         v-on:click="toggleDone()"
         :loading="isDone"
         @click="handleOk"
@@ -66,7 +77,7 @@
         v-if="dataStatus == 'done'"
         block
         v-model="isDone"
-        style="background-color:#73D13D; color:white; border: none; border-radius:2px;"
+        id="wipBtn"
         v-on:click="toggleUndone()"
         :loading="isDone"
         @click="handleOk"
@@ -82,7 +93,7 @@
             <div class="iconCus">
               <a-icon type="carry-out" />
             </div>
-            <b style="color:#333333">{{ tasksDone }}</b>
+            <b class="fifthColor">{{ tasksDone }}</b>
             <div id="position">Done Task</div>
           </router-link>
         </a-card>
@@ -94,7 +105,7 @@
               <a-icon type="team" />
             </div>
             <div>
-              <b style="color:#333333">{{ memberInProject }}</b>
+              <b class="fifthColor">{{ memberInProject }}</b>
             </div>
             <div id="position">Members</div>
           </router-link>
@@ -105,7 +116,7 @@
           <router-link :to="{ name: 'TodayTask', params: { id: dataProject.id } }">
             <div class="iconCus"><a-icon type="profile" /></div>
             <div>
-              <b style="color:#333333">{{ tasksUndone }}</b>
+              <b class="fifthColor">{{ tasksUndone }}</b>
             </div>
             <div id="position">Today's Task</div>
           </router-link>
@@ -114,14 +125,14 @@
     </a-row>
 
     <!-- Date -->
-    <a-row style="margin-top:15px; margin-left:15px; margin-right:15px;">
+    <a-row class="space-top-left-right2">
       <a-col>
         <a-card id="card" :bodyStyle="{ padding: '5px' }" style="border:none;">
           <div class="iconCus">
             <a-icon type="calendar" />
           </div>
           <div>
-            <b style="color:#333333">{{ $dayjs(dataProject.dueDate).format('DD MMM YYYY') }}</b>
+            <b class="fifthColor">{{ $dayjs(dataProject.dueDate).format('DD MMM YYYY') }}</b>
           </div>
           <div id="position">Release Date</div>
         </a-card>
@@ -237,23 +248,15 @@
                 <a-row>
                   <a-col>
                     <div class="listMember">
-                      <div
-                        v-for="member in task.members.slice(0, 3)"
-                        :key="member.id"
-                        style="display:inline; margin: 0 2px;"
-                      >
+                      <div v-for="member in task.members.slice(0, 3)" :key="member.id">
                         <a-avatar
                           v-bind:src="
                             member.image ? member.image.fullPath : require('../assets/user.svg')
                           "
                         />
                       </div>
-                      <div v-if="task.members.length >= 4" style="display:inline;">
-                        <div
-                          v-for="member in task.members.slice(3, 4)"
-                          :key="member.id"
-                          style="display:inline; margin: 0 2px;"
-                        >
+                      <div v-if="task.members.length >= 4">
+                        <div v-for="member in task.members.slice(3, 4)" :key="member.id">
                           <a-avatar class="avatar-plus">
                             <a-icon slot="icon" type="plus" />
                           </a-avatar>
@@ -271,68 +274,69 @@
             </router-link>
           </a-card>
         </div>
-        <!-- Recent -->
-        <a-row class="titleSpace">
-          <a-col :xs="{ span: 19 }">
-            <b class="titleName">Recent Activity</b>
-          </a-col>
-          <a-col :xs="{ span: 5 }" class="uploadProfile">
-            <a-button style="border:none; float:right; " @click="readMore = !readMore">
-              <span v-if="readMore" style="color:#0036C7;">
-                See less
-              </span>
-              <span v-else style="color:#0036C7;">
-                See all
-              </span>
-            </a-button>
-          </a-col>
-        </a-row>
-        <a-row class="space-left-right">
-          <a-card
-            v-for="recent in recentfilter.sort((a, b) => (a.id < b.id ? 1 : -1)).slice(0, 3)"
-            :key="recent.id"
-            class="card-recent"
-            :bodyStyle="{ padding: '15px' }"
-          >
-            <a-col :xs="{ span: 1 }">
-              <a-icon type="check-circle" id="iconTask" />
-            </a-col>
-            <a-col :xs="{ span: 14 }">
-              <div style="float:left; text-align: left; padding-left:8px;">
-                {{ recent.message }}
-              </div>
-            </a-col>
-            <a-col :xs="{ span: 9 }">
-              <span style="float:right; color:#8F8F8F">by {{ recent.user.name }}</span>
-            </a-col>
-          </a-card>
-
-          <a-card
-            v-show="readMore"
-            v-for="recent in recentfilter
-              .sort((a, b) => (a.id < b.id ? 1 : -1))
-              .slice(3, recentfilter.length)"
-            :key="recent.id"
-            class="card-recent"
-            :bodyStyle="{ padding: '15px' }"
-          >
-            <a-col :xs="{ span: 1 }">
-              <a-icon type="check-circle" id="iconTask" />
-            </a-col>
-            <a-col :xs="{ span: 14 }">
-              <div style="float:left; text-align: left; padding-left:8px;">
-                {{ recent.message }}
-              </div>
-            </a-col>
-            <a-col :xs="{ span: 9 }">
-              <span style="float:right; color:#8F8F8F">by {{ recent.user.name }}</span>
-            </a-col>
-          </a-card>
-        </a-row>
       </div>
       <div v-else style="margin-top:30px;">
         <a-empty />
       </div>
+
+      <!-- Recent -->
+      <a-row class="titleSpace" v-if="recentfilter.length > 0">
+        <a-col :xs="{ span: 19 }">
+          <b class="titleName">Recent Activity</b>
+        </a-col>
+        <a-col :xs="{ span: 5 }" class="uploadProfile">
+          <div v-if="recentfilter.length > 3" class="readMore-btn" @click="readMore = !readMore">
+            <span v-if="readMore" class="primaryColor">
+              See less
+            </span>
+            <span v-else class="primaryColor">
+              See all
+            </span>
+          </div>
+        </a-col>
+      </a-row>
+      <a-row class="space-left-right">
+        <a-card
+          v-for="recent in recentfilter.sort((a, b) => (a.id < b.id ? 1 : -1)).slice(0, 3)"
+          :key="recent.id"
+          class="card-recent"
+          :bodyStyle="{ padding: '15px' }"
+        >
+          <a-col :xs="{ span: 1 }">
+            <a-icon type="check-circle" id="iconTask" />
+          </a-col>
+          <a-col :xs="{ span: 14 }">
+            <div style="float:left; text-align: left; padding-left:8px;">
+              {{ recent.message }}
+            </div>
+          </a-col>
+          <a-col :xs="{ span: 9 }">
+            <span class="col-right">by {{ recent.user.name }}</span>
+          </a-col>
+        </a-card>
+
+        <a-card
+          v-show="readMore"
+          v-for="recent in recentfilter
+            .sort((a, b) => (a.id < b.id ? 1 : -1))
+            .slice(3, recentfilter.length)"
+          :key="recent.id"
+          class="card-recent"
+          :bodyStyle="{ padding: '15px' }"
+        >
+          <a-col :xs="{ span: 1 }">
+            <a-icon type="check-circle" id="iconTask" />
+          </a-col>
+          <a-col :xs="{ span: 14 }">
+            <div class="recentMessage">
+              {{ recent.message }}
+            </div>
+          </a-col>
+          <a-col :xs="{ span: 9 }">
+            <span class="col-right">by {{ recent.user.name }}</span>
+          </a-col>
+        </a-card>
+      </a-row>
     </div>
     <BarRouter />
   </div>
@@ -362,6 +366,7 @@ export default {
       pageSize: 3,
       recents: [],
       readMore: false,
+      readDetailProject: false,
     }
   },
   apollo: {
@@ -406,7 +411,6 @@ export default {
   mounted() {
     this.getData()
   },
-
   methods: {
     nextPage() {
       this.pageNumber++
@@ -481,11 +485,10 @@ export default {
       let text = this.search.trim()
       let dataTask = this.dataTask.filter(item => {
         return (
-          item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-          item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+          (item.taskName && item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+          (item.taskDetail && item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
         )
       })
-
       const start = this.pageNumber * this.pageSize,
         end = start + this.pageSize
       return dataTask.slice(start, end)
@@ -503,7 +506,20 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
+@seventh: #8f8f8f;
+.col-img {
+  padding: 0px 0px 0px 0px;
+  display: flex;
+}
+.col-info {
+  vertical-align: middle;
+  font-size: 16px;
+}
+.col-right {
+  float: right;
+  color: @seventh;
+}
 #imgProject {
   margin-top: 2px;
   border-radius: 100%;
@@ -513,6 +529,10 @@ export default {
 }
 #imgProject::after {
   display: block;
+}
+.projectDetail {
+  padding-top: 8px;
+  font-size: 14px;
 }
 @media only screen and (min-width: 768px) {
   #imgProject {
@@ -536,5 +556,10 @@ export default {
 button:disabled,
 button[disabled] {
   opacity: 0.3;
+}
+.recentMessage {
+  float: left;
+  text-align: left;
+  padding-left: 8px;
 }
 </style>
