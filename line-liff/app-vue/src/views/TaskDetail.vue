@@ -374,6 +374,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import moment from 'moment'
 import * as gqlQuery from '../constants/task'
@@ -409,6 +410,7 @@ export default {
       },
       update(data) {
         this.userProfile = data.user.image
+        this.user = data.user
       },
     },
   },
@@ -430,7 +432,7 @@ export default {
       commentEdit: false,
       newComment: '',
       userId: 0,
-      user: '',
+      user: [],
       selectCommentId: 0,
       userProfile: null,
       item: [],
@@ -440,6 +442,9 @@ export default {
     this.getData()
   },
   methods: {
+    ...mapActions({
+      updateStatusTask: 'Auth/updateStatusTask',
+    }),
     openModal(value) {
       this.visible = true
       this.item = value
@@ -554,7 +559,15 @@ export default {
             },
           },
         })
+        .then(res => {
+          this.user.tasks.filter(item => item.id == res.data.updateOneTask.id)
+          return this.updateStatusTask(this.user)
+        })
         .then(this.createRecent(val))
+    },
+    async updateUser(data) {
+      this.user.tasks.filter(item => item.id == data.id)
+      return this.user.then(this.updateStatusTask(this.user))
     },
     async addComment() {
       if (this.newComment.trim().length == 0) {
