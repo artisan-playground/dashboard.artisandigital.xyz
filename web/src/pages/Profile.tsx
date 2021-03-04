@@ -87,9 +87,43 @@ function Profile() {
   const dateFormat = 'DD MMM YYYY HH:mm'
   const customFormat = (value: any) => `${value.format(dateFormat)}`
   const user = useStoreState((s) => s.userState.user)
+  const [projectType, setProjectType] = useState('all')
+  const [taskType, setTaskType] = useState('all')
 
   useEffect(() => {
     if (!userLoading && !userError) {
+      switch (projectType) {
+        case 'undone':
+          let wip: any[] = userData.user.projects.filter((item: any) => item.status === 'undone')
+          setFilteredDataProject(wip)
+          break
+        case 'done':
+          let closed: any[] = userData.user.projects.filter((item: any) => item.status === 'done')
+          setFilteredDataProject(closed)
+          break
+        case 'all':
+          setFilteredDataProject(userData.user.projects)
+          break
+        default:
+          setFilteredDataProject(userData.user.projects)
+          break
+      }
+      switch (taskType) {
+        case 'undone':
+          let wip: any[] = userData.user.tasks.filter((item: any) => item.isDone === false)
+          setFilteredDataTask(wip)
+          break
+        case 'done':
+          let closed: any[] = userData.user.tasks.filter((item: any) => item.isDone === true)
+          setFilteredDataTask(closed)
+          break
+        case 'all':
+          setFilteredDataTask(userData.user.tasks)
+          break
+        default:
+          setFilteredDataTask(userData.user.tasks)
+          break
+      }
       setImage(
         imageData ? imageData.uploadImage.id : imageUpdateData && imageUpdateData.updateImage.id
       )
@@ -108,8 +142,6 @@ function Profile() {
       setType(userData.user.type)
       setStartDate(userData.user.startDate)
       setDueDate(userData.user.dueDate)
-      setFilteredDataProject(userData.user.projects)
-      setFilteredDataTask(userData.user.tasks)
     }
   }, [
     userData,
@@ -120,6 +152,8 @@ function Profile() {
     totalPageTask,
     imageData,
     imageUpdateData,
+    projectType,
+    taskType,
   ])
 
   function handleProjectKeywordChange(e: any) {
@@ -127,11 +161,19 @@ function Profile() {
     setProjectKeyword(e.target.value)
     if (e.target.value === '') {
       setFilteredDataProject(userData.user.projects)
+      setProjectType('all')
       setLoading(false)
     } else {
-      const kw: any[] = userData.user.projects.filter((item: any) =>
-        item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
-      )
+      const kw: any[] = userData.user.projects.filter((item: any) => {
+        if (projectType === 'all') {
+          return item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
+        } else {
+          return (
+            item.status === projectType &&
+            item.projectName.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        }
+      })
       setFilteredDataProject(kw)
       setLoading(false)
     }
@@ -143,11 +185,21 @@ function Profile() {
     setTaskKeyword(e.target.value)
     if (e.target.value === '') {
       setFilteredDataTask(userData.user.tasks)
+      setTaskType('all')
       setLoading(false)
     } else {
-      const kw: any[] = userData.user.tasks.filter((item: any) =>
-        item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
-      )
+      const kw: any[] = userData.user.tasks.filter((item: any) => {
+        console.log(item)
+        if (taskType === 'all') {
+          return item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
+        } else {
+          return (
+            console.log(item.isDone),
+            item.isDone === taskType &&
+              item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        }
+      })
       setFilteredDataTask(kw)
       setLoading(false)
     }
@@ -271,6 +323,16 @@ function Profile() {
     setMaxIndexTask(page * pageSize)
   }
 
+  function handleChangeProjectType(value: any) {
+    setProjectType(value)
+    setTaskType('all')
+  }
+
+  function handleChangeTaskType(value: any) {
+    setTaskType(value)
+    setProjectType('all')
+  }
+
   return userLoading || !filteredData ? (
     <LayoutDashboard>
       <Spin size="large" className="flex justify-center pt-4" />
@@ -314,6 +376,7 @@ function Profile() {
                   )} - ${dayjs(filteredData.dueDate).format('DD MMM YYYY HH:mm')}`}
                 </Text>
               )}
+              <Text>{`Telephone: ${filteredData.phone ? filteredData.phone : '-'}`}</Text>
             </Space>
 
             {String(user?.id) === id && (
@@ -335,6 +398,7 @@ function Profile() {
               title={<Text className="font-bold">Edit profile</Text>}
               onCancel={handleCancel}
               footer={null}
+              centered={true}
             >
               <Row className="px-24 w-full" justify="space-between">
                 <Col xs={8} lg={12}>
@@ -411,37 +475,6 @@ function Profile() {
                       />
                     </Form.Item>
                     <Form.Item
-                      name="Jop position"
-                      label="Jop position"
-                      rules={[{ required: true, message: 'Please select jop position' }]}
-                      required
-                    >
-                      <Select defaultValue={position} onChange={handleChangePosition}>
-                        <Option value="Account Executive">Account Executive</Option>
-                        <Option value="Accountant & Administrator">
-                          Accountant & Administrator
-                        </Option>
-                        <Option value="Back - End Developer">Back - End Developer</Option>
-                        <Option value="Community Manager">Community Manager</Option>
-                        <Option value="Content Creator">Content Creator</Option>
-                        <Option value="Course Developer">Course Developer</Option>
-                        <Option value="Creative Podcast">Creative Podcast</Option>
-                        <Option value="Digital Marketing">Digital Marketing</Option>
-                        <Option value="Filmmaker">Filmmaker</Option>
-                        <Option value="Front - End Developer">Front - End Developer</Option>
-                        <Option value="Graphic Designer">Graphic Designer</Option>
-                        <Option value="Legal Officer">Legal Officer</Option>
-                        <Option value="Mid - Level & Senior Developer">
-                          Mid - Level & Senior Developer
-                        </Option>
-                        <Option value="Mobile Developer">Mobile Developer</Option>
-                        <Option value="Secretary">Secretary</Option>
-                        <Option value="Software Business Analyst">Software Business Analyst</Option>
-                        <Option value="Software Tester">Software Tester</Option>
-                        <Option value="UX / UI Designer">UX / UI Designer</Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
                       name="Department"
                       label="Department"
                       rules={[{ required: true, message: 'Please select department' }]}
@@ -452,6 +485,52 @@ function Profile() {
                         <Option value="Development">Development</Option>
                         <Option value="Design">Design</Option>
                         <Option value="Digital Marketing">Digital Marketing</Option>
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="Jop position"
+                      label="Jop position"
+                      rules={[{ required: true, message: 'Please select jop position' }]}
+                      required
+                    >
+                      <Select defaultValue={position} onChange={handleChangePosition}>
+                        {department === 'HR/Admin' ? (
+                          <>
+                            <Option value="Account Executive">Account Executive</Option>
+                            <Option value="Accountant & Administrator">
+                              Accountant & Administrator
+                            </Option>
+                          </>
+                        ) : department === 'Development' ? (
+                          <>
+                            <Option value="Back - End Developer">Back - End Developer</Option>
+                            <Option value="Community Manager">Community Manager</Option>
+                            <Option value="Content Creator">Content Creator</Option>
+                            <Option value="Course Developer">Course Developer</Option>
+                            <Option value="Creative Podcast">Creative Podcast</Option>
+                            <Option value="Digital Marketing">Digital Marketing</Option>
+                          </>
+                        ) : department === 'Design' ? (
+                          <>
+                            <Option value="Filmmaker">Filmmaker</Option>
+                            <Option value="Front - End Developer">Front - End Developer</Option>
+                            <Option value="Graphic Designer">Graphic Designer</Option>
+                            <Option value="Legal Officer">Legal Officer</Option>
+                            <Option value="Mid - Level & Senior Developer">
+                              Mid - Level & Senior Developer
+                            </Option>
+                          </>
+                        ) : (
+                          <>
+                            <Option value="Mobile Developer">Mobile Developer</Option>
+                            <Option value="Secretary">Secretary</Option>
+                            <Option value="Software Business Analyst">
+                              Software Business Analyst
+                            </Option>
+                            <Option value="Software Tester">Software Tester</Option>
+                            <Option value="UX / UI Designer">UX / UI Designer</Option>
+                          </>
+                        )}
                       </Select>
                     </Form.Item>
                     <Form.Item name="Telephone" label="Telephone">
@@ -514,6 +593,11 @@ function Profile() {
                     suffix={<SearchOutlined type="secondary" />}
                     className="w-96"
                   />
+                  <Select value={projectType} className="w-20" onChange={handleChangeProjectType}>
+                    <Option value="all">All</Option>
+                    <Option value="done">Done</Option>
+                    <Option value="undone">WIP</Option>
+                  </Select>
                 </Row>
                 <Row>
                   {filteredDataProject && !userError && !userLoading ? (
@@ -564,6 +648,11 @@ function Profile() {
                     suffix={<SearchOutlined type="secondary" />}
                     className="w-96"
                   />
+                  <Select value={taskType} className="w-20" onChange={handleChangeTaskType}>
+                    <Option value="all">All</Option>
+                    <Option value="done">Done</Option>
+                    <Option value="undone">WIP</Option>
+                  </Select>
                 </Row>
                 <Row>
                   {filteredDataTask && !userError && !userLoading ? (
@@ -595,7 +684,7 @@ function Profile() {
                     </div>
                   )}
                 </Row>
-                <div className="flex items-end justify-end">
+                <div className="flex items-end justify-end mb-4">
                   <Pagination
                     pageSize={pageSize}
                     current={currentTask}

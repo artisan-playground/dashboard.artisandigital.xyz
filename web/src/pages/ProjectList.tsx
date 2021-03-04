@@ -27,7 +27,7 @@ import {
   Typography,
 } from 'antd'
 import generatePicker from 'antd/es/date-picker/generatePicker'
-import { Dayjs } from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
 import UnknownImage from '../assets/images/unknown_image.jpg'
@@ -60,7 +60,7 @@ function ProjectList() {
   const { loading: userLoading, error: userError, data: usersData } = useQuery(GET_USERS)
   const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig)
   const [projectName, setProjectName] = useState<any>()
-  const [type, setType] = useState<any>()
+  const [type, setType] = useState<any>('')
   const [member, setMember] = useState<any[]>([])
   const [dueDate, setDueDate] = useState<any>()
   const [description, setDescription] = useState<any>()
@@ -77,21 +77,40 @@ function ProjectList() {
 
   useEffect(() => {
     if (!error && !loading && !userLoading && !userError) {
-      switch (types) {
-        case 'undone':
-          let wip: any[] = data.projects.filter((item: any) => item.status === 'undone')
-          setFilteredData(wip)
-          break
-        case 'done':
-          let closed: any[] = data.projects.filter((item: any) => item.status === 'done')
-          setFilteredData(closed)
-          break
-        case 'all':
-          setFilteredData(data.projects)
-          break
-        default:
-          setFilteredData(data.projects)
-          break
+      if (user?.role === 'ADMIN') {
+        switch (types) {
+          case 'undone':
+            let wip: any[] = data.projects.filter((item: any) => item.status === 'undone')
+            setFilteredData(wip)
+            break
+          case 'done':
+            let closed: any[] = data.projects.filter((item: any) => item.status === 'done')
+            setFilteredData(closed)
+            break
+          case 'all':
+            setFilteredData(data.projects)
+            break
+          default:
+            setFilteredData(data.projects)
+            break
+        }
+      } else {
+        switch (types) {
+          case 'undone':
+            let wip: any = user?.projects.filter((item: any) => item.status === 'undone')
+            setFilteredData(wip)
+            break
+          case 'done':
+            let closed: any = user?.projects.filter((item: any) => item.status === 'done')
+            setFilteredData(closed)
+            break
+          case 'all':
+            setFilteredData(user?.projects)
+            break
+          default:
+            setFilteredData(user?.projects)
+            break
+        }
       }
       setTotalPage(data.length / pageSize)
       setMinIndex(0)
@@ -124,6 +143,10 @@ function ProjectList() {
   }
 
   function handleChange(value: any) {
+    setTypes(value)
+  }
+
+  function handleChangeProjectType(value: any) {
     setType(value)
   }
 
@@ -223,7 +246,7 @@ function ProjectList() {
 
   function handleMember(value: any) {
     const val = Number(value.reverse()[0])
-    setMember((prevState) => [...prevState, { id: val }])
+    setMember([...member, { id: val }])
   }
 
   function onChangeDate(_: any, dateString: any) {
@@ -234,6 +257,10 @@ function ProjectList() {
     setCurrent(page)
     setMinIndex((page - 1) * pageSize)
     setMaxIndex(page * pageSize)
+  }
+
+  function disabledDate(current: any) {
+    return current && current < dayjs().endOf('day')
   }
 
   return (
@@ -256,6 +283,7 @@ function ProjectList() {
               title={<Text className="font-bold">Create a project</Text>}
               onCancel={handleCancel}
               footer={null}
+              centered={true}
             >
               <Row className="px-24 w-full" justify="space-between">
                 <Col xs={8} lg={12}>
@@ -333,7 +361,11 @@ function ProjectList() {
                       rules={[{ required: true, message: 'Please select type' }]}
                       required
                     >
-                      <Select value={type} onChange={handleChange}>
+                      <Select
+                        value={type !== '' ? type : undefined}
+                        placeholder="Please select type"
+                        onChange={handleChangeProjectType}
+                      >
                         <Option value="Data">Data</Option>
                         <Option value="Design">Design</Option>
                         <Option value="Mobile">Mobile</Option>
@@ -349,8 +381,9 @@ function ProjectList() {
                     >
                       <Select
                         mode="tags"
-                        value={member}
+                        value={member.length !== 0 ? member : undefined}
                         onChange={handleMember}
+                        placeholder="Please select members"
                         tokenSeparators={[',']}
                       >
                         {((usersData && usersData.users) || []).map((value: any) => (
@@ -380,6 +413,7 @@ function ProjectList() {
                         format={customFormat}
                         className="w-full"
                         onChange={onChangeDate}
+                        disabledDate={disabledDate}
                       />
                     </Form.Item>
                     <Form.Item
