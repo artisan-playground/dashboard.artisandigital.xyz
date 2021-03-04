@@ -288,6 +288,10 @@ function ProjectDetail() {
     setType(value)
   }
 
+  function disabledDate(current: any) {
+    return current && current < dayjs().endOf('day')
+  }
+
   return projectLoading || !filteredData ? (
     <LayoutDashboard>
       <Spin size="large" className="flex justify-center pt-4" />
@@ -566,6 +570,7 @@ function ProjectDetail() {
                               showTime={{ format: 'HH:mm' }}
                               format={customFormat}
                               onChange={onChangeDate}
+                              disabledDate={disabledDate}
                             />
                           </Form.Item>
                           <Form.Item

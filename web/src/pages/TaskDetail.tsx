@@ -151,7 +151,6 @@ function TaskDetail() {
         projectId: filteredData.project.id,
       },
     })
-    refetch()
   }
 
   function onDoneClick() {
@@ -163,7 +162,6 @@ function TaskDetail() {
         projectId: filteredData.project.id,
       },
     })
-    refetch()
   }
 
   function handleSubmit() {
@@ -319,14 +317,7 @@ function TaskDetail() {
     setVisibleMember(false)
     setEditTaskVisible(false)
   }
-
-  function handleMember(value: any) {
-    const val = Number(value.reverse()[0])
-    const memberName = userDataSource.find((item: any) => item.id === val)
-    const name = memberName.name
-    setMembers((prevState) => [...prevState, { id: val }])
-    setMemberName((prevState) => [...prevState, name])
-  }
+  console.log(members)
 
   function handleAddMember() {
     updateTaskMember({
@@ -543,6 +534,7 @@ function TaskDetail() {
                 visible={modalFileVisible}
                 onCancel={closeModal}
                 footer={null}
+                centered={true}
                 className="flex items-center justify-center"
               >
                 <img src={imageData && imageData.fullPath} alt="file" />
@@ -588,7 +580,7 @@ function TaskDetail() {
                 type="text"
                 shape="circle"
               >
-                <a href={data.fullPath} download target="_blank">
+                <a href={data.fullPath} download target="_blank" rel="noreferrer">
                   <DownloadOutlined />
                 </a>
               </Button>
@@ -950,6 +942,7 @@ function TaskDetail() {
             title={<Text className="font-bold">Edit a task</Text>}
             onCancel={handleCancel}
             footer={null}
+            centered={true}
           >
             <Row className="px-56 w-full" justify="space-between">
               <Col xs={24}>
@@ -972,7 +965,16 @@ function TaskDetail() {
                     rules={[{ required: true, message: 'Please input type' }]}
                     required
                   >
-                    <Select defaultValue={type} onChange={handleChangeType}>
+                    <Select
+                      defaultValue={type}
+                      onChange={handleChangeType}
+                      filterOption={(input, option) =>
+                        option?.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      filterSort={(optionA, optionB) =>
+                        optionA.value.toLowerCase().localeCompare(optionB.value.toLowerCase())
+                      }
+                    >
                       <Option value="Data">Data</Option>
                       <Option value="Design">Design</Option>
                       <Option value="Mobile">Mobile</Option>
@@ -986,6 +988,12 @@ function TaskDetail() {
                       defaultValue={selectedName}
                       disabled
                       optionLabelProp="name"
+                      filterOption={(input, option) =>
+                        option?.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      filterSort={(optionA, optionB) =>
+                        optionA.value.toLowerCase().localeCompare(optionB.value.toLowerCase())
+                      }
                     />
                   </Form.Item>
                   <Form.Item name="Due date" label="Due date">
@@ -1037,6 +1045,7 @@ function TaskDetail() {
                     }
                     onCancel={handleConfirmCancel}
                     onOk={handleEditTask}
+                    centered={true}
                   >
                     <Text>You confirm to edit this task.</Text>
                   </Modal>
@@ -1049,6 +1058,7 @@ function TaskDetail() {
                     }
                     onCancel={handleDeleteCancel}
                     onOk={handleDeleteTask}
+                    centered={true}
                   >
                     <Text>You confirm to delete this task.</Text>
                   </Modal>
@@ -1090,15 +1100,25 @@ function TaskDetail() {
               />
             </Col>
 
-            <Modal visible={visibleMember} onCancel={handleCancel} footer={null}>
+            <Modal visible={visibleMember} onCancel={handleCancel} footer={null} centered={true}>
               <Form className="mt-8">
                 <Form.Item name="Member">
                   <Input.Group compact>
                     <Select
                       mode="tags"
-                      onChange={handleMember}
+                      onChange={(e: string) => {
+                        if (data && e) {
+                          setMembers((prevState) => [...prevState, { id: e[0] }])
+                        }
+                      }}
                       tokenSeparators={[', ']}
                       style={{ width: '85%' }}
+                      filterOption={(input, option) =>
+                        option?.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      filterSort={(optionA, optionB) =>
+                        optionA.value.toLowerCase().localeCompare(optionB.value.toLowerCase())
+                      }
                     >
                       {userDataSource &&
                         userDataSource
@@ -1110,7 +1130,7 @@ function TaskDetail() {
                             <Row key={item.id}>
                               <Avatar
                                 shape="circle"
-                                size="default"
+                                size="small"
                                 src={item.image ? item.image.fullPath : UnknownUserImage}
                                 alt="user"
                                 className="mr-2"
