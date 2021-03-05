@@ -20,7 +20,7 @@
             <a-select
               mode="multiple"
               placeholder="Members"
-              :value="selectedItems"
+              :value="form.member"
               style="width: 100%"
               @change="handleChange"
             >
@@ -29,6 +29,7 @@
               </a-select-option>
             </a-select>
           </a-form-model-item>
+
           <a-form-model-item label="Type" required prop="taskType" class="selectInput">
             <a-select v-model="form.taskType" placeholder="Select a Type" block>
               <a-select-option value="Web">
@@ -48,6 +49,7 @@
               </a-select-option>
             </a-select>
           </a-form-model-item>
+
           <a-form-model-item label="Date" prop="startTime">
             <a-row></a-row>
             <div>
@@ -86,7 +88,7 @@
             <a-button
               size="large"
               type="primary"
-              @click="createTask(selectedItems)"
+              @click="createTask(form.member)"
               html-type="submit"
               block
               style="text-transform: capitalize; background-color: #134F83; color:white;"
@@ -137,9 +139,10 @@ export default {
       userId: 0,
       dataMember: [],
       dataProject: null,
+      member: [],
       form: {
         taskName: '',
-        member: '',
+        member: [],
         taskType: undefined,
         taskDetail: '',
         startTime: '',
@@ -147,18 +150,20 @@ export default {
       },
       endOpen: false,
       rules: {
-        taskName: [{ required: true, message: 'Please enter Task name', trigger: 'blur' }],
-        member: [{ required: true, message: 'Please enter Task member', trigger: 'blur' }],
+        taskName: [{ required: true, message: 'Please enter Task name', trigger: 'change' }],
+        member: [{ required: true, message: 'Please enter Task member', trigger: 'change' }],
         taskType: [{ required: true, message: 'Please enter Project Type', trigger: 'change' }],
         startTime: [{ required: true, message: 'Please enter Task start date', trigger: 'change' }],
         endTime: [{ required: true, message: 'Please enter Task end date', trigger: 'change' }],
-        taskDetail: [{ required: true, message: 'Please enter Task description', trigger: 'blur' }],
+        taskDetail: [
+          { required: true, message: 'Please enter Task description', trigger: 'change' },
+        ],
       },
     }
   },
   methods: {
     handleChange(selectedItems) {
-      this.selectedItems = selectedItems
+      this.form.member = selectedItems
     },
     async createTask(value) {
       const members = this.filteredOptions.filter(item => value.includes(item.name))
@@ -189,12 +194,6 @@ export default {
               members: res,
             },
           })
-          this.taskName = ''
-          this.taskDetail = ''
-          this.taskType = ''
-          this.startTime = ''
-          this.endTime = ''
-          this.member = ''
           this.spinning = !this.spinning
           this.createRecent(this.form.taskName)
           this.$router.go(-1)
