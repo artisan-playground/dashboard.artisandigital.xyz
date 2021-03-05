@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run watch:css && craco start",
-    "build": "npm run build:css && react-scripts && craco build",
+    "build": "npm run build:css && craco build",
     "watch:css": "postcss src/styles/tailwind.css -o src/styles/tailwind-generated.css",
     "build:css": "postcss src/styles/tailwind.css -o src/styles/tailwind-generated.css --env production"
   },
