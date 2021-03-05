@@ -151,7 +151,6 @@ function TaskDetail() {
         projectId: filteredData.project.id,
       },
     })
-    refetch()
   }
 
   function onDoneClick() {
@@ -163,7 +162,6 @@ function TaskDetail() {
         projectId: filteredData.project.id,
       },
     })
-    refetch()
   }
 
   function handleSubmit() {
@@ -319,14 +317,7 @@ function TaskDetail() {
     setVisibleMember(false)
     setEditTaskVisible(false)
   }
-
-  function handleMember(value: any) {
-    const val = Number(value.reverse()[0])
-    const memberName = userDataSource.find((item: any) => item.id === val)
-    const name = memberName.name
-    setMembers((prevState) => [...prevState, { id: val }])
-    setMemberName((prevState) => [...prevState, name])
-  }
+  console.log(members)
 
   function handleAddMember() {
     updateTaskMember({
@@ -974,7 +965,16 @@ function TaskDetail() {
                     rules={[{ required: true, message: 'Please input type' }]}
                     required
                   >
-                    <Select defaultValue={type} onChange={handleChangeType}>
+                    <Select
+                      defaultValue={type}
+                      onChange={handleChangeType}
+                      filterOption={(input, option) =>
+                        option?.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      filterSort={(optionA, optionB) =>
+                        optionA.value.toLowerCase().localeCompare(optionB.value.toLowerCase())
+                      }
+                    >
                       <Option value="Data">Data</Option>
                       <Option value="Design">Design</Option>
                       <Option value="Mobile">Mobile</Option>
@@ -988,6 +988,12 @@ function TaskDetail() {
                       defaultValue={selectedName}
                       disabled
                       optionLabelProp="name"
+                      filterOption={(input, option) =>
+                        option?.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      filterSort={(optionA, optionB) =>
+                        optionA.value.toLowerCase().localeCompare(optionB.value.toLowerCase())
+                      }
                     />
                   </Form.Item>
                   <Form.Item name="Due date" label="Due date">
@@ -1100,9 +1106,19 @@ function TaskDetail() {
                   <Input.Group compact>
                     <Select
                       mode="tags"
-                      onChange={handleMember}
+                      onChange={(e: string) => {
+                        if (data && e) {
+                          setMembers((prevState) => [...prevState, { id: e[0] }])
+                        }
+                      }}
                       tokenSeparators={[', ']}
                       style={{ width: '85%' }}
+                      filterOption={(input, option) =>
+                        option?.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      filterSort={(optionA, optionB) =>
+                        optionA.value.toLowerCase().localeCompare(optionB.value.toLowerCase())
+                      }
                     >
                       {userDataSource &&
                         userDataSource
@@ -1114,7 +1130,7 @@ function TaskDetail() {
                             <Row key={item.id}>
                               <Avatar
                                 shape="circle"
-                                size="default"
+                                size="small"
                                 src={item.image ? item.image.fullPath : UnknownUserImage}
                                 alt="user"
                                 className="mr-2"

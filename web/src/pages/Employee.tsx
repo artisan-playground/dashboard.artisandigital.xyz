@@ -19,6 +19,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { EmployeeCard, LayoutDashboard, LoadingComponent } from '../components/DashboardComponent'
 import { CREATE_USER, GET_USERS } from '../services/api/user'
+import { useStoreState } from '../store'
 
 function Employee() {
   const { Text } = Typography
@@ -33,6 +34,7 @@ function Employee() {
   const [name, setName] = useState<any>()
   const [email, setEmail] = useState<any>()
   const [form] = Form.useForm()
+  const user = useStoreState((s) => s.userState.user)
 
   useEffect(() => {
     if (!error && !loading) {
@@ -145,9 +147,11 @@ function Employee() {
       <div className="px-8">
         <Row className="justify-between mb-8">
           <Row>
-            <Button type="primary" onClick={showAddEmployee}>
-              Add Employee
-            </Button>
+            {user?.role === 'ADMIN' && (
+              <Button type="primary" onClick={showAddEmployee}>
+                Add Employee
+              </Button>
+            )}
             <Modal
               visible={addEmployeeVisible}
               width={'40%'}

@@ -1,4 +1,5 @@
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons'
+import { CloseCircleOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { useMutation } from '@apollo/client'
 // @ts-ignore
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 // @ts-ignore
@@ -10,80 +11,68 @@ import {
   Divider,
   Form,
   Input,
-  Modal,
+  message,
   PageHeader,
   Row,
   Space,
   Typography,
 } from 'antd'
 import React, { useState } from 'react'
-// @ts-ignore
-import AliceCarousel from 'react-alice-carousel'
-import 'react-alice-carousel/lib/alice-carousel.css'
-import Gallery from 'react-photo-gallery'
 import { Link } from 'react-router-dom'
-import UnknownImage from '../assets/images/unknown_image.jpg'
 import { LayoutDashboard } from '../components/DashboardComponent'
+import { CREATE_CONTENT } from '../services/api/content'
+import { UPLOAD_CONTENT_IMAGE } from '../services/api/contentImage'
+import { useStoreState } from '../store'
 
 function CreateContent() {
   const { Text } = Typography
   const [subject, setSubject] = useState('')
   const [content, setContent] = useState('')
-  const [image, setImage] = useState([])
-  const [showGallery, setShowGallery] = useState(false)
-  const [collage, setCollage] = useState(false)
-  const [isModalVisible, setIsModalVisible] = useState(false)
-  const [photos, setPhotos] = useState([
-    { src: 'https://i.imgur.com/1gyXv58.png', width: 4, height: 3 },
-    { src: 'https://i.imgur.com/pJHSAQD.png', width: 4, height: 3 },
-    { src: 'https://i.imgur.com/MjyYvIm.png', width: 2, height: 1 },
-    { src: 'https://i.imgur.com/TmMHHzU.png', width: 2, height: 3 },
-    { src: 'https://i.imgur.com/CvZHABZ.png', width: 3, height: 2 },
-    { src: 'https://i.imgur.com/shJluCu.png', width: 3, height: 2 },
-    { src: 'https://i.imgur.com/7B0JlcB.png', width: 2, height: 1 },
-  ])
+  const [form] = Form.useForm()
+  const [createContent] = useMutation(CREATE_CONTENT)
+  const [uploadImage, { data: imageData }] = useMutation(UPLOAD_CONTENT_IMAGE)
+  const user = useStoreState((s) => s.userState.user)
 
-  function handleShowGallery() {
-    setShowGallery(!showGallery)
+  function onUploadImage({
+    target: {
+      validity,
+      files: [file],
+    },
+  }: any) {
+    if (validity.valid) {
+      uploadImage({ variables: { file: file } })
+    }
   }
-
-  const handleDragStart = (e: any) => e.preventDefault()
-
-  const chooseType = () => {
-    setShowGallery(false)
-    setCollage(true)
-  }
-
-  const cancelType = () => {
-    setShowGallery(false)
-    setCollage(false)
-  }
-
-  const showModal = () => {
-    setIsModalVisible(true)
-  }
-
-  const handleOk = () => {
-    setIsModalVisible(false)
-  }
-
-  const handleCancel = () => {
-    setIsModalVisible(false)
-  }
-
-  const items = [
-    <img
-      src="https://i.imgur.com/9RtFz1c.png"
-      onDragStart={handleDragStart}
-      style={{ width: 500, height: 200, marginRight: 2 }}
-      onClick={chooseType}
-    />
-  ]
-
-  const responsive = {
-    0: { items: 1 },
-    568: { items: 2 },
-    1024: { items: 3 },
+  console.log(imageData && imageData.uploadContentImage.id)
+  function handleCreateContent() {
+    if (subject !== '' && content !== '') {
+      createContent({
+        variables: {
+          subject: subject,
+          content: content,
+          userId: user?.id,
+          file: imageData ? imageData.uploadContentImage.id : 0,
+        },
+      })
+        .then((res) => {
+          setSubject(subject)
+          setContent(content)
+          window.history.back()
+        })
+        .catch((err) => {
+          message.error({
+            content: `Error : ${err}`,
+            duration: 2,
+            icon: <CloseCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+          })
+        })
+    } else {
+      message.warning({
+        content: `Please insert all field`,
+        duration: 2,
+        icon: <ExclamationCircleOutlined style={{ fontSize: 20, top: -2 }} />,
+      })
+    }
   }
 
   return (
@@ -94,7 +83,11 @@ function CreateContent() {
         </Link>
         <Breadcrumb.Item>Create content</Breadcrumb.Item>
       </Breadcrumb>
-      <PageHeader className="site-page-header" title="Create content" />
+      <PageHeader
+        className="site-page-header"
+        title="Create content"
+        onBack={() => window.history.back()}
+      />
       <Divider />
       <div className="px-8">
         <Row className="w-full">
@@ -102,98 +95,52 @@ function CreateContent() {
             <Row justify="space-between" className="w-full">
               <Col xs={12}>
                 <Space direction="horizontal">
-                  <Button type="primary" shape="circle" block onClick={handleShowGallery}>
-                    <PlusOutlined />
-                  </Button>
-                  <Text className="ml-2">Add gallery</Text>
+                  <label className="rounded-full h-8 w-8 flex items-center justify-center cursor-pointer transition delay-100 duration-300 text-white hover:text-white bg-secondary hover:bg-blue-900">
+                    <input type="file" className="invisible" multiple onChange={onUploadImage} />
+                    <div className="absolute top-1 flex items-center justify-center">
+                      <PlusOutlined className="text-xl" />
+                    </div>
+                  </label>
+                  <Text className="ml-2">Add image</Text>
                 </Space>
               </Col>
               <Col xs={12} className="flex items-center justify-end">
-                <Button onClick={() => window.history.back()} className="mr-4">
-                  Cancel
-                </Button>
-                <Button type="primary">Submit</Button>
+                <Form.Item>
+                  <Button onClick={() => window.history.back()} className="mr-4">
+                    Cancel
+                  </Button>
+                </Form.Item>
+                <Form.Item shouldUpdate={true}>
+                  {() => (
+                    <Button
+                      type="primary"
+                      onClick={handleCreateContent}
+                      disabled={
+                        !form.isFieldsTouched(true) ||
+                        !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                      }
+                    >
+                      Submit
+                    </Button>
+                  )}
+                </Form.Item>
               </Col>
             </Row>
           </Col>
 
-          <Row className="w-full mb-4">
-            {showGallery ? (
-              <div className="static">
-                <AliceCarousel
-                  mouseTracking
-                  items={items}
-                  paddingLeft={50}
-                  paddingRight={50}
-                  responsive={responsive}
-                  disableButtonsControls={true}
-                  disableDotsControls={true}
-                />
-              </div>
-            ) : collage ? (
-              <Row>
-                <Button onClick={showModal} className="mr-4 mb-4">
-                  Manage Image
-                </Button>
-                <Modal
-                  title={<Text className="font-bold">Organize your gallery</Text>}
-                  width={'80%'}
-                  visible={isModalVisible}
-                  onOk={handleOk}
-                  onCancel={handleCancel}
-                >
-                  <Row justify="space-between" className="w-full">
-                    <Col xs={24}>
-                      <Row justify="space-between" className="w-full">
-                        <Col xs={15}>
-                          <Row justify="space-between" className="w-full">
-                            <Space direction="horizontal" size={2}>
-                              <Text className="text-blue-700">Select</Text>
-                              <Text type="secondary">|</Text>
-                              <Button type="text">Select all</Button>
-                              <Text type="secondary">|</Text>
-                              <Button type="text" className="text-red-600">
-                                Delete
-                              </Button>
-                            </Space>
-
-                            <Col>
-                              <Button type="primary">
-                                <PlusOutlined />
-                                Image
-                              </Button>
-                            </Col>
-                          </Row>
-                          <Divider />
-                        </Col>
-
-                        <Col xs={9} className="flex items-center justify-center">
-                          <Divider type="vertical" className="h-full" />
-
-                          <img
-                            src={UnknownImage}
-                            alt="unknown-image"
-                            onDragStart={handleDragStart}
-                            style={{ width: 300, height: 200 }}
-                          />
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </Modal>
-                <Button onClick={cancelType}>
-                  <DeleteOutlined />
-                </Button>
-                <Gallery photos={photos} />
-              </Row>
-            ) : (
-              <Row className="p-24"></Row>
+          <Row className="w-full mb-4 flex justify-center">
+            {imageData && (
+              <img
+                src={imageData && imageData.uploadContentImage.fullPath}
+                width={500}
+                alt="content"
+              />
             )}
           </Row>
 
           <Row className="w-full">
-            <Form layout="vertical" className="w-full">
-              <Text className="font-bold">Add detail</Text>
+            <Text className="font-bold mb-4">Add detail</Text>
+            <Form layout="vertical" form={form} className="w-full">
               <Form.Item
                 name="Subject"
                 label="Subject"
@@ -217,11 +164,6 @@ function CreateContent() {
                     const data = editor.getData()
                     setContent(data)
                   }}
-                  onInit={(editor: any) => {
-                    editor.editing.view.change((writer: any) => {
-                      writer.setStyle('height', '200px', editor.editing.view.document.getRoot())
-                    })
-                  }}
                   config={{
                     toolbar: {
                       items: [
@@ -233,14 +175,10 @@ function CreateContent() {
                         'bulletedList',
                         'numberedList',
                         'alignment',
-                        'imageUpload',
                         'blockQuote',
                         'undo',
                         'redo',
                       ],
-                    },
-                    alignment: {
-                      options: ['left', 'right', 'center', 'justify'],
                     },
                   }}
                 />
