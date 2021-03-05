@@ -1,23 +1,21 @@
 <template>
   <div>
-    <ToolbarBackHome msg="Over due" />
+    <ToolbarBack msg="Over due" />
     <br />
-    <div style="margin-top:60px;"></div>
-    <OverdueTask />
-    <BarRouter />
+    <div style="margin-top:60px;">
+      <OverdueTask />
+    </div>
   </div>
 </template>
 
 <script>
-import ToolbarBackHome from '@/components/ToolbarBackHome.vue'
+import ToolbarBack from '@/components/ToolbarBack.vue'
 import OverdueTask from '@/components/OverdueTask.vue'
-import BarRouter from '@/components/BarRouter.vue'
 export default {
   name: 'MyOverdueTask',
   components: {
-    ToolbarBackHome,
+    ToolbarBack,
     OverdueTask,
-    BarRouter,
   },
 }
 </script>

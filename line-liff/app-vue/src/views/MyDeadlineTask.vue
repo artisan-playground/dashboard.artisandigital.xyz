@@ -1,23 +1,21 @@
 <template>
   <div>
-    <ToolbarBackHome msg="Deadline" />
+    <ToolbarBack msg="Deadline" />
     <br />
-    <div style="margin-top:60px;"></div>
-    <DeadlineTask />
-    <BarRouter />
+    <div style="margin-top:60px;">
+      <DeadlineTask />
+    </div>
   </div>
 </template>
 
 <script>
-import ToolbarBackHome from '@/components/ToolbarBackHome.vue'
+import ToolbarBack from '@/components/ToolbarBack.vue'
 import DeadlineTask from '@/components/DeadlineTask.vue'
-import BarRouter from '@/components/BarRouter.vue'
 export default {
   name: 'MyDeadlineTask',
   components: {
-    ToolbarBackHome,
+    ToolbarBack,
     DeadlineTask,
-    BarRouter,
   },
 }
 </script>

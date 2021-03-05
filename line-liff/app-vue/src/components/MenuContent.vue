@@ -1,59 +1,62 @@
 <template>
-  <div style="margin:10px 18px 0px 18px">
-    <div class="menuContent">
+  <div class="menuContent">
+    <div>
       <a-row :gutter="[0, 16]">
         <a-col>
-          <a-card
-            :bordered="false"
-            class="overDue"
-            style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius:4px;"
-          >
-            <div style="float:right;">
-              <div class="num-task">
-                {{ numOverDue }}
+          <router-link to="/MyOverdueTask">
+            <a-card
+              :bordered="false"
+              class="overDue"
+              style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius:4px;"
+            >
+              <div style="float:right;">
+                <div class="num-task">
+                  {{ numOverDue }}
+                </div>
+                <div class="name-task">
+                  Over due
+                </div>
               </div>
-              <div class="name-task">
-                Over due
-              </div>
-            </div>
-          </a-card>
+            </a-card>
+          </router-link>
         </a-col>
         <a-col>
-          <a-card
-            :bordered="false"
-            class="deadline"
-            style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius:4px;"
-          >
-            <div style="float:right;">
-              <div class="num-task">
-                {{ numDeadline }}
+          <router-link to="/MyDeadlineTask">
+            <a-card
+              :bordered="false"
+              class="deadline"
+              style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius:4px;"
+            >
+              <div style="float:right;">
+                <div class="num-task">
+                  {{ numDeadline }}
+                </div>
+                <div class="name-task">
+                  Deadline
+                </div>
               </div>
-              <div class="name-task">
-                Deadline
-              </div>
-            </div>
-          </a-card>
+            </a-card>
+          </router-link>
         </a-col>
         <a-col>
-          <a-card
-            :bordered="false"
-            class="todaytask"
-            style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius:4px;"
-          >
-            <div style="float:right;">
-              <div class="num-task">
-                {{ numTodayTask }}
+          <router-link to="/MyTodayTask">
+            <a-card
+              :bordered="false"
+              class="todaytask"
+              style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); border-radius:4px;"
+            >
+              <div style="float:right;">
+                <div class="num-task">
+                  {{ numTodayTask }}
+                </div>
+                <div class="name-task">
+                  My today's task
+                </div>
               </div>
-              <div class="name-task">
-                My today's task
-              </div>
-            </div>
-          </a-card>
+            </a-card>
+          </router-link>
         </a-col>
       </a-row>
-    </div>
-    <div style="padding-bottom:80px">
-      <!-- ระยะห่าง manu ข้างล่างกับ content -->
     </div>
   </div>
 </template>
@@ -70,6 +73,7 @@ export default {
           userId: this.userId,
         }
       },
+      fetchPolicy: 'cache-and-network',
       update(data) {
         this.dataUserId = data.user.id
         this.dataTask = data.user.tasks
@@ -99,20 +103,28 @@ export default {
       this.userId = get.Auth.user.id
     },
     deadlineFunc() {
-      let doneTaskTemp = 0
+      let deadlineTaskTemp = 0
+      const currentDate = new Date(this.currentDate)
       this.dataTask.filter(value => {
-        if (value.isDone == true) {
-          doneTaskTemp += 1
+        let endDate = new Date(value.endTime)
+        const numberDate = parseInt(
+          (endDate.getTime() - currentDate.getTime()) / (24 * 3600 * 1000)
+        )
+        if (value.isDone == false && numberDate >= 0 && numberDate < 3) {
+          deadlineTaskTemp += 1
         }
       })
-      this.numDoneTask = doneTaskTemp
+      this.numDeadline = deadlineTaskTemp
     },
     todayTaskFunc() {
       let todayTaskTemp = 0
       var currentDate = new Date(this.currentDate)
       this.dataTask.filter(value => {
         let endDate = new Date(value.endTime)
-        if (value.isDone == false && endDate > currentDate) {
+        const numberDate = parseInt(
+          (endDate.getTime() - currentDate.getTime()) / (24 * 3600 * 1000)
+        )
+        if (value.isDone == false && endDate > currentDate && numberDate >= 3) {
           todayTaskTemp += 1
         }
       })
@@ -134,6 +146,10 @@ export default {
 </script>
 
 <style scoped>
+.menuContent {
+  margin: 10px 18px 0px 18px;
+  padding: 0 0 80px;
+}
 .overDue {
   background-image: url('../assets/menu-content/overDue.svg');
   background-size: cover;

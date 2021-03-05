@@ -1,54 +1,10 @@
-<template>
-  <div class="TaskChart">
-    <vc-donut
-      v-if="task == ''"
-      hasLegend
-      :thickness="35"
-      legendPlacement="bottom"
-      :sections="[
-        { value: 0, label: 'Done Task', color: '#00ACB3' },
-        { value: 0, label: `Today's task`, color: '#FECA7A' },
-        { value: 0, label: 'Over due', color: '#D84774' },
-      ]"
-      :total="100"
-    >
-      <div style="font-size:35px; color:#134F83; font-weight:600;">
-        {{ '0.00' }}
-      </div>
-      <div>
-        Done Task
-      </div>
-    </vc-donut>
-
-    <vc-donut
-      v-else
-      hasLegend
-      :thickness="35"
-      legendPlacement="bottom"
-      :sections="[
-        { value: doneTask, label: 'Done Task', color: '#00ACB3' },
-        { value: todayTask, label: `Today's task`, color: '#FECA7A' },
-        { value: overDue, label: 'Over due', color: '#D84774' },
-      ]"
-      :total="task.length"
-    >
-      <div v-if="doneTask == 0" style="font-size:35px; color:#134F83; font-weight:600;">
-        {{ '0.00' }}
-      </div>
-      <div v-else style="font-size:35px; color:#134F83; font-weight:600;">
-        {{ ((doneTask * 100) / task.length).toFixed(2) }}%
-      </div>
-      <div>
-        Done Task
-      </div>
-    </vc-donut>
-  </div>
-</template>
-
 <script>
 import * as gqlQueryUser from '../constants/user'
+import { Doughnut } from '../../node_modules/vue-chartjs/src/BaseCharts'
+const get = JSON.parse(localStorage.getItem('vuex'))
 export default {
-  name: 'DonutChart',
+  name: 'donutchart',
+  extends: Doughnut,
   apollo: {
     getUser: {
       query: gqlQueryUser.MEMBER_QUERY,
@@ -74,52 +30,70 @@ export default {
       doneTask: 0,
       todayTask: 0,
       overDue: 0,
-      dataTask: null,
+      dataTask: [],
       dataUserId: 0,
       userId: 0,
     }
   },
-  mounted() {
-    this.getData()
+  async mounted() {
+    await this.getData()
+    await this.$apollo.queries.getUser.refetch()
+    await this.doneTaskFunc()
+    await this.todayTaskFunc()
+    await this.overDueFunc()
+    await this.renderChart(
+      {
+        labels: ['Done Task', `Today's task`, 'Over due'],
+        datasets: [
+          {
+            label: 'Tasks Status',
+            backgroundColor: ['#00ACB3', '#FECA7A', '#D84774'],
+            data: [this.doneTask, this.todayTask, this.overDue],
+          },
+        ],
+      },
+      { responsive: false }
+    )
   },
   methods: {
     getData() {
-      const get = JSON.parse(localStorage.getItem('vuex'))
       this.userId = get.Auth.user.id
     },
     doneTaskFunc() {
       let doneTaskTemp = 0
-      this.dataTask.filter(value => {
-        if (value.isDone == true) {
-          doneTaskTemp += 1
-        }
-      })
+      this.dataTask &&
+        this.dataTask.filter(value => {
+          if (value.isDone == true) {
+            doneTaskTemp += 1
+          }
+        })
       this.doneTask = doneTaskTemp
     },
     todayTaskFunc() {
       let todayTaskTemp = 0
       var currentDate = new Date(this.currentDate)
-      this.dataTask.filter(value => {
-        let endDate = new Date(value.endTime)
-        if (value.isDone == false && endDate > currentDate) {
-          todayTaskTemp += 1
-        }
-      })
+      this.dataTask &&
+        this.dataTask.filter(value => {
+          let endDate = new Date(value.endTime)
+          if (value.isDone == false && endDate > currentDate) {
+            todayTaskTemp += 1
+          }
+        })
       this.todayTask = todayTaskTemp
     },
     overDueFunc() {
       let overDueTemp = 0
       const currentDate = new Date(this.currentDate)
-      this.dataTask.filter(value => {
-        let endDate = new Date(value.endTime)
-        if (value.isDone == false && endDate < currentDate) {
-          overDueTemp += 1
-        }
-      })
+      this.dataTask &&
+        this.dataTask.filter(value => {
+          let endDate = new Date(value.endTime)
+          if (value.isDone == false && endDate < currentDate) {
+            overDueTemp += 1
+          }
+        })
       this.overDue = overDueTemp
     },
   },
-  computed: {},
 }
 </script>
 

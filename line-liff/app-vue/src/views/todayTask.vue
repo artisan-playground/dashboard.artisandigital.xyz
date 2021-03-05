@@ -2,88 +2,99 @@
   <div>
     <ToolbarBack msg="Today Task" />
     <br />
-    <div style="margin-top:60px;"></div>
-    <div v-if="emptyTask == 0" class="noData" style="height:500px;">
-      <a-empty />
-    </div>
-    <div v-else>
-      <div
-        v-for="task in dataTask"
-        :key="task.id"
-        style="margin-top:15px; margin-left:15px; margin-right:15px;"
-      >
-        <a-card v-if="!task.isDone" :bodyStyle="{ padding: '15px' }" id="card" align="left">
-          <router-link :to="{ name: 'taskDetail', params: { id: task.id } }">
-            <div>
-              <a-row type="flex" justify="space-between">
-                <a-col :span="18" align="left">
-                  <a-row>
-                    <b style="color:black;">
-                      {{ task.taskName }} <a-icon style="color:#105EFB" type="paper-clip" /><a-icon
-                        style="color:#105EFB"
-                        type="message"
-                      />
-                    </b>
-                  </a-row>
-                  <a-row id="position">
-                    {{ $dayjs(task.startTime).format('DD MMM YY ') }}
-                  </a-row>
-                </a-col>
-                <a-col :span="4" id="status">
-                  <a-tag
-                    color="red"
-                    style="float:right; margin-right:0px;"
-                    v-if="task.isDone == false"
-                  >
-                    <span
-                      id="iconStatus"
-                      class="iconify"
-                      data-inline="false"
-                      data-icon="carbon:warning"
-                    ></span>
-                    WIP
-                  </a-tag>
-                  <a-tag color="green" style="margin-right: 0px;" v-if="task.isDone == true">
-                    <span
-                      id="iconStatus"
-                      class="iconify"
-                      data-inline="false"
-                      data-icon="octicon:check-circle-24"
-                    ></span>
-                    Done
-                  </a-tag>
-                </a-col>
-              </a-row>
-              <a-row>
-                <div style="color:black;" class="content">{{ task.taskDetail }}</div>
-              </a-row>
+    <div style="margin-top:60px;  margin-left:15px; margin-right:15px;">
+      <div>
+        <a-row style="margin-bottom:1.5rem" id="antInput">
+          <a-input-search v-model="search" type="search" placeholder=" input search text" />
+        </a-row>
+      </div>
+      <div v-if="emptyTask == 0" class="noData">
+        <a-empty />
+      </div>
+      <div v-else>
+        <div v-for="task in taskFilter" :key="task.id" style="margin-top:15px;">
+          <a-card :bodyStyle="{ padding: '15px' }" id="card" align="left">
+            <router-link :to="{ name: 'TaskDetail', params: { id: task.id } }">
+              <div>
+                <a-row type="flex" justify="space-between">
+                  <a-col :span="18" align="left">
+                    <a-row>
+                      <b class="taskNameFont">
+                        {{ task.taskName }}
+                        <span v-if="task.files.length > 0">
+                          <a-icon id="iconTask" type="paper-clip" />
+                        </span>
+                        <span v-if="task.comments.length > 0">
+                          <a-icon id="iconTask" type="message" />
+                        </span>
+                      </b>
+                    </a-row>
+                    <a-row id="position">
+                      {{ $dayjs(task.startTime).format('DD MMM YY ') }}
+                      <span>
+                        Time
+                        {{ $dayjs(task.startTime).format('HH:mm') }}
+                      </span>
+                    </a-row>
+                  </a-col>
+                  <a-col :span="4" id="status">
+                    <a-tag color="red" class="status-tag" v-if="task.isDone == false">
+                      <span
+                        id="iconStatus"
+                        class="iconify"
+                        data-inline="false"
+                        data-icon="carbon:warning"
+                      ></span>
+                      WIP
+                    </a-tag>
+                  </a-col>
+                </a-row>
+                <a-row>
+                  <div class="content">{{ task.taskDetail }}</div>
+                </a-row>
 
-              <!-- list members -->
-              <a-row>
-                <a-col>
-                  <div style="float:right">
-                    <vs-avatar-group float max="4">
-                      <vs-avatar
-                        v-for="member in task.members"
+                <!-- list members -->
+                <a-row>
+                  <a-col>
+                    <div class="listMember">
+                      <div
+                        v-for="member in task.members.slice(0, 3)"
                         :key="member.id"
-                        style="border-radius: 100%; margin-left:3px; width:33px; height:33px;"
+                        style="display:inline; margin: 0 2px;"
                       >
-                        <img
-                          style="z-index:1;"
+                        <a-avatar
                           v-bind:src="
                             member.image ? member.image.fullPath : require('../assets/user.svg')
                           "
                         />
-                      </vs-avatar>
-                    </vs-avatar-group>
-                  </div>
-                </a-col>
-              </a-row>
-            </div>
-          </router-link>
-        </a-card>
+                      </div>
+
+                      <div v-if="task.members.length >= 4" style="display:inline;">
+                        <div
+                          v-for="member in task.members.slice(3, 4)"
+                          :key="member.id"
+                          style="display:inline; margin: 0 2px;"
+                        >
+                          <a-avatar class="avatar-plus">
+                            <a-icon slot="icon" type="plus" />
+                          </a-avatar>
+                          <a-avatar
+                            v-bind:src="
+                              member.image ? member.image.fullPath : require('../assets/user.svg')
+                            "
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </a-col>
+                </a-row>
+              </div>
+            </router-link>
+          </a-card>
+        </div>
       </div>
     </div>
+
     <div style="padding-bottom:70px">
       <!-- ระยะห่าง manu ข้างล่างกับ content -->
     </div>
@@ -105,6 +116,7 @@ export default {
     return {
       dataProject: null,
       dataTask: [],
+      search: '',
     }
   },
   apollo: {
@@ -122,6 +134,17 @@ export default {
     },
   },
   computed: {
+    taskFilter() {
+      let text = this.search.trim()
+      return this.dataTask.filter(item => {
+        if (item.isDone == false) {
+          return (
+            (item.taskName && item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.taskDetail && item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
+          )
+        }
+      })
+    },
     emptyTask() {
       let statusTask = 0
       return this.dataTask.filter(value => {
