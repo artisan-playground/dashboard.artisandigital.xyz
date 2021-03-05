@@ -23,7 +23,7 @@ function WelcomeCard({ data }: any) {
           }
         />
         <div className="absolute right-0 bottom-0 overflow-hidden -mb-2">
-          <img src={Welcomeimage} style={{ width: 400 }} alt="welcome-image" />
+          <img src={Welcomeimage} style={{ width: 400 }} alt="welcome" />
         </div>
       </Link>
     </Card>

@@ -295,6 +295,7 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
               title={<Text className="font-bold">Edit {data.projectName}</Text>}
               onCancel={handleCancel}
               footer={null}
+              centered={true}
             >
               <Row className="px-24 w-full" justify="space-between">
                 <Col xs={8} lg={12}>
@@ -308,7 +309,7 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
                               : data.projectImage.fullPath
                           }
                           className="w-64 h-48"
-                          alt="project-image"
+                          alt="project"
                         />
                       </Spin>
                     ) : (
@@ -319,7 +320,7 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
                             : data.projectImage.fullPath
                         }
                         className="w-64 h-48"
-                        alt="project-image"
+                        alt="project"
                       />
                     )}
 
@@ -426,6 +427,7 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
                       }
                       onCancel={handleConfirmCancel}
                       onOk={handleEditProject}
+                      centered={true}
                     >
                       <Text>You confirm to edit this project.</Text>
                     </Modal>
@@ -438,6 +440,7 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
                       }
                       onCancel={handleDeleteCancel}
                       onOk={handleDeleteProject}
+                      centered={true}
                     >
                       <Text>You confirm to delete this project.</Text>
                     </Modal>

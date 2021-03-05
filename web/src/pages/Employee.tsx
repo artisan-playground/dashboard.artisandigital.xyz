@@ -67,7 +67,7 @@ function Employee() {
           break
       }
     }
-  }, [types, loading, error, data])
+  }, [types, loading, error, data, filterloading])
 
   function handleKeywordChange(e: any) {
     setLoading(true)
@@ -154,6 +154,7 @@ function Employee() {
               title={<Text className="font-bold">Add employee</Text>}
               onCancel={handleCancel}
               footer={null}
+              centered={true}
             >
               <Form layout="vertical" form={form}>
                 <Form.Item
@@ -162,7 +163,7 @@ function Employee() {
                   rules={[
                     { required: true, message: 'Please input email' },
                     {
-                      pattern: /([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@artisan([\.])co([\.])th/g,
+                      pattern: /([a-zA-Z0-9]+)([.{1}])?([a-zA-Z0-9]+)@artisan([.])co([.])th/g,
                       message: 'Email must be @artisan.co.th',
                     },
                   ]}

@@ -289,6 +289,7 @@ function Member() {
                 visible={visible}
                 onCancel={handleCancel}
                 footer={null}
+                centered={true}
               >
                 <Form className="mt-8" {...formItemLayout}>
                   <Form.Item

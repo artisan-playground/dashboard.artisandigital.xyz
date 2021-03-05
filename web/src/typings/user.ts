@@ -1,10 +1,12 @@
+import { Project } from './project'
+
 export interface User {
   id: string
   email: string
   name: string
   image: any
   position: string
-  skills: string[]
+  projects: Project[]
   role: string
 }
 

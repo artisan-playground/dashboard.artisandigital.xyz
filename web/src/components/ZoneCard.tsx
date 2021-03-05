@@ -90,6 +90,7 @@ function ZoneCard({ data, refetch }: any) {
                     visible={isModalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
+                    centered={true}
                   >
                     <Text>You can't undo this action. Are you sure to delete {data.name}</Text>
                   </Modal>

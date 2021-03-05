@@ -70,7 +70,7 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
       setStartDate(data.startDate)
       setDueDate(data.dueDate)
     }
-  }, [data, loading, error])
+  }, [data, loading, error, imageData, imageUpdateData])
 
   function handleChangePosition(value: any) {
     setPosition(value)
@@ -181,7 +181,7 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
     <Card
       hoverable
       extra={
-        user?.role === 'ADMIN' && (
+        user?.role === 'ADMIN' ? (
           <Row className="border-none">
             <Button
               className="absolute top-2 right-2 text-blue-700 hover:text-blue-700 focus:text-blue-700 z-40"
@@ -192,6 +192,8 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
               <EditOutlined />
             </Button>
           </Row>
+        ) : (
+          <Row className="border-none"></Row>
         )
       }
       cover={
@@ -235,6 +237,7 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
           title={<Text className="font-bold">Edit employee</Text>}
           onCancel={handleCancel}
           footer={null}
+          centered={true}
         >
           <Row className="px-24 w-full" justify="space-between">
             <Col xs={8} lg={12}>
@@ -316,7 +319,11 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
                   rules={[{ required: true, message: 'Please select jop position' }]}
                   required
                 >
-                  <Select defaultValue={position} onChange={handleChangePosition}>
+                  <Select
+                    value={position !== '' ? position : undefined}
+                    placeholder="Please select jop position"
+                    onChange={handleChangePosition}
+                  >
                     <Option value="Account Executive">Account Executive</Option>
                     <Option value="Accountant & Administrator">Accountant & Administrator</Option>
                     <Option value="Back - End Developer">Back - End Developer</Option>
@@ -345,7 +352,11 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
                   rules={[{ required: true, message: 'Please select department' }]}
                   required
                 >
-                  <Select defaultValue={department} onChange={handleChangeDepartment}>
+                  <Select
+                    value={department !== '' ? department : undefined}
+                    placeholder="Please select department"
+                    onChange={handleChangeDepartment}
+                  >
                     <Option value="HR/Admin">HR/Admin</Option>
                     <Option value="Development">Development</Option>
                     <Option value="Design">Design</Option>
