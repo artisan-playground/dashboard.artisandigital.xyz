@@ -66,7 +66,7 @@
             <a-select
               mode="multiple"
               placeholder="Members"
-              :value="selectedItems"
+              :value="form.member"
               style="width: 100%"
               @change="handleChange"
             >
@@ -89,7 +89,7 @@
             <a-button
               type="primary"
               size="large"
-              @click="createProject(selectedItems)"
+              @click="createProject(form.member)"
               html-type="submit"
               block
               style="text-transform: capitalize; background-color: #134F83; color:white;"
@@ -135,13 +135,14 @@ export default {
         projectImg: '',
         projectType: undefined,
         projectDetail: '',
+        member: [],
         dueDate: '',
       },
       rules: {
         projectName: [{ required: true, message: 'Please enter Project name', trigger: 'blur' }],
         projectImg: [{ required: true, message: 'Please enter Project Image', trigger: 'change' }],
         projectType: [{ required: true, message: 'Please enter Project Type', trigger: 'change' }],
-        member: [{ required: true, message: 'Please enter Project member', trigger: 'blur' }],
+        member: [{ required: true, message: 'Please enter Project member', trigger: 'change' }],
         dueDate: [{ required: true, message: 'Please enter Project due date', trigger: 'change' }],
         projectDetail: [
           { required: true, message: 'Please enter url description', trigger: 'blur' },
@@ -151,9 +152,10 @@ export default {
   },
   methods: {
     handleChange(selectedItems) {
-      this.selectedItems = selectedItems
+      this.form.member = selectedItems
     },
     async createProject(value) {
+      console.log(value)
       const members = this.filteredOptions.filter(item => value.includes(item.name))
       const memId = members.map(data => data.id)
       const res = memId.map(data => {
