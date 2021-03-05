@@ -3,31 +3,19 @@ import { useMutation } from '@apollo/client'
 import { Button, Card, Col, Modal, Row, Space, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { DELETE_ZONE, UPDATE_SHOW_ZONE } from '../services/api/zone'
+import { DELETE_FORM } from '../services/api/form'
 
 function FormCard({ data, refetch }: any) {
   const { Text } = Typography
-  const [updateZone] = useMutation(UPDATE_SHOW_ZONE)
-  const [deleteZone] = useMutation(DELETE_ZONE)
-  const [check, setCheck] = useState(data.open)
+  const [deleteForm] = useMutation(DELETE_FORM)
   const [isModalVisible, setIsModalVisible] = useState(false)
-
-  function onChange(checked: any) {
-    setCheck(!checked)
-    updateZone({
-      variables: {
-        id: data.id,
-        open: checked,
-      },
-    })
-  }
 
   function showModal() {
     setIsModalVisible(true)
   }
 
   function handleOk() {
-    deleteZone({
+    deleteForm({
       variables: {
         id: data.id,
       },
@@ -48,11 +36,10 @@ function FormCard({ data, refetch }: any) {
             <Row justify="space-between">
               <Col xs={18}>
                 <Space direction="vertical" size={2}>
-                  <Text className="font-bold text-base text-blue-700">{data.name}</Text>
+                  <Text className="font-bold text-base text-blue-700">{`Leave Type: ${data.leaveType}`}</Text>
                   <Text type="secondary" className="text-sm">
-                    GPS Zone
+                    Leave Form
                   </Text>
-                  <Text className="text-sm">{`Questions: ${data.latitude}`}</Text>
                 </Space>
               </Col>
               <Col xs={6}>

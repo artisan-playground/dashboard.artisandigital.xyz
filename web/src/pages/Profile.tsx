@@ -308,7 +308,12 @@ function Profile() {
   }
 
   function onChangeDate(_: any, dateString: any) {
-    setDueDate(dateString[0])
+    if (dateString.length === 1) {
+      setStartDate(dateString[0])
+    } else if (dateString.length === 2) {
+      setStartDate(dateString[0])
+      setDueDate(dateString[1])
+    }
   }
 
   function handleChangePaginationProject(page: any) {

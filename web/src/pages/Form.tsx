@@ -1,16 +1,36 @@
 import { SearchOutlined } from '@ant-design/icons'
+import { useQuery } from '@apollo/client'
 import { Breadcrumb, Button, Col, Divider, Empty, Input, PageHeader, Row, Typography } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FormCard, LayoutDashboard, LoadingComponent } from '../components/DashboardComponent'
+import { GET_FORMS } from '../services/api/form'
 
 function Form() {
   const { Text } = Typography
   const [filteredData, setFilteredData] = useState<any[]>([])
   const [types, setTypes] = useState('all')
   const [keyword, setKeyword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+  const { loading, error, data, refetch } = useQuery(GET_FORMS)
+
+  useEffect(() => {
+    if (!error && !loading) {
+      setFilteredData(data.forms)
+    }
+  }, [types, loading, error, data])
+
+  function handleKeywordChange(e: any) {
+    setKeyword(e.target.value)
+    if (e.target.value === '') {
+      setFilteredData(data.forms)
+    } else {
+      const kw: any[] = data.forms.filter((item: any) => {
+        return item.leaveType.toLowerCase().includes(e.target.value.toLowerCase())
+      })
+
+      setFilteredData(kw)
+    }
+  }
 
   return (
     <LayoutDashboard>
@@ -29,8 +49,9 @@ function Form() {
 
           <Row>
             <Input
-              placeholder="Search form"
+              placeholder="Search form type"
               value={keyword}
+              onChange={handleKeywordChange}
               suffix={<SearchOutlined type="secondary" />}
               className="w-96"
             />
@@ -52,7 +73,7 @@ function Form() {
                   <div className="flex w-full justify-center my-8">
                     <Empty
                       image={Empty.PRESENTED_IMAGE_SIMPLE}
-                      description={<Text disabled>No Form Found</Text>}
+                      description={<Text disabled>No Form type</Text>}
                     />
                   </div>
                 )
