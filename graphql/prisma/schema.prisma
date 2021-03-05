@@ -158,6 +158,20 @@ model RecentActivity {
   projectId  Int
 }
 
+model Form {
+  id          Int       @id @default(autoincrement())
+  firstName   String?
+  lastName    String?
+  email       String?
+  phone       String?
+  position    String?
+  leaveStart  DateTime?
+  leaveEnd    DateTime?
+  leaveType   String
+  leaveDetail String?
+  createdAt   DateTime? @default(now())
+}
+
 enum Role {
   ADMIN
   USER
