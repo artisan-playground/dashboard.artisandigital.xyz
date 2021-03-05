@@ -1,0 +1,41 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "Form",
+      "field": "firstName",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Form",
+      "field": "lastName",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Form",
+      "field": "email",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Form",
+      "field": "phone",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Form",
+      "field": "position",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Form",
+      "field": "leaveDetail",
+      "arity": "Optional"
+    }
+  ]
+}
