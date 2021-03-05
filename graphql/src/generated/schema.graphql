@@ -624,6 +624,50 @@ input FileWhereUniqueInput {
   id: Int
 }
 
+type Form {
+  createdAt: DateTime
+  email: String
+  firstName: String
+  id: Int!
+  lastName: String
+  leaveDetail: String
+  leaveEnd: DateTime
+  leaveStart: DateTime
+  leaveType: String!
+  phone: String
+  position: String
+}
+
+input FormCreateInput {
+  createdAt: DateTime
+  email: String
+  firstName: String
+  lastName: String
+  leaveDetail: String
+  leaveEnd: DateTime
+  leaveStart: DateTime
+  leaveType: String!
+  phone: String
+  position: String
+}
+
+input FormUpdateInput {
+  createdAt: NullableDateTimeFieldUpdateOperationsInput
+  email: NullableStringFieldUpdateOperationsInput
+  firstName: NullableStringFieldUpdateOperationsInput
+  lastName: NullableStringFieldUpdateOperationsInput
+  leaveDetail: NullableStringFieldUpdateOperationsInput
+  leaveEnd: NullableDateTimeFieldUpdateOperationsInput
+  leaveStart: NullableDateTimeFieldUpdateOperationsInput
+  leaveType: StringFieldUpdateOperationsInput
+  phone: NullableStringFieldUpdateOperationsInput
+  position: NullableStringFieldUpdateOperationsInput
+}
+
+input FormWhereUniqueInput {
+  id: Int
+}
+
 type Image {
   endpoint: String!
   extension: String!
@@ -709,6 +753,7 @@ type Mutation {
   createOneContent(data: ContentCreateInput!): Content!
   createOneEvent(data: EventCreateInput!): Event!
   createOneFile(data: FileCreateInput!): File!
+  createOneForm(data: FormCreateInput!): Form!
   createOneNotification(data: NotificationCreateInput!): Notification!
   createOneProject(data: ProjectCreateInput!): Project!
   createOneRecentActivity(data: RecentActivityCreateInput!): RecentActivity!
@@ -719,6 +764,7 @@ type Mutation {
   deleteOneContent(where: ContentWhereUniqueInput!): Content
   deleteOneEvent(where: EventWhereUniqueInput!): Event
   deleteOneFile(where: FileWhereUniqueInput!): File
+  deleteOneForm(where: FormWhereUniqueInput!): Form
   deleteOneProject(where: ProjectWhereUniqueInput!): Project
   deleteOneRecentActivity(where: RecentActivityWhereUniqueInput!): RecentActivity
   deleteOneTask(where: TaskWhereUniqueInput!): Task
@@ -730,6 +776,7 @@ type Mutation {
   updateOneComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
   updateOneContent(data: ContentUpdateInput!, where: ContentWhereUniqueInput!): Content
   updateOneEvent(data: EventUpdateInput!, where: EventWhereUniqueInput!): Event
+  updateOneForm(data: FormUpdateInput!, where: FormWhereUniqueInput!): Form
   updateOneNotification(data: NotificationUpdateInput!, where: NotificationWhereUniqueInput!): Notification
   updateOneProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
   updateOneRecentActivity(data: RecentActivityUpdateInput!, where: RecentActivityWhereUniqueInput!): RecentActivity
@@ -1223,11 +1270,13 @@ type Query {
   contents(after: ContentWhereUniqueInput, before: ContentWhereUniqueInput, first: Int, last: Int): [Content!]!
   events(after: EventWhereUniqueInput, before: EventWhereUniqueInput, first: Int, last: Int): [Event!]!
   files(after: FileWhereUniqueInput, before: FileWhereUniqueInput, first: Int, last: Int): [File!]!
+  forms(after: FormWhereUniqueInput, before: FormWhereUniqueInput, first: Int, last: Int): [Form!]!
   getCommentById(id: Int!): Comment
   getContentById(id: Int!): Content
   getContentImageById(id: Int!): ContentImage
   getEventById(id: Int!): Event
   getFileById(id: Int!): File
+  getFormById(id: Int!): Form
   getImageById(id: Int!): Image
   getProjectImageById(id: Int!): ProjectImage
   getRecentActivityById(id: Int!): RecentActivity

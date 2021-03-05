@@ -3,7 +3,7 @@ import { GraphQLUpload } from "apollo-server";
 import {
   DateTimeResolver,
   JSONObjectResolver,
-  JSONResolver,
+  JSONResolver
 } from "graphql-scalars";
 import { nexusPrisma } from "nexus-plugin-prisma";
 import { join } from "path";

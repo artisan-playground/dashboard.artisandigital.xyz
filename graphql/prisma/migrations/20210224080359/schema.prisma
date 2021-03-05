@@ -4,7 +4,7 @@ generator prisma_client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model User {
@@ -160,16 +160,15 @@ model RecentActivity {
 
 model Form {
   id          Int       @id @default(autoincrement())
-  firstName   String?
-  lastName    String?
-  email       String?
-  phone       String?
-  position    String?
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  position    String
   leaveStart  DateTime?
   leaveEnd    DateTime?
   leaveType   String
-  leaveDetail String?
-  createdAt   DateTime? @default(now())
+  leaveDetail String
 }
 
 enum Role {
