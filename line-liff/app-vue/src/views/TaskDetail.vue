@@ -3,7 +3,7 @@
     <a-spin :spinning="spinning">
       <ToolbarBack :msg="dataTask.taskName" />
       <br />
-      <div style="margin :60px 15px 15px 15px">
+      <a-row style="margin :60px 15px 15px 15px">
         <div class="modal-delete" id="modal">
           <vue-confirm-dialog></vue-confirm-dialog>
         </div>
@@ -13,8 +13,8 @@
           v-if="dataTask.isDone == false"
           block
           v-model="isDone"
-          style="background-color:#FF4D4F; color:white; border: none; border-radius:2px;"
-          v-on:click="toggleStatus()"
+          id="doneBtn"
+          v-on:click="toggleStatus(true)"
           :loading="loading"
           @click="handleOk"
         >
@@ -28,111 +28,111 @@
           v-if="dataTask.isDone == true"
           block
           v-model="isDone"
-          style="background-color:#73D13D; color:white; border: none; border-radius:2px;"
-          v-on:click="toggleStatus()"
+          id="wipBtn"
+          v-on:click="toggleStatus(false)"
           :loading="loading"
           @click="handleOk"
         >
           <a-icon type="close" />
           Mark as Undone
         </a-button>
-      </div>
+      </a-row>
 
       <!-- Dashboard -->
-      <div>
-        <div>
-          <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
-            <a-col :span="12" :xs="12">
-              <a-card
-                :bodyStyle="{
-                  padding: '5px',
-                }"
-              >
-                <div class="iconCus-task">
-                  <a-icon type="fund" />
-                </div>
-                <div>
-                  <b>{{ dataProject.projectName }}</b>
-                </div>
-                <div id="position" style="padding-bottom:10px">Project name</div>
-              </a-card>
-            </a-col>
+      <a-row :gutter="15" style="margin-left:7.5px; margin-right:7.5px; margin-bottom:15px;">
+        <a-col :span="11" :xs="11">
+          <a-card
+            style="border:none;"
+            :bodyStyle="{
+              padding: '5px',
+            }"
+          >
+            <div class="iconCus-task">
+              <a-icon type="fund" />
+            </div>
+            <div>
+              <b>{{ dataProject.projectName }}</b>
+            </div>
+            <div id="position" style="padding-bottom:10px">Project name</div>
+          </a-card>
+        </a-col>
+        <a-col :span="2" :xs="2">
+          <a-divider type="vertical" style="height:100px" />
+        </a-col>
+        <a-col :span="11" :xs="11">
+          <a-card
+            style="border:none;"
+            :bodyStyle="{
+              padding: '5px',
+            }"
+          >
+            <div class="iconCus-task">
+              <a-icon type="clock-circle" />
+            </div>
+            <div>
+              <b>{{ $dayjs(dataTask.endTime).format('DD MMM YYYY') }}</b>
+            </div>
+            <div id="position" style="padding-bottom:10px">Due date</div>
+          </a-card>
+        </a-col>
+      </a-row>
 
-            <a-col :span="12" :xs="12">
-              <a-card
-                :bodyStyle="{
-                  padding: '5px',
-                }"
-              >
-                <div class="iconCus-task">
-                  <a-icon type="clock-circle" />
+      <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
+        <a-col>
+          <router-link :to="{ name: 'MemberInTask', params: { id: dataTask.id } }">
+            <a-card
+              :bodyStyle="{
+                padding: '5px',
+              }"
+            >
+              <div style="padding-top:10px">
+                <span
+                  class="iconify"
+                  data-inline="false"
+                  data-icon="clarity:users-line"
+                  style="color: #0036c7; font-size: 22px;"
+                ></span>
+              </div>
+              <div class="center con-avatars">
+                <div
+                  v-for="member in dataTask.members.slice(0, 5)"
+                  :key="member.id"
+                  style="display:inline; margin: 0 2px;"
+                >
+                  <a-avatar
+                    v-bind:src="
+                      member.image ? member.image.fullPath : require('../assets/user.svg')
+                    "
+                  />
                 </div>
-                <div>
-                  <b>{{ $dayjs(dataTask.endTime).format('DD MMM YYYY') }}</b>
-                </div>
-                <div id="position" style="padding-bottom:10px">Due date</div>
-              </a-card>
-            </a-col>
-          </a-row>
-        </div>
 
-        <a-row style="margin-left:15px; margin-right:15px; margin-bottom:15px;">
-          <a-col>
-            <router-link :to="{ name: 'MemberInTask', params: { id: dataTask.id } }">
-              <a-card
-                :bodyStyle="{
-                  padding: '5px',
-                }"
-              >
-                <div style="padding-top:10px">
-                  <span
-                    class="iconify"
-                    data-inline="false"
-                    data-icon="clarity:users-line"
-                    style="color: #0036c7; font-size: 22px;"
-                  ></span>
-                </div>
-                <div class="center con-avatars">
+                <div v-if="dataTask.members.length >= 5" style="display:inline;">
                   <div
-                    v-for="member in dataTask.members.slice(0, 5)"
+                    v-for="member in dataTask.members.slice(4, 5)"
                     :key="member.id"
                     style="display:inline; margin: 0 2px;"
                   >
+                    <a-avatar class="avatar-plus">
+                      <a-icon slot="icon" type="plus" />
+                    </a-avatar>
                     <a-avatar
                       v-bind:src="
                         member.image ? member.image.fullPath : require('../assets/user.svg')
                       "
                     />
                   </div>
-
-                  <div v-if="dataTask.members.length >= 5" style="display:inline;">
-                    <div
-                      v-for="member in dataTask.members.slice(4, 5)"
-                      :key="member.id"
-                      style="display:inline; margin: 0 2px;"
-                    >
-                      <a-avatar class="avatar-plus">
-                        <a-icon slot="icon" type="plus" />
-                      </a-avatar>
-                      <a-avatar
-                        v-bind:src="
-                          member.image ? member.image.fullPath : require('../assets/user.svg')
-                        "
-                      />
-                    </div>
-                  </div>
                 </div>
-                <div id="position" style="padding-bottom:10px">Team</div>
-              </a-card>
-            </router-link>
-          </a-col>
-        </a-row>
-      </div>
+              </div>
+              <div id="position" style="padding-bottom:10px">Team</div>
+            </a-card>
+          </router-link>
+        </a-col>
+      </a-row>
 
       <!-- Detail of Task -->
-      <a-row style="margin-left:15px; margin-right:15px;">
+      <a-row class="titleSpace">
         <a-col align="left" :span="20"
-          ><span style="float:left; font-size:20px; font-weight:550">{{ dataTask.taskName }}</span>
+          ><b class="titleName">{{ dataTask.taskName }}</b>
         </a-col>
         <a-col align="right" :span="4" style="padding-right:3px;">
           <router-link :to="{ name: 'EditTask', params: { id: dataTask.id } }">
@@ -145,102 +145,30 @@
       </div>
 
       <!-- Clipboard -->
-      <a-row style="margin:12px 18px;">
+      <a-row class="titleSpace">
         <a-col style="padding-bottom: 0px;">
           <a-icon type="paper-clip" class="iconClipboard" />
-          <b style="float: left; font-size:16px">Attachments</b>
+          <b class="titleName">Attachments</b>
         </a-col>
       </a-row>
 
       <!-- upload file -->
-      <div class="clearfix">
-        <a-row style="margin: 0px 15px 15px;" :gutter="[8, 8]">
-          <div v-for="file in dataTask.files" :key="file.id">
-            <a-col :xs="{ span: 8 }" :sm="{ span: 4 }" :md="{ span: 4 }" :lg="{ span: 2 }">
-              <div
-                style="border: 1px solid #d9d9d9; border-radius: 2px; width: 105px;"
-                class="taskFile"
-              >
-                <div v-if="file.extension == 'text/plain'" class="flexBox-file">
-                  <a-icon type="file-text" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.txt</span>
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="file.extension == 'application/pdf'" class="flexBox-file">
-                  <a-icon type="file-pdf" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.pdf</span>
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="file.extension == 'text/javascript'" class="flexBox-file">
-                  <a-icon type="file" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.js</span>
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div v-if="file.extension == 'application/x-zip-compressed'" class="flexBox-file">
-                  <a-icon type="file-zip" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.zip</span>
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
-                  </div>
-                </div>
+      <a-row style="margin: 0px 15px;" :gutter="[8, 8]">
+        <div v-for="file in dataTask.files" :key="file.id">
+          <a-col
+            :xs="{ span: 8 }"
+            :sm="{ span: 4 }"
+            :md="{ span: 4 }"
+            :lg="{ span: 3 }"
+            :xl="{ span: 2 }"
+            :xxl="{ span: 1 }"
+          >
+            <div
+              style="border: 1px solid #d9d9d9; border-radius: 2px; width: 105px;"
+              class="taskFile"
+            >
+              <div class="flexBox-file">
                 <div
-                  v-if="
-                    file.extension ==
-                      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-                  "
-                  class="flexBox-file"
-                >
-                  <a-icon type="file-word" style="font-size:30px; color:#0036C7" />
-                  <span class="taskFileName"> {{ file.fileName }} </span>
-                  <span>.docx</span>
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  id="taskFile"
                   v-if="
                     file.extension == 'image/png' ||
                       file.extension == 'image/jpg' ||
@@ -249,51 +177,115 @@
                   "
                 >
                   <img :src="file.fullPath" alt="" class="img-task" />
-                  <div class="overlay">
-                    <div class="flexbox-delFileTask">
-                      <a-icon
-                        type="delete"
-                        style="font-size:20px; color:white;"
-                        @click="deleteTaskFile(file.id)"
-                      />
-                    </div>
+                </div>
+                <div v-else>
+                  <a-icon
+                    :type="
+                      file.extension == 'text/plain'
+                        ? 'file-text'
+                        : file.extension == 'application/pdf'
+                        ? 'file-pdf'
+                        : file.extension == 'text/javascript'
+                        ? 'file'
+                        : file.extension ==
+                          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                        ? 'file-word'
+                        : file.extension == 'application/x-zip-compressed' ||
+                          'application/octet-stream'
+                        ? 'file-zip'
+                        : 'file'
+                    "
+                    style="font-size:30px; color:#0036C7"
+                  />
+                  <span class="taskFileName" style="width: 70px;"> {{ file.fileName }} </span>
+                  <span v-if="file.extension == 'text/plain'">.txt</span>
+                  <span v-if="file.extension == 'text/javascript'">.js</span>
+                  <span
+                    v-if="
+                      file.extension ==
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                    "
+                    >.docx</span
+                  >
+                  <span v-if="file.extension == 'application/x-zip-compressed'">.zip</span>
+                  <span v-if="file.extension == 'application/octet-stream'">.rar</span>
+                </div>
+
+                <div class="overlay">
+                  <div class="flexbox-delFileTask">
+                    <a-icon
+                      v-if="
+                        file.extension == 'image/png' ||
+                          file.extension == 'image/jpg' ||
+                          file.extension == 'image/jpeg' ||
+                          file.extension == 'image/svg+xml'
+                      "
+                      type="eye"
+                      class="icon-delete-view"
+                      @click="openModal(file)"
+                    />
+                    <a v-else :href="file.fullPath" download>
+                      <a-icon type="download" class="icon-delete-view" />
+                    </a>
+
+                    <a-icon
+                      type="delete"
+                      class="icon-delete-view"
+                      @click="deleteTaskFile(file.id)"
+                    />
                   </div>
                 </div>
               </div>
-            </a-col>
-          </div>
-          <a-col
-            class="upload-btn-wrapper"
-            :xs="{ span: 8 }"
-            :sm="{ span: 4 }"
-            :md="{ span: 4 }"
-            :lg="{ span: 2 }"
-          >
-            <a-button
-              style="border: 1px dashed #d9d9d9; border-radius: 2px; width: 105px; height: 102px; background-color:#FAFAFA"
-            >
-              <a-icon type="plus" style="color:#585858; font-size:20px; margin-bottom:10px;" />
-              <div>
-                Upload
-              </div>
-            </a-button>
-            <input @change="uploadFile" type="file" name="myfile" />
+            </div>
           </a-col>
-        </a-row>
-      </div>
+        </div>
+        <a-col
+          class="upload-btn-wrapper"
+          :xs="{ span: 8 }"
+          :sm="{ span: 4 }"
+          :md="{ span: 4 }"
+          :lg="{ span: 3 }"
+          :xl="{ span: 2 }"
+          :xxl="{ span: 1 }"
+        >
+          <a-button class="btn-upload">
+            <a-icon type="plus" style="color:#585858; font-size:20px; margin-bottom:10px;" />
+            <div>
+              Upload
+            </div>
+          </a-button>
+          <input @change="uploadFile" type="file" name="myfile" />
+        </a-col>
+      </a-row>
+
+      <a-modal
+        :visible="visible"
+        :footer="null"
+        :centered="true"
+        @cancel="hideModal"
+        :bodyStyle="{
+          padding: 0,
+        }"
+      >
+        <img :src="item.fullPath" style="width:100%;" alt="" />
+      </a-modal>
 
       <!-- Comment -->
-      <div style="margin: 12px 15px;">
+      <div class="titleSpace">
         <a-row style="display:flex;" v-if="dataComment.length >= 1">
           <a-icon type="message" class="iconMessage" />
-          <span>Comment</span>
+          <b class="titleName">Comment</b>
         </a-row>
-        <a-row>
+        <a-row class="cus-comment">
           <a-comment v-for="comment in dataComment" :key="comment.id" v-bind:value="comment.id">
             <template slot="actions" v-if="comment.user.id == user.id">
               <span @click="selectComment(comment.id)" v-on:click="commentEdit = !commentEdit">
                 <a-icon type="edit" />Edit
               </span>
+              <span @click="deleteComment(comment.id)"> <a-icon type="delete" /> Delete </span>
+            </template>
+
+            <template slot="actions" v-if="comment.user.id !== user.id && user.role == 'ADMIN'">
               <span @click="deleteComment(comment.id)"> <a-icon type="delete" /> Delete </span>
             </template>
 
@@ -353,7 +345,7 @@
             :src="userProfile ? userProfile.fullPath : require('../assets/user.svg')"
           />
         </a-col>
-        <a-col :span="16">
+        <a-col :span="16" id="antInput">
           <a-input class="inputComment" placeholder="Say something" v-model="newComment" />
         </a-col>
         <a-col :span="4">
@@ -382,6 +374,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ToolbarBack from '@/components/ToolbarBack.vue'
 import moment from 'moment'
 import * as gqlQuery from '../constants/task'
@@ -417,12 +410,14 @@ export default {
       },
       update(data) {
         this.userProfile = data.user.image
+        this.user = data.user
       },
     },
   },
 
   data() {
     return {
+      visible: false,
       spinning: false,
       selectedFile: null,
       commentId: '',
@@ -437,15 +432,26 @@ export default {
       commentEdit: false,
       newComment: '',
       userId: 0,
-      user: '',
+      user: [],
       selectCommentId: 0,
       userProfile: null,
+      item: [],
     }
   },
   mounted() {
     this.getData()
   },
   methods: {
+    ...mapActions({
+      updateStatusTask: 'Auth/updateStatusTask',
+    }),
+    openModal(value) {
+      this.visible = true
+      this.item = value
+    },
+    hideModal() {
+      this.visible = false
+    },
     getData() {
       const get = JSON.parse(localStorage.getItem('vuex'))
       this.user = get.Auth.user
@@ -536,9 +542,9 @@ export default {
         this.loading = false
       }, 1000)
     },
-    toggleStatus() {
+    toggleStatus(status) {
       let val
-      if (this.isDone == false) {
+      if (status == true) {
         val = ` ${this.dataTask.taskName} marked as done`
       } else {
         val = `${this.dataTask.taskName} marked as undone `
@@ -549,11 +555,19 @@ export default {
           variables: {
             id: parseInt(this.$route.params.id),
             data: {
-              isDone: { set: (this.isDone = !this.isDone) },
+              isDone: { set: status },
             },
           },
         })
+        .then(res => {
+          this.user.tasks.filter(item => item.id == res.data.updateOneTask.id)
+          return this.updateStatusTask(this.user)
+        })
         .then(this.createRecent(val))
+    },
+    async updateUser(data) {
+      this.user.tasks.filter(item => item.id == data.id)
+      return this.user.then(this.updateStatusTask(this.user))
     },
     async addComment() {
       if (this.newComment.trim().length == 0) {
@@ -684,5 +698,18 @@ export default {
   background-color: white;
   border-radius: 2px;
   height: 32px;
+}
+.icon-delete-view {
+  font-size: 20px;
+  color: white;
+  margin: 0 4px;
+}
+.btn-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 2px;
+  width: 105px;
+  height: 102px;
+  background-color: #fafafa;
+  float: left;
 }
 </style>

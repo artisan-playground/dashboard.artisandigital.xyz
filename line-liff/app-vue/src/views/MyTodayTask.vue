@@ -1,23 +1,21 @@
 <template>
   <div>
-    <ToolbarBackHome msg="Today Tasks" />
+    <ToolbarBack msg="My today's Tasks" />
     <br />
-    <div style="margin-top:60px;"></div>
-    <TodayTask />
-    <BarRouter />
+    <div style="margin-top:60px;">
+      <TodayTask />
+    </div>
   </div>
 </template>
 
 <script>
-import ToolbarBackHome from '@/components/ToolbarBackHome.vue'
+import ToolbarBack from '@/components/ToolbarBack.vue'
 import TodayTask from '@/components/TodayTask.vue'
-import BarRouter from '@/components/BarRouter.vue'
 export default {
   name: 'MyTodayTask',
   components: {
-    ToolbarBackHome,
+    ToolbarBack,
     TodayTask,
-    BarRouter,
   },
 }
 </script>
