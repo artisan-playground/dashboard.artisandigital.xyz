@@ -306,7 +306,15 @@ export default {
     ToolbarBack,
     BarRouter,
   },
-  methods: {},
+  data() {
+    return {
+      user: null,
+      dataProject: [],
+      dataTask: [],
+      search: '',
+      currentFilter: '',
+    }
+  },
   apollo: {
     getUser: {
       query: gqlQuery.MEMBER_QUERY,
@@ -363,16 +371,6 @@ export default {
       })
     },
   },
-  data() {
-    return {
-      user: null,
-      dataProject: [],
-      dataTask: [],
-      search: '',
-      currentFilter: '',
-    }
-  },
-  mounted() {},
 }
 </script>
 
