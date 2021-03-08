@@ -1,6 +1,6 @@
 <template>
-  <div style="border:none; width:100%">
-    <div style="margin:0px 18px 0px 18px">
+  <div>
+    <div class="space-top-left-right">
       <a-row
         type="flex"
         justify="space-around"
@@ -129,16 +129,11 @@ export default {
 </script>
 
 <style scoped lang="less">
+@secondary: #134f83;
 .btnEditProfile {
   text-transform: capitalize;
-  background-color: #134f83;
+  background-color: @secondary;
   color: white;
   margin-bottom: 2px;
-}
-.username {
-  font-size: 20px;
-  color: #0036c7;
-  font-weight: 500;
-  text-align: left;
 }
 </style>

@@ -151,9 +151,9 @@ export default {
       let text = this.search.trim()
       return this.dataUser.projects.filter(item => {
         return (
-          item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-          item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-          item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+          (item.projectName && item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+          (item.projectType && item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+          (item.projectDetail && item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
         )
       })
     },
@@ -162,9 +162,10 @@ export default {
       return this.dataUser.projects.filter(item => {
         if (item.status == 'done') {
           return (
-            item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+            (item.projectName && item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.projectType && item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.projectDetail &&
+              item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
           )
         }
       })
@@ -174,9 +175,10 @@ export default {
       return this.dataUser.projects.filter(item => {
         if (item.status == 'undone') {
           return (
-            item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+            (item.projectName && item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.projectType && item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.projectDetail &&
+              item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
           )
         }
       })

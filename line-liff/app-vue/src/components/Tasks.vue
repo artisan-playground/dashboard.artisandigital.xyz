@@ -173,8 +173,8 @@ export default {
       return this.dataTask.filter(item => {
         if (item.isDone == true) {
           return (
-            item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+            (item.taskName && item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.taskDetail && item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
           )
         }
       })
@@ -184,8 +184,8 @@ export default {
       return this.dataTask.filter(item => {
         if (item.isDone == false) {
           return (
-            item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+            (item.taskName && item.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.taskDetail && item.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
           )
         }
       })

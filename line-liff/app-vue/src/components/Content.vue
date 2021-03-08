@@ -3,39 +3,62 @@
     <div>
       <div style="width:100%; margin-bottom:10px">
         <div style="margin-left:18px">
-          <v-row>
-            <v-col cols="6" align="left" style="font-size:20px; font-weight:550">Content</v-col>
-            <v-col cols="6" style="padding-right: 30px;">
-              <a-button
-                style="float:right; text-transform: capitalize; color:white; background-color: #134F83; "
-                to="/news/createContent"
-                ><a-icon type="plus" style="margin-right:2.5px" />Create</a-button
-              >
-            </v-col>
-          </v-row>
+          <div align="left" style="font-size:20px; font-weight:550">Contents</div>
         </div>
         <td align="right"></td>
       </div>
     </div>
 
-    <div class="news">
-      <div v-for="content in contents" :key="content.id">
-        <router-link to="/">
-          <a-card hoverable class="card">
-            <img
-              slot="cover"
-              alt="example"
-              v-bind:src="content.imageUrl"
-              style="width:100%; height:200px; object-fit:cover;"
-            />
-            <a-card-meta :title="content.imageAlt">
+    <div style="margin: 10px 15px 15px 15px;" id="antInput">
+      <a-input-search v-model="search" type="search" placeholder=" input search text" />
+    </div>
+
+    <div class="news" v-if="contents.length > 0">
+      <div v-for="content in contentsFilter" :key="content.id">
+        <a-card class="card" :bodyStyle="{ padding: '0px 0px 0px 0px' }">
+          <div style="margin: 10px 15px 0 15px;">
+            <a-col :xs="{ span: 4 }" :sm="{ span: 2 }" :xl="{ span: 1 }">
+              <img
+                v-bind:src="
+                  content.user.image ? content.user.image.fullPath : require('../assets/user.svg')
+                "
+                class="imageUserContent"
+              />
+            </a-col>
+            <a-col :xs="{ span: 12 }" :sm="{ span: 14 }" :xl="{ span: 14 }">
+              <span style="margin-top: 10px; float:left; color:#0036C7; font-weight:600;">{{
+                content.user.name
+              }}</span>
+            </a-col>
+            <a-col :xs="{ span: 8 }" :sm="{ span: 8 }" :xl="{ span: 9 }">
+              <span style="margin-top: 10px; float:right;">{{
+                $dayjs(content.timestamp).format('DD/MM/YYYY')
+              }}</span>
+            </a-col>
+          </div>
+          <div v-for="img in content.contentImage.slice(0, 1)" :key="img.id">
+            <img alt="example" v-bind:src="img.fullPath" class="contentImg" />
+          </div>
+
+          <div style="margin: 10px 15px 10px 15px;">
+            <a-card-meta :title="content.subject">
               <template slot="description">
-                {{ content.data }}
+                <div class="content">
+                  <span style="color:#333333;" v-html="content.content"></span>
+                </div>
+                <router-link :to="{ name: 'ContentDetail', params: { id: content.id } }">
+                  <div style="color:#134F83; margin-top:10px; float:right;">
+                    Read more
+                  </div>
+                </router-link>
               </template>
             </a-card-meta>
-          </a-card>
-        </router-link>
+          </div>
+        </a-card>
       </div>
+    </div>
+    <div v-else class="noData">
+      <a-empty />
     </div>
     <div style="padding-bottom:80px">
       <!-- ระยะห่าง manu ข้างล่างกับ content -->
@@ -44,42 +67,31 @@
 </template>
 
 <script>
+import * as gqlQueryContent from '../constants/content'
 export default {
   name: 'Centent',
-
+  apollo: {
+    contents: {
+      query: gqlQueryContent.CONTENT,
+    },
+  },
   data() {
     return {
-      contents: [
-        {
-          id: 1,
-          imageUrl: 'https://i.pinimg.com/564x/84/23/98/842398fa38b695f1b52bae9b02012057.jpg',
-          imageAlt: 'White bear',
-          data:
-            '"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,',
-        },
-        {
-          id: 2,
-          imageUrl: 'https://i.pinimg.com/originals/ea/49/54/ea4954c07586167e1e1d87bc6344ad7e.jpg',
-          imageAlt: 'Cat',
-          data:
-            '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."',
-        },
-        {
-          id: 3,
-          imageUrl: 'https://kawaiicase.files.wordpress.com/2012/03/cute-baby-polar-bear.jpg?w=880',
-          imageAlt: 'White bear',
-          data:
-            '"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ',
-        },
-        {
-          id: 4,
-          imageUrl: 'https://kawaiicase.files.wordpress.com/2012/03/cute-baby-polar-bear.jpg?w=880',
-          imageAlt: 'White bear',
-          data:
-            '"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque',
-        },
-      ],
+      contents: [],
+      search: '',
     }
+  },
+  computed: {
+    contentsFilter() {
+      let text = this.search.trim()
+      return this.contents.filter(item => {
+        return (
+          item.subject.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+          item.content.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+          item.user.name.toLowerCase().indexOf(text.toLowerCase()) > -1
+        )
+      })
+    },
   },
 }
 </script>
@@ -87,5 +99,13 @@ export default {
 <style scoped>
 .news {
   padding-bottom: 0.5px;
+}
+.imageUserContent {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  object-fit: cover;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 </style>
