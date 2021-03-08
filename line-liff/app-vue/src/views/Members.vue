@@ -14,6 +14,9 @@
           <a-tab-pane key="3" tab="Design" force-render>
             <Design />
           </a-tab-pane>
+          <a-tab-pane key="4" tab="Digital Margeting" force-render>
+            <DigitalMarketing />
+          </a-tab-pane>
         </a-tabs>
       </div>
     </div>
@@ -28,6 +31,7 @@ import * as gqlQuery from '../constants/user'
 import HrAdmin from '@/components/HR_Admin'
 import Development from '@/components/Development'
 import Design from '@/components/Design'
+import DigitalMarketing from '@/components/DigitalMarketing'
 export default {
   name: 'members',
   components: {
@@ -36,6 +40,7 @@ export default {
     HrAdmin,
     Development,
     Design,
+    DigitalMarketing,
   },
   apollo: {
     users: gqlQuery.ALL_MEMBER_QUERY,
