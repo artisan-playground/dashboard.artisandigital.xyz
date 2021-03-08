@@ -5,7 +5,7 @@ on:
     branches:
       - develop
     paths:
-      - "web/**/*"
+      - 'web/**/*'
 
 env:
   PROJECT_ID: artisan-playground
@@ -15,12 +15,12 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: github-action-playground
     steps:
       - uses: actions/checkout@v2
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          version: "latest"
+          version: 'latest'
           service_account_key: ${{ env.SA }}
           project_id: ${{ env.PROJECT_ID }}
 
