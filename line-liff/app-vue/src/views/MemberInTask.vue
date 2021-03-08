@@ -62,10 +62,9 @@
               <img
                 v-bind:src="member.image ? member.image.fullPath : require('../assets/user.svg')"
                 id="imgProfile"
-                style="margin-top:5px;"
               />
             </div>
-            <div class="cardInformation">
+            <div :class="member.type == 'Intern' ? 'cardInforIntern' : 'cardInformation'">
               <div id="displayname">
                 {{ member.name }}
               </div>
@@ -81,7 +80,7 @@
                 Department:
                 <span>{{ member.department }}</span>
               </div>
-              <div v-if="member.type == 'intern'" id="department" style="font-size:10px">
+              <div v-if="member.type == 'Intern'" id="department" style="font-size:10px">
                 Internship period :
                 <span>
                   {{ $dayjs(member.startDate).format('DD MMM YYYY') }}
