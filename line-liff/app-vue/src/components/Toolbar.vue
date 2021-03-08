@@ -29,13 +29,32 @@
 <script>
 import { mapActions } from 'vuex'
 import auth from '../store/Auth/index.js'
-
+import * as gqlQueryUser from '../constants/user'
 export default {
   name: 'Toolbar',
+  apollo: {
+    getUser: {
+      query: gqlQueryUser.MEMBER_QUERY,
+      variables() {
+        return {
+          userId: this.userId,
+        }
+      },
+      update(data) {
+        this.dataUser = data.user
+        this.userProfile = data.user.image
+      },
+    },
+  },
   data() {
     return {
-      userProfile: auth.state.user.image,
+      userId: 0,
+      userProfile: null,
+      dataUser: [],
     }
+  },
+  mounted() {
+    this.getData()
   },
   props: {
     msg: String,
@@ -43,6 +62,10 @@ export default {
   computed: {},
 
   methods: {
+    getData() {
+      const get = JSON.parse(localStorage.getItem('vuex'))
+      this.userId = get.Auth.user.id
+    },
     ...mapActions({
       logOut: 'Auth/logOut',
     }),

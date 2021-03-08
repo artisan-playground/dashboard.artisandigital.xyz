@@ -114,7 +114,6 @@
 
 <script>
 import * as gqlQuery from '../constants/project'
-
 export default {
   name: 'ListProjectAll',
   data() {
@@ -140,9 +139,9 @@ export default {
       let text = this.search.trim()
       return this.projects.filter(item => {
         return (
-          item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-          item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-          item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+          (item.projectName && item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+          (item.projectType && item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+          (item.projectDetail && item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
         )
       })
     },
@@ -151,9 +150,10 @@ export default {
       return this.projects.filter(item => {
         if (item.status == 'done') {
           return (
-            item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+            (item.projectName && item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.projectType && item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.projectDetail &&
+              item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
           )
         }
       })
@@ -163,9 +163,10 @@ export default {
       return this.projects.filter(item => {
         if (item.status == 'undone') {
           return (
-            item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
-            item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
+            (item.projectName && item.projectName.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.projectType && item.projectType.toLowerCase().indexOf(text.toLowerCase()) > -1) ||
+            (item.projectDetail &&
+              item.projectDetail.toLowerCase().indexOf(text.toLowerCase()) > -1)
           )
         }
       })
@@ -179,7 +180,6 @@ export default {
   padding-bottom: 0px;
   font-size: 16px;
 }
-
 #card {
   margin: 3px 0px 24px 0px;
   padding-bottom: 0px;
@@ -190,7 +190,6 @@ export default {
   margin-left: 5px;
   margin-right: 5px;
 }
-
 .col {
   padding-bottom: 5px;
 }
