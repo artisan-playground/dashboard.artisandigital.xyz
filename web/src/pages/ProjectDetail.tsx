@@ -655,7 +655,13 @@ function ProjectDetail() {
         <Row className="w-full px-2">
           <Col span={24}>
             <Text className="font-bold text-lg">Recent Activity</Text>
-            {filteredLog.length === 0 ? (
+            {filteredLog.length === 0 ||
+            filteredLog.filter(
+              (item: any) =>
+                dayjs().isSame(dayjs(item.timestamp), 'day') &&
+                dayjs().isSame(dayjs(item.timestamp), 'month') &&
+                dayjs().isSame(dayjs(item.timestamp), 'year')
+            ).length === 0 ? (
               <Row className="w-full flex justify-center items-center p-8">
                 <Text type="secondary">No recent activity</Text>
               </Row>

@@ -49,13 +49,18 @@ export const GET_CONTENT_BY_ID = gql`
 `
 
 export const CREATE_CONTENT = gql`
-  mutation createContent($subject: String!, $content: String!, $userId: Int!, $file: Int!) {
+  mutation createContent(
+    $subject: String!
+    $content: String!
+    $userId: Int!
+    $contentImages: [ContentImageWhereUniqueInput!]
+  ) {
     createOneContent(
       data: {
         subject: $subject
         content: $content
         user: { connect: { id: $userId } }
-        contentImage: { connect: { id: $file } }
+        contentImage: { connect: $contentImages }
       }
     ) {
       id
