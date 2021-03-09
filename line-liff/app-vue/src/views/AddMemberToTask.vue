@@ -71,12 +71,14 @@ export default {
         return { id: data }
       })
       let members = this.userInProject.filter(o => memberId.find(o2 => o.id === o2.id))
-      let mem = members.filter(item => item.id != this.userId)
+      let memberFilter = members.filter(item => item.id != this.userId)
       let myUser = members.filter(item => item.id == this.userId)
-      const message_many_user = `Invited ${mem.map(a => a.name).slice(0, 1)},${mem
-        .map(a => ' ' + a.name)
-        .slice(1, memberId.length)} to task ${this.taskName}`
-      const message_one_user = `Invited ${mem.map(a => a.name)} to project`
+      const message_many_user = `Invited ${memberFilter
+        .map(a => a.name)
+        .slice(0, 1)},${memberFilter.map(a => ' ' + a.name).slice(1, memberId.length)} to task ${
+        this.taskName
+      }`
+      const message_one_user = `Invited ${memberFilter.map(a => a.name)} to project`
       const message_my_user = `${myUser.map(a => a.name)} joined to task ${this.taskName}`
       try {
         await this.$apollo.mutate({
@@ -87,13 +89,13 @@ export default {
           },
         })
 
-        myUser.length == 1 && mem.length == 1
+        myUser.length == 1 && memberFilter.length == 1
           ? this.createRecentMyUser(message_my_user) || this.createRecent(message_one_user)
-          : myUser.length == 1 && mem.length > 1
+          : myUser.length == 1 && memberFilter.length > 1
           ? this.createRecentMyUser(message_my_user) || this.createRecent(message_many_user)
-          : myUser.length == 1 && mem.length == 0
+          : myUser.length == 1 && memberFilter.length == 0
           ? this.createRecentMyUser(message_my_user)
-          : mem.length == 1
+          : memberFilter.length == 1
           ? this.createRecent(message_one_user)
           : this.createRecent(message_many_user)
 
