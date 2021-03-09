@@ -5,7 +5,7 @@ on:
     branches:
       - develop
     paths:
-      - 'web/**/*'
+      - 'web_test/**/*'
 
 env:
   PROJECT_ID: artisan-playground
