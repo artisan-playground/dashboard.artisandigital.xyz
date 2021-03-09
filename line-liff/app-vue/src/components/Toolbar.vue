@@ -28,7 +28,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-import auth from '../store/Auth/index.js'
 import * as gqlQueryUser from '../constants/user'
 export default {
   name: 'Toolbar',

@@ -2,9 +2,12 @@
   <div class="about">
     <Toolbar />
     <br />
-    <div style="margin-top:60px;"></div>
-    <DonutChart />
-    <MenuContent />
+    <div style="margin-top:60px;">
+      <div align="center">
+        <DonutChart :width="350" :height="350" />
+      </div>
+      <MenuContent />
+    </div>
     <BarRouter />
   </div>
 </template>

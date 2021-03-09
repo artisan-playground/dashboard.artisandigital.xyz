@@ -7,7 +7,7 @@
       >
         Artisan Dashboard
       </div>
-      <div class="login_form">
+      <div id="antInput" class="login_form">
         <a-form-model
           ref="ruleForm"
           :model="form"
@@ -79,7 +79,7 @@ export default {
           await this.login({ email })
         } catch (error) {
           this.spinning = false
-          this.$message.error('Invalid E-mail')
+          this.$message.error('Invalid E-mail Please try again')
         }
       }
     },
