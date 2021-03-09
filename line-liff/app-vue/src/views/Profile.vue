@@ -1,11 +1,11 @@
 <template>
-  <div class="project">
+  <div>
     <Toolbar msg="Profile" />
     <br />
-    <div style="margin-top:60px">
+    <div>
       <Profile />
       <div id="tabCusProfile">
-        <a-tabs default-active-key="1" :tabBarStyle="{}">
+        <a-tabs default-active-key="1">
           <a-tab-pane key="1" tab="Projects">
             <ListProject />
           </a-tab-pane>

@@ -10,7 +10,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Toolbar from '@/components/Toolbar.vue'
 import BarRouter from '@/components/BarRouter.vue'
 import Events from '@/components/Events.vue'

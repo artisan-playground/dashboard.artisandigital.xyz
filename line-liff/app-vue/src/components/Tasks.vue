@@ -74,7 +74,7 @@
                     ></span>
                     WIP
                   </a-tag>
-                  <a-tag color="green" style="margin-right: 0px;" v-if="task.isDone == true">
+                  <a-tag color="green" class="status-tag" v-if="task.isDone == true">
                     <span
                       id="iconStatus"
                       class="iconify"

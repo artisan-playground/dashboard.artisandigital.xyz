@@ -192,7 +192,7 @@
         </router-link>
       </a-col>
     </a-row>
-    <div style="padding-bottom:90px">
+    <div style="padding-bottom:20px">
       <div v-if="dataTask.length > 0">
         <div v-for="task in taskFilter.slice(0, 3)" :key="task.id" class="titleSpace">
           <a-card :bodyStyle="{ padding: '15px' }" id="card" align="left">
@@ -275,7 +275,7 @@
           </a-card>
         </div>
       </div>
-      <div v-else style="margin-top:30px;">
+      <div v-if="taskFilter.slice(0, 3).length == 0" style="margin-top:30px;">
         <a-empty />
       </div>
 
@@ -338,20 +338,17 @@
         </a-card>
       </a-row>
     </div>
-    <BarRouter />
   </div>
 </template>
 
 <script>
 import ToolbarBack from '@/components/ToolbarBack.vue'
-import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/project'
 import * as gqlQueryRecent from '../constants/recentActivity'
 export default {
   name: 'project',
   components: {
     ToolbarBack,
-    BarRouter,
   },
   data() {
     return {
