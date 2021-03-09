@@ -76,7 +76,7 @@ function ProjectCard({ data }: any) {
 
             <Row className="my-2">
               <Col xs={24} lg={16}>
-                <Paragraph ellipsis={{ rows: 3 }}>{data.projectDetail}</Paragraph>
+                <Paragraph ellipsis={{ rows: 2 }}>{data.projectDetail}</Paragraph>
               </Col>
             </Row>
             <Row className="w-full" justify="end">

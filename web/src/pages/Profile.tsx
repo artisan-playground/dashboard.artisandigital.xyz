@@ -138,7 +138,7 @@ function Profile() {
       setEmail(userData.user.email)
       setPosition(userData.user.position)
       setDepartment(userData.user.department)
-      setTelephone(userData.user.telephone)
+      setTelephone(userData.user.phone)
       setType(userData.user.type)
       setStartDate(userData.user.startDate)
       setDueDate(userData.user.dueDate)
@@ -381,7 +381,7 @@ function Profile() {
                   )} - ${dayjs(filteredData.dueDate).format('DD MMM YYYY HH:mm')}`}
                 </Text>
               )}
-              <Text>{`Telephone: ${filteredData.phone ? filteredData.phone : '-'}`}</Text>
+              <Text>{`Telephone: ${filteredData.phone ? '0' + filteredData.phone : '-'}`}</Text>
             </Space>
 
             {String(user?.id) === id && (
