@@ -169,7 +169,8 @@ function Dashboard() {
                 </Col>
 
                 <Col className="w-full mt-8">
-                  {taskData.length !== 0 ||
+                  <Text className="font-bold text-lg">Today’s task</Text>
+                  {(taskData && taskData.length !== 0) ||
                     (taskData.tasks.filter(
                       (task: any) =>
                         task.members.filter((member: any) => member.id === user?.id).length &&
@@ -178,7 +179,6 @@ function Dashboard() {
                         dayjs().isSame(dayjs(task.startTime), 'year')
                     ) && (
                       <Row justify="space-between" className="w-full mb-4 mt-4">
-                        <Text className="font-bold text-lg">Today’s task</Text>
                         <Col xs={4} className="flex justify-center">
                           <Text className="font-bold">Members</Text>
                         </Col>
