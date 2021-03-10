@@ -5,7 +5,7 @@ on:
     branches:
       - develop
     paths:
-      - 'web_test/**/*'
+      - 'web/**/*'
 
 env:
   PROJECT_ID: artisan-playground
@@ -26,7 +26,7 @@ jobs:
 
       - name: Build
         run: |-
-          cd web_test
+          cd web
           gcloud builds submit \
           --tag gcr.io/$PROJECT_ID/$SERVICE_NAME:$BRANCH_NAME
 
