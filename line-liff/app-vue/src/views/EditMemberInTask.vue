@@ -56,37 +56,47 @@
     </div>
     <br />
     <a-divider style="margin:0px 0px 15px 0px;" />
-    <div v-for="user in userFilter" :key="user.id">
-      <a-row style="margin:0px 25px 0px 15px;">
-        <a-col :span="20" align="left">
-          <img
-            class="picUser"
-            v-bind:src="user.image ? user.image.fullPath : require('../assets/user.svg')"
-          />
-          {{ user.name }}
-        </a-col>
-        <a-col :span="4" align="right">
-          <v-expand-x-transition>
-            <a-icon
-              type="delete"
-              v-if="deleteButton == true"
-              @click="deleteMemberTask(user.id)"
-              style="color:#FF4D4F;"
+    <div v-if="userFilter.length">
+      <div v-for="user in userFilter" :key="user.id">
+        <a-row style="margin:0px 25px 0px 15px;">
+          <a-col :span="20" align="left">
+            <img
+              class="picUser"
+              v-bind:src="user.image ? user.image.fullPath : require('../assets/user.svg')"
             />
-          </v-expand-x-transition>
-        </a-col>
-      </a-row>
-      <a-divider style="margin:15px 0px 15px 0px;" />
+            {{ user.name }}
+          </a-col>
+          <a-col :span="4" align="right">
+            <v-expand-x-transition>
+              <a-icon
+                type="delete"
+                v-if="deleteButton == true"
+                @click="deleteMemberTask(user.id)"
+                style="color:#FF4D4F;"
+              />
+            </v-expand-x-transition>
+          </a-col>
+        </a-row>
+        <a-divider style="margin:15px 0px 15px 0px;" />
+      </div>
+    </div>
+    <div v-else class="noData">
+      <a-empty />
     </div>
   </div>
 </template>
 
 <script>
 import * as gqlQueryTask from '../constants/task'
+import * as gqlQueryUser from '../constants/user'
+import * as gqlQueryRecent from '../constants/recentActivity'
 
 export default {
   name: 'editMemberTask',
   components: {},
+  mounted() {
+    this.getData()
+  },
   data() {
     return {
       dataTask: null,
@@ -95,9 +105,26 @@ export default {
       deleteButton: false,
       commentLoadding: false,
       memberId: '',
+      userId: 0,
+      users: [],
     }
   },
   methods: {
+    createRecent(val) {
+      this.$apollo.mutate({
+        mutation: gqlQueryRecent.CREATE_RECENT,
+        variables: {
+          message: `${val}`,
+          userId: this.userId,
+          projectId: parseInt(this.$route.params.id),
+        },
+      })
+    },
+    getData() {
+      const get = JSON.parse(localStorage.getItem('vuex'))
+      this.user = get.Auth.user
+      this.userId = get.Auth.user.id
+    },
     async deleteMemberTask(memberId) {
       try {
         await this.$confirm({
@@ -115,6 +142,12 @@ export default {
                   memberId: memberId,
                 },
               })
+              const member = this.users.find(o => o.id === memberId)
+              const message_user = `Removed ${member.name} from ${this.dataTask.taskName} task`
+              const meassgae_my_user = `${member.name} left from ${this.dataTask.taskName} task`
+              memberId == this.userId
+                ? this.createRecent(meassgae_my_user)
+                : this.createRecent(message_user)
               setTimeout(this.$message.success('delete member success'), 1000)
             }
           },
@@ -134,6 +167,12 @@ export default {
     },
   },
   apollo: {
+    getUser: {
+      query: gqlQueryUser.ALL_MEMBER_QUERY,
+      update(data) {
+        this.users = data.users
+      },
+    },
     getProject: {
       query: gqlQueryTask.TASK_QUERY,
       variables() {
@@ -149,20 +188,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.item-media {
-  width: 30px;
-  height: 30px;
-}
-.ios .media-list .item-title,
-.ios li.media-item .item-title {
-  font-weight: 400;
-}
-.media-list .item-media img,
-li.media-item .item-media img {
-  display: block;
-  border-radius: 100%;
-  margin-top: 15px;
-}
-</style>

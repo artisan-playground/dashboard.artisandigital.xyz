@@ -111,6 +111,7 @@
         <a-form-item v-bind="tailFormItemLayout">
           <a-button
             block
+            size="large"
             style="text-transform: capitalize; background-color: #134F83; color:white;"
             html-type="submit"
           >
@@ -244,8 +245,6 @@ export default {
           this.$message.error(error + '')
         }
       }
-
-      this.$refs.ruleForm.validate(isValid => isValid)
     },
     async deleteTask() {
       const val = `Deleted ${this.dataTask.taskName}`
