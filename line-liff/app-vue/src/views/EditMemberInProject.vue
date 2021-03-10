@@ -93,7 +93,6 @@ import * as gqlQueryRecent from '../constants/recentActivity'
 
 export default {
   name: 'editMemberInProject',
-  components: {},
   mounted() {
     this.getData()
   },
@@ -154,7 +153,7 @@ export default {
           },
         })
       } catch (error) {
-        console.error(error)
+        this.$message.success(error)
       }
     },
   },
