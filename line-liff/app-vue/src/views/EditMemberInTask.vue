@@ -93,7 +93,6 @@ import * as gqlQueryRecent from '../constants/recentActivity'
 
 export default {
   name: 'editMemberTask',
-  components: {},
   mounted() {
     this.getData()
   },
