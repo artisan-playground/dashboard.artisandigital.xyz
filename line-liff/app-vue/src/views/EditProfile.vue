@@ -197,9 +197,7 @@
               v-decorator="[
                 'startDate',
                 {
-                  initialValue: this.profile.startDate
-                    ? moment(this.profile.startDate, dateFormat)
-                    : null,
+                  initialValue: this.profile.startDate ? this.profile.startDate : null,
                   rules: [
                     {
                       required: true,
@@ -221,9 +219,7 @@
               v-decorator="[
                 'dueDate',
                 {
-                  initialValue: this.profile.dueDate
-                    ? moment(this.profile.dueDate, dateFormat)
-                    : null,
+                  initialValue: this.profile.dueDate ? this.profile.dueDate : null,
                   rules: [
                     {
                       required: true,
@@ -235,49 +231,6 @@
             />
           </a-form-item>
         </a-form-item>
-
-        <!-- <div v-bind="formItemLayout" v-if="profile.type == 'Intern'" label="Internship perid">
-          <a-form-item>
-            <a-date-picker
-              style="width: 100%"
-              v-decorator="[
-                'startDate',
-                {
-                  initialValue: this.profile.startDate
-                    ? moment(this.profile.startDate, dateFormat)
-                    : null,
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please enter your start date!',
-                      whitespace: true,
-                    },
-                  ],
-                },
-              ]"
-            />
-          </a-form-item>
-          <a-form-item>
-            <a-date-picker
-              style="width: 100%"
-              v-decorator="[
-                'dueDate',
-                {
-                  initialValue: this.profile.dueDate
-                    ? moment(this.profile.dueDate, dateFormat)
-                    : null,
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please enter your due date!',
-                      whitespace: true,
-                    },
-                  ],
-                },
-              ]"
-            />
-          </a-form-item>
-        </div> -->
 
         <a-form-item v-bind="tailFormItemLayout">
           <a-button
@@ -322,6 +275,8 @@ export default {
       update(data) {
         this.profile = data.user
         this.imageId = data.user.image ? data.user.image.id : null
+        this.startDate = data.user.startDate
+        this.dueDate = data.user.dueDate
       },
     },
   },
@@ -336,8 +291,8 @@ export default {
       imageIdUpload: 0,
       url: null,
       department: undefined,
-      startDate: '',
-      dueDate: '',
+      startDate: null,
+      dueDate: null,
       profile: {
         name: '',
         email: '',
@@ -346,8 +301,8 @@ export default {
         phone: '',
         type: '',
         image: '',
-        startDate: undefined,
-        dueDate: undefined,
+        startDate: null,
+        dueDate: null,
       },
       formItemLayout: {
         labelCol: {
@@ -452,8 +407,8 @@ export default {
             department: department,
             phone: phone == '' ? phone : '',
             type: type,
-            startDate: startDate,
-            dueDate: dueDate,
+            startDate: startDate ? startDate : this.startDate,
+            dueDate: dueDate ? dueDate : this.dueDate,
             imageId: this.imageIdUpload,
           },
         })
@@ -518,8 +473,8 @@ export default {
               department: department,
               phone: phone == '' ? phone : '',
               type: type,
-              startDate: startDate,
-              dueDate: dueDate,
+              startDate: startDate ? startDate : this.startDate,
+              dueDate: dueDate ? dueDate : this.dueDate,
             },
           })
           this.spinning = !this.spinning
@@ -586,8 +541,8 @@ export default {
                 values.department,
                 values.phone,
                 values.type,
-                values.startDate,
-                values.dueDate
+                new Date(this.startDate),
+                new Date(this.dueDate)
               )
             else
               this.editProfileUpdateFulltime(
@@ -607,8 +562,8 @@ export default {
                 values.department,
                 values.phone,
                 values.type,
-                values.startDate,
-                values.dueDate
+                new Date(this.startDate),
+                new Date(this.dueDate)
               )
             else
               this.editProfileUploadFulltime(
@@ -628,10 +583,10 @@ export default {
       this.department = value
     },
     handleStartDateChange(value) {
-      this.startDate = value
+      this.startDate = new Date(value)
     },
     handleDueDateChange(value) {
-      this.dueDate = value
+      this.dueDate = new Date(value)
     },
   },
   async mounted() {
@@ -642,8 +597,6 @@ export default {
       department: this.profile.department ? this.profile.department : undefined,
       position: this.profile.position ? this.profile.position : undefined,
       type: this.profile.type ? this.profile.type : undefined,
-      // startDate: this.profile.startDate ? this.profile.startDate : null,
-      // dueDate: this.profile.dueDate ? this.profile.dueDate : null,
     })
     ;(await this.status_department) == false ? (this.department = this.profile.department) : ''
   },
