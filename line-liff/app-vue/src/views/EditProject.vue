@@ -24,7 +24,7 @@
           />
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="Project Image">
-          <a-row class="upload-btn-wrapper">
+          <a-row class="upload-btn-project">
             <a-col :xs="{ span: 20 }" :sm="{ span: 22 }" :xl="{ span: 23 }">
               <div class="ant-input">
                 <div v-if="selectedFileName">
@@ -139,6 +139,7 @@
         <a-form-item v-bind="tailFormItemLayout">
           <a-button
             block
+            size="large"
             style="text-transform: capitalize; background-color: #134F83; color:white;"
             html-type="submit"
           >
