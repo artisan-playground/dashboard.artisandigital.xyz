@@ -3,7 +3,6 @@ import LayoutDashboard from '../components/LayoutDashboard'
 import LoadingComponent from '../components/LoadingComponent'
 import LogList from '../components/LogList'
 import NavBar from '../components/NavBar'
-import ProfileForm from '../components/ProfileForm'
 import ProjectCard from '../components/ProjectCard'
 import SideNav from '../components/SideNav'
 import TaskCard from '../components/TaskCard'
@@ -23,7 +22,6 @@ export {
   LayoutDashboard,
   WelcomeCard,
   ProjectCard,
-  ProfileForm,
   LogList,
   TaskCard,
   LoadingComponent,
