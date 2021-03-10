@@ -108,7 +108,7 @@ function TodayTaskCard({ data }: any) {
 
   return (
     <Link to={{ pathname: `/task/${data.id}` }}>
-      <Card hoverable className="mb-4">
+      <Card hoverable className="mb-4" bodyStyle={{ padding: 6 }}>
         {days.toString() === '03' &&
           hours.toString() === '23' &&
           minutes.toString() === '59' &&
@@ -119,20 +119,28 @@ function TodayTaskCard({ data }: any) {
             <Row className="flex justify-start items-start">{renderShowItems(data.members)}</Row>
           </Col>
           <Col xs={7}>
-            <Text className="font-bold">{data.taskName}</Text>
+            <Text className="flex justify-center items-center">{data.taskName}</Text>
           </Col>
           <Col xs={11}>
-            <Text type="secondary">{`${dayjs(data.startTime).format('DD/MMM/YYYY LT')} - ${dayjs(
-              data.endTime
-            ).format('DD/MMM/YYYY LT')}`}</Text>
+            <Text type="secondary" className="flex justify-center items-center">{`${dayjs(
+              data.startTime
+            ).format('DD/MMM/YYYY LT')} - ${dayjs(data.endTime).format('DD/MMM/YYYY LT')}`}</Text>
           </Col>
           <Col xs={2}>
             {data.status === 'done' ? (
-              <Tag color="green" icon={<CheckCircleOutlined />}>
+              <Tag
+                color="green"
+                icon={<CheckCircleOutlined />}
+                className="flex justify-center items-center"
+              >
                 Done
               </Tag>
             ) : (
-              <Tag color="red" icon={<WarningOutlined />}>
+              <Tag
+                color="red"
+                icon={<WarningOutlined />}
+                className="flex justify-center items-center"
+              >
                 WIP
               </Tag>
             )}
