@@ -14,33 +14,37 @@ export const storage = fs.existsSync(keyFilename)
 export const sanitize = (name: string) => name.replace(/\s+/g, '')
 
 export function upload(file: any) {
-  const fileName = sanitize(`${shortid.generate()}-${file.filename}`)
-  return new Promise((resolve, reject) => {
-    file.createReadStream().pipe(
-      storage
-        .bucket(bucketName)
-        .file(fileName)
-        .createWriteStream()
-        .on('finish', () => {
-          storage
-            .bucket(bucketName)
-            .file(fileName)
-            .makePublic()
-            .then(() => {
-              const data = {
-                fileName: fileName,
-                fullPath: `https://storage.googleapis.com/${bucketName}/${fileName}`,
-                path: `./${fileName}`,
-                endpoint: `https://storage.googleapis.com`,
-                extension: file.mimetype,
-              }
+  try {
+    const fileName = sanitize(`${shortid.generate()}-${file.filename}`)
+    return new Promise((resolve, reject) => {
+      file.createReadStream().pipe(
+        storage
+          .bucket(bucketName)
+          .file(fileName)
+          .createWriteStream()
+          .on('finish', () => {
+            storage
+              .bucket(bucketName)
+              .file(fileName)
+              .makePublic()
+              .then(() => {
+                const data = {
+                  fileName: fileName,
+                  fullPath: `https://storage.googleapis.com/${bucketName}/${fileName}`,
+                  path: `./${fileName}`,
+                  endpoint: `https://storage.googleapis.com`,
+                  extension: file.mimetype,
+                }
 
-              resolve(data)
-            })
-            .catch((e) => {
-              reject((e) => console.log(`exec error : ${e}`))
-            })
-        })
-    )
-  })
+                resolve(data)
+              })
+              .catch((e) => {
+                reject((e) => console.log(`exec error : ${e}`))
+              })
+          })
+      )
+    })
+  } catch (e) {
+    console.log('upload error: ', e)
+  }
 }
