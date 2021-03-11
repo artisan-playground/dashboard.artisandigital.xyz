@@ -33,12 +33,7 @@ import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import UnknownUserImage from '../assets/images/unknown_user.png'
-import {
-  LayoutDashboard,
-  LoadingComponent,
-  ProjectCard,
-  TaskCard,
-} from '../components/DashboardComponent'
+import { LayoutDashboard, ProjectCard, TaskCard } from '../components/DashboardComponent'
 import { UPDATE_IMAGE, UPLOAD_IMAGE } from '../services/api/image'
 import { GET_USER_BY_ID, UPDATE_USER } from '../services/api/user'
 import { useStoreState } from '../store'
@@ -352,7 +347,7 @@ function Profile() {
       <div className="px-8">
         <Row className="justify-between mb-8">
           <Col xs={9}>
-            <Row className="flex items-center justify-center">
+            <Row className="flex items-center justify-center lg:text-left md:text-center sm:text-center">
               <Avatar
                 shape="circle"
                 size={150}
@@ -406,7 +401,7 @@ function Profile() {
               centered={true}
             >
               <Row className="px-24 w-full" justify="space-between">
-                <Col xs={8} lg={12}>
+                <Col xs={24} lg={12}>
                   <Space direction="vertical" className="flex items-center justify-center">
                     <Col className="relative">
                       {loadingUpdate || loadingUpload ? (
@@ -453,7 +448,7 @@ function Profile() {
                     </Col>
                   </Space>
                 </Col>
-                <Col xs={16} lg={12}>
+                <Col xs={24} lg={12}>
                   <Form layout="vertical">
                     <Form.Item
                       name="Name"
@@ -585,7 +580,9 @@ function Profile() {
           </Row>
         </Row>
         {userLoading || userError ? (
-          <LoadingComponent project />
+          <Row className="w-full flex justify-center">
+            <Spin size="large" />
+          </Row>
         ) : (
           <div className="site-card-wrapper">
             <Tabs defaultActiveKey="1" centered>
@@ -614,7 +611,14 @@ function Profile() {
                           (items: any, index: any) =>
                             index >= minIndexProject &&
                             index < maxIndexProject && (
-                              <Col xs={24} xl={6} key={items.id} className="w-full px-2">
+                              <Col
+                                xs={24}
+                                md={10}
+                                lg={8}
+                                xl={6}
+                                key={items.id}
+                                className="w-full px-2"
+                              >
                                 <ProjectCard data={items} refetch={() => refetch()} />
                               </Col>
                             )
@@ -669,7 +673,14 @@ function Profile() {
                           (items: any, index: any) =>
                             index >= minIndexTask &&
                             index < maxIndexTask && (
-                              <Col xs={24} xl={12} key={items.id} className="w-full px-2">
+                              <Col
+                                xs={24}
+                                md={24}
+                                lg={12}
+                                xl={12}
+                                key={items.id}
+                                className="w-full px-2"
+                              >
                                 <TaskCard data={items} refetch={() => refetch()} />
                               </Col>
                             )

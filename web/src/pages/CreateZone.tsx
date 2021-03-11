@@ -118,7 +118,7 @@ function CreateZone() {
         <Divider className="mb-0" />
 
         <Row justify="space-around" className="w-full">
-          <Col xs={14}>
+          <Col xs={24} md={24} lg={12} className=" xs:px-8 md:px-8 lg:px-0">
             <div style={{ height: 525 }}>
               <MapboxMap
                 accessToken="pk.eyJ1Ijoia3VsbGFuYW4iLCJhIjoiY2tpcGN3eXVsMWxleTJxcDcxMzgxN2w3MSJ9.1eX-7iYYJaS9B09S8ZI8AQ"
@@ -130,7 +130,7 @@ function CreateZone() {
               </MapboxMap>
             </div>
           </Col>
-          <Col xs={8} className="mt-8">
+          <Col xs={24} md={24} lg={8} className="mt-8 xs:px-8 md:px-8 lg:px-0">
             <Form layout="vertical">
               <Row className="w-full">
                 <Col xs={24}>
@@ -154,12 +154,12 @@ function CreateZone() {
                       <Input
                         placeholder="Please enter latitude"
                         value={latitude}
-                        className="w-52 mr-4"
+                        className="lg:w-52 md:w-80 sm:w-72 mr-6"
                         onChange={(e) => setLatitude(e.target.value)}
                       />
                       <Input
                         placeholder="Please enter longitude"
-                        className="w-52"
+                        className="lg:w-52 md:w-80 sm:w-72"
                         value={longitude}
                         onChange={(e) => setLongitude(e.target.value)}
                       />

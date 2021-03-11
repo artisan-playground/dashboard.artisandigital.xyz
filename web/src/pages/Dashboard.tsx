@@ -95,7 +95,7 @@ function Dashboard() {
     <LayoutDashboard>
       <div className="px-8 py-8">
         <Row justify="space-between">
-          <Col xs={15}>
+          <Col xs={23} md={23} lg={15}>
             <div className="site-card-wrapper">
               <Row className="mb-8">
                 <Col xs={24}>
@@ -221,7 +221,7 @@ function Dashboard() {
             </div>
           </Col>
 
-          <Col xs={8}>
+          <Col xs={23} md={23} lg={8}>
             <div className="site-calendar-customize-header-wrapper border">
               <Calendar fullscreen={false} />
             </div>

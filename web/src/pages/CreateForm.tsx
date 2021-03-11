@@ -128,7 +128,7 @@ function CreateForm() {
                     </Row>
 
                     <Row justify="space-between" className="w-full">
-                      <Col xs={14} className="mt-8">
+                      <Col xs={24} md={24} lg={14} className="mt-8">
                         <Card>
                           <Text className="flex justify-center font-bold text-lg text-blue-800 mb-4">
                             Leave Form
@@ -297,179 +297,184 @@ function CreateForm() {
                         </Card>
                       </Col>
 
-                      <Col xs={8} className="my-8">
-                        <Nexus>
-                          <div className="overflow-y-scroll h-full p-4">
-                            <Text className="flex justify-center font-bold text-lg text-blue-800 mb-4">
-                              Leave Form
-                            </Text>
-                            <Form layout="vertical">
-                              <Row className="w-full">
-                                <Col xs={24} className="text-left">
-                                  <Form.Item
-                                    name="First name"
-                                    label="First name"
-                                    rules={[{ required: true, message: 'Please enter name' }]}
-                                  >
-                                    <Input
-                                      placeholder="Please enter first name"
-                                      value={filteredData.firstName}
-                                      className="mr-4"
-                                      onChange={(e) =>
-                                        setFilteredData({
-                                          ...filteredData,
-                                          firstName: e.target.value,
-                                        })
-                                      }
-                                    />
-                                  </Form.Item>
-                                  <Form.Item
-                                    name="Last name"
-                                    label="Last name"
-                                    rules={[{ required: true, message: 'Please enter name' }]}
-                                  >
-                                    <Input
-                                      placeholder="Please enter last name"
-                                      value={filteredData.lastName}
-                                      onChange={(e) =>
-                                        setFilteredData({
-                                          ...filteredData,
-                                          lastName: e.target.value,
-                                        })
-                                      }
-                                    />
-                                  </Form.Item>
-                                  <Form.Item
-                                    name="E-mail"
-                                    label="E-mail"
-                                    rules={[{ required: true, message: 'Please enter email' }]}
-                                  >
-                                    <Row>
+                      <Col xs={24} md={24} lg={8} className="my-8">
+                        <Row className="w-full flex justify-center">
+                          <Nexus>
+                            <div className="overflow-y-scroll h-full p-4">
+                              <Text className="flex justify-center font-bold text-lg text-blue-800 mb-4">
+                                Leave Form
+                              </Text>
+                              <Form layout="vertical">
+                                <Row className="w-full">
+                                  <Col xs={24} className="text-left">
+                                    <Form.Item
+                                      name="First name"
+                                      label="First name"
+                                      rules={[{ required: true, message: 'Please enter name' }]}
+                                    >
+                                      <Input
+                                        placeholder="Please enter first name"
+                                        value={filteredData.firstName}
+                                        className="mr-4"
+                                        onChange={(e) =>
+                                          setFilteredData({
+                                            ...filteredData,
+                                            firstName: e.target.value,
+                                          })
+                                        }
+                                      />
+                                    </Form.Item>
+                                    <Form.Item
+                                      name="Last name"
+                                      label="Last name"
+                                      rules={[{ required: true, message: 'Please enter name' }]}
+                                    >
                                       <Input
                                         placeholder="Please enter last name"
-                                        value={filteredData.email}
-                                        className="w-full"
+                                        value={filteredData.lastName}
                                         onChange={(e) =>
                                           setFilteredData({
                                             ...filteredData,
-                                            email: e.target.value,
+                                            lastName: e.target.value,
                                           })
                                         }
                                       />
-                                    </Row>
-                                  </Form.Item>
-                                  <Form.Item
-                                    name="Telephone numbers"
-                                    label="Telephone numbers"
-                                    rules={[
-                                      { required: true, message: 'Please enter telephone numbers' },
-                                    ]}
-                                  >
-                                    <Row>
-                                      <Input
-                                        placeholder="Please enter telephone numbers"
-                                        value={filteredData.phone}
-                                        className="w-full"
-                                        onChange={(e) =>
-                                          setFilteredData({
-                                            ...filteredData,
-                                            phone: e.target.value,
-                                          })
-                                        }
-                                      />
-                                    </Row>
-                                  </Form.Item>
-                                  <Form.Item
-                                    name="Jop position"
-                                    label="Jop position"
-                                    rules={[
-                                      { required: true, message: 'Please select jop position' },
-                                    ]}
-                                    required
-                                  >
-                                    <Select
-                                      value={
-                                        filteredData.position !== ''
-                                          ? filteredData.position
-                                          : undefined
-                                      }
-                                      placeholder="Please select jop position"
-                                      onChange={(e) => {
-                                        setFilteredData({ ...filteredData, position: e })
-                                      }}
+                                    </Form.Item>
+                                    <Form.Item
+                                      name="E-mail"
+                                      label="E-mail"
+                                      rules={[{ required: true, message: 'Please enter email' }]}
                                     >
-                                      <Option value="Account Executive">Account Executive</Option>
-                                      <Option value="Accountant & Administrator">
-                                        Accountant & Administrator
-                                      </Option>
-                                      <Option value="Back - End Developer">
-                                        Back - End Developer
-                                      </Option>
-                                      <Option value="Community Manager">Community Manager</Option>
-                                      <Option value="Content Creator">Content Creator</Option>
-                                      <Option value="Course Developer">Course Developer</Option>
-                                      <Option value="Creative Podcast">Creative Podcast</Option>
-                                      <Option value="Digital Marketing">Digital Marketing</Option>
-                                      <Option value="Filmmaker">Filmmaker</Option>
-                                      <Option value="Front - End Developer">
-                                        Front - End Developer
-                                      </Option>
-                                      <Option value="Graphic Designer">Graphic Designer</Option>
-                                      <Option value="Legal Officer">Legal Officer</Option>
-                                      <Option value="Mid - Level & Senior Developer">
-                                        Mid - Level & Senior Developer
-                                      </Option>
-                                      <Option value="Mobile Developer">Mobile Developer</Option>
-                                      <Option value="Secretary">Secretary</Option>
-                                      <Option value="Software Business Analyst">
-                                        Software Business Analyst
-                                      </Option>
-                                      <Option value="Software Tester">Software Tester</Option>
-                                      <Option value="UX / UI Designer">UX / UI Designer</Option>
-                                    </Select>
-                                  </Form.Item>
-                                  <Form.Item
-                                    name="Internship period"
-                                    label="Internship period"
-                                    rules={[
-                                      { required: true, message: 'Please input time period' },
-                                    ]}
-                                    required
-                                  >
-                                    <RangePicker
-                                      className="w-full"
-                                      showTime={{ format: 'HH:mm' }}
-                                      value={[
-                                        dayjs(filteredData.leaveStart),
-                                        dayjs(filteredData.leaveEnd),
+                                      <Row>
+                                        <Input
+                                          placeholder="Please enter last name"
+                                          value={filteredData.email}
+                                          className="w-full"
+                                          onChange={(e) =>
+                                            setFilteredData({
+                                              ...filteredData,
+                                              email: e.target.value,
+                                            })
+                                          }
+                                        />
+                                      </Row>
+                                    </Form.Item>
+                                    <Form.Item
+                                      name="Telephone numbers"
+                                      label="Telephone numbers"
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message: 'Please enter telephone numbers',
+                                        },
                                       ]}
-                                      onChange={onChangeDate}
-                                      disabledDate={disabledDate}
-                                    />
-                                  </Form.Item>
-                                  <Form.Item
-                                    name="Detail"
-                                    label="Detail"
-                                    rules={[{ required: true, message: 'Please input detail' }]}
-                                    required
-                                  >
-                                    <TextArea
-                                      value={filteredData.leaveDetail}
-                                      rows={4}
-                                      onChange={(e) =>
-                                        setFilteredData({
-                                          ...filteredData,
-                                          leaveDetail: e.target.value,
-                                        })
-                                      }
-                                      placeholder="Please input detail"
-                                    />
-                                  </Form.Item>
-                                </Col>
-                              </Row>
-                            </Form>
-                          </div>
-                        </Nexus>
+                                    >
+                                      <Row>
+                                        <Input
+                                          placeholder="Please enter telephone numbers"
+                                          value={filteredData.phone}
+                                          className="w-full"
+                                          onChange={(e) =>
+                                            setFilteredData({
+                                              ...filteredData,
+                                              phone: e.target.value,
+                                            })
+                                          }
+                                        />
+                                      </Row>
+                                    </Form.Item>
+                                    <Form.Item
+                                      name="Jop position"
+                                      label="Jop position"
+                                      rules={[
+                                        { required: true, message: 'Please select jop position' },
+                                      ]}
+                                      required
+                                    >
+                                      <Select
+                                        value={
+                                          filteredData.position !== ''
+                                            ? filteredData.position
+                                            : undefined
+                                        }
+                                        placeholder="Please select jop position"
+                                        onChange={(e) => {
+                                          setFilteredData({ ...filteredData, position: e })
+                                        }}
+                                      >
+                                        <Option value="Account Executive">Account Executive</Option>
+                                        <Option value="Accountant & Administrator">
+                                          Accountant & Administrator
+                                        </Option>
+                                        <Option value="Back - End Developer">
+                                          Back - End Developer
+                                        </Option>
+                                        <Option value="Community Manager">Community Manager</Option>
+                                        <Option value="Content Creator">Content Creator</Option>
+                                        <Option value="Course Developer">Course Developer</Option>
+                                        <Option value="Creative Podcast">Creative Podcast</Option>
+                                        <Option value="Digital Marketing">Digital Marketing</Option>
+                                        <Option value="Filmmaker">Filmmaker</Option>
+                                        <Option value="Front - End Developer">
+                                          Front - End Developer
+                                        </Option>
+                                        <Option value="Graphic Designer">Graphic Designer</Option>
+                                        <Option value="Legal Officer">Legal Officer</Option>
+                                        <Option value="Mid - Level & Senior Developer">
+                                          Mid - Level & Senior Developer
+                                        </Option>
+                                        <Option value="Mobile Developer">Mobile Developer</Option>
+                                        <Option value="Secretary">Secretary</Option>
+                                        <Option value="Software Business Analyst">
+                                          Software Business Analyst
+                                        </Option>
+                                        <Option value="Software Tester">Software Tester</Option>
+                                        <Option value="UX / UI Designer">UX / UI Designer</Option>
+                                      </Select>
+                                    </Form.Item>
+                                    <Form.Item
+                                      name="Internship period"
+                                      label="Internship period"
+                                      rules={[
+                                        { required: true, message: 'Please input time period' },
+                                      ]}
+                                      required
+                                    >
+                                      <RangePicker
+                                        className="w-full"
+                                        showTime={{ format: 'HH:mm' }}
+                                        value={[
+                                          dayjs(filteredData.leaveStart),
+                                          dayjs(filteredData.leaveEnd),
+                                        ]}
+                                        onChange={onChangeDate}
+                                        disabledDate={disabledDate}
+                                      />
+                                    </Form.Item>
+                                    <Form.Item
+                                      name="Detail"
+                                      label="Detail"
+                                      rules={[{ required: true, message: 'Please input detail' }]}
+                                      required
+                                    >
+                                      <TextArea
+                                        value={filteredData.leaveDetail}
+                                        rows={4}
+                                        onChange={(e) =>
+                                          setFilteredData({
+                                            ...filteredData,
+                                            leaveDetail: e.target.value,
+                                          })
+                                        }
+                                        placeholder="Please input detail"
+                                      />
+                                    </Form.Item>
+                                  </Col>
+                                </Row>
+                              </Form>
+                            </div>
+                          </Nexus>
+                        </Row>
                       </Col>
                     </Row>
                   </Col>

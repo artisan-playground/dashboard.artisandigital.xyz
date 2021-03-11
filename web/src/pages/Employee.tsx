@@ -17,7 +17,7 @@ import {
   Typography,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { EmployeeCard, LayoutDashboard, LoadingComponent } from '../components/DashboardComponent'
+import { EmployeeCard, LayoutDashboard } from '../components/DashboardComponent'
 import { CREATE_USER, GET_USERS } from '../services/api/user'
 import { useStoreState } from '../store'
 
@@ -222,7 +222,9 @@ function Employee() {
           </Row>
         </Row>
         {loading || error ? (
-          <LoadingComponent project />
+          <Row className="w-full flex justify-center">
+            <Spin size="large" />
+          </Row>
         ) : (
           <div className="site-card-wrapper">
             <Tabs defaultActiveKey="1">
@@ -236,7 +238,14 @@ function Employee() {
                         .slice()
                         .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
-                          <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
+                          <Col
+                            xs={24}
+                            md={10}
+                            lg={8}
+                            xl={6}
+                            key={items.id}
+                            className="w-full px-2 py-2"
+                          >
                             <EmployeeCard
                               data={items}
                               loading={loading}
@@ -271,7 +280,14 @@ function Employee() {
                         .slice()
                         .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
-                          <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
+                          <Col
+                            xs={24}
+                            md={10}
+                            lg={8}
+                            xl={6}
+                            key={items.id}
+                            className="w-full px-2 py-2"
+                          >
                             <EmployeeCard data={items} refetch={() => refetch()} />
                           </Col>
                         ))
@@ -301,7 +317,14 @@ function Employee() {
                         .slice()
                         .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
-                          <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
+                          <Col
+                            xs={24}
+                            md={10}
+                            lg={8}
+                            xl={6}
+                            key={items.id}
+                            className="w-full px-2 py-2"
+                          >
                             <EmployeeCard data={items} refetch={() => refetch()} />
                           </Col>
                         ))
@@ -342,7 +365,14 @@ function Employee() {
                         .slice()
                         .sort((a: any, b: any) => (a.id < b.id ? 1 : -1))
                         .map((items: any) => (
-                          <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
+                          <Col
+                            xs={24}
+                            md={10}
+                            lg={8}
+                            xl={6}
+                            key={items.id}
+                            className="w-full px-2 py-2"
+                          >
                             <EmployeeCard data={items} refetch={() => refetch()} />
                           </Col>
                         ))

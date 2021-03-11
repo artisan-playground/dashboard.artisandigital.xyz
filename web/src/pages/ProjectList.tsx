@@ -1,7 +1,6 @@
 import {
   CloseCircleOutlined,
   ExclamationCircleOutlined,
-  LoadingOutlined,
   PlusOutlined,
   SearchOutlined,
   UploadOutlined,
@@ -32,7 +31,7 @@ import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs'
 import React, { useEffect, useState } from 'react'
 import UnknownImage from '../assets/images/unknown_image.jpg'
 import UnknownUserImage from '../assets/images/unknown_user.png'
-import { LayoutDashboard, LoadingComponent, ProjectCard } from '../components/DashboardComponent'
+import { LayoutDashboard, ProjectCard } from '../components/DashboardComponent'
 import { CREATE_NOTIFICATION } from '../services/api/notification'
 import { CREATE_PROJECT, PROJECT } from '../services/api/project'
 import { UPDATE_PROJECT_IMAGE, UPLOAD_PROJECT_IMAGE } from '../services/api/projectImage'
@@ -286,10 +285,24 @@ function ProjectList() {
               centered={true}
             >
               <Row className="px-24 w-full" justify="space-between">
-                <Col xs={8} lg={12}>
+                <Col xs={24} lg={12}>
                   <Space direction="vertical" className="flex items-center justify-center">
-                    {loadingUpdate || loadingUpload ? (
-                      <Spin>
+                    <Row className="w-full flex justify-center">
+                      {loadingUpdate || loadingUpload ? (
+                        <Spin>
+                          <img
+                            src={
+                              imageData
+                                ? imageData.uploadProjectImage.fullPath
+                                : imageUpdateData
+                                ? imageUpdateData.updateProjectImage.fullPath
+                                : UnknownImage
+                            }
+                            className="w-10/12"
+                            alt="user"
+                          />
+                        </Spin>
+                      ) : (
                         <img
                           src={
                             imageData
@@ -298,50 +311,32 @@ function ProjectList() {
                               ? imageUpdateData.updateProjectImage.fullPath
                               : UnknownImage
                           }
-                          className="w-64 h-48"
+                          className="w-10/12"
                           alt="user"
                         />
-                      </Spin>
-                    ) : (
-                      <img
-                        src={
-                          imageData
-                            ? imageData.uploadProjectImage.fullPath
-                            : imageUpdateData
-                            ? imageUpdateData.updateProjectImage.fullPath
-                            : UnknownImage
-                        }
-                        className="w-64 h-48"
-                        alt="user"
-                      />
-                    )}
+                      )}
 
-                    <label
-                      style={{
-                        height: 30,
-                        width: 90,
-                      }}
-                      className="appearance-none border border-gray-300 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300 relative"
-                    >
-                      <input
-                        type="file"
-                        className="invisible"
-                        onChange={image === undefined ? onUploadImage : onChangeImage}
-                      />
-                      {loadingUpdate || loadingUpload ? (
-                        <div className="absolute flex items-center justify-center">
-                          <LoadingOutlined className="mr-2" spin />
-                        </div>
-                      ) : (
+                      <label
+                        style={{
+                          height: 30,
+                          width: 90,
+                        }}
+                        className="appearance-none border border-gray-300 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300 relative"
+                      >
+                        <input
+                          type="file"
+                          className="invisible"
+                          onChange={image === undefined ? onUploadImage : onChangeImage}
+                        />
                         <div className="absolute flex items-center justify-center">
                           <UploadOutlined className="mr-2" />
                           Upload
                         </div>
-                      )}
-                    </label>
+                      </label>
+                    </Row>
                   </Space>
                 </Col>
-                <Col xs={16} lg={12}>
+                <Col xs={24} lg={12}>
                   <Form form={form} layout="vertical">
                     <Form.Item
                       name="Project name"
@@ -466,7 +461,9 @@ function ProjectList() {
           </Row>
         </Row>
         {loading || error ? (
-          <LoadingComponent project />
+          <Row className="w-full flex justify-center">
+            <Spin size="large" />
+          </Row>
         ) : (
           <div className="site-card-wrapper">
             <Row gutter={[8, 24]}>
@@ -479,7 +476,14 @@ function ProjectList() {
                       (items: any, index: any) =>
                         index >= minIndex &&
                         index < maxIndex && (
-                          <Col xs={24} xl={6} key={items.id} className="w-full px-2 py-2">
+                          <Col
+                            xs={24}
+                            md={10}
+                            lg={8}
+                            xl={6}
+                            key={items.id}
+                            className="w-full px-2 py-2"
+                          >
                             <ProjectCard data={items} refetch={() => refetch()} />
                           </Col>
                         )
