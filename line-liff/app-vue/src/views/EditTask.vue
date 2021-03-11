@@ -110,10 +110,20 @@
         </a-form-item>
         <a-form-item v-bind="tailFormItemLayout">
           <a-button
+            v-if="switchCheck == true"
             block
             size="large"
             style="text-transform: capitalize; background-color: #134F83; color:white;"
             html-type="submit"
+          >
+            Submit
+          </a-button>
+          <a-button
+            v-if="switchCheck == false"
+            block
+            size="large"
+            style="text-transform: capitalize; background-color: #134F83; color:white;"
+            @click="deleteTask()"
           >
             Submit
           </a-button>

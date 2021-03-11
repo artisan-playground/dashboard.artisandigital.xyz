@@ -2,7 +2,7 @@
   <div>
     <ToolbarBack msg="Done Task" />
     <br />
-    <div style="margin-top:60px;  margin-left:15px; margin-right:15px;">
+    <div style="margin:60px 15px 0 15px; padding-bottom:60px">
       <div>
         <a-row style="margin-bottom:1.5rem" id="antInput">
           <a-input-search v-model="search" type="search" placeholder=" input search text" />
@@ -94,20 +94,16 @@
         </div>
       </div>
     </div>
-    <div style="padding-bottom:60px"></div>
-    <BarRouter />
   </div>
 </template>
 
 <script>
 import ToolbarBack from '@/components/ToolbarBack.vue'
-import BarRouter from '@/components/BarRouter.vue'
 import * as gqlQuery from '../constants/project'
 export default {
   name: 'doneTask',
   components: {
     ToolbarBack,
-    BarRouter,
   },
   data() {
     return {
@@ -129,6 +125,9 @@ export default {
         this.dataTask = data.project.tasks
       },
     },
+  },
+  async mounted() {
+    await this.$apollo.queries.getProject.refetch()
   },
   computed: {
     taskFilter() {
