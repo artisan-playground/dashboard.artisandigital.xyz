@@ -1,6 +1,5 @@
 import EventCard from '../components/EventCard'
 import LayoutDashboard from '../components/LayoutDashboard'
-import LoadingComponent from '../components/LoadingComponent'
 import LogList from '../components/LogList'
 import NavBar from '../components/NavBar'
 import ProjectCard from '../components/ProjectCard'
@@ -24,7 +23,6 @@ export {
   ProjectCard,
   LogList,
   TaskCard,
-  LoadingComponent,
   ProjectContent,
   Notify,
   TodayTaskCard,
