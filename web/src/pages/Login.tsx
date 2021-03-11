@@ -73,6 +73,9 @@ function Login() {
                 ) : (
                   ''
                 ))}
+              {email.includes('@') && (
+                <Text className="text-red-400">Please enter E-mail with out @</Text>
+              )}
             </Form.Item>
             <Form.Item shouldUpdate={true}>
               <Button
