@@ -158,7 +158,6 @@ function Member() {
     {
       title: 'Name',
       dataIndex: 'name',
-      width: '25%',
       render: (name: any) => (
         <>
           {dataSource
@@ -175,7 +174,6 @@ function Member() {
     {
       title: 'Email',
       dataIndex: 'email',
-      width: '25%',
       render: (email: any) => (
         <>
           {dataSource
@@ -192,7 +190,6 @@ function Member() {
     {
       title: 'Telephone',
       dataIndex: 'phone',
-      width: '20%',
       render: (_: any, item: any) => (
         <>
           <Link key={item.id} to={{ pathname: `/profile/${item.id}` }}>
@@ -205,7 +202,6 @@ function Member() {
     {
       title: 'Position',
       dataIndex: 'position',
-      width: '20%',
       render: (position: any) => (
         <>
           {dataSource
@@ -221,7 +217,6 @@ function Member() {
     },
     {
       dataIndex: 'operation',
-      width: '5%',
       render: (_: any, record: any) =>
         dataSource.length >= 1 ? (
           <>
@@ -350,7 +345,6 @@ function Member() {
             columns={columns}
             dataSource={dataSource}
             pagination={{ pageSize: 10, hideOnSinglePage: true }}
-            scroll={{ x: 1000 }}
             rowKey={(record) => record.id}
           />
         </Col>

@@ -1,9 +1,20 @@
 import { SearchOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
-import { Breadcrumb, Button, Col, Divider, Empty, Input, PageHeader, Row, Typography } from 'antd'
+import {
+  Breadcrumb,
+  Button,
+  Col,
+  Divider,
+  Empty,
+  Input,
+  PageHeader,
+  Row,
+  Spin,
+  Typography,
+} from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { LayoutDashboard, LoadingComponent, ZoneCard } from '../components/DashboardComponent'
+import { LayoutDashboard, ZoneCard } from '../components/DashboardComponent'
 import { GET_ZONES } from '../services/api/zone'
 
 function Zone() {
@@ -65,7 +76,9 @@ function Zone() {
           </Row>
         </Row>
         {loading || error ? (
-          <LoadingComponent project />
+          <Row className="w-full flex justify-center">
+            <Spin size="large" />
+          </Row>
         ) : (
           <div className="site-card-wrapper">
             <Row gutter={[8, 24]}>

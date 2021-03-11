@@ -10,16 +10,12 @@ import {
   PageHeader,
   Pagination,
   Row,
+  Spin,
   Typography,
 } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  ContentCard,
-  EventCard,
-  LayoutDashboard,
-  LoadingComponent,
-} from '../components/DashboardComponent'
+import { ContentCard, EventCard, LayoutDashboard } from '../components/DashboardComponent'
 import { CONTENT } from '../services/api/content'
 import { EVENT } from '../services/api/event'
 
@@ -139,7 +135,9 @@ function News() {
         </Row>
 
         {contentLoading || contentError ? (
-          <LoadingComponent project />
+          <Row className="w-full flex justify-center">
+            <Spin size="large" />
+          </Row>
         ) : (
           <div className="site-card-wrapper">
             <Row gutter={[8, 24]}>

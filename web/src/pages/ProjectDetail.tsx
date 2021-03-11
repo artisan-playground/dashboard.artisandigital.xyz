@@ -36,7 +36,6 @@ import { Link, useParams } from 'react-router-dom'
 import UnknownUserImage from '../assets/images/unknown_user.png'
 import {
   LayoutDashboard,
-  LoadingComponent,
   LogList,
   ProjectContent,
   TaskCard,
@@ -121,7 +120,7 @@ function ProjectDetail() {
       setFilteredTasks(data.getTaskByProjectId)
       setFilteredTodayTasks(data.getTaskByProjectId)
       setFilteredDoneTasks(data.getTaskByProjectId)
-      setFilteredLog(recentActivityData.getRecentActivityByProjectId)
+      setFilteredLog(recentActivityData && recentActivityData.getRecentActivityByProjectId)
       setFilteredData(projectData.project)
       setTotalPage(data.length / pageSize)
       setMinIndex(0)
@@ -410,7 +409,9 @@ function ProjectDetail() {
                           </div>
                         )
                       ) : (
-                        <LoadingComponent task />
+                        <Row className="w-full flex justify-center">
+                          <Spin size="large" />
+                        </Row>
                       )}
                     </Col>
                   </Modal>
@@ -473,7 +474,9 @@ function ProjectDetail() {
                           </div>
                         )
                       ) : (
-                        <LoadingComponent task />
+                        <Row className="w-full flex justify-center">
+                          <Spin size="large" />
+                        </Row>
                       )}
                     </Col>
                   </Modal>
@@ -638,7 +641,9 @@ function ProjectDetail() {
                   </div>
                 )
               ) : (
-                <LoadingComponent task />
+                <Row className="w-full flex justify-center">
+                  <Spin size="large" />
+                </Row>
               )}
               <div className="flex items-end justify-end">
                 <Pagination
