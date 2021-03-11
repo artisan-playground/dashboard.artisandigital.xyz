@@ -298,54 +298,56 @@ function ProjectContent({ data, refetch, recentRefetch }: any) {
               centered={true}
             >
               <Row className="px-24 w-full" justify="space-between">
-                <Col xs={8} lg={12}>
+                <Col xs={24} lg={12}>
                   <Space direction="vertical" className="flex items-center justify-center">
-                    {loadingUpdate ? (
-                      <Spin>
+                    <Row className="w-full flex justify-center">
+                      {loadingUpdate ? (
+                        <Spin>
+                          <img
+                            src={
+                              imageData
+                                ? imageData.updateProjectImage.fullPath
+                                : data.projectImage.fullPath
+                            }
+                            className="w-10/12"
+                            alt="project"
+                          />
+                        </Spin>
+                      ) : (
                         <img
                           src={
                             imageData
                               ? imageData.updateProjectImage.fullPath
                               : data.projectImage.fullPath
                           }
-                          className="w-64 h-48"
+                          className="w-10/12"
                           alt="project"
                         />
-                      </Spin>
-                    ) : (
-                      <img
-                        src={
-                          imageData
-                            ? imageData.updateProjectImage.fullPath
-                            : data.projectImage.fullPath
-                        }
-                        className="w-64 h-48"
-                        alt="project"
-                      />
-                    )}
-
-                    <label
-                      style={{
-                        height: 30,
-                        width: 90,
-                      }}
-                      className="appearance-none border border-gray-300 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300 relative"
-                    >
-                      <input type="file" className="invisible" onChange={onChangeImage} />
-                      {loadingUpdate ? (
-                        <div className="absolute flex items-center justify-center">
-                          <LoadingOutlined className="mr-2" spin />
-                        </div>
-                      ) : (
-                        <div className="absolute flex items-center justify-center">
-                          <UploadOutlined className="mr-2" />
-                          Upload
-                        </div>
                       )}
-                    </label>
+
+                      <label
+                        style={{
+                          height: 30,
+                          width: 90,
+                        }}
+                        className="appearance-none border border-gray-300 shadow-sm border flex items-center justify-center rounded-sm py-1 px-2 mt-4 cursor-pointer hover:text-blue-400 hover:border-blue-400 transition delay-100 duration-300 relative"
+                      >
+                        <input type="file" className="invisible" onChange={onChangeImage} />
+                        {loadingUpdate ? (
+                          <div className="absolute flex items-center justify-center">
+                            <LoadingOutlined className="mr-2" spin />
+                          </div>
+                        ) : (
+                          <div className="absolute flex items-center justify-center">
+                            <UploadOutlined className="mr-2" />
+                            Upload
+                          </div>
+                        )}
+                      </label>
+                    </Row>
                   </Space>
                 </Col>
-                <Col xs={16} lg={12}>
+                <Col xs={24} lg={12}>
                   <Form layout="vertical">
                     <Form.Item
                       name="Project name"
