@@ -38,7 +38,7 @@ function NavBar({ toggle, collapsed }: any) {
         <RouterLink to={{ pathname: `/profile/${user?.id}` }}>Profile</RouterLink>
       </Menu.Item>
       <Menu.Item>
-        <RouterLink to={{ pathname: `/profile-edit/${user?.id}` }}>Edit Profile</RouterLink>
+        <RouterLink to={{ pathname: `/profile/${user?.id}` }}>Edit Profile</RouterLink>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item>

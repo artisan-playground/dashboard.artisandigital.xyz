@@ -320,7 +320,7 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
                   required
                 >
                   <Select
-                    value={position !== '' ? position : undefined}
+                    defaultValue={position !== '' ? position : undefined}
                     placeholder="Please select jop position"
                     onChange={handleChangePosition}
                   >
@@ -353,7 +353,7 @@ function EmployeeCard({ data, loading, error, refetch }: any) {
                   required
                 >
                   <Select
-                    value={department !== '' ? department : undefined}
+                    defaultValue={department !== '' ? department : undefined}
                     placeholder="Please select department"
                     onChange={handleChangeDepartment}
                   >
