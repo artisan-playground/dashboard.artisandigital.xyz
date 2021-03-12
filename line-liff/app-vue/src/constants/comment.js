@@ -7,6 +7,7 @@ export const ALL_COMMENT_QUERY = gql`
       user {
         id
         name
+        role
         image {
           id
           fullPath
@@ -17,7 +18,6 @@ export const ALL_COMMENT_QUERY = gql`
         taskName
       }
       timestamp
-      image
       message
     }
   }
@@ -46,7 +46,6 @@ export const ADD_COMMENT = gql`
         }
       }
       timestamp
-      image
       message
     }
   }
@@ -61,9 +60,12 @@ export const DELETE_COMMENT = gql`
 `
 
 export const EDIT_COMMENT = gql`
-  mutation updateComment($id: Int!, $data: CommentUpdateInput!) {
-    updateOneComment(where: { id: $id }, data: $data) {
+  mutation UpdateComment($id: Int!, $message: String!) {
+    updateOneComment(where: { id: $id }, data: { message: { set: $message } }) {
       id
+      task {
+        id
+      }
       message
     }
   }

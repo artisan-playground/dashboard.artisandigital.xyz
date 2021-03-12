@@ -9,6 +9,25 @@ export const ALL_MEMBER_QUERY = gql`
         id
         fullPath
       }
+      phone
+      projects {
+        id
+        projectName
+        projectType
+        status
+        members {
+          id
+          image {
+            id
+            fullPath
+          }
+        }
+        projectImage {
+          id
+          fullPath
+        }
+        projectDetail
+      }
       email
       department
       position
@@ -23,13 +42,15 @@ export const MEMBER_QUERY = gql`
     user(id: $userId) {
       id
       name
+      email
+      role
+      phone
       image {
         id
         fullPath
       }
-      email
-      department
       position
+      department
       type
       startDate
       dueDate
@@ -54,10 +75,43 @@ export const MEMBER_QUERY = gql`
       tasks {
         id
         taskName
+        taskType
         taskDetail
-        isDone
         startTime
         endTime
+        isDone
+        project {
+          id
+          projectName
+          projectImage {
+            id
+            fullPath
+          }
+        }
+        members {
+          id
+          name
+          image {
+            id
+            fullPath
+          }
+        }
+        comments {
+          id
+          user {
+            id
+            name
+            image {
+              id
+              fullPath
+            }
+          }
+        }
+        files {
+          id
+          fullPath
+          fileName
+        }
       }
     }
   }
@@ -156,11 +210,132 @@ export const GET_USER_EMAIL = gql`
   }
 `
 
-export const EDIT_PROFILE = gql`
-  mutation updateOneUser($id: Int!, $name: String, $position: String) {
+export const EDIT_PROFILE_FULLTIME_UPDATE = gql`
+  mutation updateOneUser(
+    $id: Int!
+    $email: String!
+    $name: String!
+    $position: String!
+    $department: String!
+    $phone: String!
+    $type: String!
+  ) {
     updateOneUser(
       where: { id: $id }
-      data: { name: { set: $name }, position: { set: $position } }
+      data: {
+        email: { set: $email }
+        name: { set: $name }
+        position: { set: $position }
+        department: { set: $department }
+        phone: { set: $phone }
+        type: { set: $type }
+      }
+    ) {
+      id
+      name
+      email
+      position
+      department
+      type
+      phone
+    }
+  }
+`
+
+export const EDIT_PROFILE_INTERN_UPDATE = gql`
+  mutation updateOneUser(
+    $id: Int!
+    $email: String!
+    $name: String!
+    $position: String!
+    $department: String!
+    $phone: String!
+    $type: String!
+    $startDate: DateTime!
+    $dueDate: DateTime!
+  ) {
+    updateOneUser(
+      where: { id: $id }
+      data: {
+        email: { set: $email }
+        name: { set: $name }
+        position: { set: $position }
+        department: { set: $department }
+        phone: { set: $phone }
+        type: { set: $type }
+        startDate: { set: $startDate }
+        dueDate: { set: $dueDate }
+      }
+    ) {
+      id
+      name
+      email
+      position
+      department
+      type
+      startDate
+      dueDate
+      phone
+    }
+  }
+`
+
+export const EDIT_PROFILE_UPLOAD_INTERN = gql`
+  mutation updateOneUser(
+    $id: Int!
+    $name: String
+    $email: String!
+    $position: String
+    $department: String!
+    $phone: String!
+    $type: String!
+    $startDate: DateTime!
+    $dueDate: DateTime!
+    $imageId: Int!
+  ) {
+    updateOneUser(
+      where: { id: $id }
+      data: {
+        name: { set: $name }
+        email: { set: $email }
+        position: { set: $position }
+        department: { set: $department }
+        phone: { set: $phone }
+        type: { set: $type }
+        startDate: { set: $startDate }
+        dueDate: { set: $dueDate }
+        image: { connect: { id: $imageId } }
+      }
+    ) {
+      id
+      name
+      email
+    }
+  }
+`
+
+export const EDIT_PROFILE_UPLOAD_FULLTIME = gql`
+  mutation updateOneUser(
+    $id: Int!
+    $name: String
+    $email: String!
+    $position: String
+    $department: String!
+    $phone: String!
+    $type: String!
+    $imageId: Int!
+  ) {
+    updateOneUser(
+      where: { id: $id }
+      data: {
+        name: { set: $name }
+        email: { set: $email }
+        position: { set: $position }
+        department: { set: $department }
+        phone: { set: $phone }
+        type: { set: $type }
+        image: { connect: { id: $imageId } }
+      }
     ) {
       id
       name
