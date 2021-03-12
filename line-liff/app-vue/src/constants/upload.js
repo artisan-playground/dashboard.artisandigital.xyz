@@ -10,17 +10,21 @@ export const UPLOAD_USER_IMG = gql`
 `
 
 export const UPLOAD_PROJECT_IMG = gql`
-  mutation Upload($file: Upload!) {
-    uploadProjectImage(image: $file) {
+  mutation UploadProjectImage($file: Upload!) {
+    uploadProjectImage(projectImage: $file) {
       id
+      fileName
+      path
       fullPath
+      endpoint
+      extension
     }
   }
 `
 
 export const UPDATE_PROJECT_IMG = gql`
   mutation Upload($id: Int!, $file: Upload!) {
-    updateProjectImage(id: $id, image: $file) {
+    updateProjectImage(id: $id, projectImage: $file) {
       id
       fileName
       path

@@ -6,6 +6,7 @@ export const TASK_QUERY = gql`
       id
       isDone
       taskName
+      taskType
       taskDetail
       startTime
       endTime
@@ -26,6 +27,11 @@ export const TASK_QUERY = gql`
       members {
         id
         name
+        position
+        department
+        type
+        startDate
+        dueDate
         image {
           id
           fullPath
@@ -44,6 +50,14 @@ export const TASK_QUERY = gql`
           }
         }
       }
+      files {
+        id
+        fileName
+        fullPath
+        path
+        extension
+        endpoint
+      }
     }
   }
 `
@@ -60,21 +74,23 @@ export const ADD_TASK = gql`
   mutation CreateTask(
     $projectId: Int!
     $taskName: String!
+    $taskType: String!
     $taskDetail: String!
     $startTime: DateTime!
     $endTime: DateTime!
     $isDone: Boolean!
-    $members: Int!
+    $members: [UserWhereUniqueInput!]
   ) {
     createOneTask(
       data: {
         project: { connect: { id: $projectId } }
         taskName: $taskName
+        taskType: $taskType
         taskDetail: $taskDetail
         startTime: $startTime
         endTime: $endTime
         isDone: $isDone
-        members: { connect: [{ id: $members }] }
+        members: { connect: $members }
       }
     ) {
       id
@@ -106,7 +122,6 @@ export const ADD_TASK = gql`
           id
         }
         timestamp
-        image
         message
       }
     }
@@ -114,14 +129,19 @@ export const ADD_TASK = gql`
 `
 
 export const EDIT_TASK = gql`
-  mutation UpdateTask($id: Int!, $taskName: String, $taskDetail: String) {
+  mutation UpdateTask($id: Int!, $taskName: String, $taskDetail: String, $taskType: String) {
     updateOneTask(
       where: { id: $id }
-      data: { taskName: { set: $taskName }, taskDetail: { set: $taskDetail } }
+      data: {
+        taskName: { set: $taskName }
+        taskDetail: { set: $taskDetail }
+        taskType: { set: $taskType }
+      }
     ) {
       id
       taskName
       taskDetail
+      taskType
     }
   }
 `
@@ -135,11 +155,12 @@ export const DELETE_TASK = gql`
 `
 
 export const ADD_MEMBER_TO_TASK = gql`
-  mutation UpdateTask($id: Int!, $data: TaskUpdateInput!) {
-    updateOneTask(where: { id: $id }, data: $data) {
+  mutation($id: Int!, $members: [UserWhereUniqueInput!]) {
+    updateOneTask(where: { id: $id }, data: { members: { connect: $members } }) {
       id
       members {
         id
+        name
       }
     }
   }
