@@ -184,14 +184,12 @@ function Profile() {
       setLoading(false)
     } else {
       const kw: any[] = userData.user.tasks.filter((item: any) => {
-        console.log(item)
         if (taskType === 'all') {
           return item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
         } else {
           return (
-            console.log(item.isDone),
             item.isDone === taskType &&
-              item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
+            item.taskName.toLowerCase().includes(e.target.value.toLowerCase())
           )
         }
       })

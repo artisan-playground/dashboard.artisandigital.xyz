@@ -115,7 +115,7 @@ function ProjectList() {
       setMinIndex(0)
       setMaxIndex(pageSize)
     }
-  }, [types, loading, error, data, userLoading, userError, totalPage, filterloading])
+  }, [types, loading, error, data, userLoading, userError, totalPage, filterloading, user])
 
   function handleKeywordChange(e: any) {
     setLoading(true)

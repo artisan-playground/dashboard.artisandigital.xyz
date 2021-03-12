@@ -102,7 +102,7 @@ function TaskDetail() {
   const [taskName, setTaskName] = useState<any>()
   const [type, setType] = useState<any>()
   const [member, setMember] = useState<any[]>([])
-  const [memberName, setMemberName] = useState<any[]>([])
+  const memberName = useState<any[]>([])
   const [dueDate, setDueDate] = useState<any>()
   const [startTime, setStartTime] = useState<any>()
   const [description, setDescription] = useState<any>()
@@ -283,7 +283,7 @@ function TaskDetail() {
   function menu(item: any) {
     return (
       <Menu>
-        <Menu.Item>Reply</Menu.Item>
+        <Menu.Item onClick={handleReply}>Reply</Menu.Item>
         {item.user.id === user?.id && (
           <>
             <Menu.Item onClick={() => handleEdit(item)}>Edit</Menu.Item>
@@ -317,7 +317,6 @@ function TaskDetail() {
     setVisibleMember(false)
     setEditTaskVisible(false)
   }
-  console.log(members)
 
   function handleAddMember() {
     updateTaskMember({
