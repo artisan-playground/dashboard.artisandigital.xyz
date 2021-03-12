@@ -61,7 +61,7 @@ function Employee() {
           )
           setFilteredData(other)
           break
-        case 'HR/Admin':
+        case 'All':
           setFilteredData(data.users)
           break
         default:

@@ -28,6 +28,7 @@ function CreateContent() {
   const { Text } = Typography
   const [subject, setSubject] = useState('')
   const [content, setContent] = useState('')
+  const [images, setImages] = useState<any>()
   const [form] = Form.useForm()
   const [createContent] = useMutation(CREATE_CONTENT)
   const [uploadImage, { data: imageData }] = useMutation(UPLOAD_CONTENT_IMAGE)
@@ -43,7 +44,7 @@ function CreateContent() {
       uploadImage({ variables: { file: file } })
     }
   }
-  console.log(imageData && imageData.uploadContentImage.id)
+
   function handleCreateContent() {
     if (subject !== '' && content !== '') {
       createContent({
@@ -51,12 +52,13 @@ function CreateContent() {
           subject: subject,
           content: content,
           userId: user?.id,
-          file: imageData ? imageData.uploadContentImage.id : 0,
+          file: { ...images, id: imageData ? imageData.uploadContentImage.id : 0 },
         },
       })
         .then((res) => {
           setSubject(subject)
           setContent(content)
+          setImages(images)
           window.history.back()
         })
         .catch((err) => {

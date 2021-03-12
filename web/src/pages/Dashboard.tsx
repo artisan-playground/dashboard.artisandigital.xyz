@@ -52,7 +52,6 @@ function Dashboard() {
         : 0
     return num
   }
-
   useEffect(() => {
     if (!error && !userLoading) {
       setCurrentUserData(data.user)

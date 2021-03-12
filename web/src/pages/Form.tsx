@@ -20,15 +20,14 @@ import { GET_FORMS } from '../services/api/form'
 function Form() {
   const { Text } = Typography
   const [filteredData, setFilteredData] = useState<any[]>([])
-  const [types, setTypes] = useState('all')
   const [keyword, setKeyword] = useState('')
-  const { loading, error, data, refetch } = useQuery(GET_FORMS)
+  const { loading, error, data } = useQuery(GET_FORMS)
 
   useEffect(() => {
     if (!error && !loading) {
       setFilteredData(data.forms)
     }
-  }, [types, loading, error, data])
+  }, [loading, error, data])
 
   function handleKeywordChange(e: any) {
     setKeyword(e.target.value)

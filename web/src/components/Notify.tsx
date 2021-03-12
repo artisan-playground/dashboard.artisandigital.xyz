@@ -31,12 +31,7 @@ function Notify(props: any) {
   const data = props.data
   const storageKey = props.storageKey || 'notification_timeline_storage_id'
   const key = props.notific_key
-  const notificationMsg = props.notific_value
-  const sortedByKey = props.sortedByKey
   const heading = props.heading || 'Notifications'
-  const bellSize = props.size || 32
-  const bellColor = props.color || '#FFFFFF'
-  const multiLineSplitter = props.multiLineSplitter || '\n'
   const showDate = props.showDate || false
 
   useEffect(() => {
@@ -51,7 +46,7 @@ function Notify(props: any) {
     setReadIndex(readIndex)
     ;(data.length && readIndex) > 0 ? setShowCount(true) : setShowCount(false)
     setMessageCount(readIndex)
-  }, [data])
+  }, [data, key, storageKey])
 
   function getDayDiff(timestamp: any) {
     let a = dayjs()
@@ -82,27 +77,6 @@ function Notify(props: any) {
       }
     } else {
       return `${diff} years ago`
-    }
-  }
-
-  function getContent(message: any) {
-    if (message.indexOf(multiLineSplitter) >= 0) {
-      let splitted = message.split(multiLineSplitter)
-      let ret = '<ul>'
-
-      for (let i = 0; i <= splitted.length - 1; i++) {
-        if (splitted[i] !== '') {
-          ret = ret + '<li>' + splitted[i] + '</li>'
-        }
-      }
-
-      ret = ret + '</ul>'
-      return {
-        __html: ret,
-      }
-    }
-    return {
-      __html: `<ul><li>${message}</li></ul>`,
     }
   }
 
@@ -244,7 +218,7 @@ function Notify(props: any) {
       >
         <div className="cursor-pointer">
           <Badge count={showCount ? messageCount : 0}>
-            <BellOutlined style={{ fontSize: 24 }} />
+            <BellOutlined style={{ fontSize: 24 }} onClick={() => setMessageCount(0)} />
           </Badge>
         </div>
       </Dropdown>
