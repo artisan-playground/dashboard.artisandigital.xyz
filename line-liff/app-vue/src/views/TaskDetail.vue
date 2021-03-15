@@ -311,8 +311,12 @@
                     <a-button
                       @click="editComment(comment.id, comment.message)"
                       v-on:click="commentEdit = !commentEdit"
+                      :disabled="comment.message == '' ? true : false"
                       >Done</a-button
                     >
+                    <a-button v-on:click="commentEdit = !commentEdit">
+                      cancel
+                    </a-button>
                   </a-col>
                 </div>
               </span>

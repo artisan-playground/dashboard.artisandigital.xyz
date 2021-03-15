@@ -121,8 +121,9 @@ export default {
       currentFilter: '',
     }
   },
-  mounted() {
-    this.getData()
+  async mounted() {
+    await this.getData()
+    await this.$apollo.queries.getUser.refetch()
   },
   methods: {
     getData() {

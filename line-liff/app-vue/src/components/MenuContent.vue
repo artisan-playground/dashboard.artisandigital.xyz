@@ -110,7 +110,7 @@ export default {
         const numberDate = parseInt(
           (endDate.getTime() - currentDate.getTime()) / (24 * 3600 * 1000)
         )
-        if (value.isDone == false && numberDate >= 0 && numberDate < 3) {
+        if (value.isDone == false && numberDate > 0 && numberDate < 3) {
           deadlineTaskTemp += 1
         }
       })

@@ -2,19 +2,14 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 Vue.use(VueRouter)
 Vue.use(Antd)
 
 const routes = [
   {
-    path: '/home',
-    name: 'Home',
-    component: Home,
-  },
-  {
     path: '/',
     name: 'HomeDashboard',
+    beforeEnter: guardMyroute,
     component: () => import('../views/HomeDashboard.vue'),
   },
   {
@@ -43,6 +38,11 @@ const routes = [
     component: () => import('../views/EventDetail.vue'),
   },
   {
+    path: '/news/ContentDetail/:id',
+    name: 'ContentDetail',
+    component: () => import('../views/ContentDetail.vue'),
+  },
+  {
     path: '/projects/',
     name: 'Projects',
     component: () => import('../views/Projects.vue'),
@@ -53,7 +53,7 @@ const routes = [
     component: () => import('../views/Project.vue'),
   },
   {
-    path: '/projects/:id/editProject/:id',
+    path: '/projects/:id/editProject/',
     name: 'EditProject',
     component: () => import('../views/EditProject.vue'),
   },
@@ -108,12 +108,12 @@ const routes = [
     component: () => import('../views/AddMemberToTask.vue'),
   },
   {
-    path: '/taskDetail/:id/memberInTask/:id',
+    path: '/taskDetail/:id/memberInTask/',
     name: 'MemberInTask',
     component: () => import('../views/MemberInTask.vue'),
   },
   {
-    path: '/taskDetail/:id/editTask/:id',
+    path: '/taskDetail/:id/editTask/',
     name: 'EditTask',
     component: () => import('../views/EditTask.vue'),
   },
@@ -122,22 +122,6 @@ const routes = [
     name: 'Login',
     component: () => import('../views/Login.vue'),
   },
-  {
-    path: '/register',
-    name: 'Register',
-    component: () => import('../views/Register.vue'),
-  },
-  {
-    path: '/forgetpassword',
-    name: 'Forgetpassword',
-    component: () => import('../views/Forgetpassword.vue'),
-  },
-  {
-    path: '/testLogin',
-    name: 'TestLogin',
-    component: () => import('../views/TestLogin.vue'),
-  },
-
   {
     path: '/members',
     name: 'Members',
@@ -155,8 +139,8 @@ const routes = [
   },
   {
     path: '/editprofile',
-    name: 'Editprofile',
-    component: () => import('../views/Editprofile.vue'),
+    name: 'EditProfile',
+    component: () => import('../views/EditProfile.vue'),
   },
 ]
 
@@ -167,3 +151,14 @@ const router = new VueRouter({
 })
 
 export default router
+
+function guardMyroute(to, from, next) {
+  var isAuthenticated = false
+  if (localStorage.getItem('LoggedUser')) isAuthenticated = true
+  else isAuthenticated = false
+  if (isAuthenticated) {
+    next()
+  } else {
+    next('/login')
+  }
+}
