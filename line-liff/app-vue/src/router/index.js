@@ -154,7 +154,7 @@ export default router
 
 function guardMyroute(to, from, next) {
   var isAuthenticated = false
-  if (localStorage.getItem('LoggedUser')) isAuthenticated = true
+  if (localStorage.getItem('vuex')) isAuthenticated = true
   else isAuthenticated = false
   if (isAuthenticated) {
     next()
