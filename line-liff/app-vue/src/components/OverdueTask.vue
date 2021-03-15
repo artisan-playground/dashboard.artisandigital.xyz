@@ -112,7 +112,6 @@ export default {
   },
   data() {
     return {
-      currentDate: new Date(),
       userId: 0,
       dataTask: [],
       dataUser: [],
@@ -120,8 +119,9 @@ export default {
       currentFilter: '',
     }
   },
-  mounted() {
-    this.getData()
+  async mounted() {
+    await this.getData()
+    await this.$apollo.queries.getUser.refetch()
   },
   methods: {
     getData() {
@@ -132,10 +132,9 @@ export default {
   computed: {
     overDueFunc() {
       let text = this.search.trim()
-      const currentDate = new Date(this.currentDate)
       return this.dataTask.filter(value => {
         let endDate = new Date(value.endTime)
-        if (value.isDone == false && endDate < currentDate) {
+        if (value.isDone == false && endDate < new Date()) {
           return (
             value.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
             value.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1

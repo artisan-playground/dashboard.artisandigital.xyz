@@ -116,8 +116,9 @@ export default {
       currentFilter: '',
     }
   },
-  mounted() {
-    this.getData()
+  async mounted() {
+    await this.getData()
+    await this.$apollo.queries.getUser.refetch()
   },
   methods: {
     getData() {
@@ -134,7 +135,7 @@ export default {
         const numberDate = parseInt(
           (endDate.getTime() - currentDate.getTime()) / (24 * 3600 * 1000)
         )
-        if (value.isDone == false && numberDate >= 0 && numberDate < 3) {
+        if (value.isDone == false && numberDate > 0 && numberDate < 3) {
           return (
             value.taskName.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
             value.taskDetail.toLowerCase().indexOf(text.toLowerCase()) > -1
